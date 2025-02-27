@@ -74,8 +74,10 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.white,
-      appBar: AppBar(backgroundColor: Colors.white,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
         title: const Text(
           "My Orders",
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -155,11 +157,12 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Item Image
+            //
             Container(
               width: 50,
               height: 50,
               decoration: BoxDecoration(
-                color:primary,
+                color: primary,
                 borderRadius: BorderRadius.circular(25),
               ),
               child: Center(
@@ -199,8 +202,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
             ),
             // Status Badge
             Container(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
                 color: order["statusColor"],
                 borderRadius: BorderRadius.circular(8),

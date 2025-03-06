@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:laundry/Shop/view/Screens/Bottom_Navigation/Shop_nav.dart';
+import 'package:laundry/User/view/Screens/auth/register_page.dart';
 
 
 import '../../../../Widget/constands/colors.dart';
 import '../../../../Widget/constands/widgets.dart';
+import '../Bottom_navigation/btm_navigation.dart';
+import '../Home/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,6 +16,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool isChecked = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +59,12 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: MaterialButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => BottomNavExample()), // Replace with your destination page
+                          );
+                        },
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                         child: Text(
@@ -68,24 +79,44 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
+                        Checkbox(
+                            activeColor: Secondary,
+                            value: isChecked,
+                            onChanged: (val) {
+                              setState(() {
+                                isChecked = !isChecked;
+                                // if(isChecked == false){
+                                //   isChecked = true;
+                                // }else{
+                                //   isChecked = false;
+                                // }
+                              });
+                            }),
+                        SizedBox(height: 8),
+                        Text("Remember Me "),
+                        SizedBox(width: 70,),
                         TextButton(
                             onPressed: () {},
                             child: Text(
                               "Forgot Password?",
                               style: TextStyle(color: Color(0xFF8E8E93)),
                             )),
-
                       ],
                     ),
+
                     SizedBox(height: 80,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text("New to Laundry Mate?"),
                         TextButton(
-                            onPressed: (){},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => RegisterPage()), // Replace with your destination page
+                              );
+                            },
                             child: Text("Sign Up")
                         ),
                       ],

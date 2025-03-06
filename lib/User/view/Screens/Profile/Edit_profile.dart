@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:laundry/User/view/Screens/Profile/profilepage.dart';
 
 import '../../../../Widget/constands/colors.dart';
 import '../../../../Widget/constands/widgets.dart';
+import '../Bottom_navigation/btm_navigation.dart';
 
 class EditProfilePage extends StatelessWidget {
   @override
@@ -71,7 +73,12 @@ class EditProfilePage extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => ProfilePage()),
+                      );
+                    },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

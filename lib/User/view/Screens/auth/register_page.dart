@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../Widget/constands/colors.dart';
 import '../../../../Widget/constands/widgets.dart';
+import 'login_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -65,7 +66,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginPage()), // Replace with your destination page
+                        );
+                      },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                       child: Text(
@@ -96,7 +102,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: [
                       Text("Already have an account?"),
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => LoginPage()), // Replace with your destination page
+                            );
+                          },
                           child: Text(
                             "Sign In",
                             style: TextStyle(color: Color(0xFF479CC9)),

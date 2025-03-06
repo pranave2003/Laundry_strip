@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:laundry/User/view/Screens/Orders/payment_successful.dart';
 import 'package:laundry/Widget/constands/colors.dart';
+
+import '../Bottom_navigation/btm_navigation.dart';
 
 class EReceiptPage extends StatelessWidget {
   const EReceiptPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           "E - Receipt",
@@ -65,13 +68,16 @@ class EReceiptPage extends StatelessWidget {
             _buildTransactionRow("Transaction Id", "TR45678899JT"),
             _buildTransactionRow("Date", "8 Jan 2025, 9:00 AM"),
             _buildTransactionRow("Payment Method", "Online Payment"),
-            const SizedBox(height: 140),
+            const SizedBox(height: 50),
             // Download E-Receipt Button
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Handle download action
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BottomNavExample()), // Replace with your destination page
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: defaultColor,

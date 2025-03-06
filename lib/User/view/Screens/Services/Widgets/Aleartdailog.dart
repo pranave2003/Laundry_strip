@@ -4,7 +4,7 @@ import 'package:laundry/Widget/constands/colors.dart';
 
 import '../../../../../Widget/constands/colors.dart';
 
-Widget buildServiceItemList(List<Map<String, dynamic>> serviceItems,
+Widget buildServiceItemListShoe(List<Map<String, dynamic>> serviceItems,
     List<Map<String, dynamic>> selectedItems, Function updateSelectedItems) {
   return Expanded(
     child: ListView.builder(
@@ -106,7 +106,7 @@ Widget buildServiceItemList(List<Map<String, dynamic>> serviceItems,
                                   ],
                                 ),
                                 SizedBox(height: 15),
-                                Text("Fabric Type",
+                                Text("Material Type",
                                     style:
                                     TextStyle(fontWeight: FontWeight.bold)),
                                 Padding(
@@ -122,7 +122,7 @@ Widget buildServiceItemList(List<Map<String, dynamic>> serviceItems,
                                     child: DropdownButton<String>(
                                       isExpanded: true,
                                       underline: SizedBox(),
-                                      hint: Text("Select Fabric"),
+                                      hint: Text("Select Material"),
                                       value: selectedFabricType,
                                       onChanged: (value) {
                                         setState(() {
@@ -166,7 +166,8 @@ Widget buildServiceItemList(List<Map<String, dynamic>> serviceItems,
                                       items: [
                                         "None",
                                         "Hand Wash",
-                                        "Low Heat Dry"
+                                        "Low Heat Dry",
+                                        "Use Mild Detergent"
                                       ].map((String item) {
                                         return DropdownMenuItem<String>(
                                           value: item,

@@ -1,7 +1,10 @@
 
 import 'package:flutter/material.dart';
+import 'package:laundry/User/view/Screens/Home/home_page.dart';
 
 import '../../../../Widget/constands/colors.dart';
+import '../Bottom_navigation/btm_navigation.dart';
+import 'E_receipt.dart';
 
 
 class PaymentSuccessful extends StatelessWidget {
@@ -129,7 +132,7 @@ class PaymentSuccessful extends StatelessWidget {
 
 
 
-                const SizedBox(height: 100),
+                const SizedBox(height: 50),
 
                 // Buttons Row
                 SizedBox(
@@ -137,20 +140,44 @@ class PaymentSuccessful extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-
-                      const SizedBox(width: 10),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => BottomNavExample()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: const BorderSide(color: Colors.black),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+                        ),
+                        child: const Text(
+                          "Back to Home",
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                        ),
+                      ),
+                      const SizedBox(width: 35),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => EReceiptPage()),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: defaultColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 63),
+                          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
                         ),
                         child: const Text(
-                          "Back to Home",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          "E-Receipt",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                       ),
                     ],

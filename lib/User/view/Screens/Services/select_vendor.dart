@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:laundry/User/view/Screens/Services/select_service.dart';
 import 'package:laundry/Widget/constands/colors.dart';
+
+import '../Address/pickup_delivery.dart';
 
 class VendorSelectionPage extends StatefulWidget {
   @override
@@ -59,7 +62,10 @@ class _VendorSelectionPageState extends State<VendorSelectionPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back), // Back arrow icon
           onPressed: () {
-            Navigator.pop(context); // Navigates back to the previous screen
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => SelectService()),
+            );
           },
         ),
       ),
@@ -187,9 +193,9 @@ class _VendorSelectionPageState extends State<VendorSelectionPage> {
                                   children: [
                                     Text(service['name'],
                                         style: TextStyle(fontSize: 14)),
-                                    Text("₹ ${service['price']}",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
+                                    //Text("₹ ${service['price']}",
+                                       //style: TextStyle(
+                                            //fontWeight: FontWeight.bold)),
                                   ],
                                 ),
                               );
@@ -213,12 +219,10 @@ class _VendorSelectionPageState extends State<VendorSelectionPage> {
                     borderRadius: BorderRadius.circular(10)),
               ),
               onPressed: () {
-                if (selectedVendorIndex != null) {
-                  print(
-                      "Selected Vendor: ${vendors[selectedVendorIndex!]['name']}");
-                } else {
-                  print("No vendor selected!");
-                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PickupDelivery()),
+                );
               },
               child: Center(
                 child: Text("Continue",

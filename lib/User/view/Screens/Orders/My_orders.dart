@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../Widget/constands/colors.dart';
+import '../Bottom_navigation/btm_navigation.dart';
+import 'order_tracking.dart'; // Import OrderTracking page
 
 class MyOrdersPage extends StatefulWidget {
   const MyOrdersPage({super.key});
@@ -21,7 +23,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
       "date": "Jan 03, 2025",
       "status": "In Progress",
       "icon": "assets/Dress/shirt.png",
-      "statusColor": Colors.orange.shade100,
+      "statusColor": Colors.orange.shade50,
       "textColor": Colors.orange,
     },
     {
@@ -32,7 +34,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
       "date": "Jan 08, 2025",
       "status": "Delivered",
       "icon": "assets/Dress/t-shirt.png",
-      "statusColor": Colors.green.shade100,
+      "statusColor": Colors.green.shade50,
       "textColor": Colors.green,
     },
     {
@@ -43,29 +45,40 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
       "date": "Dec 03, 2024",
       "status": "Cancelled",
       "icon": "assets/Dress/frock.png",
-      "statusColor": Colors.red.shade100,
+      "statusColor": Colors.red.shade50,
       "textColor": Colors.red,
     },
     {
-      "item": "Jacket",
-      "pack": "Standard Pack",
-      "service": "Steam Iron",
-      "orderId": "7541 9674 5789",
-      "date": "Jan 08, 2025",
+      "item": "T-shirt",
+      "pack": "Premium Pack",
+      "service": "Wash & Fold",
+      "orderId": "9632 4587 1234",
+      "date": "Feb 10, 2025",
+      "status": "In Progress",
+      "icon": "assets/Dress/t-shirt.png",
+      "statusColor": Colors.orange.shade50,
+      "textColor": Colors.orange,
+    },
+    {
+      "item": "Gown",
+      "pack": "Deluxe Pack",
+      "service": "Dry Clean",
+      "orderId": "8745 2365 7854",
+      "date": "Mar 01, 2025",
       "status": "Delivered",
-      "icon": "assets/Dress/shirt.png",
-      "statusColor": Colors.green.shade100,
+      "icon": "assets/Dress/wmgown.png",
+      "statusColor": Colors.green.shade50,
       "textColor": Colors.green,
     },
     {
-      "item": "T-Shirt",
+      "item": "T-shirt",
       "pack": "Standard Pack",
       "service": "Steam Iron",
-      "orderId": "7541 9674 5789",
-      "date": "Dec 03, 2024",
+      "orderId": "9874 5621 3478",
+      "date": "Feb 25, 2025",
       "status": "Cancelled",
-      "icon": "assets/Dress/flared_frock.png",
-      "statusColor": Colors.red.shade100,
+      "icon": "assets/Dress/wmtshirt.png",
+      "statusColor": Colors.red.shade50,
       "textColor": Colors.red,
     },
   ];
@@ -82,14 +95,13 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
           "My Orders",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
+        automaticallyImplyLeading: false,
+
+
+
       ),
       body: Column(
         children: [
-          // Filter Tabs
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Row(
@@ -123,20 +135,28 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
             ),
           ),
           const SizedBox(height: 8),
-          // Orders List
           Expanded(
             child: ListView.builder(
               itemCount: orders.length,
               itemBuilder: (context, index) {
                 final order = orders[index];
-
-                // Apply filter
                 if (selectedIndex != 0 &&
                     filters[selectedIndex] != order["status"]) {
                   return const SizedBox.shrink();
                 }
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OrderTracking(order: order), // Pass order properly
+                      ),
+                    );
 
-                return _buildOrderCard(order);
+
+                  },
+                  child: _buildOrderCard(order),
+                );
               },
             ),
           ),
@@ -145,7 +165,6 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
     );
   }
 
-  // Order Card Widget
   Widget _buildOrderCard(Map<String, dynamic> order) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -156,8 +175,6 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Item Image
-            //
             Container(
               width: 50,
               height: 50,
@@ -170,50 +187,40 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
               ),
             ),
             const SizedBox(width: 12),
-            // Order Details
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    order["item"],
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    order["pack"],
-                    style: const TextStyle(fontSize: 14, color: Colors.grey),
-                  ),
-                  Text(
-                    "(${order["service"]})",
-                    style: const TextStyle(fontSize: 12, color: Colors.grey),
-                  ),
+                  Text(order["item"],
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold)),
+                  Text(order["pack"],
+                      style: const TextStyle(
+                          fontSize: 14, color: Colors.grey)),
+                  Text("(${order["service"]})",
+                      style: const TextStyle(
+                          fontSize: 12, color: Colors.grey)),
                   const SizedBox(height: 4),
-                  Text(
-                    "Order ID:  ${order["orderId"]}",
-                    style: const TextStyle(fontSize: 12, color: Colors.black87),
-                  ),
-                  Text(
-                    "Order Date:  ${order["date"]}",
-                    style: const TextStyle(fontSize: 12, color: Colors.black87),
-                  ),
+                  Text("Order ID:  ${order["orderId"]}",
+                      style: const TextStyle(
+                          fontSize: 12, color: Colors.black87)),
+                  Text("Order Date:  ${order["date"]}",
+                      style: const TextStyle(
+                          fontSize: 12, color: Colors.black87)),
                 ],
               ),
             ),
-            // Status Badge
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
                 color: order["statusColor"],
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Text(
-                order["status"],
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: order["textColor"]),
-              ),
+              child: Text(order["status"],
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: order["textColor"])),
             ),
           ],
         ),

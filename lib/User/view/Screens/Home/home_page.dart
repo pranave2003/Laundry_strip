@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +15,29 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> images = ["Rectangle5.png", "c2.jpg", "c2.jpg", "c2.jpg"];
+  List<String> images = ["user_offer.png", "offer1.png", "c2.jpg", "c2.jpg"];
+  int currentIndex = 0;
+  final PageController _pageController = PageController();
+
+  @override
+  void initState() {
+    super.initState();
+    _startAutoSlide();
+  }
+
+  void _startAutoSlide() {
+    Timer.periodic(Duration(seconds: 3), (timer) {
+      if (_pageController.hasClients) {
+        int nextPage = (currentIndex + 1) % images.length;
+        _pageController.animateToPage(
+          nextPage,
+          duration: Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
+  }
+
 
   List<Map<String, dynamic>> serviceList = [
     {"icon": "assets/icon/wash_fold.png", "name": "Wash +\nFold"},
@@ -29,7 +53,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar(backgroundColor: Colors.white,
         leading: Image.asset(
           "assets/splash_logo.png",
           width: 80,
@@ -74,24 +98,46 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(10),
           child: Column(
             children: [
-              Align(
-                alignment: Alignment.center,
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxHeight: 200),
-                  child: CarouselView(
-                    itemExtent: MediaQuery.of(context).size.width,
-                    shrinkExtent: 250,
-                    itemSnapping: true,
-                    padding: const EdgeInsets.all(5.0),
-                    children: List.generate(
-                      images.length,
-                          (index) => Image.asset(
+              // Image Slider
+              SizedBox(
+                height: 200,
+                child: PageView.builder(
+                  controller: _pageController,
+                  onPageChanged: (index) {
+                    setState(() {
+                      currentIndex = index;
+                    });
+                  },
+                  itemCount: images.length,
+                  itemBuilder: (context, index) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.asset(
                         "assets/${images[index]}",
                         fit: BoxFit.cover,
+                        width: double.infinity,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 8),
+              // Indicator (Blue Dots)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(images.length, (index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: Container(
+                      height: 10,
+                      width: currentIndex == index ? 30 : 10,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: currentIndex == index ? Colors.blueAccent : Colors.black.withOpacity(0.4),
                       ),
                     ),
-                  ),
-                ),
+                  );
+                }),
               ),
               SizedBox(height: 10),
               Align(
@@ -155,8 +201,8 @@ class _HomePageState extends State<HomePage> {
                                   index == 0
                                       ? "assets/shop_img/img.png"
                                       : "assets/shop_img/img2.png",
-                                  width: 150,
-                                  height: 150,
+                                  width: 175,
+                                  height: 175,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -176,13 +222,22 @@ class _HomePageState extends State<HomePage> {
                                         index == 0 ? "4.8" : "3.5",
                                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                                       ),
+
                                     ],
+
                                   ),
+
                                 ),
+
                               ),
                             ],
+                          ),SizedBox(height: 5),
+                          Text(
+                            index == 0 ? "Pure Press Laundry" : "NeatKnits Laundry",
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
+
                       ),
                     );
                   },

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:laundry/User/view/Screens/Services/select_service.dart';
 import '../../../../Widget/constands/colors.dart';
 import '../Home/home_page.dart';
+import '../Orders/My_orders.dart';
+import '../Profile/profilepage.dart';
 import '../Services/service.dart';
 
 
@@ -17,10 +19,10 @@ class _BottomNavExampleState extends State<BottomNavExample> {
   final List<Widget> _pages = [
     HomePage(),
     Service(),
-    SelectService(),
-    HomePage(),
-
+    MyOrdersPage(), // Change this to OrdersPage
+    ProfilePage(), // Corrected this to be ProfileScreen instead of HomePage
   ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +45,8 @@ class _BottomNavExampleState extends State<BottomNavExample> {
         items: [
           BottomNavigationBarItem(icon: Image.asset("assets/navigation_icon/home.png"), label: "Home"),
           BottomNavigationBarItem(icon: Image.asset("assets/navigation_icon/service.png"), label: "Service"),
-          BottomNavigationBarItem(icon: Image.asset("assets/navigation_icon/order.png"), label: "Order"),
-          BottomNavigationBarItem(icon: Image.asset("assets/navigation_icon/profile.png"), label: "Shop"),
+          BottomNavigationBarItem(icon: Image.asset("assets/navigation_icon/order.png"), label: "Orders"),
+          BottomNavigationBarItem(icon: Image.asset("assets/navigation_icon/profile.png"), label: "Profile"),
 
 
 
@@ -54,16 +56,9 @@ class _BottomNavExampleState extends State<BottomNavExample> {
   }
 }
 
-// class HomeScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: Text('Home Screen', style: TextStyle(fontSize: 24)),
-//     );
-//   }
-// }
-//
-// class HomePage extends StatelessWidget {
+
+
+// class HomePagedemo extends StatelessWidget {
 //   @override
 //   Widget build(BuildContext context) {
 //     return Center(
@@ -72,7 +67,7 @@ class _BottomNavExampleState extends State<BottomNavExample> {
 //   }
 // }
 //
-// class Service extends StatelessWidget {
+// class ServicePage extends StatelessWidget {
 //   @override
 //   Widget build(BuildContext context) {
 //     return Center(
@@ -80,8 +75,16 @@ class _BottomNavExampleState extends State<BottomNavExample> {
 //     );
 //   }
 // }
+// class OrdersPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Text('Orders Page', style: TextStyle(fontSize: 24)),
+//     );
+//   }
+// }
 //
-// class ProfileScreen extends StatelessWidget {
+// class ProfilePage extends StatelessWidget {
 //   @override
 //   Widget build(BuildContext context) {
 //     return Center(

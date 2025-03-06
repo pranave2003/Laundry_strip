@@ -1,4 +1,7 @@
+//Select a Service
 import 'package:flutter/material.dart';
+import 'package:laundry/User/view/Screens/Services/select_vendor.dart';
+import 'package:laundry/User/view/Screens/Services/service.dart';
 import '../../../../Widget/constands/colors.dart';
 import '../../../../Widget/constands/widgets.dart';
 import 'Widgets/Aleartdailog.dart';
@@ -30,49 +33,20 @@ class _SelectServiceState extends State<SelectService> {
 
   List<String> categories = ["All", "Men", "Women", "Kids", "Household"];
 
-  // Master list of service items for each category
   Map<String, List<Map<String, dynamic>>> categoryItems = {
     "All": [
-      {
-        "name": "Shirt Full Standard Pack",
-        "price": 80,
-        "icon": "assets/Dress/shirt.png"
-      },
-      {
-        "name": "T-Shirt Full Standard Pack",
-        "price": 100,
-        "icon": "assets/Dress/t-shirt.png"
-      },
-      {
-        "name": "Jacket Standard Pack",
-        "price": 200,
-        "icon": "assets/Dress/jacket.png"
-      },
+      {"name": "Shirt Full Standard Pack", "price": 80, "icon": "assets/Dress/shirt.png"},
+      {"name": "T-Shirt Full Standard Pack", "price": 100, "icon": "assets/Dress/t-shirt.png"},
+      {"name": "Jacket Standard Pack", "price": 200, "icon": "assets/Dress/jacket.png"},
       {"name": "T-Shirt", "price": 150, "icon": "assets/Dress/wmtshirt.png"},
       {"name": "Gown", "price": 150, "icon": "assets/Dress/wmgown.png"},
-      {
-        "name": "Baby Clothes Pack",
-        "price": 120,
-        "icon": "assets/Dress/frock.png"
-      },
+      {"name": "Baby Clothes Pack", "price": 120, "icon": "assets/Dress/frock.png"},
       {"name": "Carpet", "price": 250, "icon": "assets/Dress/carpet.png"},
     ],
     "Men": [
-      {
-        "name": "Shirt Full Standard Pack",
-        "price": 80,
-        "icon": "assets/Dress/shirt.png"
-      },
-      {
-        "name": "T-Shirt Full Standard Pack",
-        "price": 100,
-        "icon": "assets/Dress/t-shirt.png"
-      },
-      {
-        "name": "Jacket Standard Pack",
-        "price": 200,
-        "icon": "assets/Dress/jacket.png"
-      },
+      {"name": "Shirt Full Standard Pack", "price": 80, "icon": "assets/Dress/shirt.png"},
+      {"name": "T-Shirt Full Standard Pack", "price": 100, "icon": "assets/Dress/t-shirt.png"},
+      {"name": "Jacket Standard Pack", "price": 200, "icon": "assets/Dress/jacket.png"},
     ],
     "Women": [
       {"name": "T-Shirt", "price": 100, "icon": "assets/Dress/wmtshirt.png"},
@@ -80,11 +54,7 @@ class _SelectServiceState extends State<SelectService> {
     ],
     "Kids": [
       {"name": "Frock", "price": 120, "icon": "assets/Dress/frock.png"},
-      {
-        "name": "Flared Frock",
-        "price": 60,
-        "icon": "assets/Dress/flared_frock.png"
-      },
+      {"name": "Flared Frock", "price": 60, "icon": "assets/Dress/flared_frock.png"},
     ],
     "Household": [
       {"name": "Carpet", "price": 250, "icon": "assets/Dress/carpet.png"},
@@ -97,10 +67,9 @@ class _SelectServiceState extends State<SelectService> {
   @override
   void initState() {
     super.initState();
-    displayedItems = List.from(categoryItems["All"]!); // Show "All" by default
+    displayedItems = List.from(categoryItems["All"]!);
   }
 
-  // Function to update the displayed items when category is selected
   void updateCategory(int index) {
     setState(() {
       selectedCategoryIndex = index;
@@ -108,7 +77,6 @@ class _SelectServiceState extends State<SelectService> {
     });
   }
 
-  // Function to update selected items (add or remove)
   void updateSelectedItems(Map<String, dynamic> item, {bool remove = false}) {
     setState(() {
       if (remove) {
@@ -124,11 +92,21 @@ class _SelectServiceState extends State<SelectService> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
         title: Text(
           "Select a Service",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back), // Back arrow icon
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Service()),
+            );
+          },
         ),
       ),
       body: Padding(
@@ -136,17 +114,17 @@ class _SelectServiceState extends State<SelectService> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Service List (Grid view)
             GridView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               padding: EdgeInsets.all(10),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisSpacing: 0,
-                  mainAxisExtent: 130,
-                  crossAxisSpacing: 15,
-                  childAspectRatio: 1.0,
-                  crossAxisCount: 4),
+                mainAxisSpacing: 0,
+                mainAxisExtent: 130,
+                crossAxisSpacing: 15,
+                childAspectRatio: 1.0,
+                crossAxisCount: 4,
+              ),
               itemCount: serviceList.length,
               itemBuilder: (context, index) {
                 return WashFold(
@@ -156,29 +134,22 @@ class _SelectServiceState extends State<SelectService> {
             ),
 
             SizedBox(height: 10),
-
-            // Category Filter (All, Men, Women, Kids, Household)
             _buildCategoryFilter(),
-
             SizedBox(height: 20),
 
-            // Service Item List with "Add" Button
             Expanded(
-                child: buildServiceItemList(
+                child: buildServiceItemListShoe(
                     displayedItems, selectedItems, updateSelectedItems)),
 
-            // Added Items Section
             Expanded(
-                child:
-                    buildAddedItemsSection(selectedItems, updateSelectedItems)),
-
+                child: buildAddedItemsSection(
+                    context, selectedItems, updateSelectedItems)), // Pass context here
           ],
         ),
       ),
     );
   }
 
-  /// Category Filter (All, Men, Women, Kids, Household)
   Widget _buildCategoryFilter() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -194,9 +165,9 @@ class _SelectServiceState extends State<SelectService> {
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
               decoration: BoxDecoration(
                 color:
-                    selectedCategoryIndex == index ? Colors.blue : Colors.white,
+                selectedCategoryIndex == index ? Colors.blue : Colors.white,
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.blue),
+                border: Border.all(color: defaultColor),
               ),
               child: Text(
                 categories[index],
@@ -215,24 +186,22 @@ class _SelectServiceState extends State<SelectService> {
   }
 }
 
-/// Added Items Section with "Continue" Button
-Widget buildAddedItemsSection(
-    List<Map<String, dynamic>> selectedItems, Function updateSelectedItems) {
+Widget buildAddedItemsSection(BuildContext context, List<Map<String, dynamic>> selectedItems, Function updateSelectedItems) {
   return ListView(
     children: [
       ExpansionTile(
         title: Text("Added Items", style: TextStyle(fontWeight: FontWeight.bold)),
         children: selectedItems.map((item) {
           return ListTile(
-            leading: Image.asset(item["icon"], width: 40, height: 40), // Product image
+            leading: Image.asset(item["icon"], width: 40, height: 40),
             title: Text(item["name"]),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Service Type: ${item["serviceType"] ?? "N/A"}"), // Service type
-                Text("Fabric: ${item["fabricType"] ?? "Not Selected"}"), // Fabric Type
-                Text("Instructions: ${item["instructions"] ?? "None"}"), // Special Instructions
-                Text("₹ ${item["price"]}", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green)), // Price
+                Text("Service Type: ${item["serviceType"] ?? "N/A"}"),
+                Text("Fabric: ${item["fabricType"] ?? "Not Selected"}"),
+                Text("Instructions: ${item["instructions"] ?? "None"}"),
+                Text("₹ ${item["price"]}", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green)),
               ],
             ),
             trailing: IconButton(
@@ -244,7 +213,7 @@ Widget buildAddedItemsSection(
           );
         }).toList(),
       ),
-      SizedBox(height: 10),
+      SizedBox(height: 8),
       ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: defaultColor,
@@ -252,11 +221,14 @@ Widget buildAddedItemsSection(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onPressed: () {
-          // Action for continue button
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => VendorSelectionPage()),
+          );
         },
         child: Center(
-            child: Text("Continue",
-                style: TextStyle(color: Colors.white, fontSize: 20))),
+          child: Text("Continue", style: TextStyle(color: Colors.white, fontSize: 20)),
+        ),
       ),
     ],
   );

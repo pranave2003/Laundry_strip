@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../Address/My_Address.dart';
+import '../Bottom_navigation/btm_navigation.dart';
 import 'Edit_profile.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -18,13 +19,6 @@ class _ProfilePageState extends State<ProfilePage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-        ),
         title: Text(
           "Profile",
           style: TextStyle(
@@ -32,6 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         children: [

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:laundry/User/view/Screens/Orders/payment_successful.dart';
 
 import '../../../../Widget/constands/colors.dart';
+import 'E_receipt.dart';
 
 class OrderSummaryPage extends StatelessWidget {
   const OrderSummaryPage({super.key});
@@ -91,22 +93,25 @@ class OrderSummaryPage extends StatelessWidget {
             _buildChargeRow("Tax & Fees", "₹ 10.00"),
             const Divider(height: 20, thickness: 1),
             _buildChargeRow("Total", "₹ 360.00", isBold: true),
-            const SizedBox(height: 170),
+            const SizedBox(height: 80),
             // Complete Payment Button
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Handle payment
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PaymentSuccessful()), // Replace with your destination page
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: defaultColor,
                   padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
                 child: const Text(
                   "Complete Payment",
-                  style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ),
             ),

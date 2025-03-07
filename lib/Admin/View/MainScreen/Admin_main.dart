@@ -128,28 +128,14 @@ class _AdminPageState extends State<AdminPage> {
                         'View Services',
                         const ServiceType(),
                       ),
-                      _buildSubListTile(
-                        'Add Services',
-                        const ServiceAdd(),
-                      ),
-                      // _buildSubListTile(
-                      //   'Edit Services',
-                      //   const ServiceEdit(),
-                      // ),
+
                     ]),
                     _buildESubxpansion(title: " Service Category", children: [
                       _buildSubListTile(
                         'View Category',
                         const ServiceCategory(),
                       ),
-                      _buildSubListTile(
-                        'Add Category',
-                        const CategoryAdd(),
-                      ),
-                      _buildSubListTile(
-                        'Edit Category',
-                        const CategoryEdit(),
-                      ),
+
                     ]),
                     _buildESubxpansion(title: "Material Types", children: [
                       _buildSubListTile(
@@ -177,11 +163,11 @@ class _AdminPageState extends State<AdminPage> {
                             const ClothInstructions(),
                           ),
                           _buildSubListTile(
-                            'Shoe Instructions',
+                            'Shoes Instructions',
                             const BagInstructions(),
                           ),
                           _buildSubListTile(
-                            'Shoe Instructions',
+                            'Bag Instructions',
                             const ShoesInstructions(),
                           ),
                         ]),

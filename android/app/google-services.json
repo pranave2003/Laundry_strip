@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "359743798502",
+    "project_id": "laundry-mate-e2dca",
+    "storage_bucket": "laundry-mate-e2dca.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359743798502:android:322a80460d44c89a5b4f27",
+        "android_client_info": {
+          "package_name": "com.example.laundry"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOdrQlvvjqZi08eUqCQa8KOelb9wkynpw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:laundry/Widget/constands/colors.dart';
 
 import '../../../../Model/Service_Model/Service_Model.dart';
+import 'Edit_Service.dart';
 
 class ServiceType extends StatefulWidget {
   const ServiceType({super.key});
@@ -187,11 +188,34 @@ class _ServiceTypeState extends State<ServiceType> {
                             DataCell(Row(
                               children: [
                                 IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.edit,
-                                      color: Colors.green,
-                                    )),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(backgroundColor: Colors.white,
+                                          //title: Text("Edit Service"),
+                                          content: SizedBox(
+                                            width: 700, height: 500,// Adjust size as needed
+                                            child: ServiceEdit(), // Embedding ServiceEdit Widget
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop(); // Close dialog
+                                              },
+                                              child: Text("Cancel"),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: Colors.green,
+                                  ),
+                                ),
+
                                 SizedBox(
                                   width: 10,
                                 ),
@@ -201,6 +225,7 @@ class _ServiceTypeState extends State<ServiceType> {
                                       Icons.delete,
                                       color: Colors.red,
                                     ))
+
                               ],
                             )),
                           ],

@@ -5,9 +5,13 @@ import '../../../Widget/constands/colors.dart';
 import '../../Testt.dart';
 import '../Screens/Dashboard/DasgboardMain.dart';
 import '../Screens/Service_Managment/Material_type/Add_bag_material.dart';
+import '../Screens/Service_Managment/Material_type/Add_cloth_material.dart';
+import '../Screens/Service_Managment/Material_type/Add_shoe_material.dart';
 import '../Screens/Service_Managment/Material_type/Cloth_material.dart';
 import '../Screens/Service_Managment/Material_type/Bag_material.dart';
 import '../Screens/Service_Managment/Material_type/Edit_bag_material.dart';
+import '../Screens/Service_Managment/Material_type/Edit_cloth_material.dart';
+import '../Screens/Service_Managment/Material_type/Edit_shoe_material.dart';
 import '../Screens/Service_Managment/Material_type/Shoe_material.dart';
 import '../Screens/Service_Managment/Service_Category/Add_Category.dart';
 import '../Screens/Service_Managment/Service_Category/View_Category.dart';
@@ -128,10 +132,10 @@ class _AdminPageState extends State<AdminPage> {
                         'Add Services',
                         const ServiceAdd(),
                       ),
-                      _buildSubListTile(
-                        'Edit Services',
-                        const ServiceEdit(),
-                      ),
+                      // _buildSubListTile(
+                      //   'Edit Services',
+                      //   const ServiceEdit(),
+                      // ),
                     ]),
                     _buildESubxpansion(title: " Service Category", children: [
                       _buildSubListTile(
@@ -152,38 +156,18 @@ class _AdminPageState extends State<AdminPage> {
                         'Cloth Material',
                         const ClothMaterial(),
                       ),
-                      _buildSubListTile(
-                        'Add Cloth Material',
-                        const ClothMaterial(),
-                      ),
-                      _buildSubListTile(
-                        'Edit Cloth Material',
-                        const ClothMaterial(),
-                      ),
+
                       _buildSubListTile(
                         'Shoes Material',
                         const ShoeMaterial(),
                       ),
-                      _buildSubListTile(
-                        'Add Shoes Material',
-                        const ShoeMaterial(),
-                      ),
-                      _buildSubListTile(
-                        'Edit Shoes Material',
-                        const ShoeMaterial(),
-                      ),
+
                       _buildSubListTile(
                         'Bag Material',
                         const BagMaterial(),
                       ),
-                      _buildSubListTile(
-                        'Add Bag Material',
-                        const BagMaterialAdd(),
-                      ),
-                      _buildSubListTile(
-                        'Edit Bag Material',
-                        const EditBagMaterial(),
-                      ),
+
+
                     ]),
                     _buildESubxpansion(
                         title: "Special Instructions",

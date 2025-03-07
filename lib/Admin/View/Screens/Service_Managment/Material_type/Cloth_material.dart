@@ -5,6 +5,8 @@ import 'package:laundry/Widget/constands/colors.dart';
 
 import '../../../../Model/Material_Model/Cloth_Model.dart';
 import '../../../../Model/Service_Model/Service_Model.dart';
+import 'Add_cloth_material.dart';
+import 'Edit_cloth_material.dart';
 
 class ClothMaterial extends StatefulWidget {
   const ClothMaterial({super.key});
@@ -91,7 +93,7 @@ class _ClothMaterialState extends State<ClothMaterial> {
             height: 15,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 25),
+            padding: const EdgeInsets.only(left: 25, right: 25), // Adjusted right padding
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -99,45 +101,80 @@ class _ClothMaterialState extends State<ClothMaterial> {
                   "Cloth Material",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(
-                  width: 18,
-                ),
-                Container(
-                  height: 40,
-                  width: 400,
-                  decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(18)),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                      ),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(width: .5),
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide:
-                        BorderSide(color: Theme.of(context).primaryColor),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 5,
-                      ),
-                      hintText: 'Search Materials',
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        color: Colors.grey,
-                        size: 21,
+                Row(
+                  children: [
+                    Container(
+                      height: 40,
+                      width: 400,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(18)),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(width: .5),
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(18),
+                            borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 5),
+                          hintText: 'Search Materials',
+                          prefixIcon: const Icon(
+                            Icons.search,
+                            color: Colors.grey,
+                            size: 21,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    const SizedBox(width: 10), // Add some spacing
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(backgroundColor: Colors.white,
+                              //title: Text("Edit Service"),
+                              content: SizedBox(
+                                width: 700, height: 400,// Adjust size as needed
+                                child: ClothMaterialAdd(), // Embedding ServiceEdit Widget
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop(); // Close dialog
+                                  },
+                                  child: Text("Cancel"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: defaultColor, // Button color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8), // Rounded corners
+                        ),
+                      ),
+                      icon: Icon(Icons.add, color: Colors.white), // Add icon
+                      label: Text(
+                        "Add",
+                        style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
+
+
           Expanded(
             child: Container(
               // Background color
@@ -178,11 +215,33 @@ class _ClothMaterialState extends State<ClothMaterial> {
                             DataCell(Row(
                               children: [
                                 IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.edit,
-                                      color: Colors.green,
-                                    )),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(backgroundColor: Colors.white,
+                                          //title: Text("Edit Service"),
+                                          content: SizedBox(
+                                            width: 700, height: 400,// Adjust size as needed
+                                            child: ClothMaterialEdit(), // Embedding ServiceEdit Widget
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop(); // Close dialog
+                                              },
+                                              child: Text("Cancel"),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: Colors.green,
+                                  ),
+                                ),
                                 SizedBox(
                                   width: 10,
                                 ),

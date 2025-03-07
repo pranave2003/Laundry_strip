@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class BagMaterialAdd extends StatefulWidget {
-  const BagMaterialAdd({super.key});
+class BagInstructionsAdd extends StatefulWidget {
+  const BagInstructionsAdd({super.key});
 
   @override
-  State<BagMaterialAdd> createState() => _BagMaterialAddState();
+  State<BagInstructionsAdd> createState() => _BagInstructionsAddState();
 }
 
-class _BagMaterialAddState extends State<BagMaterialAdd> {
+class _BagInstructionsAddState extends State<BagInstructionsAdd> {
   TextEditingController serviceNameController = TextEditingController();
   String? imagePath;
 
@@ -17,44 +17,44 @@ class _BagMaterialAddState extends State<BagMaterialAdd> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     Padding(
-          //       padding: const EdgeInsets.only(left: 25),
-          //       child: Column(
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         children: [
-          //           Text(
-          //             "Hello !",
-          //             style:
-          //             TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          //           ),
-          //           Text(
-          //             "Cheers and Happy Activities ",
-          //             style: TextStyle(
-          //               fontSize: 15,
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //     ),
-          //     Row(
-          //       children: [
-          //         Text(
-          //           "Admin",
-          //           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          //         ),
-          //         Padding(
-          //           padding: const EdgeInsets.all(8.0),
-          //           child: CircleAvatar(
-          //             backgroundColor: Color(0xffD9D9D9),
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ],
-          // ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 25),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Hello !",
+                      style:
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "Cheers and Happy Activities ",
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                children: [
+                  Text(
+                    "Admin",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircleAvatar(
+                      backgroundColor: Color(0xffD9D9D9),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
           SizedBox(
             height: 15,
           ),
@@ -64,7 +64,7 @@ class _BagMaterialAddState extends State<BagMaterialAdd> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Add Bag Material",
+                  "Add Bag Instructions",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
@@ -109,7 +109,7 @@ class _BagMaterialAddState extends State<BagMaterialAdd> {
                     SizedBox(
                       width: 120,
                       child: Text(
-                        "Material Name",
+                        "Instruction Name",
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -121,7 +121,7 @@ class _BagMaterialAddState extends State<BagMaterialAdd> {
                         controller: serviceNameController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          hintText: "Enter Material Name",
+                          hintText: "Enter Instruction Name",
                         ),
                       ),
                     ),

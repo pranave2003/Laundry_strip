@@ -17,47 +17,47 @@ class _ServiceEditState extends State<ServiceEdit> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 25),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Hello !",
-                      style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "Cheers and Happy Activities ",
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                children: [
-                  Text(
-                    "Admin",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                      backgroundColor: Color(0xffD9D9D9),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 15,
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     Padding(
+          //       padding: const EdgeInsets.only(left: 25),
+          //       child: Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           Text(
+          //             "Hello !",
+          //             style:
+          //             TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          //           ),
+          //           Text(
+          //             "Cheers and Happy Activities ",
+          //             style: TextStyle(
+          //               fontSize: 15,
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //     Row(
+          //       children: [
+          //         Text(
+          //           "Admin",
+          //           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          //         ),
+          //         Padding(
+          //           padding: const EdgeInsets.all(8.0),
+          //           child: CircleAvatar(
+          //             backgroundColor: Color(0xffD9D9D9),
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ],
+          // ),
+          // SizedBox(
+          //   height: 15,
+          // ),
           Padding(
             padding: const EdgeInsets.only(left: 25),
             child: Row(

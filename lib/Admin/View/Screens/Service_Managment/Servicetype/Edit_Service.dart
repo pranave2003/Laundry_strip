@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ServiceAdd extends StatefulWidget {
-  const ServiceAdd({super.key});
+class ServiceEdit extends StatefulWidget {
+  const ServiceEdit({super.key});
 
   @override
-  State<ServiceAdd> createState() => _ServiceAddState();
+  State<ServiceEdit> createState() => _ServiceEditState();
 }
 
-class _ServiceAddState extends State<ServiceAdd> {
+class _ServiceEditState extends State<ServiceEdit> {
   TextEditingController serviceNameController = TextEditingController();
   String? imagePath;
 
@@ -64,7 +64,7 @@ class _ServiceAddState extends State<ServiceAdd> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Add Service",
+                  "Edit Service",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
@@ -212,7 +212,7 @@ class _ServiceAddState extends State<ServiceAdd> {
                         ),
                       ),
                       child: Text(
-                        "Submit",
+                        "Update",
                         style: TextStyle(fontSize: 16, color: Colors.white,fontWeight: FontWeight.bold),
                       ),
                     ),

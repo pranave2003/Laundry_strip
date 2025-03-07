@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:laundry/Widget/constands/colors.dart';
 
-import '../../../../Model/Service_Model/Cloth_Model.dart';
+import '../../../../Model/Material_Model/Cloth_Model.dart';
 import '../../../../Model/Service_Model/Service_Model.dart';
-import '../../../../Model/Service_Model/Shoe_Model.dart';
+import '../../../../Model/Material_Model/Shoe_Model.dart';
 
 class ShoeMaterial extends StatefulWidget {
   const ShoeMaterial({super.key});
@@ -19,28 +19,31 @@ class _ShoeMaterialState extends State<ShoeMaterial> {
 
     Shoe_material(
         Id: "",
-        All_Materials: "Cotton"),
+        All_Materials: "Leather"),
     Shoe_material(
         Id: "",
-        All_Materials: "Polyster"),
-    Shoe_material(
-        Id: "",
-        All_Materials: "Linen"),
-    Shoe_material(
-        Id: "",
-        All_Materials: "Wool"),
+        All_Materials: "Canvas"),
     Shoe_material(
         Id: "",
         All_Materials: "Nylon"),
     Shoe_material(
         Id: "",
-        All_Materials: "Rayon"),
+        All_Materials: "Rubber"),
+    Shoe_material(
+        Id: "",
+        All_Materials: "Velvet"),
     Shoe_material(
         Id: "",
         All_Materials: "Denim"),
     Shoe_material(
         Id: "",
-        All_Materials: "Velvet"),
+        All_Materials: "Satin"),
+    Shoe_material(
+        Id: "",
+        All_Materials: "Faux Fur"),
+    Shoe_material(
+        Id: "",
+        All_Materials: "Synthetic Leather"),
 
   ];
 
@@ -97,7 +100,7 @@ class _ShoeMaterialState extends State<ShoeMaterial> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Cloth Material",
+                  "Shoes Material",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(

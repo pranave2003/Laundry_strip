@@ -3,43 +3,48 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:laundry/Widget/constands/colors.dart';
 
+import '../../../../Model/Material_Model/Bag_Model.dart';
 import '../../../../Model/Material_Model/Cloth_Model.dart';
 import '../../../../Model/Service_Model/Service_Model.dart';
+import '../../../../Model/Material_Model/Shoe_Model.dart';
 
-class ClothMaterial extends StatefulWidget {
-  const ClothMaterial({super.key});
+class BagMaterial extends StatefulWidget {
+  const BagMaterial({super.key});
 
   @override
-  State<ClothMaterial> createState() => _ClothMaterialState();
+  State<BagMaterial> createState() => _BagMaterialState();
 }
 
-class _ClothMaterialState extends State<ClothMaterial> {
-  List<Cloth_material> cloth = [
+class _BagMaterialState extends State<BagMaterial> {
+  List<Bag_material> cloth = [
 
-    Cloth_material(
+    Bag_material(
         Id: "",
-        All_Materials: "Cotton"),
-    Cloth_material(
+        All_Materials: "Leather"),
+    Bag_material(
         Id: "",
-        All_Materials: "Polyster"),
-    Cloth_material(
-        Id: "",
-        All_Materials: "Linen"),
-    Cloth_material(
-        Id: "",
-        All_Materials: "Wool"),
-    Cloth_material(
+        All_Materials: "Canvas"),
+    Bag_material(
         Id: "",
         All_Materials: "Nylon"),
-    Cloth_material(
+    Bag_material(
         Id: "",
-        All_Materials: "Rayon"),
-    Cloth_material(
+        All_Materials: "Polyster"),
+    Bag_material(
+        Id: "",
+        All_Materials: "Wool"),
+    Bag_material(
+        Id: "",
+        All_Materials: "Jute"),
+    Bag_material(
         Id: "",
         All_Materials: "Denim"),
-    Cloth_material(
+    Bag_material(
         Id: "",
-        All_Materials: "Velvet"),
+        All_Materials: "Satin"),
+    Bag_material(
+        Id: "",
+        All_Materials: "Synthetic Leather"),
 
   ];
 
@@ -96,7 +101,7 @@ class _ClothMaterialState extends State<ClothMaterial> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Cloth Material",
+                  "Bag Material",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(

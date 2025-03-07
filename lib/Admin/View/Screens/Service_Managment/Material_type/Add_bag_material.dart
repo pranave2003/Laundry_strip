@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ServiceAdd extends StatefulWidget {
-  const ServiceAdd({super.key});
+class BagMaterialAdd extends StatefulWidget {
+  const BagMaterialAdd({super.key});
 
   @override
-  State<ServiceAdd> createState() => _ServiceAddState();
+  State<BagMaterialAdd> createState() => _BagMaterialAddState();
 }
 
-class _ServiceAddState extends State<ServiceAdd> {
+class _BagMaterialAddState extends State<BagMaterialAdd> {
   TextEditingController serviceNameController = TextEditingController();
   String? imagePath;
 
@@ -64,7 +64,7 @@ class _ServiceAddState extends State<ServiceAdd> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Add Service",
+                  "Add Material",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
@@ -73,40 +73,12 @@ class _ServiceAddState extends State<ServiceAdd> {
                 Container(
                   height: 40,
                   width: 400,
-                  //decoration:
-                  //BoxDecoration(borderRadius: BorderRadius.circular(18)),
-                  // child: TextField(
-                  //   decoration: InputDecoration(
-                  //     filled: true,
-                  //     fillColor: Colors.white,
-                  //     enabledBorder: const OutlineInputBorder(
-                  //       borderSide: BorderSide(color: Colors.grey),
-                  //     ),
-                  //     border: OutlineInputBorder(
-                  //       borderSide: BorderSide(width: .5),
-                  //       borderRadius: BorderRadius.circular(18),
-                  //     ),
-                  //     focusedBorder: OutlineInputBorder(
-                  //       borderRadius: BorderRadius.circular(18),
-                  //       borderSide:
-                  //       BorderSide(color: Theme.of(context).primaryColor),
-                  //     ),
-                  //     contentPadding: const EdgeInsets.symmetric(
-                  //       vertical: 5,
-                  //     ),
-                  //     hintText: 'Search Services',
-                  //     prefixIcon: const Icon(
-                  //       Icons.search,
-                  //       color: Colors.grey,
-                  //       size: 21,
-                  //     ),
-                  //   ),
-                  // ),
+
                 ),
               ],
             ),
           ),
-          SizedBox(height: 40,),
+          SizedBox(height: 50,),
 
           Container(
             padding: EdgeInsets.all(20),
@@ -127,44 +99,6 @@ class _ServiceAddState extends State<ServiceAdd> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [SizedBox(height: 40,),
                 /// **Service Image Field (Text & Input in Same Line)**
-                Row(
-                  children: [
-                    /// **Label**
-                    SizedBox(
-                      width: 120,
-                      child: Text(
-                        "Service Image",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-
-                    /// **Image Upload Field (With Icon & Browse Button Inside)**
-                    Expanded(
-                      child: TextField(
-                        readOnly: true,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: imagePath ?? "Service Image",
-                          prefixIcon: Icon(Icons.image, color: Colors.grey), // Image Icon
-                          suffixIcon: TextButton(
-                            onPressed: () {
-                              // TODO: Implement file picker
-                            },
-                            style: TextButton.styleFrom(
-                              backgroundColor: Colors.grey.shade300,
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                            ),
-                            child: Text(
-                              "Browse",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
 
                 SizedBox(height: 20),
 
@@ -175,7 +109,7 @@ class _ServiceAddState extends State<ServiceAdd> {
                     SizedBox(
                       width: 120,
                       child: Text(
-                        "Service Name",
+                        "Material Name",
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -187,14 +121,14 @@ class _ServiceAddState extends State<ServiceAdd> {
                         controller: serviceNameController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          hintText: "Enter Service Name",
+                          hintText: "Enter Material Name",
                         ),
                       ),
                     ),
                   ],
                 ),
 
-                SizedBox(height: 40),
+                SizedBox(height: 60),
 
                 /// **Submit Button (Styled as per Image)**
                 Center(

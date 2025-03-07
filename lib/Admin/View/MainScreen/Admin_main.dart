@@ -1,9 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:laundry/Admin/View/Screens/Service_Managment/Service_Category/Edit_Category.dart';
+import '../../../Widget/constands/colors.dart';
 import '../../Testt.dart';
 import '../Screens/Dashboard/DasgboardMain.dart';
+import '../Screens/Service_Managment/Material_type/Add_bag_material.dart';
 import '../Screens/Service_Managment/Material_type/Cloth_material.dart';
+import '../Screens/Service_Managment/Material_type/Bag_material.dart';
+import '../Screens/Service_Managment/Material_type/Edit_bag_material.dart';
 import '../Screens/Service_Managment/Material_type/Shoe_material.dart';
+import '../Screens/Service_Managment/Service_Category/Add_Category.dart';
+import '../Screens/Service_Managment/Service_Category/View_Category.dart';
+import '../Screens/Service_Managment/Servicetype/Edit_Service.dart';
+import '../Screens/Service_Managment/Servicetype/Service_Add.dart';
+import '../Screens/Service_Managment/Servicetype/Service_type.dart';
+import '../Screens/Service_Managment/Special_instruction/Bag_Instructions.dart';
+import '../Screens/Service_Managment/Special_instruction/Cloth_Instructions.dart';
+import '../Screens/Service_Managment/Special_instruction/Shoe_Instructions.dart';
 
 void main() {
   runApp(const MyApp());
@@ -62,12 +75,39 @@ class _AdminPageState extends State<AdminPage> {
             child: ListView(
               children: [
                 Container(
-                  width: 300,
-                  height: 100,
-                  color: Colors.white,
-                  child: Text(
-                    "Laundry Mate",
-                    style: TextStyle(color: Colors.blue, fontSize: 40),
+                  padding: EdgeInsets.symmetric(horizontal: 18, vertical: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5),
+
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        "assets/splash_logo.png",
+                        width: 60,
+                        height: 80,
+                      ),
+                      //SizedBox(width: 8,),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Welcome to,",
+                            style: TextStyle(fontSize: 13, color: Colors.black),
+                          ),
+                          Row(children: [Text(
+                            "Laundry Mate",
+                            style: TextStyle(
+                                fontSize: 28,
+                                color: Secondary,
+                                fontWeight: FontWeight.bold),
+                          ),],)
+
+                        ],
+                      )
+                    ],
                   ),
                 ),
                 // //////////////////////
@@ -79,21 +119,94 @@ class _AdminPageState extends State<AdminPage> {
                   title: 'Service Management',
                   icon: Icons.person,
                   children: [
+                    _buildESubxpansion(title: "Service Types", children: [
+                      _buildSubListTile(
+                        'View Services',
+                        const ServiceType(),
+                      ),
+                      _buildSubListTile(
+                        'Add Services',
+                        const ServiceAdd(),
+                      ),
+                      _buildSubListTile(
+                        'Edit Services',
+                        const ServiceEdit(),
+                      ),
+                    ]),
+                    _buildESubxpansion(title: " Service Category", children: [
+                      _buildSubListTile(
+                        'View Category',
+                        const ServiceCategory(),
+                      ),
+                      _buildSubListTile(
+                        'Add Category',
+                        const CategoryAdd(),
+                      ),
+                      _buildSubListTile(
+                        'Edit Category',
+                        const CategoryEdit(),
+                      ),
+                    ]),
                     _buildESubxpansion(title: "Material Types", children: [
                       _buildSubListTile(
                         'Cloth Material',
                         const ClothMaterial(),
                       ),
                       _buildSubListTile(
-                        'Shoe Material',
+                        'Add Cloth Material',
+                        const ClothMaterial(),
+                      ),
+                      _buildSubListTile(
+                        'Edit Cloth Material',
+                        const ClothMaterial(),
+                      ),
+                      _buildSubListTile(
+                        'Shoes Material',
                         const ShoeMaterial(),
                       ),
+                      _buildSubListTile(
+                        'Add Shoes Material',
+                        const ShoeMaterial(),
+                      ),
+                      _buildSubListTile(
+                        'Edit Shoes Material',
+                        const ShoeMaterial(),
+                      ),
+                      _buildSubListTile(
+                        'Bag Material',
+                        const BagMaterial(),
+                      ),
+                      _buildSubListTile(
+                        'Add Bag Material',
+                        const BagMaterialAdd(),
+                      ),
+                      _buildSubListTile(
+                        'Edit Bag Material',
+                        const EditBagMaterial(),
+                      ),
                     ]),
+                    _buildESubxpansion(
+                        title: "Special Instructions",
+                        children: [
+                          _buildSubListTile(
+                            'Cloth Instructions',
+                            const ClothInstructions(),
+                          ),
+                          _buildSubListTile(
+                            'Shoe Instructions',
+                            const BagInstructions(),
+                          ),
+                          _buildSubListTile(
+                            'Shoe Instructions',
+                            const ShoesInstructions(),
+                          ),
+                        ]),
                   ],
                 ),
+
                 _buildMainExpansionTile(
                   title: 'Order Management',
-                  icon: Icons.shopping_cart,
+                  icon: Icons.shopping_cart_rounded,
                   children: [
                     SubListTile(
                       'All Orders',
@@ -207,30 +320,36 @@ class _AdminPageState extends State<AdminPage> {
     Widget page,
   ) {
     return Container(
-      // decoration: BoxDecoration(
-      //   // color: _selectedTile == title ? Colors.grey[400] : Colors.transparent,
-      //   // borderRadius: BorderRadius.circular(10),
-      // ),
-      child: ListTile(
-        leading: SizedBox(
-          width: 40,
-        ),
-        title: Text(
-          title,
-          style: TextStyle(
-              fontSize: 12,
-              color: _selectedTile == title
-                  ? Colors.blue[400]
-                  : Colors.black), // Correct fontSize usage
-        ),
-        onTap: () {
-          setState(() {
-            _selectedPage = page; // Set the selected page
-            _selectedTile = title; // Set the selected tile
-          });
-        },
+        // decoration: BoxDecoration(
+        //   // color: _selectedTile == title ? Colors.grey[400] : Colors.transparent,
+        //   // borderRadius: BorderRadius.circular(10),
+        // ),
+        child: InkWell(
+      onTap: () {
+        setState(() {
+          _selectedPage = page; // Set the selected page
+          _selectedTile = title; // Set the selected tile
+        });
+      },
+      child: Row(
+        children: [
+          SizedBox(
+            width: 70,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(5),
+            child: Text(
+              title,
+              style: TextStyle(
+                  fontSize: 12,
+                  color: _selectedTile == title
+                      ? Colors.blue[400]
+                      : Colors.black), // Correct fontSize usage
+            ),
+          ),
+        ],
       ),
-    );
+    ));
   }
 
   Widget SubListTile(

@@ -3,43 +3,47 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:laundry/Widget/constands/colors.dart';
 
-import '../../../../Model/Material_Model/Cloth_Model.dart';
-import '../../../../Model/Service_Model/Service_Model.dart';
+import '../../../../Model/Instructions_Model/Bag_Inst_Model.dart';
+import '../../../../Model/Instructions_Model/Shoe_Inst_Model.dart';
 
-class ClothMaterial extends StatefulWidget {
-  const ClothMaterial({super.key});
+
+class ShoesInstructions extends StatefulWidget {
+  const ShoesInstructions({super.key});
 
   @override
-  State<ClothMaterial> createState() => _ClothMaterialState();
+  State<ShoesInstructions> createState() => _ShoesInstructionsState();
 }
 
-class _ClothMaterialState extends State<ClothMaterial> {
-  List<Cloth_material> cloth = [
+class _ShoesInstructionsState extends State<ShoesInstructions> {
+  List<Shoes_instruction> bag = [
 
-    Cloth_material(
+    Shoes_instruction(
         Id: "",
-        All_Materials: "Cotton"),
-    Cloth_material(
+        All_Materials: "Leather"),
+    Shoes_instruction(
         Id: "",
-        All_Materials: "Polyster"),
-    Cloth_material(
-        Id: "",
-        All_Materials: "Linen"),
-    Cloth_material(
-        Id: "",
-        All_Materials: "Wool"),
-    Cloth_material(
+        All_Materials: "Canvas"),
+    Shoes_instruction(
         Id: "",
         All_Materials: "Nylon"),
-    Cloth_material(
+    Shoes_instruction(
         Id: "",
-        All_Materials: "Rayon"),
-    Cloth_material(
+        All_Materials: "Polyster"),
+    Shoes_instruction(
+        Id: "",
+        All_Materials: "Wool"),
+    Shoes_instruction(
+        Id: "",
+        All_Materials: "Jute"),
+    Shoes_instruction(
         Id: "",
         All_Materials: "Denim"),
-    Cloth_material(
+    Shoes_instruction(
         Id: "",
-        All_Materials: "Velvet"),
+        All_Materials: "Satin"),
+    Shoes_instruction(
+        Id: "",
+        All_Materials: "Synthetic Leather"),
 
   ];
 
@@ -96,7 +100,7 @@ class _ClothMaterialState extends State<ClothMaterial> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Cloth Material",
+                  "Bag Instructions",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
@@ -126,7 +130,7 @@ class _ClothMaterialState extends State<ClothMaterial> {
                       contentPadding: const EdgeInsets.symmetric(
                         vertical: 5,
                       ),
-                      hintText: 'Search Materials',
+                      hintText: 'Search Instructions',
                       prefixIcon: const Icon(
                         Icons.search,
                         color: Colors.grey,
@@ -159,14 +163,14 @@ class _ClothMaterialState extends State<ClothMaterial> {
                     decoration: BoxDecoration(color: Colors.white),
                     columns: [
                       _buildColumn('SI/NO'),
-                      _buildColumn('All Materials'),
+                      _buildColumn('All Instructions'),
                       _buildColumn('Action'),
                     ],
 
                     rows: List.generate(
-                      cloth.length,
+                      bag.length,
                           (index) {
-                        final Cloth_data = cloth[index];
+                        final Bag_data = bag[index];
                         return DataRow(
                           cells: [
                             DataCell(Text(
@@ -174,7 +178,7 @@ class _ClothMaterialState extends State<ClothMaterial> {
                               style: TextStyle(fontWeight: FontWeight.bold),
                             )),
 
-                            DataCell(Text(Cloth_data.All_Materials)),
+                            DataCell(Text(Bag_data.All_Materials)),
                             DataCell(Row(
                               children: [
                                 IconButton(

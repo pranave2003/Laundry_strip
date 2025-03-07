@@ -3,43 +3,50 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:laundry/Widget/constands/colors.dart';
 
+import '../../../../Model/Instructions_Model/Bag_Inst_Model.dart';
+import '../../../../Model/Instructions_Model/Cloth_Inst_Model.dart';
+import '../../../../Model/Material_Model/Bag_Model.dart';
 import '../../../../Model/Material_Model/Cloth_Model.dart';
 import '../../../../Model/Service_Model/Service_Model.dart';
+import '../../../../Model/Material_Model/Shoe_Model.dart';
 
-class ClothMaterial extends StatefulWidget {
-  const ClothMaterial({super.key});
+class ClothInstructions extends StatefulWidget {
+  const ClothInstructions({super.key});
 
   @override
-  State<ClothMaterial> createState() => _ClothMaterialState();
+  State<ClothInstructions> createState() => _ClothInstructionsState();
 }
 
-class _ClothMaterialState extends State<ClothMaterial> {
-  List<Cloth_material> cloth = [
+class _ClothInstructionsState extends State<ClothInstructions> {
+  List<Cloth_instruction> cloth = [
 
-    Cloth_material(
+    Cloth_instruction(
         Id: "",
-        All_Materials: "Cotton"),
-    Cloth_material(
+        All_Materials: "Leather"),
+    Cloth_instruction(
         Id: "",
-        All_Materials: "Polyster"),
-    Cloth_material(
-        Id: "",
-        All_Materials: "Linen"),
-    Cloth_material(
-        Id: "",
-        All_Materials: "Wool"),
-    Cloth_material(
+        All_Materials: "Canvas"),
+    Cloth_instruction(
         Id: "",
         All_Materials: "Nylon"),
-    Cloth_material(
+    Cloth_instruction(
         Id: "",
-        All_Materials: "Rayon"),
-    Cloth_material(
+        All_Materials: "Polyster"),
+    Cloth_instruction(
+        Id: "",
+        All_Materials: "Wool"),
+    Cloth_instruction(
+        Id: "",
+        All_Materials: "Jute"),
+    Cloth_instruction(
         Id: "",
         All_Materials: "Denim"),
-    Cloth_material(
+    Cloth_instruction(
         Id: "",
-        All_Materials: "Velvet"),
+        All_Materials: "Satin"),
+    Cloth_instruction(
+        Id: "",
+        All_Materials: "Synthetic Leather"),
 
   ];
 
@@ -96,7 +103,7 @@ class _ClothMaterialState extends State<ClothMaterial> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Cloth Material",
+                  "Cloth Instructions",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
@@ -126,7 +133,7 @@ class _ClothMaterialState extends State<ClothMaterial> {
                       contentPadding: const EdgeInsets.symmetric(
                         vertical: 5,
                       ),
-                      hintText: 'Search Materials',
+                      hintText: 'Search Instructions',
                       prefixIcon: const Icon(
                         Icons.search,
                         color: Colors.grey,
@@ -159,7 +166,7 @@ class _ClothMaterialState extends State<ClothMaterial> {
                     decoration: BoxDecoration(color: Colors.white),
                     columns: [
                       _buildColumn('SI/NO'),
-                      _buildColumn('All Materials'),
+                      _buildColumn('All Instructions'),
                       _buildColumn('Action'),
                     ],
 

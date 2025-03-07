@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class CategoryAdd extends StatefulWidget {
-  const CategoryAdd({super.key});
+class CategoryEdit extends StatefulWidget {
+  const CategoryEdit({super.key});
 
   @override
-  State<CategoryAdd> createState() => _CategoryAddState();
+  State<CategoryEdit> createState() => _CategoryEditState();
 }
 
-class _CategoryAddState extends State<CategoryAdd> {
+class _CategoryEditState extends State<CategoryEdit> {
   TextEditingController productNameController = TextEditingController();
   String? imagePath;
 
@@ -55,7 +55,7 @@ class _CategoryAddState extends State<CategoryAdd> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Add Category",
+                  "Edit Category",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
@@ -188,7 +188,7 @@ class _CategoryAddState extends State<CategoryAdd> {
                         backgroundColor: Colors.green,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       ),
-                      child: Text("Submit", style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)),
+                      child: Text("Update", style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)),
                     ),
                   ),
                 ),

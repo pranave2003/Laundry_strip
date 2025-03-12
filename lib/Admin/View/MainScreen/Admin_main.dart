@@ -1,9 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:laundry/Admin/View/Screens/Service_Managment/Service_Category/Edit_Category.dart';
+import 'package:laundry/Admin/View/Screens/Shop_Management/All_shop.dart';
+import 'package:laundry/Admin/View/Screens/User_Management/All_Users.dart';
 import '../../../Widget/constands/colors.dart';
 import '../../Testt.dart';
 import '../Screens/Dashboard/DasgboardMain.dart';
+import '../Screens/Driver_Management/All_driver.dart';
+import '../Screens/Order_management/All_orders.dart';
+import '../Screens/Order_management/Assign_order.dart';
+import '../Screens/Revenue/Reports.dart';
 import '../Screens/Service_Managment/Material_type/Add_bag_material.dart';
 import '../Screens/Service_Managment/Material_type/Add_cloth_material.dart';
 import '../Screens/Service_Managment/Material_type/Add_shoe_material.dart';
@@ -21,6 +27,8 @@ import '../Screens/Service_Managment/Servicetype/Service_type.dart';
 import '../Screens/Service_Managment/Special_instruction/Bag_Instructions.dart';
 import '../Screens/Service_Managment/Special_instruction/Cloth_Instructions.dart';
 import '../Screens/Service_Managment/Special_instruction/Shoe_Instructions.dart';
+import '../Screens/Shop_Management/Accepted_shop.dart';
+import '../Screens/Shop_Management/Rejected_shop.dart';
 
 void main() {
   runApp(const MyApp());
@@ -73,7 +81,7 @@ class _AdminPageState extends State<AdminPage> {
         children: [
           // Left side: Management options
           Container(
-            color: Colors.grey[300],
+            color: Colors.grey[200],
             width: 300,
             padding: const EdgeInsets.all(8.0),
             child: ListView(
@@ -121,7 +129,7 @@ class _AdminPageState extends State<AdminPage> {
 
                 _buildMainExpansionTile(
                   title: 'Service Management',
-                  icon: Icons.person,
+                  icon: Icons.local_laundry_service_outlined,
                   children: [
                     _buildESubxpansion(title: "Service Types", children: [
                       _buildSubListTile(
@@ -164,11 +172,11 @@ class _AdminPageState extends State<AdminPage> {
                           ),
                           _buildSubListTile(
                             'Shoes Instructions',
-                            const BagInstructions(),
+                            const ShoesInstructions(),
                           ),
                           _buildSubListTile(
                             'Bag Instructions',
-                            const ShoesInstructions(),
+                            const BagInstructions(),
                           ),
                         ]),
                   ],
@@ -180,7 +188,63 @@ class _AdminPageState extends State<AdminPage> {
                   children: [
                     SubListTile(
                       'All Orders',
-                      const ClothMaterial(),
+                      const OrdersPage(),
+                    ),
+                    SubListTile(
+                      'Assign Order',
+                       AssignOrderPage(),
+                    ),
+                    // SubListTile(
+                    //     ' Order',
+                    //   Sample(),
+                    // ),
+                  ],
+                ),
+                _buildMainExpansionTile(
+                  title: 'Driver Management',
+                  icon: Icons.local_shipping_outlined,
+                  children: [
+                    SubListTile(
+                      'All Driver',
+                       AllDriversPage(),
+                    ),
+                  ],
+                ),
+                _buildMainExpansionTile(
+                  title: 'Shop Management',
+                  icon: Icons.roofing_rounded,
+                  children: [
+                    SubListTile(
+                      'All Shops',
+                      AllShop(),
+                    ),
+                    SubListTile(
+                      'Accepted',
+                      AcceptedShop(),
+                    ),
+                    SubListTile(
+                      'Rejected',
+                      RejectedShop(),
+                    ),
+                  ],
+                ),
+                _buildMainExpansionTile(
+                  title: 'User Management',
+                  icon: Icons.person,
+                  children: [
+                    SubListTile(
+                      'All Users',
+                      AllUsers(),
+                    ),
+                  ],
+                ),
+                _buildMainExpansionTile(
+                  title: 'Reports',
+                  icon: Icons.stacked_bar_chart,
+                  children: [
+                    SubListTile(
+                      'Revenue',
+                      MyRevenuePage(),
                     ),
                   ],
                 ),

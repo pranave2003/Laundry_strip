@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class BagInstructionsAdd extends StatefulWidget {
-  const BagInstructionsAdd({super.key});
+class ClothInstructionsAdd extends StatefulWidget {
+  const ClothInstructionsAdd({super.key});
 
   @override
-  State<BagInstructionsAdd> createState() => _BagInstructionsAddState();
+  State<ClothInstructionsAdd> createState() => _ClothInstructionsAddState();
 }
 
-class _BagInstructionsAddState extends State<BagInstructionsAdd> {
+class _ClothInstructionsAddState extends State<ClothInstructionsAdd> {
   TextEditingController serviceNameController = TextEditingController();
   String? imagePath;
 
@@ -27,7 +27,7 @@ class _BagInstructionsAddState extends State<BagInstructionsAdd> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Add Bag Instruction",
+                  "Add Cloth Instruction",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(

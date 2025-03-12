@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:laundry/Widget/constands/colors.dart';
 
 import '../../../../Model/Instructions_Model/Bag_Inst_Model.dart';
+import 'Add_bag_instructions.dart';
+import 'Edit_bag_instructions.dart';
 
 
 class BagInstructions extends StatefulWidget {
@@ -76,71 +78,115 @@ class _BagInstructionsState extends State<BagInstructions> {
               ),
               Row(
                 children: [
-                  Text(
-                    "Admin",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  Container(
+                    height: 40,
+                    width: 400,
+                    decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(18)),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(width: .5),
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(18),
+                          borderSide:
+                          BorderSide(color: Theme.of(context).primaryColor),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 5,
+                        ),
+                        hintText: 'Search Instruction',
+                        prefixIcon: const Icon(
+                          Icons.search,
+                          color: Colors.grey,
+                          size: 21,
+                        ),
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: CircleAvatar(
                       backgroundColor: Color(0xffD9D9D9),
+                      child: IconButton(
+                          onPressed: () {}, icon: Icon(Icons.person)),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircleAvatar(
+                      backgroundColor: Color(0xffD9D9D9),
+                      child: IconButton(
+                          onPressed: () {}, icon: Icon(Icons.notification_add)),
+                    ),
+                  )
                 ],
               ),
             ],
           ),
           SizedBox(
-            height: 15,
+            height: 35,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 25),
+            padding: const EdgeInsets.only(left: 25, right: 25),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Bag Instructions",
+                  "Bag Instruction",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(
-                  width: 18,
-                ),
-                Container(
-                  height: 40,
-                  width: 400,
-                  decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(18)),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
+                Row(
+                  children: [
+
+                    const SizedBox(width: 10), // Add some spacing
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(backgroundColor: Colors.white,
+                              content: SizedBox(
+                                width: 700, height: 400,
+                                child: BagInstructionsAdd(),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop(); // Close dialog
+                                  },
+                                  child: Text("Cancel"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: defaultColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(width: .5),
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide:
-                        BorderSide(color: Theme.of(context).primaryColor),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 5,
-                      ),
-                      hintText: 'Search Instructions',
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        color: Colors.grey,
-                        size: 21,
+                      icon: Icon(Icons.add, color: Colors.white),
+                      label: Text(
+                        "Add",
+                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),
           ),
+
           Expanded(
             child: Container(
               // Background color
@@ -181,11 +227,33 @@ class _BagInstructionsState extends State<BagInstructions> {
                             DataCell(Row(
                               children: [
                                 IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.edit,
-                                      color: Colors.green,
-                                    )),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(backgroundColor: Colors.white,
+                                          //title: Text("Edit Service"),
+                                          content: SizedBox(
+                                            width: 700, height: 400,// Adjust size as needed
+                                            child: BagInstructionsEdit(), // Embedding ServiceEdit Widget
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop(); // Close dialog
+                                              },
+                                              child: Text("Cancel"),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: Colors.green,
+                                  ),
+                                ),
                                 SizedBox(
                                   width: 10,
                                 ),

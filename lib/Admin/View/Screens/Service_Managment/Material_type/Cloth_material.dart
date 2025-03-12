@@ -75,23 +75,63 @@ class _ClothMaterialState extends State<ClothMaterial> {
               ),
               Row(
                 children: [
-                  Text(
-                    "Admin",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  Container(
+                    height: 40,
+                    width: 400,
+                    decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(18)),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(width: .5),
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(18),
+                          borderSide:
+                          BorderSide(color: Theme.of(context).primaryColor),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 5,
+                        ),
+                        hintText: 'Search Material',
+                        prefixIcon: const Icon(
+                          Icons.search,
+                          color: Colors.grey,
+                          size: 21,
+                        ),
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: CircleAvatar(
                       backgroundColor: Color(0xffD9D9D9),
+                      child: IconButton(
+                          onPressed: () {}, icon: Icon(Icons.person)),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircleAvatar(
+                      backgroundColor: Color(0xffD9D9D9),
+                      child: IconButton(
+                          onPressed: () {}, icon: Icon(Icons.notification_add)),
+                    ),
+                  )
                 ],
               ),
             ],
           ),
           SizedBox(
-            height: 15,
+            height: 35,
           ),
+
           Padding(
             padding: const EdgeInsets.only(left: 25, right: 25), // Adjusted right padding
             child: Row(
@@ -103,35 +143,6 @@ class _ClothMaterialState extends State<ClothMaterial> {
                 ),
                 Row(
                   children: [
-                    Container(
-                      height: 40,
-                      width: 400,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(18)),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(width: .5),
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
-                            borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 5),
-                          hintText: 'Search Materials',
-                          prefixIcon: const Icon(
-                            Icons.search,
-                            color: Colors.grey,
-                            size: 21,
-                          ),
-                        ),
-                      ),
-                    ),
                     const SizedBox(width: 10), // Add some spacing
                     ElevatedButton.icon(
                       onPressed: () {

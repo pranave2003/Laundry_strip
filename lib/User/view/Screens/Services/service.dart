@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:laundry/User/view/Screens/Home/home_page.dart';
+import 'package:laundry/User/view/Screens/Services/select_service.dart';
 
 import '../../../../Widget/constands/colors.dart';
 import '../../../../Widget/constands/widgets.dart';
@@ -41,6 +42,26 @@ class _ServiceState extends State<Service> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // GridView.builder(
+            //   physics: NeverScrollableScrollPhysics(),
+            //   shrinkWrap: true,
+            //   padding: EdgeInsets.all(10),
+            //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //     mainAxisSpacing: 0,
+            //     mainAxisExtent: 130,
+            //     crossAxisSpacing: 15,
+            //     childAspectRatio: 1.0,
+            //     crossAxisCount: 4,
+            //   ),
+            //   itemCount: serviceList.length,
+            //   itemBuilder: (context, index) {
+            //     return WashFold(
+            //       icon: serviceList[index]["icon"].toString(),
+            //       title: serviceList[index]["name"].toString(),
+            //     );
+            //   },
+            // ),
+
             GridView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -54,12 +75,22 @@ class _ServiceState extends State<Service> {
               ),
               itemCount: serviceList.length,
               itemBuilder: (context, index) {
-                return WashFold(
-                  icon: serviceList[index]["icon"].toString(),
-                  title: serviceList[index]["name"].toString(),
+                return InkWell(
+                  onTap: () {
+                    print("Navigating to SelectService..."); // Debugging log
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SelectService()),
+                    );
+                  },
+                  child: WashFold(
+                    icon: serviceList[index]["icon"].toString(),
+                    title: serviceList[index]["name"].toString(),
+                  ),
                 );
               },
             ),
+
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(

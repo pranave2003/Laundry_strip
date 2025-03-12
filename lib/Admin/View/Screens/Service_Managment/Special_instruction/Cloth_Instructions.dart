@@ -9,6 +9,8 @@ import '../../../../Model/Material_Model/Bag_Model.dart';
 import '../../../../Model/Material_Model/Cloth_Model.dart';
 import '../../../../Model/Service_Model/Service_Model.dart';
 import '../../../../Model/Material_Model/Shoe_Model.dart';
+import 'Add_cloth_instructions.dart';
+import 'Edit_cloth_instructions.dart';
 
 class ClothInstructions extends StatefulWidget {
   const ClothInstructions({super.key});
@@ -80,67 +82,109 @@ class _ClothInstructionsState extends State<ClothInstructions> {
               ),
               Row(
                 children: [
-                  Text(
-                    "Admin",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  Container(
+                    height: 40,
+                    width: 400,
+                    decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(18)),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(width: .5),
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(18),
+                          borderSide:
+                          BorderSide(color: Theme.of(context).primaryColor),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 5,
+                        ),
+                        hintText: 'Search Instruction',
+                        prefixIcon: const Icon(
+                          Icons.search,
+                          color: Colors.grey,
+                          size: 21,
+                        ),
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: CircleAvatar(
                       backgroundColor: Color(0xffD9D9D9),
+                      child: IconButton(
+                          onPressed: () {}, icon: Icon(Icons.person)),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircleAvatar(
+                      backgroundColor: Color(0xffD9D9D9),
+                      child: IconButton(
+                          onPressed: () {}, icon: Icon(Icons.notification_add)),
+                    ),
+                  )
                 ],
               ),
             ],
           ),
           SizedBox(
-            height: 15,
+            height: 35,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 25),
+            padding: const EdgeInsets.only(left: 25, right: 25),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Cloth Instructions",
+                  "Cloth Instruction",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(
-                  width: 18,
-                ),
-                Container(
-                  height: 40,
-                  width: 400,
-                  decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(18)),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
+                Row(
+                  children: [
+                    const SizedBox(width: 10), // Add some spacing
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(backgroundColor: Colors.white,
+                              content: SizedBox(
+                                width: 700, height: 400,
+                                child: ClothInstructionsAdd(),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop(); // Close dialog
+                                  },
+                                  child: Text("Cancel"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: defaultColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(width: .5),
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide:
-                        BorderSide(color: Theme.of(context).primaryColor),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 5,
-                      ),
-                      hintText: 'Search Instructions',
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        color: Colors.grey,
-                        size: 21,
+                      icon: Icon(Icons.add, color: Colors.white),
+                      label: Text(
+                        "Add",
+                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),
@@ -156,13 +200,7 @@ class _ClothInstructionsState extends State<ClothInstructions> {
                     MediaQuery.of(context).size.width, // Ensures full width
                   ),
                   child: DataTable(
-                    // border: TableBorder(
-                    //   verticalInside: BorderSide(
-                    //       color: Colors.black,
-                    //       width: 1), // Vertical line between columns
-                    //   horizontalInside: BorderSide(
-                    //       color: Colors.grey, width: 0.5), // Horizontal lines
-                    // ),
+
                     decoration: BoxDecoration(color: Colors.white),
                     columns: [
                       _buildColumn('SI/NO'),
@@ -185,11 +223,33 @@ class _ClothInstructionsState extends State<ClothInstructions> {
                             DataCell(Row(
                               children: [
                                 IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.edit,
-                                      color: Colors.green,
-                                    )),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(backgroundColor: Colors.white,
+                                          //title: Text("Edit Service"),
+                                          content: SizedBox(
+                                            width: 700, height: 400,// Adjust size as needed
+                                            child: ClothInstructionsEdit(), // Embedding ServiceEdit Widget
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop(); // Close dialog
+                                              },
+                                              child: Text("Cancel"),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: Colors.green,
+                                  ),
+                                ),
                                 SizedBox(
                                   width: 10,
                                 ),

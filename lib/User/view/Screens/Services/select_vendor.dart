@@ -54,7 +54,7 @@ class _VendorSelectionPageState extends State<VendorSelectionPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Select Vendors",
+        title: Text("Select Service Providers",
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
         elevation: 0,

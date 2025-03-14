@@ -91,9 +91,9 @@ class _AddAddressPageState extends State<AddAddressPage> {
                 children: [
                   _buildTagButton("Home"),
                   SizedBox(width: 10),
-                  _buildTagButton("Office"),
-                  SizedBox(width: 10),
-                  _buildTagButton("Other"),
+                  // _buildTagButton("Office"),
+                  // SizedBox(width: 10),
+                  // _buildTagButton("Other"),
                 ],
               ),
 

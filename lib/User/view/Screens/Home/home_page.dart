@@ -166,83 +166,83 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Popular Service Provider",
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text("See All", style: TextStyle(color: Color(0xFF479CC9))),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 200,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 2,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.asset(
-                                  index == 0
-                                      ? "assets/shop_img/img.png"
-                                      : "assets/shop_img/img2.png",
-                                  width: 175,
-                                  height: 175,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Positioned(
-                                top: 5,
-                                left: 5,
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.star, color: Colors.yellow, size: 14),
-                                      Text(
-                                        index == 0 ? "4.8" : "3.5",
-                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                                      ),
-
-                                    ],
-
-                                  ),
-
-                                ),
-
-                              ),
-                            ],
-                          ),SizedBox(height: 5),
-                          Text(
-                            index == 0 ? "Pure Press Laundry" : "NeatKnits Laundry",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-
-                      ),
-                    );
-                  },
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Text(
+              //         "Popular Service Provider",
+              //         style: TextStyle(
+              //             color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
+              //       ),
+              //       TextButton(
+              //         onPressed: () {},
+              //         child: Text("See All", style: TextStyle(color: Color(0xFF479CC9))),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: 200,
+              //   child: ListView.builder(
+              //     scrollDirection: Axis.horizontal,
+              //     itemCount: 2,
+              //     itemBuilder: (context, index) {
+              //       return Padding(
+              //         padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              //         child: Column(
+              //           children: [
+              //             Stack(
+              //               children: [
+              //                 ClipRRect(
+              //                   borderRadius: BorderRadius.circular(10),
+              //                   child: Image.asset(
+              //                     index == 0
+              //                         ? "assets/shop_img/img.png"
+              //                         : "assets/shop_img/img2.png",
+              //                     width: 175,
+              //                     height: 175,
+              //                     fit: BoxFit.cover,
+              //                   ),
+              //                 ),
+              //                 Positioned(
+              //                   top: 5,
+              //                   left: 5,
+              //                   child: Container(
+              //                     padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              //                     decoration: BoxDecoration(
+              //                       color: Colors.white,
+              //                       borderRadius: BorderRadius.circular(5),
+              //                     ),
+              //                     child: Row(
+              //                       children: [
+              //                         Icon(Icons.star, color: Colors.yellow, size: 14),
+              //                         Text(
+              //                           index == 0 ? "4.8" : "3.5",
+              //                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+              //                         ),
+              //
+              //                       ],
+              //
+              //                     ),
+              //
+              //                   ),
+              //
+              //                 ),
+              //               ],
+              //             ),SizedBox(height: 5),
+              //             Text(
+              //               index == 0 ? "Pure Press Laundry" : "NeatKnits Laundry",
+              //               style: TextStyle(fontWeight: FontWeight.bold),
+              //             ),
+              //           ],
+              //
+              //         ),
+              //       );
+              //     },
+              //   ),
+              // ),
             ],
           ),
         ),

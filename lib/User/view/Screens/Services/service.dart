@@ -1,11 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:laundry/User/view/Screens/Home/home_page.dart';
 import 'package:laundry/User/view/Screens/Services/select_service.dart';
-
-import '../../../../Widget/constands/colors.dart';
-import '../../../../Widget/constands/widgets.dart';
-import '../Bottom_navigation/btm_navigation.dart';
+import 'package:laundry/Widget/constands/colors.dart';
 
 class Service extends StatefulWidget {
   const Service({super.key});
@@ -15,6 +10,9 @@ class Service extends StatefulWidget {
 }
 
 class _ServiceState extends State<Service> {
+  int? selectedIndex = 0; // Stores the index of the selected service
+  String? selectedService; // Stores the name of the selected service
+
   List<Map<String, dynamic>> serviceList = [
     {"icon": "assets/icon/wash_fold.png", "name": "Wash +\nFold"},
     {"icon": "assets/icon/wash_iron.png", "name": "Wash +\nIron"},
@@ -35,57 +33,63 @@ class _ServiceState extends State<Service> {
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         automaticallyImplyLeading: false,
-
-
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // GridView.builder(
-            //   physics: NeverScrollableScrollPhysics(),
-            //   shrinkWrap: true,
-            //   padding: EdgeInsets.all(10),
-            //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //     mainAxisSpacing: 0,
-            //     mainAxisExtent: 130,
-            //     crossAxisSpacing: 15,
-            //     childAspectRatio: 1.0,
-            //     crossAxisCount: 4,
-            //   ),
-            //   itemCount: serviceList.length,
-            //   itemBuilder: (context, index) {
-            //     return WashFold(
-            //       icon: serviceList[index]["icon"].toString(),
-            //       title: serviceList[index]["name"].toString(),
-            //     );
-            //   },
-            // ),
-
+            // Service Grid
             GridView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               padding: EdgeInsets.all(10),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisSpacing: 0,
+                mainAxisSpacing: 10,
                 mainAxisExtent: 130,
                 crossAxisSpacing: 15,
-                childAspectRatio: 1.0,
                 crossAxisCount: 4,
               ),
               itemCount: serviceList.length,
               itemBuilder: (context, index) {
-                return InkWell(
+                bool isSelected = selectedIndex == index;
+
+                return GestureDetector(
                   onTap: () {
-                    print("Navigating to SelectService..."); // Debugging log
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SelectService()),
-                    );
+                    setState(() {
+                      selectedIndex = index;
+                      selectedService = serviceList[index]["name"];
+                      print(selectedService);
+                    });
                   },
-                  child: WashFold(
-                    icon: serviceList[index]["icon"].toString(),
-                    title: serviceList[index]["name"].toString(),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: isSelected ? Colors.grey : Colors.transparent,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          serviceList[index]["icon"].toString(),
+                          width: 50,
+                          height: 50,
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          serviceList[index]["name"].toString(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                            color: isSelected ? Secondary : Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
@@ -97,157 +101,72 @@ class _ServiceState extends State<Service> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Near by Service Provider",
+                    "Nearby Service Providers",
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "See All",
-                      style: TextStyle(color: Color(0xFF479CC9)),
-                    ),
-                  ),
                 ],
               ),
             ),
+
+            // Nearby Service Provider List
             SizedBox(
-              height: 200,
+              height: 400,
               child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 2,
+                itemCount: 10,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Column(
-                      children: [
-                        Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.asset(
-                                index == 0
-                                    ? "assets/shop_img/img.png"
-                                    : "assets/shop_img/img2.png",
-                                width: 179,
-                                height: 175,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Positioned(
-                              top: 5,
-                              left: 5,
-                              child: Container(
-                                padding:
-                                EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.star, color: Colors.yellow, size: 14),
-                                    Text(
-                                      index == 0 ? "4.8" : "3.5",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold, fontSize: 12),
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      color: selectedService == "Wash +\nFold"
+                          ? Colors.white
+                          : Colors.white,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SelectService(),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          index == 0 ? "Pure Press Laundry" : "NeatKnits Laundry",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Popular Service Provider",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "See All",
-                      style: TextStyle(color: Color(0xFF479CC9)),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 200,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 2,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Column(
-                      children: [
-                        Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.asset(
-                                index == 0
-                                    ? "assets/shop_img/img2.png"
-                                    : "assets/shop_img/img.png",
-                                width: 179,
-                                height: 175,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Positioned(
-                              top: 5,
-                              left: 5,
-                              child: Container(
-                                padding:
-                                EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.star, color: Colors.yellow, size: 14),
-                                    Text(
-                                      index == 0 ? "4.5" : "4.2",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold, fontSize: 12),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.asset(
+                                      "assets/shop_img/img.png",
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          index == 0 ? "Pure Press Laundry" : "NeatKnits Laundry",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Provider Name"),
+                                  SizedBox(
+                                    width: 200,
+                                    child: Text(
+                                      "Address example, City, Zip Code",
+                                    ),
+                                  ),
+                                  Text("Additional Info"),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },

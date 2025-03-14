@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:laundry/Widget/constands/colors.dart';
 
 import '../Orders/order_summary.dart';
+import '../Services/select_service.dart';
 import '../Services/select_vendor.dart';
 import 'Add_address.dart';
 
@@ -17,6 +18,7 @@ class _PickupDeliveryState extends State<PickupDelivery> {
   DateTime? _pickupDate;
   DateTime? _deliveryDate;
   String? _selectedTimeSlot;
+  String? _selectedDeliveryTimeSlot;
   String _selectedAddress = "Home";
 
   final List<String> _timeSlots = [
@@ -64,7 +66,7 @@ class _PickupDeliveryState extends State<PickupDelivery> {
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => VendorSelectionPage()), // Replace with the actual page
+              MaterialPageRoute(builder: (context) => SelectService()), // Replace with the actual page
             );
           },
           icon: Icon(Icons.arrow_back, color: Colors.black),
@@ -78,7 +80,7 @@ class _PickupDeliveryState extends State<PickupDelivery> {
           ),
         ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,8 +89,8 @@ class _PickupDeliveryState extends State<PickupDelivery> {
             Row(
               children: [
                 _buildRadioButton("Home"),
-                _buildRadioButton("Office"),
-                _buildAddAddressButton(context),
+                //_buildRadioButton("Office"),
+                //_buildAddAddressButton(context),
               ],
             ),
             const SizedBox(height: 12),
@@ -146,7 +148,22 @@ class _PickupDeliveryState extends State<PickupDelivery> {
                 return _buildTimeSlotButton(slot);
               }).toList(),
             ),
-            const SizedBox(height: 100,),
+            const SizedBox(height: 20,),
+            const Text(
+              "Delivery Time Slot",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+
+            // Time Slots
+            Wrap(
+              spacing: 20.0,
+              runSpacing: 8.0,
+              children: _timeSlots.map((slot) {
+                return _buildDeliveryTimeSlotButton(slot);
+              }).toList(),
+            ),
+            const SizedBox(height: 20,),
 
             // Continue Button
             SizedBox(
@@ -200,31 +217,31 @@ class _PickupDeliveryState extends State<PickupDelivery> {
   }
 
   // Widget for "Add Address" Button
-  Widget _buildAddAddressButton(BuildContext context) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddAddressPage()),
-          );
-        },
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          decoration: BoxDecoration(
-            color: Colors.grey.shade200,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: const Center(
-            child: Text(
-              "Add Address +",
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _buildAddAddressButton(BuildContext context) {
+  //   return Expanded(
+  //     child: GestureDetector(
+  //       onTap: () {
+  //         Navigator.push(
+  //           context,
+  //           MaterialPageRoute(builder: (context) => AddAddressPage()),
+  //         );
+  //       },
+  //       child: Container(
+  //         padding: const EdgeInsets.symmetric(vertical: 8),
+  //         decoration: BoxDecoration(
+  //           color: Colors.grey.shade200,
+  //           borderRadius: BorderRadius.circular(8),
+  //         ),
+  //         child: const Center(
+  //           child: Text(
+  //             "Add Address +",
+  //             style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   // Widget for Date Picker
   Widget _buildDatePicker(String label, DateTime? date, bool isPickupDate) {
@@ -289,6 +306,31 @@ class _PickupDeliveryState extends State<PickupDelivery> {
       ),
     );
   }
+  Widget _buildDeliveryTimeSlotButton(String timeSlot) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedDeliveryTimeSlot = timeSlot;
+        });
+      },
+      child: Container(
+        width: 160,
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        decoration: BoxDecoration(
+          color: _selectedDeliveryTimeSlot == timeSlot ? Secondary : Colors.grey.shade200,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Center(
+          child: Text(
+            timeSlot,
+            style: TextStyle(
+              color: _selectedDeliveryTimeSlot == timeSlot ? Colors.white : Colors.black,
+              fontSize: 14,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
-// Dummy Add Address Screen

@@ -6,17 +6,33 @@ import '../../../../Widget/constands/widgets.dart';
 import 'login_page.dart';
 
 class RegisterPage extends StatefulWidget {
+
   const RegisterPage({super.key});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
-
+final List<String> districts = [
+  "Kazharkode",
+  "Kannur",
+  "Wayanad",
+  "Kozhikode",
+  "Malappuram",
+  "Palakkad",
+  "Thrissur",
+  "Eranamkulam",
+  "Idukki",
+  "Kottayam",
+  "Kollam",
+  "Pathanamthitta",
+  "Thiruvananthapuram",
+];
 class _RegisterPageState extends State<RegisterPage> {
+  String? selectedDistrict;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -57,9 +73,39 @@ class _RegisterPageState extends State<RegisterPage> {
                   SizedBox(
                     height: 15,
                   ),
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.location_city, color: Colors.blue),
+                      filled: true,
+                      fillColor: primary,
+                      border: InputBorder.none,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    hint: Text("Select District"),
+                    value: selectedDistrict,
+                    items: districts.map((district) {
+                      return DropdownMenuItem(
+                        value: district,
+                        child: Text(district),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedDistrict = newValue;
+                      });
+                    },
+                  ),
+                  SizedBox(height: 15),
                   CustomTextForm(
-                      prefixIcon: Icon(Icons.lock),
-                      hintText: "Confirm Password"),
+                      prefixIcon: Icon(Icons.access_time),
+                      hintText: "Address"),
                   SizedBox(
                     height: 30,
                   ),

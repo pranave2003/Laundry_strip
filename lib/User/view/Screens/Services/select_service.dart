@@ -4,6 +4,7 @@ import 'package:laundry/User/view/Screens/Services/select_vendor.dart';
 import 'package:laundry/User/view/Screens/Services/service.dart';
 import '../../../../Widget/constands/colors.dart';
 import '../../../../Widget/constands/widgets.dart';
+import '../Address/pickup_delivery.dart';
 import 'Widgets/Aleartdailog.dart';
 
 class SelectService extends StatefulWidget {
@@ -17,19 +18,19 @@ class _SelectServiceState extends State<SelectService> {
   int selectedCategoryIndex = 0;
   List<Map<String, dynamic>> selectedItems = [];
 
-  List<Map<String, dynamic>> serviceList = [
-    {"icon": "assets/icon/wash_fold.png", "name": "Wash +\nFold"},
-    {"icon": "assets/icon/wash_iron.png", "name": "Wash +\nIron"},
-    {"icon": "assets/icon/steam_iron.png", "name": "Steam \nIron"},
-    {"icon": "assets/icon/dry_clean.png", "name": "Dry \nClean"},
-    {"icon": "assets/icon/bag_service.png", "name": "Bag \nService"},
-    {"icon": "assets/icon/shoe_service.png", "name": "Shoe \nService"},
-    {
-      "icon": "assets/icon/household_service.png",
-      "name": "Household \nService"
-    },
-    {"icon": "assets/icon/stain_removal.png", "name": "Stain \nRemoval"},
-  ];
+  // List<Map<String, dynamic>> serviceList = [
+  //   {"icon": "assets/icon/wash_fold.png", "name": "Wash +\nFold"},
+  //   {"icon": "assets/icon/wash_iron.png", "name": "Wash +\nIron"},
+  //   {"icon": "assets/icon/steam_iron.png", "name": "Steam \nIron"},
+  //   {"icon": "assets/icon/dry_clean.png", "name": "Dry \nClean"},
+  //   {"icon": "assets/icon/bag_service.png", "name": "Bag \nService"},
+  //   {"icon": "assets/icon/shoe_service.png", "name": "Shoe \nService"},
+  //   {
+  //     "icon": "assets/icon/household_service.png",
+  //     "name": "Household \nService"
+  //   },
+  //   {"icon": "assets/icon/stain_removal.png", "name": "Stain \nRemoval"},
+  // ];
 
   List<String> categories = ["All", "Men", "Women", "Kids", "Household"];
 
@@ -114,24 +115,24 @@ class _SelectServiceState extends State<SelectService> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              padding: EdgeInsets.all(10),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisSpacing: 0,
-                mainAxisExtent: 130,
-                crossAxisSpacing: 15,
-                childAspectRatio: 1.0,
-                crossAxisCount: 4,
-              ),
-              itemCount: serviceList.length,
-              itemBuilder: (context, index) {
-                return WashFold(
-                    icon: serviceList[index]["icon"].toString(),
-                    title: serviceList[index]["name"].toString());
-              },
-            ),
+            // GridView.builder(
+            //   physics: NeverScrollableScrollPhysics(),
+            //   shrinkWrap: true,
+            //   padding: EdgeInsets.all(10),
+            //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //     mainAxisSpacing: 0,
+            //     mainAxisExtent: 130,
+            //     crossAxisSpacing: 15,
+            //     childAspectRatio: 1.0,
+            //     crossAxisCount: 4,
+            //   ),
+            //   itemCount: serviceList.length,
+            //   itemBuilder: (context, index) {
+            //     return WashFold(
+            //         icon: serviceList[index]["icon"].toString(),
+            //         title: serviceList[index]["name"].toString());
+            //   },
+            // ),
 
             SizedBox(height: 10),
             _buildCategoryFilter(),
@@ -223,7 +224,7 @@ Widget buildAddedItemsSection(BuildContext context, List<Map<String, dynamic>> s
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => VendorSelectionPage()),
+            MaterialPageRoute(builder: (context) => PickupDelivery()),
           );
         },
         child: Center(

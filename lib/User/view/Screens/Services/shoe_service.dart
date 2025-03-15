@@ -98,24 +98,24 @@ class _ShoeServiceState extends State<ShoeService> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              padding: EdgeInsets.all(10),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisSpacing: 0,
-                mainAxisExtent: 130,
-                crossAxisSpacing: 15,
-                childAspectRatio: 1.0,
-                crossAxisCount: 4,
-              ),
-              itemCount: serviceList.length,
-              itemBuilder: (context, index) {
-                return WashFold(
-                    icon: serviceList[index]["icon"].toString(),
-                    title: serviceList[index]["name"].toString());
-              },
-            ),
+            // GridView.builder(
+            //   physics: NeverScrollableScrollPhysics(),
+            //   shrinkWrap: true,
+            //   padding: EdgeInsets.all(10),
+            //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //     mainAxisSpacing: 0,
+            //     mainAxisExtent: 130,
+            //     crossAxisSpacing: 15,
+            //     childAspectRatio: 1.0,
+            //     crossAxisCount: 4,
+            //   ),
+            //   itemCount: serviceList.length,
+            //   itemBuilder: (context, index) {
+            //     return WashFold(
+            //         icon: serviceList[index]["icon"].toString(),
+            //         title: serviceList[index]["name"].toString());
+            //   },
+            // ),
             SizedBox(height: 10),
             _buildCategoryFilter(),
             SizedBox(height: 20),

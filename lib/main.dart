@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:laundry/Shop/view/Screens/Auth/Shop_SignUp.dart';
@@ -7,6 +6,7 @@ import 'package:laundry/User/view/Screens/Services/bag_service.dart';
 import 'package:laundry/User/view/Screens/Services/service.dart';
 import 'package:laundry/User/view/Screens/Splash/splash_screen.dart';
 
+import 'Admin/View/Screens/Auth/Admin_login.dart';
 import 'Shop/view/Screens/Driver/delivery.dart';
 import 'Shop/view/Screens/Orders/order_details.dart';
 import 'Shop/view/Screens/Shop/Add_shop.dart';
@@ -30,10 +30,12 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-
+          scaffoldBackgroundColor: Colors.white,
+          appBarTheme: AppBarTheme(color: Colors.white),
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: Colors.white),
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: Shop_Splash());
+        home: LoginPage());
   }
 }

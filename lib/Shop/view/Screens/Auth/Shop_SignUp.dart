@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:laundry/Shop/view/Screens/Auth/shop_login.dart';
-
 import '../../../../Widget/constands/colors.dart';
 import '../../../../Widget/constands/widgets.dart';
 
@@ -11,10 +10,26 @@ class Shop_Signup extends StatefulWidget {
   @override
   State<Shop_Signup> createState() => _Shop_SignupState();
 }
-
+final List<String> districts = [
+  "Kazharkode",
+  "Kannur",
+  "Wayanad",
+  "Kozhikode",
+  "Malappuram",
+  "Palakkad",
+  "Thrissur",
+  "Eranamkulam",
+  "Idukki",
+  "Kottayam",
+  "Kollam",
+  "Pathanamthitta",
+  "Thiruvananthapuram",
+];
 class _Shop_SignupState extends State<Shop_Signup> {
   bool isChecked = false;
   bool isDropdownOpen = false;
+  String selectedTimeSlot = "12 hours";
+  String? selectedDistrict;
 
   final List<Map<String, String>> services = [
     {"icon": "assets/icon/wash_fold.png", "name": "Wash + Fold"},
@@ -37,7 +52,8 @@ class _Shop_SignupState extends State<Shop_Signup> {
           children: [
             SizedBox(height: 25),
             Container(
-              height: 100, width: 100,
+              height: 100,
+              width: 100,
               child: Image.asset("assets/splash_logo.png", width: 150),
             ),
             Center(
@@ -54,23 +70,130 @@ class _Shop_SignupState extends State<Shop_Signup> {
               padding: const EdgeInsets.all(18.0),
               child: Column(
                 children: [
-                  CustomTextForm(prefixIcon: Icon(Icons.person), hintText: "Username"),
+                  CustomTextForm(
+                      prefixIcon: Icon(Icons.person), hintText: "Username"),
                   SizedBox(height: 15),
-                  CustomTextForm(prefixIcon: Icon(Icons.phone), hintText: "Mobile Number"),
+                  CustomTextForm(
+                      prefixIcon: Icon(Icons.phone), hintText: "Mobile Number"),
                   SizedBox(height: 15),
-                  CustomTextForm(prefixIcon: Icon(Icons.email), hintText: "Email"),
+                  CustomTextForm(
+                      prefixIcon: Icon(Icons.email), hintText: "Email"),
                   SizedBox(height: 15),
-                  CustomTextForm(prefixIcon: Icon(Icons.lock), hintText: "Password"),
+                  CustomTextForm(
+                      prefixIcon: Icon(Icons.lock), hintText: "Password"),
                   SizedBox(height: 15),
-                  CustomTextForm(prefixIcon: Icon(Icons.lock), hintText: "Confirm Password"),
+                  // CustomTextForm(
+                  //     prefixIcon: Icon(Icons.lock),
+                  //     hintText: "Confirm Password"),
+                  //SizedBox(height: 15),
+                  // CustomTextForm(
+                  //     prefixIcon: Icon(Icons.how_to_reg), hintText: "ID Proof"),
+                  // SizedBox(height: 15),
+                  // **District Dropdown Below Password**
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.location_city, color: Colors.blue),
+                      filled: true,
+                      fillColor: primary,
+                      border: InputBorder.none,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    hint: Text("Select District"),
+                    value: selectedDistrict,
+                    items: districts.map((district) {
+                      return DropdownMenuItem(
+                        value: district,
+                        child: Text(district),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedDistrict = newValue;
+                      });
+                    },
+                  ),
                   SizedBox(height: 15),
-                  CustomTextForm(prefixIcon: Icon(Icons.how_to_reg), hintText: "ID Proof"),
+
+                  CustomTextForm(
+                      prefixIcon: Icon(Icons.access_time),
+                      hintText: "Shop Address"),
                   SizedBox(height: 15),
-                  CustomTextForm(prefixIcon: Icon(Icons.add_home_outlined), hintText: "Shop Address"),
+
+                  // **Time Slots as Radio Buttons**
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: primary,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: primary),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.fact_check_outlined, color: Colors.blue),SizedBox(width: 5,),
+                            Text(
+                              "Shop Time Slots",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ],
+                        ),SizedBox(height: 5,),
+                        Row(
+                          children: [
+                            Radio<String>(
+                              value: "12 hours",
+                              groupValue: selectedTimeSlot,
+                              activeColor: Secondary,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedTimeSlot = value!;
+                                });
+                              },
+                            ),
+                            Text("12 hours"),
+                            SizedBox(width: 20),
+                            Radio<String>(
+                              value: "24 hours",
+                              groupValue: selectedTimeSlot,
+                              activeColor: Secondary,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedTimeSlot = value!;
+                                });
+                              },
+                            ),
+                            Text("24 hours"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
                   SizedBox(height: 15),
-                  CustomTextForm(prefixIcon: Icon(Icons.access_time), hintText: "Shop Time Slots"),
+                  CustomTextForm(
+                      prefixIcon: Icon(Icons.local_laundry_service_outlined),
+                      hintText: "Laundry Capacity in Kg"),
                   SizedBox(height: 15),
-                  CustomTextForm(prefixIcon: Icon(Icons.local_laundry_service_outlined), hintText: "Laundry Capacity in Kg"),
+
+                  CustomTextForm(
+                      prefixIcon: Icon(Icons.add_home_outlined),
+                      hintText: "Shop Address"),
+                  SizedBox(height: 15),
+                  // CustomTextForm(
+                  //     prefixIcon: Icon(Icons.access_time),
+                  //     hintText: "Shop Time Slots"),
+                  // SizedBox(height: 15),
+                  CustomTextForm(
+                      prefixIcon: Icon(Icons.local_laundry_service_outlined),
+                      hintText: "Laundry Capacity in Kg"),
                   SizedBox(height: 15),
 
                   // **Updated Select Services Field with Icons**
@@ -81,9 +204,10 @@ class _Shop_SignupState extends State<Shop_Signup> {
                       });
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 18),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 18),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200],
+                        color: primary,
                         border: Border.all(color: primary),
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -92,14 +216,15 @@ class _Shop_SignupState extends State<Shop_Signup> {
                         children: [
                           Row(
                             children: [
-                              Icon(Icons.fact_check_outlined, color: Secondary),
+                              Icon(Icons.fact_check_outlined, color: Colors.blue),
                               SizedBox(width: 10),
                               Expanded(
                                 child: Text(
                                   selectedServices.isEmpty
                                       ? "Select Services"
                                       : selectedServices.join(", "),
-                                  style: TextStyle(fontSize: 16, color: Colors.black54),
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.black54),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -112,18 +237,21 @@ class _Shop_SignupState extends State<Shop_Signup> {
                                 return CheckboxListTile(
                                   title: Row(
                                     children: [
-                                      Image.asset(service["icon"]!, height: 24, width: 24),
+                                      Image.asset(service["icon"]!,
+                                          height: 24, width: 24),
                                       SizedBox(width: 10),
                                       Text(service["name"]!),
                                     ],
                                   ),
-                                  value: selectedServices.contains(service["name"]),
+                                  value: selectedServices
+                                      .contains(service["name"]),
                                   onChanged: (bool? selected) {
                                     setState(() {
                                       if (selected == true) {
                                         selectedServices.add(service["name"]!);
                                       } else {
-                                        selectedServices.remove(service["name"]!);
+                                        selectedServices
+                                            .remove(service["name"]!);
                                       }
                                     });
                                   },
@@ -136,11 +264,17 @@ class _Shop_SignupState extends State<Shop_Signup> {
                   ),
 
                   SizedBox(height: 15),
-                  CustomTextForm(prefixIcon: Icon(Icons.image_rounded), hintText: "Upload Shop Image"),
+                  CustomTextForm(
+                      prefixIcon: Icon(Icons.image_rounded),
+                      hintText: "Upload Shop Image"),
                   SizedBox(height: 15),
-                  CustomTextForm(prefixIcon: Icon(Icons.how_to_reg), hintText: "Shop Registration Proof"),
-                  SizedBox(height: 15),
-                  CustomTextForm(prefixIcon: Icon(Icons.food_bank_outlined), hintText: "Bank Details (Optional)"),
+                  CustomTextForm(
+                      prefixIcon: Icon(Icons.how_to_reg),
+                      hintText: "Shop Registration Proof"),
+                  // SizedBox(height: 15),
+                  // CustomTextForm(
+                  //     prefixIcon: Icon(Icons.food_bank_outlined),
+                  //     hintText: "Bank Details (Optional)"),
                   SizedBox(height: 10),
                   SizedBox(height: 30),
                 ],
@@ -170,7 +304,8 @@ class _Shop_SignupState extends State<Shop_Signup> {
                     MaterialPageRoute(builder: (context) => ShopLogin()),
                   );
                 },
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
                 child: Text(
                   "Sign Up",
                   style: TextStyle(

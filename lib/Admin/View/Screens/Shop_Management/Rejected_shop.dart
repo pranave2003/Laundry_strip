@@ -62,7 +62,7 @@ class _RejectedShopState extends State<RejectedShop> {
                     Text(
                       "Hello !",
                       style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "Cheers and happy activities",
@@ -76,8 +76,8 @@ class _RejectedShopState extends State<RejectedShop> {
                     Container(
                       height: 40,
                       width: 400,
-                      decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(18)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18)),
                       child: TextField(
                         decoration: InputDecoration(
                           filled: true,
@@ -135,82 +135,100 @@ class _RejectedShopState extends State<RejectedShop> {
           Expanded(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
-              child: ConstrainedBox(
-                constraints:
-                BoxConstraints(minWidth: MediaQuery.of(context).size.width),
-                child: DataTable(
-                  columns: [
-                    _buildColumn("SI No"),
-                    _buildColumn("Shop Name"),
-                    _buildColumn("Register Date"),
-                    _buildColumn("Email"),
-                    _buildColumn("Phone"),
-                    _buildColumn("Status"),
-                    _buildColumn("Action"),
-                  ],
-                  rows: List.generate(
-                    laundryShops.length,
-                        (index) {
-                      final shop = laundryShops[index];
-                      return DataRow(
-                        cells: [
-                          DataCell(Text((index + 1).toString(),
-                              style: TextStyle(fontWeight: FontWeight.bold))),
-                          DataCell(Text(shop["shopName"])),
-                          DataCell(Text(shop["registerDate"])),
-                          DataCell(Text(shop["email"])),
-                          DataCell(Text(shop["phone"])),
-                          DataCell(
-                            Row(
-                              children: [
-                                OutlinedButton.icon(
-                                  onPressed: () {
-                                    updateStatus(index, "Accepted");
-                                  },
-                                  style: OutlinedButton.styleFrom(
-                                    side: BorderSide(color: Colors.red, width: 2), // Green border
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6), // Adjust padding
-                                    backgroundColor: Colors.white, // Ensure background is white
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                      minWidth: MediaQuery.of(context).size.width),
+                  child: DataTable(
+                    columns: [
+                      _buildColumn("SI No"),
+                      _buildColumn("Shop Name"),
+                      _buildColumn("Register Date"),
+                      _buildColumn("Email"),
+                      _buildColumn("Phone"),
+                      _buildColumn("Status"),
+                      _buildColumn("Action"),
+                    ],
+                    rows: List.generate(
+                      laundryShops.length,
+                      (index) {
+                        final shop = laundryShops[index];
+                        return DataRow(
+                          cells: [
+                            DataCell(Text((index + 1).toString(),
+                                style: TextStyle(fontWeight: FontWeight.bold))),
+                            DataCell(Text(shop["shopName"])),
+                            DataCell(Text(shop["registerDate"])),
+                            DataCell(Text(shop["email"])),
+                            DataCell(Text(shop["phone"])),
+                            DataCell(
+                              Row(
+                                children: [
+                                  OutlinedButton.icon(
+                                    onPressed: () {
+                                      updateStatus(index, "Accepted");
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                      side: BorderSide(
+                                          color: Colors.red,
+                                          width: 2), // Green border
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 12,
+                                          vertical: 6), // Adjust padding
+                                      backgroundColor: Colors
+                                          .white, // Ensure background is white
+                                    ),
+                                    icon: Icon(Icons.verified,
+                                        color: Colors.red,
+                                        size: 20), // Green verified icon
+                                    label: Text(
+                                      "Rejected",
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
-                                  icon: Icon(Icons.verified, color: Colors.red, size: 20), // Green verified icon
-                                  label: Text(
-                                    "Rejected",
-                                    style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                              ],
+                                  const SizedBox(width: 8),
+                                ],
+                              ),
                             ),
-                          ),
-
-
-
-                          DataCell(
-                            IconButton(
-                              icon: Icon(Icons.visibility, color: Colors.blueGrey),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-
-                                    return ShopDetailsDialog(
-                                      shopName: laundryShops[index]["shopName"] ?? "N/A",
-                                      laundryCapacity: laundryShops[index]['laundryCapacity'] ?? "N/A",
-                                      address: laundryShops[index]['address'] ?? "N/A",
-                                      email: laundryShops[index]["email"] ?? "N/A",
-                                      phone: laundryShops[index]["phone"] ?? "N/A",
-                                    );
-                                  },
-                                );
-                              },
+                            DataCell(
+                              IconButton(
+                                icon: Icon(Icons.visibility,
+                                    color: Colors.blueGrey),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return ShopDetailsDialog(
+                                        shopName: laundryShops[index]
+                                                ["shopName"] ??
+                                            "N/A",
+                                        laundryCapacity: laundryShops[index]
+                                                ['laundryCapacity'] ??
+                                            "N/A",
+                                        address: laundryShops[index]
+                                                ['address'] ??
+                                            "N/A",
+                                        email: laundryShops[index]["email"] ??
+                                            "N/A",
+                                        phone: laundryShops[index]["phone"] ??
+                                            "N/A",
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-
-
-                        ],
-                      );
-                    },
+                          ],
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),

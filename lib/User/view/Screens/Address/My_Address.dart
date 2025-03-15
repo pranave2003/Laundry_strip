@@ -11,7 +11,6 @@ class AddressesPage extends StatefulWidget {
 class _AddressesPageState extends State<AddressesPage> {
   List<Map<String, String>> addresses = [
     {"address": "2GQ9+988, Jalahalli Cross Rd, Peenya, Bengaluru", "tag": "Home"},
-    {"address": "123 MG Road, Indiranagar, Bengaluru", "tag": "Office"}
   ]; // Initial dummy addresses
   int selectedIndex = 0; // Track selected radio button
 
@@ -123,17 +122,17 @@ class _AddressesPageState extends State<AddressesPage> {
                                 child: Text("Edit", style: TextStyle(color: Colors.green)),
                               ),
                               SizedBox(width: 30),
-                              OutlinedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    addresses.removeAt(index);
-                                  });
-                                },
-                                style: OutlinedButton.styleFrom(
-                                  side: BorderSide(color: Colors.red),
-                                ),
-                                child: Text("Delete", style: TextStyle(color: Colors.red)),
-                              ),
+                              // OutlinedButton(
+                              //   onPressed: () {
+                              //     setState(() {
+                              //       addresses.removeAt(index);
+                              //     });
+                              //   },
+                              //   style: OutlinedButton.styleFrom(
+                              //     side: BorderSide(color: Colors.red),
+                              //   ),
+                              //   child: Text("Delete", style: TextStyle(color: Colors.red)),
+                              // ),
                             ],
                           ),
                         ],

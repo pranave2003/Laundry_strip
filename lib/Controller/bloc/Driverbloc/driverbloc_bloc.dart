@@ -19,7 +19,7 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
     emit(DriverLoading());
     try {
       await firestore.collection("drivers").doc(event.id).delete();
-      add(FetchDrivers(status: true, searchQuery: "null"));
+      add(FetchDrivers(status: true, searchQuery: null));
     } catch (e) {
       emit(DriverFailure(e.toString()));
     }

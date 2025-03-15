@@ -1,28 +1,22 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:laundry/Admin/View/Screens/Service_Managment/Service_Category/Edit_Category.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Admin/View/Screens/Shop_Management/All_shop.dart';
 import 'package:laundry/Admin/View/Screens/User_Management/All_Users.dart';
+import '../../../Controller/bloc/Driverbloc/driverbloc_bloc.dart';
+import '../../../Controller/bloc/Driverbloc/driverbloc_event.dart';
 import '../../../Widget/constands/colors.dart';
-import '../../Testt.dart';
+import '../../../firebase_options.dart';
 import '../Screens/Dashboard/DasgboardMain.dart';
 import '../Screens/Driver_Management/All_driver.dart';
 import '../Screens/Order_management/All_orders.dart';
 import '../Screens/Order_management/Assign_order.dart';
 import '../Screens/Revenue/Reports.dart';
-import '../Screens/Service_Managment/Material_type/Add_bag_material.dart';
-import '../Screens/Service_Managment/Material_type/Add_cloth_material.dart';
-import '../Screens/Service_Managment/Material_type/Add_shoe_material.dart';
 import '../Screens/Service_Managment/Material_type/Cloth_material.dart';
 import '../Screens/Service_Managment/Material_type/Bag_material.dart';
-import '../Screens/Service_Managment/Material_type/Edit_bag_material.dart';
-import '../Screens/Service_Managment/Material_type/Edit_cloth_material.dart';
-import '../Screens/Service_Managment/Material_type/Edit_shoe_material.dart';
 import '../Screens/Service_Managment/Material_type/Shoe_material.dart';
-import '../Screens/Service_Managment/Service_Category/Add_Category.dart';
 import '../Screens/Service_Managment/Service_Category/View_Category.dart';
-import '../Screens/Service_Managment/Servicetype/Edit_Service.dart';
-import '../Screens/Service_Managment/Servicetype/Service_Add.dart';
 import '../Screens/Service_Managment/Servicetype/Service_type.dart';
 import '../Screens/Service_Managment/Special_instruction/Bag_Instructions.dart';
 import '../Screens/Service_Managment/Special_instruction/Cloth_Instructions.dart';
@@ -30,7 +24,11 @@ import '../Screens/Service_Managment/Special_instruction/Shoe_Instructions.dart'
 import '../Screens/Shop_Management/Accepted_shop.dart';
 import '../Screens/Shop_Management/Rejected_shop.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -40,14 +38,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<DriverblocBloc>(
+          create: (context) => DriverblocBloc()
+            ..add(FetchDrivers(status: true, searchQuery: null)),
         ),
-        home: AdminPage());
+      ],
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+          home: AdminPage()),
+    );
   }
 }
 
@@ -91,7 +97,6 @@ class _AdminPageState extends State<AdminPage> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(5),
-
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -109,14 +114,17 @@ class _AdminPageState extends State<AdminPage> {
                             "Welcome to,",
                             style: TextStyle(fontSize: 13, color: Colors.black),
                           ),
-                          Row(children: [Text(
-                            "Laundry Mate",
-                            style: TextStyle(
-                                fontSize: 28,
-                                color: Secondary,
-                                fontWeight: FontWeight.bold),
-                          ),],)
-
+                          Row(
+                            children: [
+                              Text(
+                                "Laundry Mate",
+                                style: TextStyle(
+                                    fontSize: 28,
+                                    color: Secondary,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          )
                         ],
                       )
                     ],
@@ -136,32 +144,26 @@ class _AdminPageState extends State<AdminPage> {
                         'View Services',
                         const ServiceType(),
                       ),
-
                     ]),
                     _buildESubxpansion(title: " Service Category", children: [
                       _buildSubListTile(
                         'View Category',
                         const ServiceCategory(),
                       ),
-
                     ]),
                     _buildESubxpansion(title: "Material Types", children: [
                       _buildSubListTile(
                         'Cloth Material',
                         const ClothMaterial(),
                       ),
-
                       _buildSubListTile(
                         'Shoes Material',
                         const ShoeMaterial(),
                       ),
-
                       _buildSubListTile(
                         'Bag Material',
                         const BagMaterial(),
                       ),
-
-
                     ]),
                     _buildESubxpansion(
                         title: "Special Instructions",
@@ -192,7 +194,7 @@ class _AdminPageState extends State<AdminPage> {
                     ),
                     SubListTile(
                       'Assign Order',
-                       AssignOrderPage(),
+                      AssignOrderPage(),
                     ),
                     // SubListTile(
                     //     ' Order',
@@ -206,7 +208,7 @@ class _AdminPageState extends State<AdminPage> {
                   children: [
                     SubListTile(
                       'All Driver',
-                       AllDriversPage(),
+                      AllDriversPage(),
                     ),
                   ],
                 ),

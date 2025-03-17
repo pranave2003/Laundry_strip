@@ -127,45 +127,150 @@ class _ServiceEditState extends State<ServiceEdit> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [SizedBox(height: 40,),
                 /// **Service Image Field (Text & Input in Same Line)**
+                // Row(
+                //   children: [
+                //     /// **Label**
+                //     SizedBox(
+                //       width: 120,
+                //       child: Text(
+                //         "Service Image",
+                //         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                //       ),
+                //     ),
+                //     SizedBox(width: 10),
+                //
+                //     /// **Image Upload Field (With Icon & Browse Button Inside)**
+                //     Expanded(
+                //       child: TextField(
+                //         readOnly: true,
+                //         decoration: InputDecoration(
+                //           border: OutlineInputBorder(),
+                //           hintText: imagePath ?? "Service Image",
+                //           prefixIcon: Icon(Icons.image, color: Colors.grey), // Image Icon
+                //           suffixIcon: TextButton(
+                //             onPressed: () {
+                //               // TODO: Implement file picker
+                //             },
+                //             style: TextButton.styleFrom(
+                //               backgroundColor: Colors.grey.shade300,
+                //               padding: EdgeInsets.symmetric(horizontal: 20),
+                //             ),
+                //             child: Text(
+                //               "Browse",
+                //               style: TextStyle(color: Colors.black),
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 Row(
                   children: [
-                    /// **Label**
                     SizedBox(
-                      width: 120,
-                      child: Text(
-                        "Service Image",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                        width: 120,
+                        child: Text("Service Image",
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
                     SizedBox(width: 10),
-
-                    /// **Image Upload Field (With Icon & Browse Button Inside)**
                     Expanded(
-                      child: TextField(
-                        readOnly: true,
+                      child: DropdownButtonFormField<String>(
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          hintText: imagePath ?? "Service Image",
-                          prefixIcon: Icon(Icons.image, color: Colors.grey), // Image Icon
-                          suffixIcon: TextButton(
-                            onPressed: () {
-                              // TODO: Implement file picker
-                            },
-                            style: TextButton.styleFrom(
-                              backgroundColor: Colors.grey.shade300,
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                            ),
-                            child: Text(
-                              "Browse",
-                              style: TextStyle(color: Colors.black),
+                          hintText: 'Select Service Image',
+                        ),
+                        value: imagePath, // The current selected value (you'll need to define `imagePath` somewhere)
+                        onChanged: (String? newValue) {
+                          // Handle the image change here
+                          setState(() {
+                            imagePath = newValue;
+                          });
+                        },
+                        items: [
+                          DropdownMenuItem(
+                            value: 'assets/icon/wash_fold.png',
+                            child: Row(
+                              children: [
+                                Image.asset('assets/icon/wash_fold.png', width: 30, height: 30),
+                                SizedBox(width: 20),
+                                //Text('T-Shirt'),
+                              ],
                             ),
                           ),
-                        ),
+                          DropdownMenuItem(
+                            value: 'assets/icon/wash_iron.png',
+                            child: Row(
+                              children: [
+                                Image.asset('assets/icon/wash_iron.png', width: 30, height: 30),
+                                SizedBox(width: 20),
+                                //Text('Shirt'),
+                              ],
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: 'assets/icon/steam_iron.png',
+                            child: Row(
+                              children: [
+                                Image.asset('assets/icon/steam_iron.png', width: 30, height: 30),
+                                SizedBox(width: 20),
+                                //Text('Jacket'),
+                              ],
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: 'assets/icon/dry_clean.png',
+                            child: Row(
+                              children: [
+                                Image.asset('assets/icon/dry_clean.png', width: 30, height: 30),
+                                SizedBox(width: 20),
+                                //Text('Shirt'),
+                              ],
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: 'assets/icon/stain_removal.png',
+                            child: Row(
+                              children: [
+                                Image.asset('assets/icon/stain_removal.png', width: 30, height: 30),
+                                SizedBox(width: 20),
+                                //Text('Shirt'),
+                              ],
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: 'assets/icon/bag_service.png',
+                            child: Row(
+                              children: [
+                                Image.asset('assets/icon/bag_service.png', width: 30, height: 30),
+                                SizedBox(width: 20),
+                                //Text('Shirt'),
+                              ],
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: 'assets/icon/shoe_service.png',
+                            child: Row(
+                              children: [
+                                Image.asset('assets/icon/shoe_service.png', width: 30, height: 30),
+                                SizedBox(width: 20),
+                                //Text('Shirt'),
+                              ],
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: 'assets/icon/household_service.png',
+                            child: Row(
+                              children: [
+                                Image.asset('assets/icon/household_service.png', width: 30, height: 30),
+                                SizedBox(width: 20),
+                                //Text('Shirt'),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
-
                 SizedBox(height: 20),
 
                 /// **Service Name Field (Text & Input in Same Line)**

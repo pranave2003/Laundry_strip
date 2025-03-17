@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../Model/Order_Model/Order_model.dart';
 
-
-
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
 
@@ -15,9 +13,27 @@ class _OrdersPageState extends State<OrdersPage> {
   String selectedFilter = "All";
 
   final List<Order> orders = [
-    Order(orderId: "1A2", name: "Amal", orderedDate: "03 Jan 2025", pickupDate: "03 Jan 2025", deliveryDate: "03 Jan 2025", status: "In Progress"),
-    Order(orderId: "2V4", name: "Arun", orderedDate: "05 Jan 2025", pickupDate: "05 Jan 2025", deliveryDate: "05 Jan 2025", status: "Cancelled"),
-    Order(orderId: "3G1", name: "Pooja", orderedDate: "08 Jan 2025", pickupDate: "08 Jan 2025", deliveryDate: "08 Jan 2025", status: "Delivered"),
+    Order(
+        orderId: "1A2",
+        name: "Amal",
+        orderedDate: "03 Jan 2025",
+        pickupDate: "03 Jan 2025",
+        deliveryDate: "03 Jan 2025",
+        status: "In Progress"),
+    Order(
+        orderId: "2V4",
+        name: "Arun",
+        orderedDate: "05 Jan 2025",
+        pickupDate: "05 Jan 2025",
+        deliveryDate: "05 Jan 2025",
+        status: "Cancelled"),
+    Order(
+        orderId: "3G1",
+        name: "Pooja",
+        orderedDate: "08 Jan 2025",
+        pickupDate: "08 Jan 2025",
+        deliveryDate: "08 Jan 2025",
+        status: "Delivered"),
   ];
 
   @override
@@ -39,8 +55,8 @@ class _OrdersPageState extends State<OrdersPage> {
                     children: [
                       Text(
                         "Hello !",
-                        style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         "Cheers and Happy Activities ",
@@ -56,8 +72,8 @@ class _OrdersPageState extends State<OrdersPage> {
                     Container(
                       height: 40,
                       width: 400,
-                      decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(18)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18)),
                       child: TextField(
                         decoration: InputDecoration(
                           filled: true,
@@ -71,8 +87,8 @@ class _OrdersPageState extends State<OrdersPage> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
-                            borderSide:
-                            BorderSide(color: Theme.of(context).primaryColor),
+                            borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                             vertical: 5,
@@ -99,7 +115,8 @@ class _OrdersPageState extends State<OrdersPage> {
                       child: CircleAvatar(
                         backgroundColor: Color(0xffD9D9D9),
                         child: IconButton(
-                            onPressed: () {}, icon: Icon(Icons.notification_add)),
+                            onPressed: () {},
+                            icon: Icon(Icons.notification_add)),
                       ),
                     )
                   ],
@@ -109,7 +126,6 @@ class _OrdersPageState extends State<OrdersPage> {
             SizedBox(
               height: 35,
             ),
-
             const Text(
               "Orders",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -131,41 +147,63 @@ class _OrdersPageState extends State<OrdersPage> {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: ConstrainedBox(
-                    constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width),
+                    constraints: BoxConstraints(
+                        minWidth: MediaQuery.of(context).size.width),
                     child: DataTable(
                       columnSpacing: 10,
                       columns: const [
-                        DataColumn(label: Text("SI/NO", style: TextStyle(fontWeight: FontWeight.bold))),
-                        DataColumn(label: Text("Order Id", style: TextStyle(fontWeight: FontWeight.bold))),
-                        DataColumn(label: Text("Name", style: TextStyle(fontWeight: FontWeight.bold))),
-                        DataColumn(label: Text("Ordered Date", style: TextStyle(fontWeight: FontWeight.bold))),
-                        DataColumn(label: Text("Pickup Date", style: TextStyle(fontWeight: FontWeight.bold))),
-                        DataColumn(label: Text("Delivery Date", style: TextStyle(fontWeight: FontWeight.bold))),
-                        DataColumn(label: Text("Status", style: TextStyle(fontWeight: FontWeight.bold))),
+                        DataColumn(
+                            label: Text("SI/NO",
+                                style: TextStyle(fontWeight: FontWeight.bold))),
+                        DataColumn(
+                            label: Text("Order Id",
+                                style: TextStyle(fontWeight: FontWeight.bold))),
+                        DataColumn(
+                            label: Text("Name",
+                                style: TextStyle(fontWeight: FontWeight.bold))),
+                        DataColumn(
+                            label: Text("Ordered Date",
+                                style: TextStyle(fontWeight: FontWeight.bold))),
+                        DataColumn(
+                            label: Text("Pickup Date",
+                                style: TextStyle(fontWeight: FontWeight.bold))),
+                        DataColumn(
+                            label: Text("Delivery Date",
+                                style: TextStyle(fontWeight: FontWeight.bold))),
+                        DataColumn(
+                            label: Text("Status",
+                                style: TextStyle(fontWeight: FontWeight.bold))),
                       ],
                       rows: orders
-                          .where((order) => selectedFilter == "All" || order.status == selectedFilter)
+                          .where((order) =>
+                              selectedFilter == "All" ||
+                              order.status == selectedFilter)
                           .map((order) => DataRow(cells: [
-                        DataCell(Text((orders.indexOf(order) + 1).toString())),
-                        DataCell(Text(order.orderId)),
-                        DataCell(Text(order.name)),
-                        DataCell(Text(order.orderedDate)),
-                        DataCell(Text(order.pickupDate)),
-                        DataCell(Text(order.deliveryDate)),
-                        DataCell(
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: _getStatusColor(order.status),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              order.status,
-                              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
-                            ),
-                          ),
-                        ),
-                      ]))
+                                DataCell(Text(
+                                    (orders.indexOf(order) + 1).toString())),
+                                DataCell(Text(order.orderId)),
+                                DataCell(Text(order.name)),
+                                DataCell(Text(order.orderedDate)),
+                                DataCell(Text(order.pickupDate)),
+                                DataCell(Text(order.deliveryDate)),
+                                DataCell(
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 6, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: _getStatusColor(order.status),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Text(
+                                      order.status,
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14),
+                                    ),
+                                  ),
+                                ),
+                              ]))
                           .toList(),
                     ),
                   ),
@@ -189,11 +227,15 @@ class _OrdersPageState extends State<OrdersPage> {
             });
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: selectedFilter == title ? Colors.blue : Colors.grey.shade300,
-            foregroundColor: selectedFilter == title ? Colors.white : Colors.black,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            backgroundColor:
+                selectedFilter == title ? Colors.blue : Colors.grey.shade300,
+            foregroundColor:
+                selectedFilter == title ? Colors.white : Colors.black,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             padding: const EdgeInsets.symmetric(vertical: 14),
-            textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            textStyle:
+                const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           child: Text(title, textAlign: TextAlign.center),
         ),

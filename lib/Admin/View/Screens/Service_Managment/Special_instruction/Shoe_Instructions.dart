@@ -21,31 +21,25 @@ class _ShoesInstructionsState extends State<ShoesInstructions> {
 
     Shoes_instruction(
         Id: "",
-        All_Materials: "Leather"),
+        All_Materials: "Cleaning"),
     Shoes_instruction(
         Id: "",
-        All_Materials: "Canvas"),
+        All_Materials: "Conditioning"),
     Shoes_instruction(
         Id: "",
-        All_Materials: "Nylon"),
+        All_Materials: "Polishing"),
     Shoes_instruction(
         Id: "",
-        All_Materials: "Polyster"),
+        All_Materials: "Deodorizing"),
     Shoes_instruction(
         Id: "",
-        All_Materials: "Wool"),
+        All_Materials: "Odor Control"),
     Shoes_instruction(
         Id: "",
-        All_Materials: "Jute"),
+        All_Materials: "Deep Cleaning"),
     Shoes_instruction(
         Id: "",
-        All_Materials: "Denim"),
-    Shoes_instruction(
-        Id: "",
-        All_Materials: "Satin"),
-    Shoes_instruction(
-        Id: "",
-        All_Materials: "Synthetic Leather"),
+        All_Materials: "Do not Soak"),
 
   ];
 

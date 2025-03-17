@@ -47,50 +47,50 @@ class _AssignOrderPageState extends State<AssignOrderPage> {
             }
           ],
         },
-        {
-          "name": "Quick Clean",
-          "owner": "Sarah Lee",
-          "location": "Uptown",
-          "contact": "789-123-4560",
-          "image": "assets/shop_img/img2.png",
-          "services": ["Household", "Dry Clean"],
-          "products": [
-            {
-              "productName": "Carpet",
-              "price": 10.0,
-              "image": "assets/Dress/carpet.png",
-              "serviceName": "Household",
-            },
-            {
-              "productName": "T-shirt",
-              "price": 12.0,
-              "image": "assets/Dress/t-shirt.png",
-              "serviceName": "Dry Clean",
-            }
-          ],
-        },
-        {
-          "name": "Fresh Laundry",
-          "owner": "Emma Wilson",
-          "location": "Midtown",
-          "contact": "654-987-3210",
-          "image": "assets/shop_img/img3.png",
-          "services": ["Steam Iron", "Dry Clean"],
-          "products": [
-            {
-              "productName": "Frock",
-              "price": 8.0,
-              "image": "assets/Dress/frock.png",
-              "serviceName": "Steam Iron",
-            },
-            {
-              "productName": "Gown",
-              "price": 6.0,
-              "image": "assets/Dress/wmgown.png",
-              "serviceName": "Dry Clean",
-            }
-          ],
-        }
+        // {
+        //   "name": "Quick Clean",
+        //   "owner": "Sarah Lee",
+        //   "location": "Uptown",
+        //   "contact": "789-123-4560",
+        //   "image": "assets/shop_img/img2.png",
+        //   "services": ["Household", "Dry Clean"],
+        //   "products": [
+        //     {
+        //       "productName": "Carpet",
+        //       "price": 10.0,
+        //       "image": "assets/Dress/carpet.png",
+        //       "serviceName": "Household",
+        //     },
+        //     {
+        //       "productName": "T-shirt",
+        //       "price": 12.0,
+        //       "image": "assets/Dress/t-shirt.png",
+        //       "serviceName": "Dry Clean",
+        //     }
+        //   ],
+        // },
+        // {
+        //   "name": "Fresh Laundry",
+        //   "owner": "Emma Wilson",
+        //   "location": "Midtown",
+        //   "contact": "654-987-3210",
+        //   "image": "assets/shop_img/img3.png",
+        //   "services": ["Steam Iron", "Dry Clean"],
+        //   "products": [
+        //     {
+        //       "productName": "Frock",
+        //       "price": 8.0,
+        //       "image": "assets/Dress/frock.png",
+        //       "serviceName": "Steam Iron",
+        //     },
+        //     {
+        //       "productName": "Gown",
+        //       "price": 6.0,
+        //       "image": "assets/Dress/wmgown.png",
+        //       "serviceName": "Dry Clean",
+        //     }
+        //   ],
+        // }
       ]
     },
     {
@@ -155,50 +155,50 @@ class _AssignOrderPageState extends State<AssignOrderPage> {
             }
           ],
         },
-        {
-          "name": "Quick Clean",
-          "owner": "Sarah Lee",
-          "location": "Uptown",
-          "contact": "789-123-4560",
-          "image": "assets/shop_img/img2.png",
-          "services": ["Household", "Dry Clean"],
-          "products": [
-            {
-              "productName": "Carpet",
-              "price": 10.0,
-              "image": "assets/Dress/carpet.png",
-              "serviceName": "Household",
-            },
-            {
-              "productName": "T-shirt",
-              "price": 12.0,
-              "image": "assets/Dress/t-shirt.png",
-              "serviceName": "Dry Clean",
-            }
-          ],
-        },
-        {
-          "name": "Fresh Laundry",
-          "owner": "Emma Wilson",
-          "location": "Midtown",
-          "contact": "654-987-3210",
-          "image": "assets/shop_img/img3.png",
-          "services": ["Steam Iron", "Dry Clean"],
-          "products": [
-            {
-              "productName": "Frock",
-              "price": 8.0,
-              "image": "assets/Dress/frock.png",
-              "serviceName": "Steam Iron",
-            },
-            {
-              "productName": "Gown",
-              "price": 6.0,
-              "image": "assets/Dress/wmgown.png",
-              "serviceName": "Dry Clean",
-            }
-          ],
-        }
+        // {
+        //   "name": "Quick Clean",
+        //   "owner": "Sarah Lee",
+        //   "location": "Uptown",
+        //   "contact": "789-123-4560",
+        //   "image": "assets/shop_img/img2.png",
+        //   "services": ["Household", "Dry Clean"],
+        //   "products": [
+        //     {
+        //       "productName": "Carpet",
+        //       "price": 10.0,
+        //       "image": "assets/Dress/carpet.png",
+        //       "serviceName": "Household",
+        //     },
+        //     {
+        //       "productName": "T-shirt",
+        //       "price": 12.0,
+        //       "image": "assets/Dress/t-shirt.png",
+        //       "serviceName": "Dry Clean",
+        //     }
+        //   ],
+        // },
+        // {
+        //   "name": "Fresh Laundry",
+        //   "owner": "Emma Wilson",
+        //   "location": "Midtown",
+        //   "contact": "654-987-3210",
+        //   "image": "assets/shop_img/img3.png",
+        //   "services": ["Steam Iron", "Dry Clean"],
+        //   "products": [
+        //     {
+        //       "productName": "Frock",
+        //       "price": 8.0,
+        //       "image": "assets/Dress/frock.png",
+        //       "serviceName": "Steam Iron",
+        //     },
+        //     {
+        //       "productName": "Gown",
+        //       "price": 6.0,
+        //       "image": "assets/Dress/wmgown.png",
+        //       "serviceName": "Dry Clean",
+        //     }
+        //   ],
+        // }
       ]
     },
     {

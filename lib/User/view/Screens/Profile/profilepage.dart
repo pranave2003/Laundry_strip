@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 
 import '../Address/My_Address.dart';
 import '../Bottom_navigation/btm_navigation.dart';
+import 'AboutUs.dart';
+import 'ContactUs.dart';
 import 'Edit_profile.dart';
+import 'PrivacyPolicy.dart';
+import 'TermsPage.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -95,7 +99,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 _buildProfileOption(Icons.info_outline, "About Us", context, AboutUsPage()),
                 _buildProfileOption(Icons.phone, "Contact Us", context, ContactUsPage()),
                 _buildProfileOption(Icons.chat_bubble_outline_rounded, "Chat With Us", context, ChatPage()),
-                _buildProfileOption(Icons.rule, "Terms & Conditions", context, TermsPage()),
+                _buildProfileOption(Icons.rule, "Terms & Conditions", context, TermsAndConditionsPage()),
                 _buildProfileOption(Icons.privacy_tip, "Privacy Policies", context, PrivacyPolicyPage()),
                 _buildProfileOption(Icons.delete, "Remove Account", context, null, isDestructive: true, showArrow: false),
                 _buildProfileOption(Icons.logout, "Logout", context, null, isDestructive: true, showArrow: false),
@@ -154,25 +158,25 @@ class _ProfilePageState extends State<ProfilePage> {
 // Dummy Pages for Navigation
 
 
-class AboutUsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("About Us")),
-      body: Center(child: Text("About Us Page")),
-    );
-  }
-}
+// class AboutUsPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: Text("About Us")),
+//       body: Center(child: Text("About Us Page")),
+//     );
+//   }
+// }
 
-class ContactUsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Contact Us")),
-      body: Center(child: Text("Contact Us Page")),
-    );
-  }
-}
+// class ContactUsPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: Text("Contact Us")),
+//       body: Center(child: Text("Contact Us Page")),
+//     );
+//   }
+// }
 
 class ChatPage extends StatelessWidget {
   @override
@@ -194,12 +198,12 @@ class TermsPage extends StatelessWidget {
   }
 }
 
-class PrivacyPolicyPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Privacy Policies")),
-      body: Center(child: Text("Privacy Policy Page")),
-    );
-  }
-}
+// class PrivacyPolicyPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: Text("Privacy Policies")),
+//       body: Center(child: Text("Privacy Policy Page")),
+//     );
+//   }
+// }

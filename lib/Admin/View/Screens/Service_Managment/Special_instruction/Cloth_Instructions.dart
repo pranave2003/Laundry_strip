@@ -24,31 +24,31 @@ class _ClothInstructionsState extends State<ClothInstructions> {
 
     Cloth_instruction(
         Id: "",
-        All_Materials: "Leather"),
+        All_Materials: "Wash Separately"),
     Cloth_instruction(
         Id: "",
-        All_Materials: "Canvas"),
+        All_Materials: "Machine Wash Cold"),
     Cloth_instruction(
         Id: "",
-        All_Materials: "Nylon"),
+        All_Materials: "Hand Wash"),
     Cloth_instruction(
         Id: "",
-        All_Materials: "Polyster"),
+        All_Materials: "Use Mild Detergent"),
     Cloth_instruction(
         Id: "",
-        All_Materials: "Wool"),
+        All_Materials: "Do not Bleach"),
     Cloth_instruction(
         Id: "",
-        All_Materials: "Jute"),
+        All_Materials: "Do Not Wring"),
     Cloth_instruction(
         Id: "",
-        All_Materials: "Denim"),
+        All_Materials: "Do not Tumple Dry"),
     Cloth_instruction(
         Id: "",
-        All_Materials: "Satin"),
+        All_Materials: "Hang Dry in Shade"),
     Cloth_instruction(
         Id: "",
-        All_Materials: "Synthetic Leather"),
+        All_Materials: " Do not Soak"),
 
   ];
 

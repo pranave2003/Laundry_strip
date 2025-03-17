@@ -17,7 +17,7 @@ class ScanQr extends StatelessWidget {
             image: AssetImage('assets/background.png'), // Replace with your background image
             fit: BoxFit.cover,
           ),
-        ),
+       ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -29,12 +29,12 @@ class ScanQr extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            const SizedBox(height: 20),
-            Image.asset(
-              'assets/Scan.png',
-              width: 100,
-              height: 100,
-            ),
+            // const SizedBox(height: 20),
+            // Image.asset(
+            //   'assets/Scan.png',
+            //   width: 100,
+            //   height: 100,
+            // ),
             const SizedBox(height: 20),
             SizedBox(
               width: 150,

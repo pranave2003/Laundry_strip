@@ -15,7 +15,14 @@ class _CategoryEditState extends State<CategoryEdit> {
   String? selectedServiceType;
   String? selectedCategory;
 
-  List<String> serviceTypes = ["Dry Cleaning", "Ironing", "Washing"];
+  List<String> serviceTypes = ["Wash +\nFold",
+    "Wash +\nIron",
+    "Steam\nIron",
+    "Dry\nClean",
+    "Bag\nServices",
+    "Shoe Service",
+    "Household Services",
+    "Stain Removal"];
   List<String> categories = ["Men", "Women", "Kids","Household"];
 
   @override
@@ -127,25 +134,82 @@ class _CategoryEditState extends State<CategoryEdit> {
                 SizedBox(height: 20),
 
                 /// **Product Image Upload Field**
+                // Row(
+                //   children: [
+                //     SizedBox(width: 120, child: Text("Product Image", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
+                //     SizedBox(width: 10),
+                //     Expanded(
+                //       child: TextField(
+                //         readOnly: true,
+                //         decoration: InputDecoration(
+                //           border: OutlineInputBorder(),
+                //           hintText: imagePath ?? "Product Image",
+                //           prefixIcon: Icon(Icons.image, color: Colors.grey),
+                //           suffixIcon: TextButton(
+                //             onPressed: () {
+                //               // TODO: Implement file picker
+                //             },
+                //             style: TextButton.styleFrom(backgroundColor: Colors.grey.shade300, padding: EdgeInsets.symmetric(horizontal: 20)),
+                //             child: Text("Browse", style: TextStyle(color: Colors.black)),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+
                 Row(
                   children: [
-                    SizedBox(width: 120, child: Text("Product Image", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
+                    SizedBox(
+                        width: 120,
+                        child: Text("Product Image",
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
                     SizedBox(width: 10),
                     Expanded(
-                      child: TextField(
-                        readOnly: true,
+                      child: DropdownButtonFormField<String>(
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          hintText: imagePath ?? "Product Image",
-                          prefixIcon: Icon(Icons.image, color: Colors.grey),
-                          suffixIcon: TextButton(
-                            onPressed: () {
-                              // TODO: Implement file picker
-                            },
-                            style: TextButton.styleFrom(backgroundColor: Colors.grey.shade300, padding: EdgeInsets.symmetric(horizontal: 20)),
-                            child: Text("Browse", style: TextStyle(color: Colors.black)),
-                          ),
+                          hintText: 'Select Product Image',
                         ),
+                        value: imagePath, // The current selected value (you'll need to define `imagePath` somewhere)
+                        onChanged: (String? newValue) {
+                          // Handle the image change here
+                          setState(() {
+                            imagePath = newValue;
+                          });
+                        },
+                        items: [
+                          DropdownMenuItem(
+                            value: 'assets/Dress/t-shirt.png',
+                            child: Row(
+                              children: [
+                                Image.asset('assets/Dress/t-shirt.png', width: 30, height: 30),
+                                SizedBox(width: 20),
+                                //Text('T-Shirt'),
+                              ],
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: 'assets/Dress/shirt.png',
+                            child: Row(
+                              children: [
+                                Image.asset('assets/Dress/shirt.png', width: 30, height: 30),
+                                SizedBox(width: 20),
+                                //Text('Shirt'),
+                              ],
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: 'assets/Dress/jacket.png',
+                            child: Row(
+                              children: [
+                                Image.asset('assets/Dress/jacket.png', width: 30, height: 30),
+                                SizedBox(width: 20),
+                                //Text('Jacket'),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],

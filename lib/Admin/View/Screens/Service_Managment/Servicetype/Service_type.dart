@@ -142,46 +142,46 @@ class _ServiceTypeState extends State<ServiceType> {
                   "Service Type",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
-                Row(
-                  children: [
-
-                    const SizedBox(width: 10), // Add some spacing
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(backgroundColor: Colors.white,
-                              content: SizedBox(
-                                width: 700, height: 400,
-                                child: ServiceAdd(),
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop(); // Close dialog
-                                  },
-                                  child: Text("Cancel"),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: defaultColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      icon: Icon(Icons.add, color: Colors.white),
-                      label: Text(
-                        "Add",
-                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //
+                //     const SizedBox(width: 10), // Add some spacing
+                //     ElevatedButton.icon(
+                //       onPressed: () {
+                //         showDialog(
+                //           context: context,
+                //           builder: (context) {
+                //             return AlertDialog(backgroundColor: Colors.white,
+                //               content: SizedBox(
+                //                 width: 700, height: 400,
+                //                 child: ServiceAdd(),
+                //               ),
+                //               actions: [
+                //                 TextButton(
+                //                   onPressed: () {
+                //                     Navigator.of(context).pop(); // Close dialog
+                //                   },
+                //                   child: Text("Cancel"),
+                //                 ),
+                //               ],
+                //             );
+                //           },
+                //         );
+                //       },
+                //       style: ElevatedButton.styleFrom(
+                //         backgroundColor: defaultColor,
+                //         shape: RoundedRectangleBorder(
+                //           borderRadius: BorderRadius.circular(8),
+                //         ),
+                //       ),
+                //       icon: Icon(Icons.add, color: Colors.white),
+                //       label: Text(
+                //         "Add",
+                //         style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ),
@@ -260,15 +260,15 @@ class _ServiceTypeState extends State<ServiceType> {
                                   ),
                                 ),
 
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    ))
+                                // SizedBox(
+                                //   width: 10,
+                                // ),
+                                // IconButton(
+                                //     onPressed: () {},
+                                //     icon: Icon(
+                                //       Icons.delete,
+                                //       color: Colors.red,
+                                //     ))
 
                               ],
                             )),

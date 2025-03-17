@@ -20,31 +20,25 @@ class _BagInstructionsState extends State<BagInstructions> {
 
     Bag_instruction(
         Id: "",
-        All_Materials: "Leather"),
+        All_Materials: "Cleaning"),
     Bag_instruction(
         Id: "",
-        All_Materials: "Canvas"),
+        All_Materials: "Conditioning"),
     Bag_instruction(
         Id: "",
-        All_Materials: "Nylon"),
+        All_Materials: "Odor Control"),
     Bag_instruction(
         Id: "",
-        All_Materials: "Polyster"),
+        All_Materials: "Deodorizing"),
     Bag_instruction(
         Id: "",
-        All_Materials: "Wool"),
+        All_Materials: "Prevent Stretching"),
     Bag_instruction(
         Id: "",
-        All_Materials: "Jute"),
+        All_Materials: "Strap Care"),
     Bag_instruction(
         Id: "",
-        All_Materials: "Denim"),
-    Bag_instruction(
-        Id: "",
-        All_Materials: "Satin"),
-    Bag_instruction(
-        Id: "",
-        All_Materials: "Synthetic Leather"),
+        All_Materials: "Do not Soak"),
 
   ];
 

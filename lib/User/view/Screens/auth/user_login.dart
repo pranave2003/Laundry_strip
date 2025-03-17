@@ -7,15 +7,16 @@ import '../../../../Widget/constands/colors.dart';
 import '../../../../Widget/constands/widgets.dart';
 import '../Bottom_navigation/btm_navigation.dart';
 import '../Home/home_page.dart';
+import 'ResetPasswordUser.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class UserLogin extends StatefulWidget {
+  const UserLogin({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<UserLogin> createState() => _UserLoginState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _UserLoginState extends State<UserLogin> {
   bool isChecked = false;
 
   @override
@@ -97,7 +98,12 @@ class _LoginPageState extends State<LoginPage> {
                         Text("Remember Me "),
                         SizedBox(width: 70,),
                         TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => ForgotPasswordPage()), // Replace with your destination page
+                              );
+                            },
                             child: Text(
                               "Forgot Password?",
                               style: TextStyle(color: Color(0xFF8E8E93)),

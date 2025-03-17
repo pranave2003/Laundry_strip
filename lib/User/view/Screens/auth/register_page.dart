@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../Widget/constands/colors.dart';
 import '../../../../Widget/constands/widgets.dart';
-import 'login_page.dart';
+import 'user_login.dart';
 
 class RegisterPage extends StatefulWidget {
 
@@ -29,6 +29,8 @@ final List<String> districts = [
 ];
 class _RegisterPageState extends State<RegisterPage> {
   String? selectedDistrict;
+  bool isChecked = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,15 +109,30 @@ class _RegisterPageState extends State<RegisterPage> {
                       prefixIcon: Icon(Icons.access_time),
                       hintText: "Address"),
                   SizedBox(
-                    height: 30,
+                    height: 10,
                   ),
+                  Row(
+                    children: [
+                      Checkbox(
+                          activeColor: Secondary,
+                          value: isChecked,
+                          onChanged: (val) {
+                            setState(() {
+                              isChecked = !isChecked;
+                            });
+                          }),
+                      SizedBox(height: 8),
+                      Text("I Agree to the Terms and Conditions ")
+                    ],
+                  ),
+                  SizedBox(height: 30,),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: MaterialButton(
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => LoginPage()), // Replace with your destination page
+                          MaterialPageRoute(builder: (context) => UserLogin()), // Replace with your destination page
                         );
                       },
                       shape: RoundedRectangleBorder(
@@ -151,7 +168,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => LoginPage()), // Replace with your destination page
+                              MaterialPageRoute(builder: (context) => UserLogin()), // Replace with your destination page
                             );
                           },
                           child: Text(

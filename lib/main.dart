@@ -15,6 +15,7 @@ import 'User/view/Screens/Bottom_navigation/btm_navigation.dart';
 import 'User/view/Screens/Home/home_page.dart';
 import 'User/view/Screens/Services/select_service.dart';
 import 'User/view/Screens/Services/shoe_service.dart';
+import 'User/view/Screens/auth/ResetPasswordUser.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,6 +37,6 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: LoginPage());
+        home: ForgotPasswordPage());
   }
 }

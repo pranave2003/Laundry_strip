@@ -80,12 +80,12 @@ class _Shop_AddState extends State<Shop_Add> {
         title: const Text("Shop"),
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => Shop_Navigation()));
-          },
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back, color: Colors.black),
+        //   onPressed: () {
+        //     Navigator.push(context, MaterialPageRoute(builder: (context) => Shop_Navigation()));
+        //   },
+        // ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),

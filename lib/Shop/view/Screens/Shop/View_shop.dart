@@ -29,12 +29,12 @@ class ViewShop extends StatelessWidget {
         title: const Text("View Shop"),
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Shop_Navigation()));
-          },
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back, color: Colors.black),
+        //   onPressed: () {
+        //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Shop_Navigation()));
+        //   },
+        // ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),

@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../Controller/bloc/Authbloc/auth_bloc.dart';
 import '../Address/My_Address.dart';
-import '../Bottom_navigation/btm_navigation.dart';
+
 import 'AboutUs.dart';
 import 'ContactUs.dart';
 import 'Edit_profile.dart';
@@ -17,13 +19,23 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  void _logout() {
+    final authBloc = BlocProvider.of<AuthBloc>(context);
+    authBloc.add(SigOutEvent());
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      "/login",
+      (route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           "Profile",
           style: TextStyle(
             color: Colors.black,
@@ -40,15 +52,16 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 35,
-                  backgroundImage: AssetImage("assets/profile_pic.png"), // Update with your image path
+                  backgroundImage: AssetImage(
+                      "assets/profile_pic.png"), // Update with your image path
                 ),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: const [
                       Text(
                         "Kavya Vijayan",
                         style: TextStyle(
@@ -59,11 +72,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       SizedBox(height: 4),
                       Text(
                         "9856324789",
-                        style: TextStyle(color: Colors.grey.shade700),
+                        style: TextStyle(color: Colors.grey),
                       ),
                       Text(
                         "kavyavijayan@gmail.com",
-                        style: TextStyle(color: Colors.grey.shade700),
+                        style: TextStyle(color: Colors.grey),
                       ),
                     ],
                   ),
@@ -73,7 +86,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     // Navigate to Edit Profile Page
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => EditProfilePage()),
+                      MaterialPageRoute(
+                          builder: (context) => EditProfilePage()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -82,7 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     "Edit",
                     style: TextStyle(color: Colors.black),
                   ),
@@ -95,14 +109,57 @@ class _ProfilePageState extends State<ProfilePage> {
           Expanded(
             child: ListView(
               children: [
-                _buildProfileOption(Icons.location_on, "Addresses", context, AddressesPage()),
-                _buildProfileOption(Icons.info_outline, "About Us", context, AboutUsPage()),
-                _buildProfileOption(Icons.phone, "Contact Us", context, ContactUsPage()),
-                _buildProfileOption(Icons.chat_bubble_outline_rounded, "Chat With Us", context, ChatPage()),
-                _buildProfileOption(Icons.rule, "Terms & Conditions", context, TermsAndConditionsPage()),
-                _buildProfileOption(Icons.privacy_tip, "Privacy Policies", context, PrivacyPolicyPage()),
-                _buildProfileOption(Icons.delete, "Remove Account", context, null, isDestructive: true, showArrow: false),
-                _buildProfileOption(Icons.logout, "Logout", context, null, isDestructive: true, showArrow: false),
+                _buildProfileOption(
+                  icon: Icons.location_on,
+                  title: "Addresses",
+                  context: context,
+                  page: AddressesPage(),
+                ),
+                _buildProfileOption(
+                  icon: Icons.info_outline,
+                  title: "About Us",
+                  context: context,
+                  page: AboutUsPage(),
+                ),
+                _buildProfileOption(
+                  icon: Icons.phone,
+                  title: "Contact Us",
+                  context: context,
+                  page: ContactUsPage(),
+                ),
+                _buildProfileOption(
+                  icon: Icons.chat_bubble_outline_rounded,
+                  title: "Chat With Us",
+                  context: context,
+                  page: const ChatPage(),
+                ),
+                _buildProfileOption(
+                  icon: Icons.rule,
+                  title: "Terms & Conditions",
+                  context: context,
+                  page: TermsAndConditionsPage(),
+                ),
+                _buildProfileOption(
+                  icon: Icons.privacy_tip,
+                  title: "Privacy Policies",
+                  context: context,
+                  page: PrivacyPolicyPage(),
+                ),
+                _buildProfileOption(
+                  icon: Icons.delete,
+                  title: "Remove Account",
+                  context: context,
+                  isDestructive: true,
+                  showArrow: false,
+                ),
+                _buildProfileOption(
+                  icon: Icons.logout,
+                  title: "Logout",
+                  context: context,
+                  onTap: _logout,
+                  isDestructive: true,
+                  showArrow: false,
+                ),
               ],
             ),
           ),
@@ -112,8 +169,15 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   // Profile Option Builder with Navigation Support
-  Widget _buildProfileOption(IconData icon, String title, BuildContext context, Widget? page,
-      {bool isDestructive = false, bool showArrow = true}) {
+  Widget _buildProfileOption({
+    required IconData icon,
+    required String title,
+    required BuildContext context,
+    Widget? page,
+    Function()? onTap,
+    bool isDestructive = false,
+    bool showArrow = true,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
@@ -138,72 +202,33 @@ class _ProfilePageState extends State<ProfilePage> {
               color: isDestructive ? Colors.red : Colors.black,
             ),
           ),
-          trailing: showArrow ? Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey) : null,
-          onTap: () {
-            if (page != null) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => page));
-            } else {
-              print("$title clicked");
-            }
-          },
+          trailing: showArrow
+              ? const Icon(Icons.arrow_forward_ios,
+                  size: 16, color: Colors.grey)
+              : null,
+          onTap: onTap ??
+              () {
+                if (page != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => page),
+                  );
+                }
+              },
         ),
       ),
     );
   }
 }
 
-// 🔹 Dummy Edit Profile Page
-
-
-// Dummy Pages for Navigation
-
-
-// class AboutUsPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text("About Us")),
-//       body: Center(child: Text("About Us Page")),
-//     );
-//   }
-// }
-
-// class ContactUsPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text("Contact Us")),
-//       body: Center(child: Text("Contact Us Page")),
-//     );
-//   }
-// }
-
 class ChatPage extends StatelessWidget {
+  const ChatPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Chat With Us")),
-      body: Center(child: Text("Chat Page")),
+      appBar: AppBar(title: const Text("Chat With Us")),
+      body: const Center(child: Text("Chat Page")),
     );
   }
 }
-
-class TermsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Terms & Conditions")),
-      body: Center(child: Text("Terms & Conditions Page")),
-    );
-  }
-}
-
-// class PrivacyPolicyPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text("Privacy Policies")),
-//       body: Center(child: Text("Privacy Policy Page")),
-//     );
-//   }
-// }

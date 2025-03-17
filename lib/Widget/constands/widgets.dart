@@ -3,30 +3,40 @@ import 'colors.dart';
 import 'dart:ui';
 
 class CustomTextForm extends StatelessWidget {
-  String hintText;
-  Widget prefixIcon;
-  TextEditingController? controller;
+  final String hintText;
+  final TextEditingController? controller;
+  final bool isObscure;
+  final String? Function(String?)? validator;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final TextInputType? keyboardType; // ✅ Added keyboardType
 
-  CustomTextForm({
+  const CustomTextForm({
     super.key,
-    required this.prefixIcon,
     required this.hintText,
     this.controller,
+    this.isObscure = false,
+    this.validator,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.keyboardType, // ✅ Added keyboardType
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      obscureText: isObscure,
+      keyboardType: keyboardType, // ✅ Applied keyboardType
       decoration: InputDecoration(
-          hintText: hintText,
-          prefixIconColor: formIconColor,
-          prefixIcon: prefixIcon,
-          fillColor: formColor,
-          filled: true,
-          border: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(10))),
+        hintText: hintText,
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+      validator: validator,
     );
   }
 }
@@ -63,8 +73,6 @@ class WashFold extends StatelessWidget {
       ),
     );
   }
-
 }
 
 /// Service Item List with "Add" Button
-

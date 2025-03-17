@@ -10,6 +10,7 @@ class Shop_Signup extends StatefulWidget {
   @override
   State<Shop_Signup> createState() => _Shop_SignupState();
 }
+
 final List<String> districts = [
   "Kazharkode",
   "Kannur",
@@ -25,6 +26,7 @@ final List<String> districts = [
   "Pathanamthitta",
   "Thiruvananthapuram",
 ];
+
 class _Shop_SignupState extends State<Shop_Signup> {
   bool isChecked = false;
   bool isDropdownOpen = false;
@@ -139,13 +141,19 @@ class _Shop_SignupState extends State<Shop_Signup> {
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.fact_check_outlined, color: Colors.blue),SizedBox(width: 5,),
+                            Icon(Icons.fact_check_outlined, color: Colors.blue),
+                            SizedBox(
+                              width: 5,
+                            ),
                             Text(
                               "Shop Time Slots",
                               style: TextStyle(fontSize: 15),
                             ),
                           ],
-                        ),SizedBox(height: 5,),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
                         Row(
                           children: [
                             Radio<String>(
@@ -216,7 +224,8 @@ class _Shop_SignupState extends State<Shop_Signup> {
                         children: [
                           Row(
                             children: [
-                              Icon(Icons.fact_check_outlined, color: Colors.blue),
+                              Icon(Icons.fact_check_outlined,
+                                  color: Colors.blue),
                               SizedBox(width: 10),
                               Expanded(
                                 child: Text(

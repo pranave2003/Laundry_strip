@@ -3,12 +3,12 @@ import 'package:laundry/Widget/constands/colors.dart';
 
 import '../../../../Widget/constands/widgets.dart';
 
-class LoginPage extends StatefulWidget {
+class Admin_LoginPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _Admin_LoginPageState createState() => _Admin_LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _Admin_LoginPageState extends State<Admin_LoginPage> {
   bool isChecked = false;
 
   @override
@@ -45,7 +45,8 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         SizedBox(height: 20),
                         Text('Login as an Admin',
-                            style: TextStyle(color: Colors.black54,fontSize: 18)),
+                            style:
+                                TextStyle(color: Colors.black54, fontSize: 18)),
                         SizedBox(height: 60),
                       ],
                     ),
@@ -92,7 +93,11 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       onPressed: () {},
-                      child: Text('Login', style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold,color: Colors.white)),
+                      child: Text('Login',
+                          style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white)),
                     ),
                   ),
                 ],
@@ -104,6 +109,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
-
-

@@ -47,7 +47,7 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
       await _fetchDrivers(
           FetchDrivers(status: true, searchQuery: "null"), emit);
 
-      // emit(DriverSuccess());
+      emit(DriverSuccess());
     } catch (e) {
       emit(DriverFailure(e.toString()));
     }

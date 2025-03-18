@@ -110,7 +110,7 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
 
             // Fetch user document from Firestore
             DocumentSnapshot userDoc = await FirebaseFirestore.instance
-                .collection("Laundry_Shopss")
+                .collection("Laundry_Shops")
                 .doc(user.uid)
                 .get();
 

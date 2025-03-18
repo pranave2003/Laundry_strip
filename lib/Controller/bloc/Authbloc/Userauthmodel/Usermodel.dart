@@ -19,5 +19,6 @@ class UserModel {
       this.phone,
       this.status,
         this.ban
-      });
+      }
+      );
 }

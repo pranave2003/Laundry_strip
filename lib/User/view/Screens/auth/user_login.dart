@@ -99,7 +99,7 @@ class _UserLoginState extends State<UserLogin> {
                               if (value == null || value.isEmpty) {
                                 return "Please enter your email";
                               } else if (!RegExp(
-                                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                  r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                   .hasMatch(value)) {
                                 return "Please enter a valid email";
                               }

@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../Controller/bloc/Authbloc/auth_bloc.dart';
 import '../../../../Widget/constands/Loading.dart';
 import '../../../../Widget/constands/colors.dart';
-import 'ResetPasswordUser.dart';
-import 'User_Register_page.dart';
+import '../auth/ResetPasswordUser.dart';
+import '../auth/User_Register_page.dart';
 
 class User_Loginwrapper extends StatelessWidget {
   const User_Loginwrapper({super.key});

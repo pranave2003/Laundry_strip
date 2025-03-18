@@ -6,6 +6,7 @@ import '../../../../Widget/constands/colors.dart';
 import '../../../../Widget/constands/widgets.dart';
 import '../Bottom_Navigation/Shop_nav.dart';
 import '../Home/Shop_home.dart';
+import 'ResetPswdShop.dart';
 import 'Shop_SignUp.dart';
 
 class Shop_Loginwrapper extends StatelessWidget {
@@ -177,7 +178,15 @@ class _ShopLoginState extends State<ShopLogin> {
                               width: 70,
                             ),
                             TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ForgotPasswordShop(),
+                                    ),
+                                  );
+                                },
                                 child: Text(
                                   "Forgot Password?",
                                   style: TextStyle(color: Color(0xFF8E8E93)),

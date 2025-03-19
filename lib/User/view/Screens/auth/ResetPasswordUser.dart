@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:laundry/User/view/Screens/auth/User_login.dart';
+import 'package:laundry/User/view/Screens/auth/user_login.dart';
 import 'package:laundry/Widget/constands/colors.dart';
 
 class ForgotPasswordPage extends StatelessWidget {

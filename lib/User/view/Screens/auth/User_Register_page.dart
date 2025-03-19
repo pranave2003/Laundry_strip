@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:laundry/User/view/Screens/auth/user_login.dart';
 
 import '../../../../Controller/bloc/Authbloc/Userauthmodel/Usermodel.dart';
 import '../../../../Controller/bloc/Authbloc/auth_bloc.dart';
@@ -8,7 +9,6 @@ import '../../../../Widget/constands/Loading.dart';
 import '../../../../Widget/constands/colors.dart';
 import '../../../../Widget/constands/widgets.dart';
 import '../Profile/TermsPage.dart';
-import 'User_login.dart';
 
 class Usersignupwrapper extends StatelessWidget {
   const Usersignupwrapper({super.key});

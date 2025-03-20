@@ -1,27 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:laundry/Shop/view/Screens/Profile/shopTerms.dart';
 
-import '../../../../Controller/bloc/Authbloc/auth_bloc.dart';
-import '../Address/My_Address.dart';
-
-import 'AboutUs.dart';
+import '../../../../Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
 import 'ContactUs.dart';
-import 'Edit_profile.dart';
-import 'PrivacyPolicy.dart';
-import 'TermsPage.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class ShopProfilePage extends StatefulWidget {
+  const ShopProfilePage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<ShopProfilePage> createState() => _ShopProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ShopProfilePageState extends State<ShopProfilePage> {
   void _logout() {
-    final authBloc = BlocProvider.of<AuthBloc>(context);
-    authBloc.add(SigOutEvent());
+    final authBloc = BlocProvider.of<ShopAuthblocBloc>(context);
+    authBloc.add(ShopSigOutEvent());
     Navigator.pushNamedAndRemoveUntil(
       context,
       "/login",
@@ -42,69 +37,88 @@ class _ProfilePageState extends State<ProfilePage> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        automaticallyImplyLeading: false,
       ),
       body: Column(
         children: [
           // Profile Header inside a Light Grey Container
-          BlocBuilder<AuthBloc, AuthState>(
+          BlocBuilder<ShopAuthblocBloc, ShopAuthblocState>(
             builder: (context, state) {
-              if (state is Userloading) {
+              if (state is Shoploading) {
                 return const Center(child: CircularProgressIndicator());
-              } else if (state is UserByidLoaded) {
-                final user = state.Userdata;
+              } else if (state is ShopByidLoaded) {
+                final shop = state.Userdata;
                 return Container(
-                  color: Colors.grey.shade200,
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      const CircleAvatar(
-                        radius: 35,
-                        backgroundImage: AssetImage(
-                            "assets/profile_pic.png"), // Update with your image path
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius:
+                        BorderRadius.circular(12), // Slightly rounded corners
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 4,
+                        offset: Offset(2, 2),
                       ),
-                      const SizedBox(width: 12),
+                    ],
+                  ),
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                            12), // Rounded corners for image
+                        child: Image.asset(
+                          "assets/shop_img/img.png",
+                          width: 130, // Adjusted width
+                          height: 100, // Adjusted height
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      const SizedBox(width: 16), // More spacing
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              '${user.name ?? ''}',
+                              '${shop.shop_name ?? ''}',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 6),
                             Text(
-                              '${user.phone ?? ''}',
-                              style: TextStyle(color: Colors.grey),
+                              '${shop.email ?? ''}',
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 14),
                             ),
+                            const SizedBox(height: 2),
                             Text(
-                              '${user.email ?? ''}',
-                              style: TextStyle(color: Colors.grey),
+                              '${shop.phone ?? ''}',
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 14),
                             ),
                           ],
                         ),
                       ),
+                      const SizedBox(width: 10), // Space before the button
                       ElevatedButton(
                         onPressed: () {
                           // Navigate to Edit Profile Page
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EditProfilePage()),
-                          );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey.shade300,
+                          backgroundColor: Colors.blueAccent, // Better color
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(
+                                8), // Less rounded for a modern look
                           ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
                         ),
                         child: const Text(
                           "Edit",
-                          style: TextStyle(color: Colors.black),
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
                     ],
@@ -120,40 +134,28 @@ class _ProfilePageState extends State<ProfilePage> {
             child: ListView(
               children: [
                 _buildProfileOption(
-                  icon: Icons.location_on,
-                  title: "Addresses",
-                  context: context,
-                  page: AddressesPage(),
-                ),
-                _buildProfileOption(
                   icon: Icons.info_outline,
                   title: "About Us",
                   context: context,
-                  page: AboutUsPage(),
+                  page: const About(),
                 ),
                 _buildProfileOption(
                   icon: Icons.phone,
                   title: "Contact Us",
                   context: context,
-                  page: ContactUsPage(),
-                ),
-                _buildProfileOption(
-                  icon: Icons.chat_bubble_outline_rounded,
-                  title: "Chat With Us",
-                  context: context,
-                  page: const ChatPage(),
+                  page:  ContactUs(),
                 ),
                 _buildProfileOption(
                   icon: Icons.rule,
                   title: "Terms & Conditions",
                   context: context,
-                  page: TermsAndConditionsPage(),
+                  page:  LaundryShopTermsPage(),
                 ),
                 _buildProfileOption(
                   icon: Icons.privacy_tip,
                   title: "Privacy Policies",
                   context: context,
-                  page: PrivacyPolicyPage(),
+                  page: const PrivacyPolicy(),
                 ),
                 _buildProfileOption(
                   icon: Icons.delete,
@@ -231,14 +233,29 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-class ChatPage extends StatelessWidget {
-  const ChatPage({super.key});
+
+//PrivacyPolicy
+class PrivacyPolicy extends StatelessWidget {
+  const PrivacyPolicy({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Chat With Us")),
-      body: const Center(child: Text("Chat Page")),
+      appBar: AppBar(title: const Text("Terms & Conditions")),
+      body: const Center(child: Text("Terms Page")),
+    );
+  }
+}
+
+//About
+class About extends StatelessWidget {
+  const About({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Terms & Conditions")),
+      body: const Center(child: Text("Terms Page")),
     );
   }
 }

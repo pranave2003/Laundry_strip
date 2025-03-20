@@ -19,3 +19,16 @@ class AuthenticatedError extends AuthState {
 
   AuthenticatedError({required this.message});
 }
+
+//
+final class UserByidLoaded extends AuthState {
+  final UserModel Userdata;
+  UserByidLoaded(this.Userdata);
+}
+
+class Userloading extends AuthState {}
+
+class UserError extends AuthState {
+  String error;
+  UserError({required this.error});
+}

@@ -19,3 +19,15 @@ class ShopAuthenticatedError extends ShopAuthblocState {
 
   ShopAuthenticatedError({required this.message});
 }
+
+final class ShopByidLoaded extends ShopAuthblocState {
+  final ShopModel Userdata;
+  ShopByidLoaded(this.Userdata);
+}
+
+class Shoploading extends ShopAuthblocState {}
+
+class ShopError extends ShopAuthblocState {
+  String error;
+  ShopError({required this.error});
+}

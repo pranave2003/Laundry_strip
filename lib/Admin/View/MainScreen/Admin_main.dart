@@ -250,6 +250,8 @@ class _AdminPageState extends State<AdminPage> {
                     ),
                   ],
                 ),
+                _buildMainListTile('Log Out', const Dasgboardmain(),
+                    icon: Icons.logout_rounded),
               ],
             ),
           ),

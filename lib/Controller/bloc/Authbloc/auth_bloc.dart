@@ -71,53 +71,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       },
     );
-
-    // logout
-    // on<SigOutEvent>(
-    //   (event, emit) async {
-    //     User? user=_auth.currentUser;
-    //     try {
-    //       user = _auth.currentUser;
-    //
-    //      await FirebaseFirestore.instance
-    //           .collection("User")
-    //           .doc(user.uid)
-    //           .update({"Onesignal_id": 12121});
-    //       await _auth.signOut();
-    //       emit(UnAuthenticated());
-    //     } catch (e) {
-    //       emit(AuthenticatedError(message: e.toString()));
-    //     }
-    //   },
-    // );
-    on<SigOutEvent>(
-      (event, emit) async {
-        try {
-          User? user = _auth.currentUser;
-
-          if (user != null) {
-            // Get the Player ID from OneSignalService
-
-            // Update Firestore with the correct user ID and OneSignal ID
-            await FirebaseFirestore.instance
-                .collection("My Students")
-                .doc(user.uid) // Use current user's UID
-                .update({"Onesignal_id": "null"}); // Update with OneSignal ID
-
-            // Sign out the user
-            await _auth.signOut();
-            emit(UnAuthenticated());
-          } else {
-            emit(AuthenticatedError(message: "No user is logged in"));
-          }
-        } catch (e) {
-          emit(AuthenticatedError(message: e.toString()));
-        }
-      },
-    );
-
     on<LoginEvent>(
-      (event, emit) async {
+          (event, emit) async {
         emit(Authloading());
         try {
           final userCredential = await _auth.signInWithEmailAndPassword(
@@ -129,7 +84,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
             // Fetch user document from Firestore
             DocumentSnapshot userDoc = await FirebaseFirestore.instance
-                .collection("My Students")
+                .collection("Laundry_Users")
                 .doc(user.uid)
                 .get();
 
@@ -140,7 +95,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               if (userData['ban'] == "1") {
                 // Update OneSignal ID
                 await FirebaseFirestore.instance
-                    .collection("My Students")
+                    .collection("Laundry_Users")
                     .doc(user.uid)
                     .update({"Onesignal_id": "playerId"});
 
@@ -169,5 +124,79 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       },
     );
+
+    // logout
+    // on<SigOutEvent>(
+    //   (event, emit) async {
+    //     User? user=_auth.currentUser;
+    //     try {
+    //       user = _auth.currentUser;
+    //
+    //      await FirebaseFirestore.instance
+    //           .collection("User")
+    //           .doc(user.uid)
+    //           .update({"Onesignal_id": 12121});
+    //       await _auth.signOut();
+    //       emit(UnAuthenticated());
+    //     } catch (e) {
+    //       emit(AuthenticatedError(message: e.toString()));
+    //     }
+    //   },
+    // );
+
+    on<FetchUserDetailsById>((event, emit) async {
+      emit(Userloading());
+      User? user = _auth.currentUser;
+
+      if (user != null) {
+        try {
+          final user = FirebaseAuth.instance.currentUser;
+          if (user != null) {
+            final doc = await FirebaseFirestore.instance
+                .collection('Laundry_Users')
+                .doc(user.uid)
+                .get();
+
+            if (doc.exists) {
+              UserModel userData = UserModel.fromMap(doc.data()!);
+              emit(UserByidLoaded(userData));
+            } else {
+              emit(UserError(error: "User profile not found"));
+            }
+          } else {
+            emit(UserError(error: "User not authenticated"));
+          }
+        } catch (e) {
+          emit(UserError(error: e.toString()));
+        }
+      }
+    });
+    on<SigOutEvent>(
+      (event, emit) async {
+        try {
+          User? user = _auth.currentUser;
+
+          if (user != null) {
+            // Get the Player ID from OneSignalService
+
+            // Update Firestore with the correct user ID and OneSignal ID
+            await FirebaseFirestore.instance
+                .collection("Laundry_Users")
+                .doc(user.uid) // Use current user's UID
+                .update({"Onesignal_id": "null"}); // Update with OneSignal ID
+
+            // Sign out the user
+            await _auth.signOut();
+            emit(UnAuthenticated());
+          } else {
+            emit(AuthenticatedError(message: "No user is logged in"));
+          }
+        } catch (e) {
+          emit(AuthenticatedError(message: e.toString()));
+        }
+      },
+    );
+
+
   }
 }

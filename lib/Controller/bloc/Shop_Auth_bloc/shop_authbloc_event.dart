@@ -22,3 +22,5 @@ class ShopSignupEvent extends ShopAuthblocEvent {
 //signout
 
 class ShopSigOutEvent extends ShopAuthblocEvent {}
+class FetchShopDetailsById extends ShopAuthblocEvent {}
+

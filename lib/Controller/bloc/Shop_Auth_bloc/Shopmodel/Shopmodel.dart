@@ -1,6 +1,7 @@
 class ShopModel {
   String? shopid;
-  String? name;
+  String? owner_name;
+  String? shop_name;
   String? phone;
   String? email;
   String? password;
@@ -15,7 +16,8 @@ class ShopModel {
 
   ShopModel(
       {this.shopid,
-      this.name,
+      this.owner_name,
+        this.shop_name,
       this.phone,
       this.email,
       this.password,
@@ -40,6 +42,21 @@ class ShopModel {
     return ShopModel(
       selectServices:
           List<String>.from(json["selectServices"] ?? []), // Ensure it's a list
+    );
+  }
+  factory ShopModel.fromMap(Map<String, dynamic> data) {
+    return ShopModel(
+      shopid: data['shopId'],
+      owner_name: data['owner_name'],
+      shop_name: data['Shop_Name'],
+      email: data['email'],
+      phone: data['phone'],
+      status: data['status'],
+      ban: data['ban'],
+      District: data['District'],
+      shopAddress: data["Address"],
+      ShopImage: data['imageUrl'],
+      LaundryCapacity: data['Laundry_Capacity'],
     );
   }
 }

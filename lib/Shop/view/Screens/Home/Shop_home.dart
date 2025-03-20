@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:laundry/Shop/view/Screens/Profile/shop_profile.dart';
 import 'dart:async';
 
 import '../../../../User/view/Screens/Home/notification_page.dart';
@@ -62,7 +63,30 @@ class _ShopHomeState extends State<ShopHome> {
             ),
           ],
         ),
+
         actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ShopProfilePage(),
+                  ),
+                );
+              },
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(Icons.person),
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
             child: GestureDetector(

@@ -23,8 +23,8 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ShopAuthblocBloc>(
-          create: (context) => ShopAuthblocBloc(),
-        )
+          create: (context) => ShopAuthblocBloc()..add(FetchShopDetailsById()),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(scaffoldBackgroundColor: Colors.white),
         routes: {
           '/': (context) => ShopSplashpagewrapper(),
-          '/home': (context) => Shop_Navigation(),
+          '/home': (context) => ShopBottomNavWrapper(),
           '/login': (context) => Shop_Loginwrapper(),
         },
       ),

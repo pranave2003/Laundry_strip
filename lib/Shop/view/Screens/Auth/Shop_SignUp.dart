@@ -66,7 +66,8 @@ class _Shop_SignupState extends State<Shop_Signup> {
   void _registerShop() {
     if (_formKey.currentState!.validate() && isChecked) {
       ShopModel user = ShopModel(
-        name: _usernameController.text,
+        owner_name: _ownernameController.text,
+        shop_name: _shopNameController.text,
         email: _emailController.text,
         password: _passwordController.text,
         phone: _phoneController.text,
@@ -79,7 +80,8 @@ class _Shop_SignupState extends State<Shop_Signup> {
     }
   }
 
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _ownernameController = TextEditingController();
+  final TextEditingController _shopNameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -131,14 +133,30 @@ class _Shop_SignupState extends State<Shop_Signup> {
                     children: [
                       CustomTextForm(
                         prefixIcon: const Icon(Icons.person),
-                        hintText: "Username",
-                        controller: _usernameController,
+                        hintText: "Owner Name",
+                        controller: _ownernameController,
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
                             return "Username is required";
                           }
                           if (value.length < 3) {
                             return "Username should be at least 3 characters";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 15),
+
+                      CustomTextForm(
+                        prefixIcon: const Icon(Icons.house_rounded),
+                        hintText: "Shop Name",
+                        controller: _shopNameController,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return "Shop Name is required";
+                          }
+                          if (value.length < 3) {
+                            return "Shop Name should be at least 3 characters";
                           }
                           return null;
                         },
@@ -398,18 +416,17 @@ class _Shop_SignupState extends State<Shop_Signup> {
                       ),
 
                       SizedBox(height: 15),
-                      CustomTextForm(
-                          prefixIcon: Icon(Icons.image_rounded),
-                          hintText: "Upload Shop Image"),
-                      SizedBox(height: 15),
-                      CustomTextForm(
-                          prefixIcon: Icon(Icons.how_to_reg),
-                          hintText: "Shop Registration Proof"),
+                      // CustomTextForm(
+                      //     prefixIcon: Icon(Icons.image_rounded),
+                      //     hintText: "Upload Shop Image"),
+                      // SizedBox(height: 15),
+                      // CustomTextForm(
+                      //     prefixIcon: Icon(Icons.how_to_reg),
+                      //     hintText: "Shop Registration Proof"),
                       // SizedBox(height: 15),
                       // CustomTextForm(
                       //     prefixIcon: Icon(Icons.food_bank_outlined),
                       //     hintText: "Bank Details (Optional)"),
-                      SizedBox(height: 10),
                     ],
                   ),
                 ),
@@ -424,13 +441,16 @@ class _Shop_SignupState extends State<Shop_Signup> {
                           });
                         }),
                     SizedBox(height: 8),
-                    Text("I Agree to the Terms and Conditions ")
+                    Text("I Agree to the Terms and Conditions "),
+
                   ],
                 ),
                 if (state is ShopAuthloading) ...[
                   const Text("Logging in..."),
                   const Loading_Widget(),
                 ],
+                SizedBox(height: 15),
+
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: MaterialButton(

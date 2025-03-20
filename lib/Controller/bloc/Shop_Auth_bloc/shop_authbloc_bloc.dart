@@ -48,14 +48,15 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
               .set({
             "shopId": user.uid,
             "email": user.email,
-            "name": event.shop.name,
+            "owner_name": event.shop.owner_name,
+            "Shop_Name":event.shop.shop_name,
             "timestamp": DateTime.now(),
             "ban": "1",
             "status": "1",
             "phone": event.shop.phone,
             "Address": event.shop.shopAddress,
             "District": event.shop.District,
-            "Laundry Capacity": event.shop.LaundryCapacity,
+            "Laundry_Capacity": event.shop.LaundryCapacity,
             "imageUrl":
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4ZqivCNC7yvJqthqZOVvxSjDLyDxtai-cbQ&s",
           });
@@ -72,31 +73,6 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
 
     });
 
-    on<ShopSigOutEvent>(
-          (event, emit) async {
-        try {
-          User? user = _auth.currentUser;
-
-          if (user != null) {
-            // Get the Player ID from OneSignalService
-
-            // Update Firestore with the correct user ID and OneSignal ID
-            await FirebaseFirestore.instance
-                .collection("Laundry_Shops")
-                .doc(user.uid) // Use current user's UID
-                .update({"Onesignal_id": "null"}); // Update with OneSignal ID
-
-            // Sign out the user
-            await _auth.signOut();
-            emit(ShopUnAuthenticated());
-          } else {
-            emit(ShopAuthenticatedError(message: "No user is logged in"));
-          }
-        } catch (e) {
-          emit(ShopAuthenticatedError(message: e.toString()));
-        }
-      },
-    );
     on<ShopLoginEvent>(
           (event, emit) async {
         emit(ShopAuthloading());
@@ -150,5 +126,59 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
         }
       },
     );
+
+    on<FetchShopDetailsById>((event, emit) async {
+      emit(Shoploading());
+      User? user = _auth.currentUser;
+
+      if (user != null) {
+        try {
+          final user = FirebaseAuth.instance.currentUser;
+          if (user != null) {
+            final doc = await FirebaseFirestore.instance
+                .collection('Laundry_Shops')
+                .doc(user.uid)
+                .get();
+
+            if (doc.exists) {
+              ShopModel userData = ShopModel.fromMap(doc.data()!);
+              emit(ShopByidLoaded(userData));
+            } else {
+              emit(ShopError(error: "Shop profile not found"));
+            }
+          } else {
+            emit(ShopError(error: "Shop not authenticated"));
+          }
+        } catch (e) {
+          emit(ShopError(error: e.toString()));
+        }
+      }
+    });
+    on<ShopSigOutEvent>(
+          (event, emit) async {
+        try {
+          User? user = _auth.currentUser;
+
+          if (user != null) {
+            // Get the Player ID from OneSignalService
+
+            // Update Firestore with the correct user ID and OneSignal ID
+            await FirebaseFirestore.instance
+                .collection("Laundry_Shops")
+                .doc(user.uid) // Use current user's UID
+                .update({"Onesignal_id": "null"}); // Update with OneSignal ID
+
+            // Sign out the user
+            await _auth.signOut();
+            emit(ShopUnAuthenticated());
+          } else {
+            emit(ShopAuthenticatedError(message: "No user is logged in"));
+          }
+        } catch (e) {
+          emit(ShopAuthenticatedError(message: e.toString()));
+        }
+      },
+    );
+
   }
 }

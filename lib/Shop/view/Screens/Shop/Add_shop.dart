@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:laundry/Shop/view/Screens/Shop/view.dart';
 import '../../../../Widget/constands/colors.dart';
 import '../Bottom_Navigation/Shop_nav.dart';
 import '../Home/Shop_home.dart';
@@ -242,17 +243,10 @@ class _Shop_AddState extends State<Shop_Add> {
                     };
                   });
 
+
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => ViewShop(
-                        selectedService: selectedService ?? "Not selected",
-                        selectedCategory: selectedCategory ?? "Not selected",
-                        selectedMaterial: selectedMaterial ?? "Not selected",
-                        selectedInstructions: selectedInstructions,
-                        productDetails: selectedProducts,
-                      ),
-                    ),
+                    MaterialPageRoute(builder: (context) => LaundryView()),
                   );
 
                 },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Shop/view/Screens/Driver/delivery.dart';
 import 'package:laundry/Shop/view/Screens/Orders/Orders.dart';
+import 'package:laundry/Shop/view/Screens/Shop/AddShopPage.dart';
 import 'package:laundry/User/view/Screens/Services/select_service.dart';
 import '../../../../Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
 import '../../../../User/view/Screens/Home/home_page.dart';
@@ -12,6 +13,9 @@ import '../Home/Shop_home.dart';
 import '../Orders/order_details.dart';
 import '../QRscan/Scan_QR.dart';
 import '../Shop/Add_shop.dart';
+import '../Shop/view.dart';
+
+
 
 class ShopBottomNavWrapper extends StatelessWidget {
   const ShopBottomNavWrapper({super.key});
@@ -19,8 +23,8 @@ class ShopBottomNavWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => ShopAuthblocBloc()..add(FetchShopDetailsById()),
-    child:  Shop_Navigation(),
+      create: (context) => ShopAuthblocBloc()..add(FetchShopDetailsById()),
+      child: Shop_Navigation(),
     );
   }
 }
@@ -35,7 +39,7 @@ class _Shop_NavigationState extends State<Shop_Navigation> {
 
   final List<Widget> _pages = [
     ShopHome(),
-    Shop_Add(),
+    LaundryView(),
     Orders(),
     ScanQr(), // Change this to OrdersPage
     OrderAssignPage(),

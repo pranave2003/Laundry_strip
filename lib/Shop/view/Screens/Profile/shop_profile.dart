@@ -46,7 +46,7 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
               if (state is Shoploading) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is ShopByidLoaded) {
-                final shop = state.Userdata;
+                final shop = state.userData;
                 return Container(
                   decoration: BoxDecoration(
                     color: Colors.white,

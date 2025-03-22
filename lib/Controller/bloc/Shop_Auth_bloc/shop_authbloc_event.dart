@@ -22,5 +22,13 @@ class ShopSignupEvent extends ShopAuthblocEvent {
 //signout
 
 class ShopSigOutEvent extends ShopAuthblocEvent {}
+
+
+// get shop details
+
 class FetchShopDetailsById extends ShopAuthblocEvent {}
 
+class FetchShop extends ShopAuthblocEvent {
+  final String? searchQuery;
+  FetchShop({required this.searchQuery});
+}

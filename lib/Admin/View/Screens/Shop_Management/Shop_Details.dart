@@ -29,7 +29,7 @@ class ShopDetailsDialog extends StatelessWidget {
               Text("Shop Details", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
               SizedBox(height: 10),
 
-              // Shop Details Table
+              /// Shop Details Table
               Table(
                 border: TableBorder.all(color: Colors.black12),
                 columnWidths: {0: FixedColumnWidth(180)},

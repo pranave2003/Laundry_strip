@@ -93,7 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Form(
-              key: _formKey, // 🔥 Attach FormKey here
+              key: _formKey, //  Attach FormKey here
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -189,7 +189,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       prefixIcon:
                           const Icon(Icons.location_city, color: Colors.blue),
                       filled: true,
-                      fillColor: primary,
+                      fillColor: Colors.white,
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8)),
                     ),

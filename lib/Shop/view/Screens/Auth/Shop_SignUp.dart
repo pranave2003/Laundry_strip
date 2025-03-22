@@ -7,6 +7,7 @@ import '../../../../Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
 import '../../../../Widget/constands/Loading.dart';
 import '../../../../Widget/constands/colors.dart';
 import '../../../../Widget/constands/widgets.dart';
+import '../Profile/shopTerms.dart';
 
 class Shopsignupwrapper extends StatelessWidget {
   const Shopsignupwrapper({super.key});
@@ -71,8 +72,11 @@ class _Shop_SignupState extends State<Shop_Signup> {
         email: _emailController.text,
         password: _passwordController.text,
         phone: _phoneController.text,
+        street: _streetController.text,
+        city: _cityController.text,
+        post: _postController.text,
         District: selectedDistrict,
-        shopAddress: _shopAddressController.text,
+       // shopAddress: _shopAddressController.text,
         LaundryCapacity: _laundryCapacityController.text,
       );
       // Trigger the sign-up event
@@ -85,7 +89,10 @@ class _Shop_SignupState extends State<Shop_Signup> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _shopAddressController = TextEditingController();
+  final TextEditingController _streetController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _postController = TextEditingController();
+  //final TextEditingController _shopAddressController = TextEditingController();
   final TextEditingController _laundryCapacityController =
       TextEditingController();
 
@@ -217,12 +224,61 @@ class _Shop_SignupState extends State<Shop_Signup> {
                       //     prefixIcon: Icon(Icons.how_to_reg), hintText: "ID Proof"),
                       // SizedBox(height: 15),
                       // **District Dropdown Below Password**
+                      CustomTextForm(
+                        prefixIcon: const Icon(Icons.location_on),
+                        hintText: "Shop Street",
+                        controller: _streetController,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return " Shop Street is required";
+                          }
+                          if (value.length < 5) {
+                            return " Shop Street must be at least 5 characters";
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 15),
+
+                      CustomTextForm(
+                        prefixIcon: const Icon(Icons.location_city),
+                        hintText: "Shop City",
+                        controller: _cityController,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return " Shop City is required";
+                          }
+                          if (value.length < 5) {
+                            return " Shop City must be at least 5 characters";
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 15),
+
+                      CustomTextForm(
+                        prefixIcon: const Icon(Icons.local_post_office),
+                        hintText: "Postal  Code",
+                        controller: _postController,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return "Postal code is required";
+                          }
+                          if (!RegExp(r'^\d{6}$').hasMatch(value)) {
+                            return "Enter a valid 6-digit postal code";
+                          }
+                          return null;
+                        },
+
+
+                      ),
+                      SizedBox(height: 15),
                       DropdownButtonFormField<String>(
                         decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.location_city,
-                              color: Colors.blue),
+                          prefixIcon: const Icon(Icons.business ,
+                              color: Colors.black),
                           filled: true,
-                          fillColor: primary,
+                          fillColor: Colors.white,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8)),
                         ),
@@ -308,21 +364,21 @@ class _Shop_SignupState extends State<Shop_Signup> {
                       //
                       // SizedBox(height: 15),
 
-                      CustomTextForm(
-                        prefixIcon: const Icon(Icons.home),
-                        hintText: "Shop Address",
-                        controller: _shopAddressController,
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return " Shop Address is required";
-                          }
-                          if (value.length < 5) {
-                            return " Shop Address must be at least 5 characters";
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: 15),
+                      // CustomTextForm(
+                      //   prefixIcon: const Icon(Icons.home),
+                      //   hintText: "Shop Address",
+                      //   controller: _shopAddressController,
+                      //   validator: (value) {
+                      //     if (value == null || value.trim().isEmpty) {
+                      //       return " Shop Address is required";
+                      //     }
+                      //     if (value.length < 5) {
+                      //       return " Shop Address must be at least 5 characters";
+                      //     }
+                      //     return null;
+                      //   },
+                      // ),
+                      // SizedBox(height: 15),
                       CustomTextForm(
                         prefixIcon:
                             const Icon(Icons.local_laundry_service_outlined),
@@ -357,7 +413,7 @@ class _Shop_SignupState extends State<Shop_Signup> {
                           padding: EdgeInsets.symmetric(
                               horizontal: 15, vertical: 18),
                           decoration: BoxDecoration(
-                            color: primary,
+                            color: Colors.white,
                             border: Border.all(color: primary),
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -367,7 +423,7 @@ class _Shop_SignupState extends State<Shop_Signup> {
                               Row(
                                 children: [
                                   Icon(Icons.fact_check_outlined,
-                                      color: Colors.blue),
+                                      color: Colors.black),
                                   SizedBox(width: 10),
                                   Expanded(
                                     child: Text(
@@ -441,14 +497,41 @@ class _Shop_SignupState extends State<Shop_Signup> {
                           });
                         }),
                     SizedBox(height: 8),
-                    Text("I Agree to the Terms and Conditions "),
+                    Text("I Agree to the"),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return LaundryShopTermsPage();
+                            },
+                          ));
+                        },
+                        child: Text("Terms and Conditions "))
 
                   ],
                 ),
+                if (!isChecked)
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 12),
+                      child: Text(
+                        "You must agree to the terms and conditions",
+                        style: TextStyle(color: Colors.red, fontSize: 12),
+                      ),
+                    ),
+                  ),
+        SizedBox(
+        height: 100,
+        child: Column(
+        children: [
                 if (state is ShopAuthloading) ...[
                   const Text("Logging in..."),
                   const Loading_Widget(),
                 ],
+                ],
+        ),
+        ),
                 SizedBox(height: 15),
 
                 SizedBox(

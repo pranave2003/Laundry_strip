@@ -5,8 +5,11 @@ class ShopModel {
   String? phone;
   String? email;
   String? password;
+  String? street;
+  String? city;
+  String? post;
   String? District;
-  String? shopAddress;
+  //String? shopAddress;
   String? LaundryCapacity;
   List<String>? selectServices;
   String? ShopImage;
@@ -21,8 +24,11 @@ class ShopModel {
       this.phone,
       this.email,
       this.password,
+      this.street,
+      this.city,
+      this.post,
       this.District,
-      this.shopAddress,
+      //this.shopAddress,
       this.LaundryCapacity,
       this.selectServices,
       this.ShopImage,
@@ -53,8 +59,11 @@ class ShopModel {
       phone: data['phone'],
       status: data['status'],
       ban: data['ban'],
+      street: data['street'],
+      city: data['city'],
+      post: data['post'],
       District: data['District'],
-      shopAddress: data["Address"],
+      //shopAddress: data["Address"],
       ShopImage: data['imageUrl'],
       LaundryCapacity: data['Laundry_Capacity'],
     );

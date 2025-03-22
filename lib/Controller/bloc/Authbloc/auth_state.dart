@@ -32,3 +32,22 @@ class UserError extends AuthState {
   String error;
   UserError({required this.error});
 }
+
+////
+final class UsersLoading extends AuthState {}
+
+final class UsersGetSuccess extends AuthState {}
+
+final class Usersfailerror extends AuthState {
+  final String error;
+
+  Usersfailerror(this.error);
+}
+
+class Usersloaded extends AuthState {
+  final List<UserModel> Users;
+
+  Usersloaded(
+      this.Users,
+      );
+}

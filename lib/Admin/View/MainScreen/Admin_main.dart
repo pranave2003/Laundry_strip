@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Admin/View/Screens/Shop_Management/All_shop.dart';
 import 'package:laundry/Admin/View/Screens/User_Management/All_Users.dart';
+import 'package:laundry/Controller/bloc/ServiceManagement/service_bloc.dart';
+import '../../../Controller/bloc/Authbloc/auth_bloc.dart';
 import '../../../Controller/bloc/Driverbloc/driverbloc_bloc.dart';
 import '../../../Controller/bloc/Driverbloc/driverbloc_event.dart';
+import '../../../Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
 import '../../../Widget/constands/colors.dart';
 import '../../../firebase_options.dart';
 import '../Screens/Dashboard/DasgboardMain.dart';
@@ -23,6 +26,8 @@ import '../Screens/Service_Managment/Special_instruction/Cloth_Instructions.dart
 import '../Screens/Service_Managment/Special_instruction/Shoe_Instructions.dart';
 import '../Screens/Shop_Management/Accepted_shop.dart';
 import '../Screens/Shop_Management/Rejected_shop.dart';
+import '../Screens/Shop_Management/new_shops.dart';
+import '../Screens/Shop_Management/view_shop.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +49,14 @@ class MyApp extends StatelessWidget {
           create: (context) => DriverblocBloc()
             ..add(FetchDrivers(status: true, searchQuery: null)),
         ),
+        BlocProvider<AuthBloc>(
+          create: (context) => AuthBloc()..add(FetchUsers(searchQuery: null)),
+        ),
+        BlocProvider<ShopAuthblocBloc>(
+          create: (context) =>
+              ShopAuthblocBloc()..add(FetchShop(searchQuery: null)),
+        ),
+        BlocProvider<ServiceBloc>(create: (context) => ServiceBloc()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -139,12 +152,12 @@ class _AdminPageState extends State<AdminPage> {
                   title: 'Service Management',
                   icon: Icons.local_laundry_service_outlined,
                   children: [
-                    _buildESubxpansion(title: "Service Types", children: [
-                      _buildSubListTile(
-                        'View Services',
-                        const ServiceType(),
-                      ),
-                    ]),
+                    // _buildESubxpansion(title: "Service Types", children: [
+                    //   _buildSubListTile(
+                    //     'View Services',
+                    //     const ServiceType(),
+                    //   ),
+                    // ]),
                     _buildESubxpansion(title: " Service Category", children: [
                       _buildSubListTile(
                         'View Category',
@@ -193,7 +206,7 @@ class _AdminPageState extends State<AdminPage> {
                       const OrdersPage(),
                     ),
                     SubListTile(
-                      'Assign Order',
+                      'Assign Driver',
                       AssignOrderPage(),
                     ),
                     // SubListTile(
@@ -217,17 +230,21 @@ class _AdminPageState extends State<AdminPage> {
                   icon: Icons.roofing_rounded,
                   children: [
                     SubListTile(
+                      'New Shops',
+                      LaundryShopsPage(),
+                    ),
+                    SubListTile(
                       'All Shops',
-                      AllShop(),
+                      ViewShopsScreen(),
                     ),
-                    SubListTile(
-                      'Accepted',
-                      AcceptedShop(),
-                    ),
-                    SubListTile(
-                      'Rejected',
-                      RejectedShop(),
-                    ),
+                    // SubListTile(
+                    //   'View Shop',
+                    //   AcceptedShop(),
+                    // ),
+                    // SubListTile(
+                    //   'Rejected',
+                    //   RejectedShop(),
+                    // ),
                   ],
                 ),
                 _buildMainExpansionTile(

@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:laundry/Widget/constands/colors.dart';
@@ -17,32 +16,14 @@ class ClothMaterial extends StatefulWidget {
 
 class _ClothMaterialState extends State<ClothMaterial> {
   List<Cloth_material> cloth = [
-
-    Cloth_material(
-        Id: "",
-        All_Materials: "Cotton"),
-    Cloth_material(
-        Id: "",
-        All_Materials: "Polyster"),
-    Cloth_material(
-        Id: "",
-        All_Materials: "Linen"),
-    Cloth_material(
-        Id: "",
-        All_Materials: "Wool"),
-    Cloth_material(
-        Id: "",
-        All_Materials: "Nylon"),
-    Cloth_material(
-        Id: "",
-        All_Materials: "Rayon"),
-    Cloth_material(
-        Id: "",
-        All_Materials: "Denim"),
-    Cloth_material(
-        Id: "",
-        All_Materials: "Velvet"),
-
+    Cloth_material(Id: "", All_Materials: "Cotton"),
+    Cloth_material(Id: "", All_Materials: "Polyster"),
+    Cloth_material(Id: "", All_Materials: "Linen"),
+    Cloth_material(Id: "", All_Materials: "Wool"),
+    Cloth_material(Id: "", All_Materials: "Nylon"),
+    Cloth_material(Id: "", All_Materials: "Rayon"),
+    Cloth_material(Id: "", All_Materials: "Denim"),
+    Cloth_material(Id: "", All_Materials: "Velvet"),
   ];
 
   @override
@@ -62,7 +43,7 @@ class _ClothMaterialState extends State<ClothMaterial> {
                     Text(
                       "Hello !",
                       style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "Cheers and Happy Activities ",
@@ -79,7 +60,7 @@ class _ClothMaterialState extends State<ClothMaterial> {
                     height: 40,
                     width: 400,
                     decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(18)),
+                        BoxDecoration(borderRadius: BorderRadius.circular(18)),
                     child: TextField(
                       decoration: InputDecoration(
                         filled: true,
@@ -94,7 +75,7 @@ class _ClothMaterialState extends State<ClothMaterial> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(18),
                           borderSide:
-                          BorderSide(color: Theme.of(context).primaryColor),
+                              BorderSide(color: Theme.of(context).primaryColor),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           vertical: 5,
@@ -131,9 +112,9 @@ class _ClothMaterialState extends State<ClothMaterial> {
           SizedBox(
             height: 35,
           ),
-
           Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25), // Adjusted right padding
+            padding: const EdgeInsets.only(
+                left: 25, right: 25), // Adjusted right padding
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -149,11 +130,14 @@ class _ClothMaterialState extends State<ClothMaterial> {
                         showDialog(
                           context: context,
                           builder: (context) {
-                            return AlertDialog(backgroundColor: Colors.white,
+                            return AlertDialog(
+                              backgroundColor: Colors.white,
                               //title: Text("Edit Service"),
                               content: SizedBox(
-                                width: 700, height: 400,// Adjust size as needed
-                                child: ClothMaterialAdd(), // Embedding ServiceEdit Widget
+                                width: 700,
+                                height: 400, // Adjust size as needed
+                                child:
+                                    ClothMaterialAdd(), // Embedding ServiceEdit Widget
                               ),
                               actions: [
                                 TextButton(
@@ -170,13 +154,15 @@ class _ClothMaterialState extends State<ClothMaterial> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: defaultColor, // Button color
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8), // Rounded corners
+                          borderRadius:
+                              BorderRadius.circular(8), // Rounded corners
                         ),
                       ),
                       icon: Icon(Icons.add, color: Colors.white), // Add icon
                       label: Text(
                         "Add",
-                        style: TextStyle(fontWeight:FontWeight.bold, color: Colors.white),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white),
                       ),
                     ),
                   ],
@@ -184,8 +170,6 @@ class _ClothMaterialState extends State<ClothMaterial> {
               ],
             ),
           ),
-
-
           Expanded(
             child: Container(
               // Background color
@@ -194,7 +178,7 @@ class _ClothMaterialState extends State<ClothMaterial> {
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minWidth:
-                    MediaQuery.of(context).size.width, // Ensures full width
+                        MediaQuery.of(context).size.width, // Ensures full width
                   ),
                   child: DataTable(
                     // border: TableBorder(
@@ -207,13 +191,15 @@ class _ClothMaterialState extends State<ClothMaterial> {
                     decoration: BoxDecoration(color: Colors.white),
                     columns: [
                       _buildColumn('SI/NO'),
+                      _buildColumn('Material Type'),
                       _buildColumn('All Materials'),
+
                       _buildColumn('Action'),
                     ],
 
                     rows: List.generate(
                       cloth.length,
-                          (index) {
+                      (index) {
                         final Cloth_data = cloth[index];
                         return DataRow(
                           cells: [
@@ -221,7 +207,7 @@ class _ClothMaterialState extends State<ClothMaterial> {
                               (index + 1).toString(),
                               style: TextStyle(fontWeight: FontWeight.bold),
                             )),
-
+                            DataCell(Text(Cloth_data.All_Materials)),
                             DataCell(Text(Cloth_data.All_Materials)),
                             DataCell(Row(
                               children: [
@@ -230,16 +216,21 @@ class _ClothMaterialState extends State<ClothMaterial> {
                                     showDialog(
                                       context: context,
                                       builder: (context) {
-                                        return AlertDialog(backgroundColor: Colors.white,
+                                        return AlertDialog(
+                                          backgroundColor: Colors.white,
                                           //title: Text("Edit Service"),
                                           content: SizedBox(
-                                            width: 700, height: 400,// Adjust size as needed
-                                            child: ClothMaterialEdit(), // Embedding ServiceEdit Widget
+                                            width: 700,
+                                            height:
+                                                400, // Adjust size as needed
+                                            child:
+                                                ClothMaterialEdit(), // Embedding ServiceEdit Widget
                                           ),
                                           actions: [
                                             TextButton(
                                               onPressed: () {
-                                                Navigator.of(context).pop(); // Close dialog
+                                                Navigator.of(context)
+                                                    .pop(); // Close dialog
                                               },
                                               child: Text("Cancel"),
                                             ),

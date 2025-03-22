@@ -7,6 +7,7 @@ import 'package:laundry/User/view/Screens/Services/service.dart';
 import 'package:laundry/User/view/Screens/Splash/splash_screen.dart';
 
 import 'Admin/View/Screens/Auth/Admin_login.dart';
+import 'Shop/view/Screens/Bottom_Navigation/Shop_nav.dart';
 import 'Shop/view/Screens/Driver/delivery.dart';
 import 'Shop/view/Screens/Orders/order_details.dart';
 import 'Shop/view/Screens/Shop/Add_shop.dart';
@@ -37,6 +38,6 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: Shop_Splash());
+        home:Shop_Navigation());
   }
 }

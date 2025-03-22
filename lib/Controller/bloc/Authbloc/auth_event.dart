@@ -28,3 +28,7 @@ class SigOutEvent extends AuthEvent {}
 // get user details
 class FetchUserDetailsById extends AuthEvent {}
 
+class FetchUsers extends AuthEvent {
+  final String? searchQuery;
+  FetchUsers({required this.searchQuery});
+}

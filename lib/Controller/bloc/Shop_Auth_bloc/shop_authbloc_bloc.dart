@@ -54,7 +54,10 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
             "ban": "1",
             "status": "1",
             "phone": event.shop.phone,
-            "Address": event.shop.shopAddress,
+            "street": event.shop.street,
+            "city": event.shop.city,
+            "post": event.shop.post,
+            //"Address": event.shop.shopAddress,
             "District": event.shop.District,
             "Laundry_Capacity": event.shop.LaundryCapacity,
             "imageUrl":
@@ -129,15 +132,15 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
 
     on<FetchShopDetailsById>((event, emit) async {
       emit(Shoploading());
-      User? user = _auth.currentUser;
+      User? shop = _auth.currentUser;
 
-      if (user != null) {
+      if (shop != null) {
         try {
-          final user = FirebaseAuth.instance.currentUser;
-          if (user != null) {
+          final shop = FirebaseAuth.instance.currentUser;
+          if (shop != null) {
             final doc = await FirebaseFirestore.instance
                 .collection('Laundry_Shops')
-                .doc(user.uid)
+                .doc(shop.uid)
                 .get();
 
             if (doc.exists) {
@@ -180,5 +183,34 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
       },
     );
 
+
+    on<FetchShop>((event, emit) async {
+      emit(ShopLoading());
+      try {
+        CollectionReference shopCollection =
+        FirebaseFirestore.instance.collection('Laundry_Shops');
+
+        Query query = shopCollection;
+        QuerySnapshot snapshot = await query.get();
+
+        List<ShopModel> shop = snapshot.docs.map((doc) {
+          return ShopModel.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
+
+        if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
+          shop = shop.where((viewshop) {
+            return viewshop.owner_name!
+                .toLowerCase()
+                .contains(event.searchQuery!.toLowerCase());
+          }).toList();
+        }
+
+        emit(Shoploaded(shop));
+      } catch (e) {
+        emit(Shopfailerror(e.toString()));
+      }
+    });
+
   }
 }
+

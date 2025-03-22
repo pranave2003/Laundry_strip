@@ -198,5 +198,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
 
+    on<FetchUsers>((event, emit) async {
+      emit(UsersLoading());
+      try {
+        CollectionReference usersCollection =
+        FirebaseFirestore.instance.collection('Laundry_Users');
+
+        Query query = usersCollection;
+        QuerySnapshot snapshot = await query.get();
+
+        List<UserModel> users = snapshot.docs.map((doc) {
+          return UserModel.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
+
+        if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
+          users = users.where((viewuser) {
+            return viewuser.name!
+                .toLowerCase()
+                .contains(event.searchQuery!.toLowerCase());
+          }).toList();
+        }
+
+        emit(Usersloaded(users));
+      } catch (e) {
+        emit(Usersfailerror(e.toString()));
+      }
+    });
+
   }
 }

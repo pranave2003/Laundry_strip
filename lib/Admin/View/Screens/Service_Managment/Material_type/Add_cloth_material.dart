@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:laundry/Controller/bloc/ServiceManagement/service_bloc.dart';
+import 'package:laundry/Widget/constands/Loading.dart';
+
+import '../../../../../Controller/bloc/ServiceManagement/MaterialModel/Material_Model.dart';
 
 class ClothMaterialAdd extends StatefulWidget {
   const ClothMaterialAdd({super.key});
@@ -9,7 +14,7 @@ class ClothMaterialAdd extends StatefulWidget {
 
 class _ClothMaterialAddState extends State<ClothMaterialAdd> {
   TextEditingController serviceNameController = TextEditingController();
-  String? imagePath;
+  String? selectCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -17,44 +22,6 @@ class _ClothMaterialAddState extends State<ClothMaterialAdd> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     Padding(
-          //       padding: const EdgeInsets.only(left: 25),
-          //       child: Column(
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         children: [
-          //           Text(
-          //             "Hello !",
-          //             style:
-          //             TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          //           ),
-          //           Text(
-          //             "Cheers and Happy Activities ",
-          //             style: TextStyle(
-          //               fontSize: 15,
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //     ),
-          //     Row(
-          //       children: [
-          //         Text(
-          //           "Admin",
-          //           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          //         ),
-          //         Padding(
-          //           padding: const EdgeInsets.all(8.0),
-          //           child: CircleAvatar(
-          //             backgroundColor: Color(0xffD9D9D9),
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ],
-          // ),
           SizedBox(
             height: 15,
           ),
@@ -73,13 +40,13 @@ class _ClothMaterialAddState extends State<ClothMaterialAdd> {
                 Container(
                   height: 40,
                   width: 400,
-
                 ),
               ],
             ),
           ),
-          SizedBox(height: 50,),
-
+          SizedBox(
+            height: 50,
+          ),
           Container(
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -97,12 +64,42 @@ class _ClothMaterialAddState extends State<ClothMaterialAdd> {
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [SizedBox(height: 40,),
-                /// **Service Image Field (Text & Input in Same Line)**
-
-                SizedBox(height: 20),
-
+              children: [
                 /// **Service Name Field (Text & Input in Same Line)**
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 120,
+                      child: Text(
+                        "Material Type",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: DropdownButtonFormField<String>(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Select Category',
+                        ),
+                        value: selectCategory, // The currently selected value
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectCategory = newValue;
+                          });
+                        },
+                        items: ['cloth', 'Bag', 'Shoes']
+                            .map((String category) => DropdownMenuItem<String>(
+                                  value: category,
+                                  child: Text(category),
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
                 Row(
                   children: [
                     /// **Label**
@@ -110,7 +107,8 @@ class _ClothMaterialAddState extends State<ClothMaterialAdd> {
                       width: 120,
                       child: Text(
                         "Material Name",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -128,27 +126,47 @@ class _ClothMaterialAddState extends State<ClothMaterialAdd> {
                   ],
                 ),
 
-                SizedBox(height: 60),
+                SizedBox(height: 20),
 
                 /// **Submit Button (Styled as per Image)**
                 Center(
                   child: SizedBox(
                     width: 120, // Match image size
                     height: 40, // Match image height
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // TODO: Implement submit logic
+                    child: BlocConsumer<ServiceBloc, ServiceState>(
+                      listener: (context, state) {
+                        if (state is meterialSuccess) {}
+                        Navigator.of(context).pop();
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green, // Green color
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10), // Small rounded corners
-                        ),
-                      ),
-                      child: Text(
-                        "Submit",
-                        style: TextStyle(fontSize: 16, color: Colors.white,fontWeight: FontWeight.bold),
-                      ),
+                      builder: (context, state) {
+                        return ElevatedButton(
+                          onPressed: () {
+                            MaterialModel user = MaterialModel(
+                                material_name: serviceNameController.text,
+                                material_type: selectCategory);
+                            // Trigger the sign-up event
+                            context
+                                .read<ServiceBloc>()
+                                .add(MaterialAddevent(cloth: user));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green, // Green color
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  10), // Small rounded corners
+                            ),
+                          ),
+                          child: state is Loading
+                              ? Loading_Widget()
+                              : Text(
+                                  "Submit",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -156,9 +174,7 @@ class _ClothMaterialAddState extends State<ClothMaterialAdd> {
             ),
           ),
         ],
-
       ),
-
     );
     ();
   }

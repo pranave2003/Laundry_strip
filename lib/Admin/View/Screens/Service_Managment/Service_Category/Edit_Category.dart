@@ -15,13 +15,13 @@ class _CategoryEditState extends State<CategoryEdit> {
   String? selectedServiceType;
   String? selectedCategory;
 
-  List<String> serviceTypes = ["Wash +\nFold",
-    "Wash +\nIron",
-    "Steam\nIron",
-    "Dry\nClean",
-    "Bag\nServices",
+  List<String> serviceTypes = ["Wash + Fold",
+    "Wash + Iron",
+    "Steam Iron",
+    "Dry Clean",
+    "Bag Service",
     "Shoe Service",
-    "Household Services",
+    "Household Service",
     "Stain Removal"];
   List<String> categories = ["Men", "Women", "Kids","Household"];
 

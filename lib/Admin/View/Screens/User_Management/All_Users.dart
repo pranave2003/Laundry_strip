@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:laundry/Controller/bloc/Authbloc/auth_bloc.dart';
 
+import '../../../../Widget/constands/Loading.dart';
 import '../../../Model/User_Model/user_model.dart';
-
-
 
 class AllUsers extends StatefulWidget {
   const AllUsers({super.key});
@@ -12,13 +13,6 @@ class AllUsers extends StatefulWidget {
 }
 
 class _AllUsersState extends State<AllUsers> {
-  final List<User> drivers = [
-    User(name: "Amal", phone: "8962147896", email: "amal@gmail.com",  image: "assets/driver1.png"),
-    User(name: "Sachind", phone: "8962147896", email: "sachind@gmail.com", image: "assets/driver1.png"),
-    User(name: "Rahul", phone: "8962147896", email: "rahul@gmail.com",  image: "assets/driver1.png"),
-    User(name: "Arjun", phone: "8962147896", email: "arjun@gmail.com",  image: "assets/driver1.png"),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,8 +32,8 @@ class _AllUsersState extends State<AllUsers> {
                     children: [
                       Text(
                         "Hello !",
-                        style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         "Cheers and Happy Activities ",
@@ -55,9 +49,14 @@ class _AllUsersState extends State<AllUsers> {
                     Container(
                       height: 40,
                       width: 400,
-                      decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(18)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18)),
                       child: TextField(
+                        onChanged: (value) {
+                          context
+                              .read<AuthBloc>()
+                              .add(FetchUsers(searchQuery: value)); // P
+                        },
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
@@ -70,8 +69,8 @@ class _AllUsersState extends State<AllUsers> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(18),
-                            borderSide:
-                            BorderSide(color: Theme.of(context).primaryColor),
+                            borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                             vertical: 5,
@@ -98,7 +97,8 @@ class _AllUsersState extends State<AllUsers> {
                       child: CircleAvatar(
                         backgroundColor: Color(0xffD9D9D9),
                         child: IconButton(
-                            onPressed: () {}, icon: Icon(Icons.notification_add)),
+                            onPressed: () {},
+                            icon: Icon(Icons.notification_add)),
                       ),
                     )
                   ],
@@ -119,7 +119,8 @@ class _AllUsersState extends State<AllUsers> {
                   children: [
                     Text(
                       "All Users",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     Container(
@@ -134,47 +135,71 @@ class _AllUsersState extends State<AllUsers> {
             const SizedBox(height: 20),
             Expanded(
               child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 700),
-                  child: ListView.builder(
-                    itemCount: drivers.length,
-                    itemBuilder: (context, index) {
-                      final driver = drivers[index];
-                      return Card(
-                        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        color: Colors.grey[100],
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 30,
-                                backgroundColor: Colors.grey.shade300,
-                                backgroundImage: driver.image.isNotEmpty
-                                    ? AssetImage(driver.image)
-                                    : null,
+                child: BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    if (state is UsersLoading) {
+                      return Center(child: Loading_Widget());
+                    } else if (state is Usersfailerror) {
+                      return Text(state.error.toString());
+                    } else if (state is Usersloaded) {
+                      if (state.Users.isEmpty) {
+                        // Return "No data found" if txhe list is empty
+                        return Center(
+                          child: Text(
+                            "No data found",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        );
+                      }
+
+                      return ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 700),
+                        child: ListView.builder(
+                          itemCount: state.Users.length,
+                          itemBuilder: (context, index) {
+                            final user = state.Users[index];
+                            return Card(
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 4),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                              color: Colors.grey[100],
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Row(
                                   children: [
-                                    Text(driver.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                                    Text("Phone No: ${driver.phone}"),
-                                    Text("Email Id: ${driver.email}"),
+                                    CircleAvatar(
+                                        radius: 30,
+                                        backgroundColor: Colors.grey.shade300,
+                                        backgroundImage: NetworkImage(
+                                            user.imageUrl.toString())),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(user.name.toString(),
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18)),
+                                          Text("Phone No: ${user.phone}"),
+                                          Text("Email Id: ${user.email}"),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
-
-                            ],
-                          ),
+                            );
+                          },
                         ),
                       );
-                    },
-                  ),
+                    }
+                    return SizedBox();
+                  },
                 ),
               ),
             ),

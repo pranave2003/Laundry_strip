@@ -51,7 +51,7 @@ class _AllShopState extends State<AllShop> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          // Header
+          /// Header
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
             child: Row(
@@ -145,6 +145,8 @@ class _AllShopState extends State<AllShop> {
                     columns: [
                       _buildColumn("SI No"),
                       _buildColumn("Shop Name"),
+                      //_buildColumn("Address"),
+                      //address
                       _buildColumn("Register Date"),
                       _buildColumn("Email"),
                       _buildColumn("Phone"),
@@ -160,6 +162,25 @@ class _AllShopState extends State<AllShop> {
                             DataCell(Text((index + 1).toString(),
                                 style: TextStyle(fontWeight: FontWeight.bold))),
                             DataCell(Text(shop["shopName"])),
+                           //
+                           //DataCell(
+                            //                         Column(
+                            //                           mainAxisAlignment: MainAxisAlignment.center,
+                            //                           crossAxisAlignment: CrossAxisAlignment.start,
+                            //                           children: [
+                            //                             Text(
+                            //                               shop.Ownername.toString(),
+                            //                               style:
+                            //                                   const TextStyle(fontWeight: FontWeight.bold),
+                            //                               overflow: TextOverflow.ellipsis,
+                            //                             ),
+                            //                             Text(shop.phone.toString(),
+                            //                                 overflow: TextOverflow.ellipsis),
+                            //                             Text(shop.email.toString(),
+                            //                                 overflow: TextOverflow.ellipsis),
+                            //                           ],
+                            //                         ),
+                            //                       ),
                             DataCell(Text(shop["registerDate"])),
                             DataCell(Text(shop["email"])),
                             DataCell(Text(shop["phone"])),

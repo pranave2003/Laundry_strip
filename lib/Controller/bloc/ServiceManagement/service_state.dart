@@ -56,4 +56,8 @@ class Categoryloaded extends ServiceState {
   Categoryloaded(
       this.category,
       );
+
+}
+class RefreshCategory extends ServiceState {
+
 }

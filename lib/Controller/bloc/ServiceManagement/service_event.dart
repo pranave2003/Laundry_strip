@@ -38,3 +38,8 @@ class FetchCategory extends ServiceEvent {
   final String? searchQuery;
   FetchCategory({required this.searchQuery});
 }
+class DeleteCategory extends ServiceEvent {
+  final String? id;
+  DeleteCategory({required this.id});
+}
+

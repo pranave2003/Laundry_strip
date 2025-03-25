@@ -124,7 +124,7 @@ class _EditAddressPageState extends State<EditAddressPage> {
                     ),
                   ),
                   child: Text(
-                    "Save Address",
+                    "Update Address",
                     style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),

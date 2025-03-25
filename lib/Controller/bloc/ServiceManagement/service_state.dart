@@ -59,5 +59,9 @@ class Categoryloaded extends ServiceState {
 
 }
 class RefreshCategory extends ServiceState {
+}
+class RefreshMaterial extends ServiceState {
+}
+class RefreshInstruction extends ServiceState {
 
 }

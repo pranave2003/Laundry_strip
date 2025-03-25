@@ -177,5 +177,24 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
         emit(Categoryfailerror(e.toString()));
       }
     });
+    on<DeleteMaterial>((event, emit) async {
+      emit(Loading());
+      try {
+        FirebaseFirestore.instance.collection("MaterialTypes").doc(event.id).delete();
+        emit(RefreshMaterial());
+      } catch (e) {
+        emit(failerror(e.toString()));
+      }
+    });
+    on<DeleteInstruction>((event, emit) async {
+      emit(InstructionLoading());
+      try {
+        FirebaseFirestore.instance.collection("Instruction_Types").doc(event.id).delete();
+        emit(RefreshInstruction());
+      } catch (e) {
+        emit(Instructionfailerror(e.toString()));
+      }
+    });
+
   }
 }

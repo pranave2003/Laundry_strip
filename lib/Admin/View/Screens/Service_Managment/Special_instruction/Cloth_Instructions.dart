@@ -209,6 +209,10 @@ class _ClothInstructionsState extends State<ClothInstructions> {
           Expanded(
             child: BlocConsumer<ServiceBloc, ServiceState>(
   listener: (context, state) {
+    if(state is RefreshInstruction){
+      context.read<ServiceBloc>().add(
+          FetchInstruction(searchQuery: null));
+    }
     // TODO: implement listener
   },
   builder: (context, state) {
@@ -301,7 +305,9 @@ class _ClothInstructionsState extends State<ClothInstructions> {
                             width: 10,
                           ),
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () {context.read<ServiceBloc>().add(
+                                  DeleteInstruction(
+                                      id: instruction.instruction_id));},
                               icon: Icon(
                                 Icons.delete,
                                 color: Colors.red,

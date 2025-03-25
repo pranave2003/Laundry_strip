@@ -43,3 +43,12 @@ class DeleteCategory extends ServiceEvent {
   DeleteCategory({required this.id});
 }
 
+class DeleteMaterial extends ServiceEvent {
+  final String? id;
+  DeleteMaterial({required this.id});
+}
+class DeleteInstruction extends ServiceEvent {
+  final String? id;
+  DeleteInstruction({required this.id});
+}
+

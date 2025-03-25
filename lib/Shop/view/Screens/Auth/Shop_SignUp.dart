@@ -76,7 +76,8 @@ class _Shop_SignupState extends State<Shop_Signup> {
         city: _cityController.text,
         post: _postController.text,
         District: selectedDistrict,
-       // shopAddress: _shopAddressController.text,
+        selectServices: selectedServices,
+        // shopAddress: _shopAddressController.text,
         LaundryCapacity: _laundryCapacityController.text,
       );
       // Trigger the sign-up event
@@ -269,14 +270,12 @@ class _Shop_SignupState extends State<Shop_Signup> {
                           }
                           return null;
                         },
-
-
                       ),
                       SizedBox(height: 15),
                       DropdownButtonFormField<String>(
                         decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.business ,
-                              color: Colors.black),
+                          prefixIcon:
+                              const Icon(Icons.business, color: Colors.black),
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
@@ -507,7 +506,6 @@ class _Shop_SignupState extends State<Shop_Signup> {
                           ));
                         },
                         child: Text("Terms and Conditions "))
-
                   ],
                 ),
                 if (!isChecked)
@@ -521,19 +519,18 @@ class _Shop_SignupState extends State<Shop_Signup> {
                       ),
                     ),
                   ),
-        SizedBox(
-        height: 100,
-        child: Column(
-        children: [
-                if (state is ShopAuthloading) ...[
-                  const Text("Logging in..."),
-                  const Loading_Widget(),
-                ],
-                ],
-        ),
-        ),
+                SizedBox(
+                  height: 100,
+                  child: Column(
+                    children: [
+                      if (state is ShopAuthloading) ...[
+                        const Text("Logging in..."),
+                        const Loading_Widget(),
+                      ],
+                    ],
+                  ),
+                ),
                 SizedBox(height: 15),
-
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: MaterialButton(

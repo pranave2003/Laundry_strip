@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:laundry/Controller/bloc/ServiceManagement/service_bloc.dart';
+import 'package:laundry/Widget/constands/Loading.dart';
 
-import '../../../../../Controller/bloc/ServiceManagement/Service_Model/Instruction_Model.dart';
-import '../../../../../Controller/bloc/ServiceManagement/service_bloc.dart';
-import '../../../../../Widget/constands/Loading.dart';
+import '../../../../../Controller/bloc/ServiceManagement/Service_Model/Material_Model.dart';
 
-class ClothInstructionsAdd extends StatefulWidget {
-  const ClothInstructionsAdd({super.key});
+class AddMaterial extends StatefulWidget {
+  const AddMaterial({super.key});
 
   @override
-  State<ClothInstructionsAdd> createState() => _ClothInstructionsAddState();
+  State<AddMaterial> createState() => _AddMaterialState();
 }
 
-class _ClothInstructionsAddState extends State<ClothInstructionsAdd> {
+class _AddMaterialState extends State<AddMaterial> {
   TextEditingController serviceNameController = TextEditingController();
   String? selectCategory;
 
@@ -22,7 +22,6 @@ class _ClothInstructionsAddState extends State<ClothInstructionsAdd> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-
           SizedBox(
             height: 15,
           ),
@@ -32,7 +31,7 @@ class _ClothInstructionsAddState extends State<ClothInstructionsAdd> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Add Instruction",
+                  "Add Cloth Material",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
@@ -41,13 +40,13 @@ class _ClothInstructionsAddState extends State<ClothInstructionsAdd> {
                 Container(
                   height: 40,
                   width: 400,
-
                 ),
               ],
             ),
           ),
-          SizedBox(height: 50,),
-
+          SizedBox(
+            height: 50,
+          ),
           Container(
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -65,26 +64,19 @@ class _ClothInstructionsAddState extends State<ClothInstructionsAdd> {
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [SizedBox(height: 40,),
-                /// **Service Image Field (Text & Input in Same Line)**
-
-                SizedBox(height: 20),
-
+              children: [
                 /// **Service Name Field (Text & Input in Same Line)**
                 Row(
                   children: [
-                    /// **Label**
                     SizedBox(
                       width: 120,
                       child: Text(
-                        "Instruction Type",
+                        "Material Type",
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
                     SizedBox(width: 10),
-
-                    /// **Input Field**
                     Expanded(
                       child: DropdownButtonFormField<String>(
                         decoration: const InputDecoration(
@@ -99,15 +91,14 @@ class _ClothInstructionsAddState extends State<ClothInstructionsAdd> {
                         },
                         items: ['cloth', 'Bag', 'Shoes']
                             .map((String category) => DropdownMenuItem<String>(
-                          value: category,
-                          child: Text(category),
-                        ))
+                                  value: category,
+                                  child: Text(category),
+                                ))
                             .toList(),
                       ),
                     ),
                   ],
                 ),
-
                 SizedBox(height: 20),
                 Row(
                   children: [
@@ -116,7 +107,7 @@ class _ClothInstructionsAddState extends State<ClothInstructionsAdd> {
                       width: 120,
                       height: 40, // Match image height
                       child: Text(
-                        "Instruction Name",
+                        "Material Name",
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
@@ -129,13 +120,14 @@ class _ClothInstructionsAddState extends State<ClothInstructionsAdd> {
                         controller: serviceNameController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          hintText: "Enter Instruction Name",
+                          hintText: "Enter Material Name",
                         ),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+
+                SizedBox(height: 30),
 
                 /// **Submit Button (Styled as per Image)**
                 Center(
@@ -144,19 +136,19 @@ class _ClothInstructionsAddState extends State<ClothInstructionsAdd> {
                     height: 40, // Match image height
                     child: BlocConsumer<ServiceBloc, ServiceState>(
                       listener: (context, state) {
-                        if (state is InstructionSuccess) {}
+                        if (state is meterialSuccess) {}
                         Navigator.of(context).pop();
                       },
                       builder: (context, state) {
                         return ElevatedButton(
                           onPressed: () {
-                            InstructionModel user = InstructionModel(
-                                instruction_name: serviceNameController.text,
-                                instruction_type: selectCategory);
+                            MaterialModel user = MaterialModel(
+                                material_name: serviceNameController.text,
+                                material_type: selectCategory);
                             // Trigger the sign-up event
                             context
                                 .read<ServiceBloc>()
-                                .add(InstructionAddEvent(instruction: user));
+                                .add(MaterialAddevent(cloth: user));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green, // Green color
@@ -168,24 +160,23 @@ class _ClothInstructionsAddState extends State<ClothInstructionsAdd> {
                           child: state is Loading
                               ? Loading_Widget()
                               : Text(
-                            "Submit",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
+                                  "Submit",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
                         );
                       },
                     ),
                   ),
                 ),
+                SizedBox(height: 30,),
               ],
             ),
           ),
         ],
-
       ),
-
     );
     ();
   }

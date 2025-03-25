@@ -3,8 +3,11 @@ class UserModel {
   String? password;
   String? uid;
   String? name;
+  String? place;
+  String? post;
+  String? pin;
   String? District;
-  String? Address;
+  String? state;
   String? phone;
   String? status;
   String? imageUrl;
@@ -15,8 +18,11 @@ class UserModel {
     this.password,
     this.name,
     this.uid,
+    this.place,
+    this.post,
+    this.pin,
     this.District,
-    this.Address,
+    this.state,
     this.phone,
     this.status,
     this.ban,
@@ -31,8 +37,11 @@ class UserModel {
       phone: data['phone'],
       status: data['status'],
       ban: data['ban'],
+      place: data['place'],
+      post: data['post'],
+      pin: data['pin'],
       District: data['District'],
-      Address: data["Address"],
+      state: data["state"],
       imageUrl: data['imageUrl'],
     );
   }

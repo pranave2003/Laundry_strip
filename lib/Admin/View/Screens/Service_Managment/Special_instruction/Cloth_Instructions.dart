@@ -1,8 +1,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Widget/constands/colors.dart';
 
+import '../../../../../Controller/bloc/ServiceManagement/service_bloc.dart';
+import '../../../../../Widget/constands/Loading.dart';
 import '../../../../Model/Instructions_Model/Bag_Inst_Model.dart';
 import '../../../../Model/Instructions_Model/Cloth_Inst_Model.dart';
 import '../../../../Model/Material_Model/Bag_Model.dart';
@@ -12,6 +15,20 @@ import '../../../../Model/Material_Model/Shoe_Model.dart';
 import 'Add_cloth_instructions.dart';
 import 'Edit_cloth_instructions.dart';
 
+class InstructionWrapper extends StatelessWidget {
+  const InstructionWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => ServiceBloc()
+        ..add(FetchInstruction(searchQuery: null)),
+      child: ClothInstructions(),
+    );
+  }
+}
+
+
 class ClothInstructions extends StatefulWidget {
   const ClothInstructions({super.key});
 
@@ -20,37 +37,37 @@ class ClothInstructions extends StatefulWidget {
 }
 
 class _ClothInstructionsState extends State<ClothInstructions> {
-  List<Cloth_instruction> cloth = [
-
-    Cloth_instruction(
-        Id: "",
-        All_Materials: "Wash Separately"),
-    Cloth_instruction(
-        Id: "",
-        All_Materials: "Machine Wash Cold"),
-    Cloth_instruction(
-        Id: "",
-        All_Materials: "Hand Wash"),
-    Cloth_instruction(
-        Id: "",
-        All_Materials: "Use Mild Detergent"),
-    Cloth_instruction(
-        Id: "",
-        All_Materials: "Do not Bleach"),
-    Cloth_instruction(
-        Id: "",
-        All_Materials: "Do Not Wring"),
-    Cloth_instruction(
-        Id: "",
-        All_Materials: "Do not Tumple Dry"),
-    Cloth_instruction(
-        Id: "",
-        All_Materials: "Hang Dry in Shade"),
-    Cloth_instruction(
-        Id: "",
-        All_Materials: " Do not Soak"),
-
-  ];
+  // List<Cloth_instruction> cloth = [
+  //
+  //   Cloth_instruction(
+  //       Id: "",
+  //       All_Materials: "Wash Separately"),
+  //   Cloth_instruction(
+  //       Id: "",
+  //       All_Materials: "Machine Wash Cold"),
+  //   Cloth_instruction(
+  //       Id: "",
+  //       All_Materials: "Hand Wash"),
+  //   Cloth_instruction(
+  //       Id: "",
+  //       All_Materials: "Use Mild Detergent"),
+  //   Cloth_instruction(
+  //       Id: "",
+  //       All_Materials: "Do not Bleach"),
+  //   Cloth_instruction(
+  //       Id: "",
+  //       All_Materials: "Do Not Wring"),
+  //   Cloth_instruction(
+  //       Id: "",
+  //       All_Materials: "Do not Tumple Dry"),
+  //   Cloth_instruction(
+  //       Id: "",
+  //       All_Materials: "Hang Dry in Shade"),
+  //   Cloth_instruction(
+  //       Id: "",
+  //       All_Materials: " Do not Soak"),
+  //
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -190,85 +207,120 @@ class _ClothInstructionsState extends State<ClothInstructions> {
             ),
           ),
           Expanded(
-            child: Container(
-              // Background color
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minWidth:
-                    MediaQuery.of(context).size.width, // Ensures full width
-                  ),
-                  child: DataTable(
+            child: BlocConsumer<ServiceBloc, ServiceState>(
+  listener: (context, state) {
+    // TODO: implement listener
+  },
+  builder: (context, state) {
+    if (state is InstructionLoading) {
+      return Center(child: Loading_Widget());
+    } else if (state is Instructionfailerror) {
+      return Text(state.error.toString());
+    } else if (state is Instructionloaded) {
+      if (state.instruction.isEmpty) {
+        // Return "No data found" if txhe list is empty
+        return Center(
+          child: Text(
+            "No data found",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        );
+      }
 
-                    decoration: BoxDecoration(color: Colors.white),
-                    columns: [
-                      _buildColumn('SI/NO'),
-                      _buildColumn('All Instructions'),
-                      _buildColumn('Action'),
+      return Container(
+        // Background color
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minWidth:
+              MediaQuery
+                  .of(context)
+                  .size
+                  .width, // Ensures full width
+            ),
+            child: DataTable(
+
+              decoration: BoxDecoration(color: Colors.white),
+              columns: [
+                _buildColumn('SI/NO'),
+                _buildColumn('Instruction Type'),
+                _buildColumn('All Instructions'),
+                _buildColumn('Action'),
+              ],
+
+              rows: List.generate(
+                state.instruction.length,
+                    (index) {
+                  final instruction = state.instruction[index];
+                  return DataRow(
+                    cells: [
+                      DataCell(Text(
+                        (index + 1).toString(),
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+
+                      DataCell(Text(instruction.instruction_type.toString())),
+                      DataCell(Text(instruction.instruction_name.toString())),
+
+                      DataCell(Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    backgroundColor: Colors.white,
+                                    //title: Text("Edit Service"),
+                                    content: SizedBox(
+                                      width: 700,
+                                      height: 600,
+                                      // Adjust size as needed
+                                      child: ClothInstructionsEdit(), // Embedding ServiceEdit Widget
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .pop(); // Close dialog
+                                        },
+                                        child: Text("Cancel"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            icon: Icon(
+                              Icons.edit,
+                              color: Colors.green,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                              ))
+                        ],
+                      )),
                     ],
-
-                    rows: List.generate(
-                      cloth.length,
-                          (index) {
-                        final Cloth_data = cloth[index];
-                        return DataRow(
-                          cells: [
-                            DataCell(Text(
-                              (index + 1).toString(),
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            )),
-
-                            DataCell(Text(Cloth_data.All_Materials)),
-                            DataCell(Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(backgroundColor: Colors.white,
-                                          //title: Text("Edit Service"),
-                                          content: SizedBox(
-                                            width: 700, height: 400,// Adjust size as needed
-                                            child: ClothInstructionsEdit(), // Embedding ServiceEdit Widget
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop(); // Close dialog
-                                              },
-                                              child: Text("Cancel"),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                  icon: Icon(
-                                    Icons.edit,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    ))
-                              ],
-                            )),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                ),
+                  );
+                },
               ),
             ),
+          ),
+        ),
+      );
+    }
+    return SizedBox();
+
+  },
+),
           ),
         ],
       ),

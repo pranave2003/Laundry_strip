@@ -32,3 +32,5 @@ class FetchUsers extends AuthEvent {
   final String? searchQuery;
   FetchUsers({required this.searchQuery});
 }
+
+

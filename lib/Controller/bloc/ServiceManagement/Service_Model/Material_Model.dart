@@ -11,9 +11,9 @@ class MaterialModel {
   });
   factory MaterialModel.fromMap(Map<String, dynamic> data) {
     return MaterialModel(
-      material_id: data['materialid'],
-      material_type: data['materialtype'],
-      material_name: data['materialname'],
+      material_id: data['material_id'],
+      material_type: data['material_type'],
+      material_name: data['material_name'],
     );
   }
 }

@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:laundry/Controller/bloc/ServiceManagement/service_bloc.dart';
-import 'package:laundry/Widget/constands/Loading.dart';
 
-import '../../../../../Controller/bloc/ServiceManagement/MaterialModel/Material_Model.dart';
-
-class ClothMaterialAdd extends StatefulWidget {
-  const ClothMaterialAdd({super.key});
+class EditMaterial extends StatefulWidget {
+  const EditMaterial({super.key});
 
   @override
-  State<ClothMaterialAdd> createState() => _ClothMaterialAddState();
+  State<EditMaterial> createState() => _EditMaterialState();
 }
 
-class _ClothMaterialAddState extends State<ClothMaterialAdd> {
+class _EditMaterialState extends State<EditMaterial> {
   TextEditingController serviceNameController = TextEditingController();
   String? selectCategory;
 
@@ -31,7 +26,7 @@ class _ClothMaterialAddState extends State<ClothMaterialAdd> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Add Cloth Material",
+                  "Edit Cloth Material",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
@@ -40,13 +35,13 @@ class _ClothMaterialAddState extends State<ClothMaterialAdd> {
                 Container(
                   height: 40,
                   width: 400,
+
                 ),
               ],
             ),
           ),
-          SizedBox(
-            height: 50,
-          ),
+          SizedBox(height: 20,),
+
           Container(
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -65,18 +60,22 @@ class _ClothMaterialAddState extends State<ClothMaterialAdd> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                /// **Service Image Field (Text & Input in Same Line)**
+
                 /// **Service Name Field (Text & Input in Same Line)**
                 Row(
                   children: [
+                    /// **Label**
                     SizedBox(
                       width: 120,
                       child: Text(
                         "Material Type",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
                     SizedBox(width: 10),
+
+                    /// **Input Field**
                     Expanded(
                       child: DropdownButtonFormField<String>(
                         decoration: const InputDecoration(
@@ -91,9 +90,9 @@ class _ClothMaterialAddState extends State<ClothMaterialAdd> {
                         },
                         items: ['cloth', 'Bag', 'Shoes']
                             .map((String category) => DropdownMenuItem<String>(
-                                  value: category,
-                                  child: Text(category),
-                                ))
+                          value: category,
+                          child: Text(category),
+                        ))
                             .toList(),
                       ),
                     ),
@@ -105,6 +104,7 @@ class _ClothMaterialAddState extends State<ClothMaterialAdd> {
                     /// **Label**
                     SizedBox(
                       width: 120,
+                      height: 40, // Match image height
                       child: Text(
                         "Material Name",
                         style: TextStyle(
@@ -124,57 +124,38 @@ class _ClothMaterialAddState extends State<ClothMaterialAdd> {
                       ),
                     ),
                   ],
-                ),
-
-                SizedBox(height: 20),
-
+                ),SizedBox(height: 30,),
                 /// **Submit Button (Styled as per Image)**
                 Center(
                   child: SizedBox(
                     width: 120, // Match image size
                     height: 40, // Match image height
-                    child: BlocConsumer<ServiceBloc, ServiceState>(
-                      listener: (context, state) {
-                        if (state is meterialSuccess) {}
-                        Navigator.of(context).pop();
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // TODO: Implement submit logic
                       },
-                      builder: (context, state) {
-                        return ElevatedButton(
-                          onPressed: () {
-                            MaterialModel user = MaterialModel(
-                                material_name: serviceNameController.text,
-                                material_type: selectCategory);
-                            // Trigger the sign-up event
-                            context
-                                .read<ServiceBloc>()
-                                .add(MaterialAddevent(cloth: user));
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green, // Green color
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  10), // Small rounded corners
-                            ),
-                          ),
-                          child: state is Loading
-                              ? Loading_Widget()
-                              : Text(
-                                  "Submit",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                        );
-                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green, // Green color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10), // Small rounded corners
+                        ),
+                      ),
+                      child: Text(
+                        "Update",
+                        style: TextStyle(fontSize: 16, color: Colors.white,fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),
+                SizedBox(height: 30,),
+
               ],
             ),
           ),
         ],
+
       ),
+
     );
     ();
   }

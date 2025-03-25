@@ -54,7 +54,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               "ban": "1",
               "status": "1",
               "phone": event.user.phone,
-              "Address": event.user.Address,
+              "place": event.user.place,
+              "post": event.user.post,
+              "pin": event.user.pin,
+              "state": event.user.state,
               "District": event.user.District,
               "imageUrl":
                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4ZqivCNC7yvJqthqZOVvxSjDLyDxtai-cbQ&s",

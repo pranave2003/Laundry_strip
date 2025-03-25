@@ -11,12 +11,30 @@ class _AddAddressPageState extends State<AddAddressPage> {
   TextEditingController placeController = TextEditingController();
   TextEditingController postController = TextEditingController();
   TextEditingController pincodeController = TextEditingController();
-  TextEditingController districtController = TextEditingController();
+  //TextEditingController districtController = TextEditingController();
   TextEditingController stateController = TextEditingController();
   TextEditingController landmarkController = TextEditingController();
   TextEditingController directionsController = TextEditingController();
 
   String selectedTag = "Home"; // Default selection
+  String selectedDistrict = "";
+
+  List<String> districts = [
+    "Thiruvananthapuram",
+    "Kollam",
+    "Pathanamthitta",
+    "Alappuzha",
+    "Kottayam",
+    "Idukki",
+    "Ernakulam",
+    "Thrissur",
+    "Palakkad",
+    "Malappuram",
+    "Kozhikode",
+    "Wayanad",
+    "Kannur",
+    "Kasaragod"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +89,25 @@ class _AddAddressPageState extends State<AddAddressPage> {
                 ),
               ),
 
-              _buildTextField(districtController, "District"),
+              Text("District", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+              DropdownButtonFormField(
+                value: selectedDistrict.isNotEmpty ? selectedDistrict : null,
+                items: districts.map((district) {
+                  return DropdownMenuItem(
+                    value: district,
+                    child: Text(district),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedDistrict = value.toString();
+                  });
+                },
+                decoration: InputDecoration(
+                  border: UnderlineInputBorder(),
+                  hintText: "Select District",
+                ),
+              ),
               _buildTextField(stateController, "State"),
               _buildTextField(landmarkController, "Landmark (Optional)"),
               _buildTextField(directionsController, "How to reach (Optional)"),
@@ -108,11 +144,11 @@ class _AddAddressPageState extends State<AddAddressPage> {
                         placeController.text.isNotEmpty &&
                         postController.text.isNotEmpty &&
                         pincodeController.text.isNotEmpty &&
-                        districtController.text.isNotEmpty &&
+                        selectedDistrict.isNotEmpty &&
                         stateController.text.isNotEmpty) {
                       // Combine all address details into one string
                       String fullAddress =
-                          "${houseController.text}, ${placeController.text}, ${postController.text}, ${pincodeController.text}, ${districtController.text}, ${stateController.text}, Landmark: ${landmarkController.text}, Directions: ${directionsController.text} ($selectedTag)";
+                          "${houseController.text}, ${placeController.text}, ${postController.text}, ${pincodeController.text},${selectedDistrict}, ${stateController.text}, Landmark: ${landmarkController.text}, Directions: ${directionsController.text} ($selectedTag)";
 
                       // Return the new address to AddressesPage
                       Navigator.pop(context, fullAddress);

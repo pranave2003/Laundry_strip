@@ -63,4 +63,7 @@ class Shoploaded extends ShopAuthblocState {
   Shoploaded(
       this.Shop,
       );
+
+
 }
+

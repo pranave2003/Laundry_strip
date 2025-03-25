@@ -1,30 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:laundry/Controller/bloc/Authbloc/Userauthmodel/Usermodel.dart';
 import 'Add_address.dart';
-
 import 'Edit_address.dart';
 
 class AddressesPage extends StatefulWidget {
+  final UserModel user; // Store user model
+
+  AddressesPage(this.user);
+
   @override
   _AddressesPageState createState() => _AddressesPageState();
 }
 
 class _AddressesPageState extends State<AddressesPage> {
-  List<Map<String, String>> addresses = [
-    {"address": "2GQ9+988, Jalahalli Cross Rd, Peenya, Bengaluru", "tag": "Home"},
-  ]; // Initial dummy addresses
   int selectedIndex = 0; // Track selected radio button
 
-  void addNewAddress(String newAddress, String tag) {
-    setState(() {
-      addresses.add({"address": newAddress, "tag": tag});
-    });
-  }
 
-  void updateAddress(int index, String updatedAddress, String updatedTag) {
-    setState(() {
-      addresses[index] = {"address": updatedAddress, "tag": updatedTag};
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +31,7 @@ class _AddressesPageState extends State<AddressesPage> {
           icon: Icon(Icons.arrow_back, color: Colors.black),
         ),
         title: Text(
-          "My Addresses",
+          widget.user.name.toString(), // Display user's name
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -52,109 +43,16 @@ class _AddressesPageState extends State<AddressesPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Saved Address", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+            Text("Saved Addresses", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
             SizedBox(height: 10),
 
-            Expanded(
-              child: ListView.builder(
-                itemCount: addresses.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 15.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black12),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      padding: EdgeInsets.all(12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Radio(
-                                value: index,
-                                groupValue: selectedIndex,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedIndex = value as int;
-                                  });
-                                },
-                                activeColor: Colors.blue,
-                              ),
-                              Text(
-                                "${addresses[index]['tag']}",
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 40),
-                            child: Text(
-                              addresses[index]['address']!,
-                              style: TextStyle(fontSize: 15, color: Colors.black87),
-                            ),
-                          ),
-                          SizedBox(height: 10),
 
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              OutlinedButton(
-                                onPressed: () async {
-                                  final result = await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => EditAddressPage(
-                                        initialAddress: addresses[index]["address"]!,
-                                        initialTag: addresses[index]["tag"]!,
-                                      ),
-                                    ),
-                                  );
-
-                                  if (result != null) {
-                                    updateAddress(index, result["address"], result["tag"]);
-                                  }
-                                },
-                                style: OutlinedButton.styleFrom(
-                                  side: BorderSide(color: Colors.green),
-                                ),
-                                child: Text("Edit", style: TextStyle(color: Colors.green)),
-                              ),
-                              SizedBox(width: 30),
-                              // OutlinedButton(
-                              //   onPressed: () {
-                              //     setState(() {
-                              //       addresses.removeAt(index);
-                              //     });
-                              //   },
-                              //   style: OutlinedButton.styleFrom(
-                              //     side: BorderSide(color: Colors.red),
-                              //   ),
-                              //   child: Text("Delete", style: TextStyle(color: Colors.red)),
-                              // ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
 
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () async {
-                  final result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AddAddressPage()),
-                  );
 
-                  if (result != null) {
-                    addNewAddress(result["address"], result["tag"]);
-                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,

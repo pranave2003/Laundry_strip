@@ -16,7 +16,7 @@ import '../Screens/Driver_Management/All_driver.dart';
 import '../Screens/Order_management/All_orders.dart';
 import '../Screens/Order_management/Assign_order.dart';
 import '../Screens/Revenue/Reports.dart';
-import '../Screens/Service_Managment/Material_type/Cloth_material.dart';
+import '../Screens/Service_Managment/Material_type/Material_Type.dart';
 import '../Screens/Service_Managment/Material_type/Bag_material.dart';
 import '../Screens/Service_Managment/Material_type/Shoe_material.dart';
 import '../Screens/Service_Managment/Service_Category/View_Category.dart';
@@ -56,7 +56,19 @@ class MyApp extends StatelessWidget {
           create: (context) =>
               ShopAuthblocBloc()..add(FetchShop(searchQuery: null)),
         ),
-        BlocProvider<ServiceBloc>(create: (context) => ServiceBloc()),
+        //BlocProvider<ServiceBloc>(create: (context) => ServiceBloc()),
+        BlocProvider<ServiceBloc>(
+          create: (context) =>
+          ServiceBloc()..add(FetchMaterial(searchQuery: null)),
+        ),
+        BlocProvider<ServiceBloc>(
+          create: (context) =>
+          ServiceBloc()..add(FetchInstruction(searchQuery: null)),
+        ),
+        BlocProvider<ServiceBloc>(
+          create: (context) =>
+          ServiceBloc()..add(FetchCategory(searchQuery: null)),
+        ),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -148,54 +160,59 @@ class _AdminPageState extends State<AdminPage> {
                     icon: Icons.dashboard),
                 // /////////////////////////
 
+
                 _buildMainExpansionTile(
                   title: 'Service Management',
                   icon: Icons.local_laundry_service_outlined,
                   children: [
-                    // _buildESubxpansion(title: "Service Types", children: [
-                    //   _buildSubListTile(
-                    //     'View Services',
-                    //     const ServiceType(),
-                    //   ),
-                    // ]),
-                    _buildESubxpansion(title: " Service Category", children: [
-                      _buildSubListTile(
+                      // SubListTile(
+                      //   'View Services',
+                      //   const ServiceType(),
+                      // ),
+                    //]
+                    //),
+                   // _buildESubxpansion(title: " Service Category", children: [
+                      SubListTile(
                         'View Category',
-                        const ServiceCategory(),
+                        const ServiceCategoryWrapper(),
                       ),
+
+                    //_buildESubxpansion(title: "Material Types", children: [
+                      SubListTile(
+                        'Material Type',
+                        const MaterialWrapper(),
+                      ),
+                      SubListTile(
+                     'Instruction Type',
+                      const InstructionWrapper(),
+                      ),
+                      // _buildSubListTile(
+                      //   'Shoes Material',
+                      //   const ShoeMaterial(),
+                      // ),
+                      // _buildSubListTile(
+                      //   'Bag Material',
+                      //   const BagMaterial(),
+                      //),
                     ]),
-                    _buildESubxpansion(title: "Material Types", children: [
-                      _buildSubListTile(
-                        'Cloth Material',
-                        const ClothMaterial(),
-                      ),
-                      _buildSubListTile(
-                        'Shoes Material',
-                        const ShoeMaterial(),
-                      ),
-                      _buildSubListTile(
-                        'Bag Material',
-                        const BagMaterial(),
-                      ),
-                    ]),
-                    _buildESubxpansion(
-                        title: "Special Instructions",
-                        children: [
-                          _buildSubListTile(
-                            'Cloth Instructions',
-                            const ClothInstructions(),
-                          ),
-                          _buildSubListTile(
-                            'Shoes Instructions',
-                            const ShoesInstructions(),
-                          ),
-                          _buildSubListTile(
-                            'Bag Instructions',
-                            const BagInstructions(),
-                          ),
-                        ]),
-                  ],
-                ),
+                //     _buildESubxpansion(
+                //         title: "Special Instructions",
+                //         children: [
+                //           _buildSubListTile(
+                //             'Cloth Instructions',
+                //             const ClothInstructions(),
+                //           ),
+                //           _buildSubListTile(
+                //             'Shoes Instructions',
+                //             const ShoesInstructions(),
+                //           ),
+                //           _buildSubListTile(
+                //             'Bag Instructions',
+                //             const BagInstructions(),
+                //           ),
+                //         ]),
+                //   ],
+                // ),
 
                 _buildMainExpansionTile(
                   title: 'Order Management',

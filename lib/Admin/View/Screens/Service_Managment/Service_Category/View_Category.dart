@@ -1,11 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Widget/constands/colors.dart';
 
+import '../../../../../Controller/bloc/ServiceManagement/service_bloc.dart';
+import '../../../../../Widget/constands/Loading.dart';
 import '../../../../Model/Category_Model/Category_Model.dart';
 import '../../../../Model/Service_Model/Service_Model.dart';
 import 'Add_Category.dart';
 import 'Edit_Category.dart';
+
+class ServiceCategoryWrapper extends StatelessWidget {
+  const ServiceCategoryWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => ServiceBloc()
+        ..add(FetchCategory(searchQuery: null)),
+      child: ServiceCategory(),
+    );
+  }
+}
+
 
 class ServiceCategory extends StatefulWidget {
   const ServiceCategory({super.key});
@@ -207,106 +224,137 @@ class _ServiceCategoryState extends State<ServiceCategory> {
             ),
           ),
           Expanded(
-            child: Container(
-              // Background color
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minWidth:
-                    MediaQuery.of(context).size.width, // Ensures full width
-                  ),
-                  child: DataTable(
-                    // border: TableBorder(
-                    //   verticalInside: BorderSide(
-                    //       color: Colors.black,
-                    //       width: 1), // Vertical line between columns
-                    //   horizontalInside: BorderSide(
-                    //       color: Colors.grey, width: 0.5), // Horizontal lines
-                    // ),
-                    decoration: BoxDecoration(color: Colors.white),
-                    columns: [
-                      _buildColumn('SI/NO'),
-                      _buildColumn('Service Type'),
-                      _buildColumn('Category'),
-                      _buildColumn('Product Name'),
-                      _buildColumn('Product Image'),
-                      _buildColumn('Action'),
+            child: BlocConsumer<ServiceBloc, ServiceState>(
+  listener: (context, state) {
+    // TODO: implement listener
+  },
+  builder: (context, state) {
+    if (state is CategoryLoading) {
+      return Center(child: Loading_Widget());
+    } else if (state is Categoryfailerror) {
+      return Text(state.error.toString());
+    } else if (state is Categoryloaded) {
+      if (state.category.isEmpty) {
+        // Return "No data found" if txhe list is empty
+        return Center(
+          child: Text(
+            "No data found",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        );
+      }
+      return Container(
+        // Background color
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minWidth:
+              MediaQuery
+                  .of(context)
+                  .size
+                  .width, // Ensures full width
+            ),
+            child: DataTable(
+              // border: TableBorder(
+              //   verticalInside: BorderSide(
+              //       color: Colors.black,
+              //       width: 1), // Vertical line between columns
+              //   horizontalInside: BorderSide(
+              //       color: Colors.grey, width: 0.5), // Horizontal lines
+              // ),
+              decoration: BoxDecoration(color: Colors.white),
+              columns: [
+                _buildColumn('SI/NO'),
+                _buildColumn('Service Type'),
+                _buildColumn('Category'),
+                _buildColumn('Product Name'),
+                _buildColumn('Product Image'),
+                _buildColumn('Action'),
 
+              ],
+
+              rows: List.generate(
+                state.category.length,
+                    (index) {
+                  final category = state.category[index];
+                  return DataRow(
+                    cells: [
+                      DataCell(Text(
+                        (index + 1).toString(),
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                      DataCell(Text(category.service.toString())),
+                      DataCell(Text(category.category.toString())),
+                      DataCell(Text(category.product_name.toString())),
+
+
+                      DataCell(Container(
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    category.product_image))),
+                      )),
+
+                      DataCell(Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    backgroundColor: Colors.white,
+                                    //title: Text("Edit Service"),
+                                    content: SizedBox(
+                                      width: 730,
+                                      height: 500,
+                                      // Adjust size as needed
+                                      child: CategoryEdit(), // Embedding ServiceEdit Widget
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .pop(); // Close dialog
+                                        },
+                                        child: Text("Cancel"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            icon: Icon(
+                              Icons.edit,
+                              color: Colors.green,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                              ))
+                        ],
+                      )),
                     ],
-
-                    rows: List.generate(
-                      category.length,
-                          (index) {
-                        final Category_data = category[index];
-                        return DataRow(
-                          cells: [
-                            DataCell(Text(
-                              (index + 1).toString(),
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            )),
-                            DataCell(Text(Category_data.Service)),
-                            DataCell(Text(Category_data.Category)),
-                            DataCell(Text(Category_data.Product_Name)),
-
-
-                            DataCell(Container(
-                              height: 30,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(Category_data.Product_Image))),
-                            )),
-
-                            DataCell(Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(backgroundColor: Colors.white,
-                                          //title: Text("Edit Service"),
-                                          content: SizedBox(
-                                            width: 730, height: 500,// Adjust size as needed
-                                            child: CategoryEdit(), // Embedding ServiceEdit Widget
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop(); // Close dialog
-                                              },
-                                              child: Text("Cancel"),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                  icon: Icon(
-                                    Icons.edit,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    ))
-                              ],
-                            )),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                ),
+                  );
+                },
               ),
             ),
+          ),
+        ),
+      );
+    }
+    return SizedBox();
+  },
+),
           ),
         ],
       ),

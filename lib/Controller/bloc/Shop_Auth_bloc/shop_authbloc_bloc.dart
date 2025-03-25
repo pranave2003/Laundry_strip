@@ -211,6 +211,33 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
       }
     });
 
+    on<UserFetchShop>((event, emit) async {
+      emit(ShopLoading());
+      try {
+        CollectionReference shopCollection =
+        FirebaseFirestore.instance.collection('Laundry_Shops');
+
+        Query query = shopCollection;
+        QuerySnapshot snapshot = await query.get();
+
+        List<ShopModel> shop = snapshot.docs.map((doc) {
+          return ShopModel.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
+
+        if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
+          shop = shop.where((viewshop) {
+            return viewshop.owner_name!
+                .toLowerCase()
+                .contains(event.searchQuery!.toLowerCase());
+          }).toList();
+        }
+
+        emit(Shoploaded(shop));
+      } catch (e) {
+        emit(Shopfailerror(e.toString()));
+      }
+    });
+
   }
 }
 

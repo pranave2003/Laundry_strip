@@ -25,7 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
     Navigator.pushNamedAndRemoveUntil(
       context,
       "/login",
-      (route) => false,
+          (route) => false,
     );
   }
 
@@ -44,76 +44,72 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         automaticallyImplyLeading: false,
       ),
-      body: Column(
+      body: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) {
+    if (state is Userloading) {
+    return const Center(child: CircularProgressIndicator());
+    } else if (state is UserByidLoaded) {
+      final user = state.Userdata;
+      return Column(
         children: [
           // Profile Header inside a Light Grey Container
-          BlocBuilder<AuthBloc, AuthState>(
-            builder: (context, state) {
-              if (state is Userloading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state is UserByidLoaded) {
-                final user = state.Userdata;
-                return Container(
-                  color: Colors.grey.shade200,
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      const CircleAvatar(
-                        radius: 35,
-                        backgroundImage: AssetImage(
-                            "assets/profile_pic.png"), // Update with your image path
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${user.name ?? ''}',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              '${user.phone ?? ''}',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            Text(
-                              '${user.email ?? ''}',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ],
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Navigate to Edit Profile Page
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EditProfilePage()),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey.shade300,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        child: const Text(
-                          "Edit",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ],
+      Container(
+      color: Colors.grey.shade200,
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            const CircleAvatar(
+              radius: 35,
+              backgroundImage: AssetImage(
+                  "assets/profile_pic.png"), // Update with your image path
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${user.name ?? ''}',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
+                  SizedBox(height: 4),
+                  Text(
+                    '${user.phone ?? ''}',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  Text(
+                    '${user.email ?? ''}',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to Edit Profile Page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EditProfilePage()),
                 );
-              }
-              return SizedBox();
-            },
-          ),
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey.shade300,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: const Text(
+                "Edit",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ],
+        ),
+      ),
 
           // Profile Options List
           Expanded(
@@ -123,7 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   icon: Icons.location_on,
                   title: "Addresses",
                   context: context,
-                  page: AddressesPage(),
+                  page: AddressesPage(user),
                 ),
                 _buildProfileOption(
                   icon: Icons.info_outline,
@@ -174,6 +170,10 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ],
+      );
+    }
+    return SizedBox();
+        },
       ),
     );
   }
@@ -214,10 +214,10 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           trailing: showArrow
               ? const Icon(Icons.arrow_forward_ios,
-                  size: 16, color: Colors.grey)
+              size: 16, color: Colors.grey)
               : null,
           onTap: onTap ??
-              () {
+                  () {
                 if (page != null) {
                   Navigator.push(
                     context,

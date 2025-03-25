@@ -32,3 +32,8 @@ class FetchShop extends ShopAuthblocEvent {
   final String? searchQuery;
   FetchShop({required this.searchQuery});
 }
+class UserFetchShop extends ShopAuthblocEvent {
+  final String? searchQuery;
+  UserFetchShop({required this.searchQuery});
+}
+

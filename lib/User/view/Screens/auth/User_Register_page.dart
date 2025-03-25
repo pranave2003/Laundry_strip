@@ -44,7 +44,6 @@ final List<String> districts = [
   "Pathanamthitta",
   "Thiruvananthapuram",
 ];
-
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
 
@@ -59,7 +58,10 @@ class _RegisterPageState extends State<RegisterPage> {
         password: _passwordController.text,
         phone: _phoneController.text,
         District: selectedDistrict,
-        Address: _addressController.text,
+        place: _placeController.text,
+        post: _postController.text,
+        pin: _pinController.text,
+        state: _stateController.text,
       );
       // Trigger the sign-up event
       context.read<AuthBloc>().add(SignupEvent(user: user));
@@ -70,7 +72,12 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _placeController = TextEditingController();
+  final TextEditingController _postController = TextEditingController();
+  final TextEditingController _pinController = TextEditingController();
+  final TextEditingController _stateController = TextEditingController();
+  final TextEditingController stateController = TextEditingController(text: "Kerala");
+
 
   @override
   Widget build(BuildContext context) {
@@ -184,10 +191,62 @@ class _RegisterPageState extends State<RegisterPage> {
                   const SizedBox(height: 15),
 
                   // DISTRICT DROPDOWN
+
+
+                  // ADDRESS FIELD
+                  CustomTextForm(
+                    prefixIcon: const Icon(Icons.business),
+                    hintText: "Place",
+                    controller: _placeController,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return "Place is required";
+                      }
+                      if (value.length < 5) {
+                        return "Place must be at least 5 characters";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 15),
+
+                  CustomTextForm(
+                    prefixIcon: const Icon(Icons.location_on),
+                    hintText: "Post",
+                    controller: _postController,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return " Post is required";
+                      }
+                      if (value.length < 5) {
+                        return "Post must be at least 5 characters";
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 15),
+
+                  CustomTextForm(
+                    prefixIcon: const Icon(Icons.local_post_office),
+                    hintText: "Pincode",
+                    controller: _pinController,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return "Pincode is required";
+                      }
+                      if (!RegExp(r'^\d{6}$').hasMatch(value)) {
+                        return "Enter a valid 6-digit pincode";
+                      }
+                      return null;
+                    },
+
+
+                  ),
+                  SizedBox(height: 15),
                   DropdownButtonFormField<String>(
                     decoration: InputDecoration(
                       prefixIcon:
-                          const Icon(Icons.location_city, color: Colors.blue),
+                      const Icon(Icons.location_city, color: Colors.black),
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -207,26 +266,24 @@ class _RegisterPageState extends State<RegisterPage> {
                       });
                     },
                     validator: (value) =>
-                        value == null ? "Please select a district" : null,
+                    value == null ? "Please select a district" : null,
                   ),
                   const SizedBox(height: 15),
-
-                  // ADDRESS FIELD
                   CustomTextForm(
-                    prefixIcon: const Icon(Icons.home),
-                    hintText: "Address",
-                    controller: _addressController,
+                    prefixIcon: const Icon(Icons.maps_home_work_outlined),
+                    hintText: "State",
+                    controller: _stateController,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return "Address is required";
+                        return "State is required";
                       }
                       if (value.length < 5) {
-                        return "Address must be at least 5 characters";
+                        return "State must be at least 5 characters";
                       }
                       return null;
                     },
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 15),
 
                   // TERMS & CONDITIONS CHECKBOX
                   Row(

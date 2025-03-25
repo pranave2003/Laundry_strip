@@ -187,6 +187,21 @@ class _AllUsersState extends State<AllUsers> {
                                                   fontSize: 18)),
                                           Text("Phone No: ${user.phone}"),
                                           Text("Email Id: ${user.email}"),
+                                          RichText(
+                                            text: TextSpan(
+                                              text: "Address: ",
+                                              //style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                                              children: [
+                                                TextSpan(
+                                                  text: "${user.place ?? 'N/A'}, ${user.post ?? 'N/A'}, ${user.pin ?? 'N/A'}\n"
+                                                      "${user.District ?? 'N/A'}, Kerala",
+                                                  style: TextStyle(fontWeight: FontWeight.normal, height: 1.5), // Added height for proper spacing
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+
+                                          //style: TextStyle(fontWeight: FontWeight.bold),)
                                         ],
                                       ),
                                     ),

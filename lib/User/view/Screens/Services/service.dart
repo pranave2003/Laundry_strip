@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/User/view/Screens/Services/select_service.dart';
 import 'package:laundry/Widget/constands/colors.dart';
+
+import '../../../../Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
+import '../../../../Widget/constands/Loading.dart';
 
 class Service extends StatefulWidget {
   const Service({super.key});
@@ -113,64 +117,92 @@ class _ServiceState extends State<Service> {
             ),
 
             // Nearby Service Provider List
-            SizedBox(
-              height: 400,
-              child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      color: selectedService == "Wash +\nFold"
-                          ? Colors.white
-                          : Colors.white,
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SelectService(),
-                                    ),
-                                  );
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Image.asset(
-                                      "assets/shop_img/img.png",
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Provider Name"),
-                                  SizedBox(
-                                    width: 200,
-                                    child: Text(
-                                      "Address example, City, Zip Code",
-                                    ),
-                                  ),
-                                  Text("Additional Info"),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
+            BlocConsumer<ShopAuthblocBloc, ShopAuthblocState>(
+              listener: (context, state) {
+                // TODO: implement listener
+              },
+              builder: (context, state) {
+                if (state is ShopLoading) {
+                  return Center(child: Loading_Widget());
+                } else if (state is Shopfailerror) {
+                  return Text(state.error.toString());
+                } else if (state is Shoploaded) {
+                  if (state.Shop.isEmpty) {
+// Return "No data found" if txhe list is empty
+                    return Center(
+                      child: Text(
+                        "No data found",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
+                    );
+                  }
+                  return SizedBox(
+                    height: 400,
+                    child: ListView.builder(
+                      itemCount: state.Shop.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            color: selectedService == "Wash +\nFold"
+                                ? Colors.white
+                                : Colors.white,
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                SelectService(),
+                                          ),
+                                        );
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                              10),
+                                          child: Image.asset(
+                                            "assets/shop_img/img.png",
+                                            width: 100,
+                                            height: 100,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
+                                      children: [
+                                        Text("Provider Name"),
+                                        SizedBox(
+                                          width: 200,
+                                          child: Text(
+                                            "Address example, City, Zip Code",
+                                          ),
+                                        ),
+                                        Text("Additional Info"),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   );
-                },
-              ),
+                }
+                return SizedBox();
+              }
+
             ),
           ],
         ),

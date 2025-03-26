@@ -9,7 +9,7 @@ class ClothInstructionsEdit extends StatefulWidget {
 
 class _ClothInstructionsEditState extends State<ClothInstructionsEdit> {
   TextEditingController serviceNameController = TextEditingController();
-  String? imagePath;
+  String? selectCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,6 @@ class _ClothInstructionsEditState extends State<ClothInstructionsEdit> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-
           SizedBox(
             height: 15,
           ),
@@ -41,7 +40,7 @@ class _ClothInstructionsEditState extends State<ClothInstructionsEdit> {
               ],
             ),
           ),
-          SizedBox(height: 50,),
+          SizedBox(height: 20,),
 
           Container(
             padding: EdgeInsets.all(20),
@@ -60,10 +59,8 @@ class _ClothInstructionsEditState extends State<ClothInstructionsEdit> {
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [SizedBox(height: 40,),
+              children: [
                 /// **Service Image Field (Text & Input in Same Line)**
-
-                SizedBox(height: 20),
 
                 /// **Service Name Field (Text & Input in Same Line)**
                 Row(
@@ -72,8 +69,46 @@ class _ClothInstructionsEditState extends State<ClothInstructionsEdit> {
                     SizedBox(
                       width: 120,
                       child: Text(
-                        "Instruction Name",
+                        "Material Type",
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+
+                    /// **Input Field**
+                    Expanded(
+                      child: DropdownButtonFormField<String>(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Select Category',
+                        ),
+                        value: selectCategory, // The currently selected value
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectCategory = newValue;
+                          });
+                        },
+                        items: ['cloth', 'Bag', 'Shoes']
+                            .map((String category) => DropdownMenuItem<String>(
+                          value: category,
+                          child: Text(category),
+                        ))
+                            .toList(),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    /// **Label**
+                    SizedBox(
+                      width: 120,
+                      height: 40, // Match image height
+                      child: Text(
+                        "Instruction Name",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -84,15 +119,12 @@ class _ClothInstructionsEditState extends State<ClothInstructionsEdit> {
                         controller: serviceNameController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          hintText: "Enter Instructions ",
+                          hintText: "Enter Instruction Name",
                         ),
                       ),
                     ),
                   ],
-                ),
-
-                SizedBox(height: 60),
-
+                ),SizedBox(height: 30,),
                 /// **Submit Button (Styled as per Image)**
                 Center(
                   child: SizedBox(
@@ -115,6 +147,8 @@ class _ClothInstructionsEditState extends State<ClothInstructionsEdit> {
                     ),
                   ),
                 ),
+                SizedBox(height: 30,),
+
               ],
             ),
           ),

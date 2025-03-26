@@ -34,6 +34,8 @@ class CategoryAddEvent extends ServiceEvent {
   final CategoryModel category;
   CategoryAddEvent({required this.category});
 }
+
+
 class FetchCategory extends ServiceEvent {
   final String? searchQuery;
   FetchCategory({required this.searchQuery});

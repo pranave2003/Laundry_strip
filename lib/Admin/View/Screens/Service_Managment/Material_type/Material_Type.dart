@@ -179,8 +179,9 @@ class _MaterialTypeState extends State<MaterialType> {
               // Background color
               child: BlocConsumer<ServiceBloc, ServiceState>(
                 listener: (context, state) {
-                  if (state is Materialloaded) {
-
+                  if(state is RefreshMaterial){
+                    context.read<ServiceBloc>().add(
+                        FetchMaterial(searchQuery: null));
                   }
                 },
                 builder: (context, state) {
@@ -281,7 +282,9 @@ class _MaterialTypeState extends State<MaterialType> {
                                         width: 10,
                                       ),
                                       IconButton(
-                                          onPressed: () {},
+                                          onPressed: ()  {context.read<ServiceBloc>().add(
+                                              DeleteMaterial(
+                                                  id: cloth.material_id));},
                                           icon: Icon(
                                             Icons.delete,
                                             color: Colors.red,

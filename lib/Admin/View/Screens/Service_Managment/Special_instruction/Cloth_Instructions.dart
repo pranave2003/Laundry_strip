@@ -279,7 +279,7 @@ class _ClothInstructionsState extends State<ClothInstructions> {
                                     //title: Text("Edit Service"),
                                     content: SizedBox(
                                       width: 700,
-                                      height: 600,
+                                      height: 400,
                                       // Adjust size as needed
                                       child: ClothInstructionsEdit(), // Embedding ServiceEdit Widget
                                     ),

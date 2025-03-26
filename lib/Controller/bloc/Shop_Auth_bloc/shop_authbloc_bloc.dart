@@ -13,7 +13,7 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
 
   ShopAuthblocBloc() : super(ShopAuthblocInitial()) {
     on<shopcheckloginstateevent>(
-          (event, emit) async {
+      (event, emit) async {
         User? user;
         try {
           await Future.delayed(Duration(seconds: 3));
@@ -26,13 +26,13 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
         } catch (e) {
           emit(ShopAuthenticatedError(
             message:
-            e.toString().split('] ').last, // Extracts only the message part
+                e.toString().split('] ').last, // Extracts only the message part
           ));
         }
       },
     );
 
-    on<ShopSignupEvent>((event, emit) async{
+    on<ShopSignupEvent>((event, emit) async {
       emit(ShopAuthloading());
       try {
         final usercredential = await _auth.createUserWithEmailAndPassword(
@@ -49,7 +49,7 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
             "shopId": user.uid,
             "email": user.email,
             "owner_name": event.shop.owner_name,
-            "Shop_Name":event.shop.shop_name,
+            "Shop_Name": event.shop.shop_name,
             "timestamp": DateTime.now(),
             "ban": "1",
             "status": "1",
@@ -60,8 +60,9 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
             //"Address": event.shop.shopAddress,
             "District": event.shop.District,
             "Laundry_Capacity": event.shop.LaundryCapacity,
+            "Services": event.shop.selectServices,
             "imageUrl":
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4ZqivCNC7yvJqthqZOVvxSjDLyDxtai-cbQ&s",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4ZqivCNC7yvJqthqZOVvxSjDLyDxtai-cbQ&s",
           });
           emit(ShopAuthenticated(user));
 
@@ -73,11 +74,10 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
         emit(ShopAuthenticatedError(message: e.toString().split("]").last));
         print("Authenticated Error : ${e.toString().split(']').last}");
       }
-
     });
 
     on<ShopLoginEvent>(
-          (event, emit) async {
+      (event, emit) async {
         emit(ShopAuthloading());
         try {
           final userCredential = await _auth.signInWithEmailAndPassword(
@@ -158,7 +158,7 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
       }
     });
     on<ShopSigOutEvent>(
-          (event, emit) async {
+      (event, emit) async {
         try {
           User? user = _auth.currentUser;
 
@@ -183,12 +183,11 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
       },
     );
 
-
     on<FetchShop>((event, emit) async {
       emit(ShopLoading());
       try {
         CollectionReference shopCollection =
-        FirebaseFirestore.instance.collection('Laundry_Shops');
+            FirebaseFirestore.instance.collection('Laundry_Shops');
 
         Query query = shopCollection;
         QuerySnapshot snapshot = await query.get();
@@ -215,7 +214,7 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
       emit(ShopLoading());
       try {
         CollectionReference shopCollection =
-        FirebaseFirestore.instance.collection('Laundry_Shops');
+            FirebaseFirestore.instance.collection('Laundry_Shops');
 
         Query query = shopCollection;
         QuerySnapshot snapshot = await query.get();
@@ -237,7 +236,5 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
         emit(Shopfailerror(e.toString()));
       }
     });
-
   }
 }
-

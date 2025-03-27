@@ -51,3 +51,11 @@ class Usersloaded extends AuthState {
       this.Users,
       );
 }
+
+class Userload extends AuthState {
+  final UserModel user;
+
+  Userload(
+      this.user,
+      );
+}

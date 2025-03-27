@@ -74,6 +74,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       },
     );
+
+    //Login
     on<LoginEvent>(
           (event, emit) async {
         emit(Authloading());
@@ -174,6 +176,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       }
     });
+
+    //Sign Out
     on<SigOutEvent>(
       (event, emit) async {
         try {
@@ -200,7 +204,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
     );
 
-
     on<FetchUsers>((event, emit) async {
       emit(UsersLoading());
       try {
@@ -223,6 +226,42 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
 
         emit(Usersloaded(users));
+      } catch (e) {
+        emit(Usersfailerror(e.toString()));
+      }
+    });
+
+    // on<EditAddress>((event, emit) async {
+    //   emit(UsersLoading());
+    //   try {
+    //     FirebaseFirestore.instance
+    //         .collection("Laundry_Users")
+    //         .doc(event.user.uid)
+    //         .update({
+    //       "place": event.user.place,
+    //       "post": event.user.post,
+    //       "pin": event.user.pin,
+    //       "state": event.user.state,
+    //       "District": event.user.District,
+    //     });
+    //     emit(Authenticated());
+    //   } catch (e) {
+    //     emit(Usersfailerror(e.toString()));
+    //   }
+    // });
+
+    on<EditProfile>((event, emit) async {
+      emit(UsersLoading());
+      try {
+        FirebaseFirestore.instance
+            .collection("Laundry_Users")
+            .doc(event.user.uid)
+            .update({
+          "name": event.user.name,
+          "phone": event.user.phone,
+          "imageUrl": event.user.imageUrl,
+        });
+        emit(Userload(event.user));
       } catch (e) {
         emit(Usersfailerror(e.toString()));
       }

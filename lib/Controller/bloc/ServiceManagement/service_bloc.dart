@@ -169,7 +169,7 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
       emit(CategoryLoading());
       try {
         CollectionReference categoryCollection =
-        FirebaseFirestore.instance.collection('Service_Category');
+            FirebaseFirestore.instance.collection('Service_Category');
 
         Query query = categoryCollection;
 
@@ -186,26 +186,29 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
         // Extract and store unique product image URLs and image names using a Set
         Set<String> uniqueImageNames = {}; // To track unique names
 
-        List<Map<String, String>> imagesList = snapshot.docs.map((doc) {
-          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        List<Map<String, String>> imagesList = snapshot.docs
+            .map((doc) {
+              Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
 
-          String image = data['product_image']?.toString() ?? '';
-          String name = data['product_name']?.toString() ?? '';
+              String image = data['product_image']?.toString() ?? '';
+              String name = data['product_name']?.toString() ?? '';
 
-          // Ensure unique names
-          if (!uniqueImageNames.contains(name)) {
-            uniqueImageNames.add(name);
-            return {'image': image, 'name': name};
-          }
-          return null;
-        }).where((element) => element != null).cast<Map<String, String>>().toList();
+              // Ensure unique names
+              if (!uniqueImageNames.contains(name)) {
+                uniqueImageNames.add(name);
+                return {'image': image, 'name': name};
+              }
+              return null;
+            })
+            .where((element) => element != null)
+            .cast<Map<String, String>>()
+            .toList();
 
         emit(Categoryloadedimage(images: imagesList));
       } catch (e) {
         emit(Categoryfailerror(e.toString()));
       }
     });
-
 
     on<DeleteCategory>((event, emit) async {
       emit(CategoryLoading());
@@ -243,5 +246,55 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
         emit(Instructionfailerror(e.toString()));
       }
     });
+    on<EditCategory>((event, emit) async {
+      emit(CategoryLoading());
+      try {
+        FirebaseFirestore.instance
+            .collection("Service_Category")
+            .doc(event.category.category_id)
+            .update({
+          "product_name": event.category.product_name,
+          "product_image": event.category.product_image,
+          "service": event.category.service,
+          "category": event.category.category,
+        });
+        emit(RefreshCategory());
+      } catch (e) {
+        emit(Categoryfailerror(e.toString()));
+      }
+    });
+
+    on<EditMaterial>((event, emit) async {
+      emit(Loading());
+      try {
+        FirebaseFirestore.instance
+            .collection("MaterialTypes")
+            .doc(event.cloth.material_id)
+            .update({
+          "material_name": event.cloth.material_name,
+          "material_type": event.cloth.material_type,
+        });
+        emit(RefreshMaterial());
+      } catch (e) {
+        emit(failerror(e.toString()));
+      }
+    });
+
+    on<EditInstruction>((event, emit) async {
+      emit(InstructionLoading());
+      try {
+        FirebaseFirestore.instance
+            .collection("Instruction_Types")
+            .doc(event.instruction.instruction_id)
+            .update({
+          "instruction_name": event.instruction.instruction_name,
+          "instruction_type": event.instruction.instruction_type,
+        });
+        emit(RefreshInstruction());
+      } catch (e) {
+        emit(Instructionfailerror(e.toString()));
+      }
+    });
+
   }
 }

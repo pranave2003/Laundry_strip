@@ -63,3 +63,18 @@ class Fetchcatogoryimagesevent extends ServiceEvent {
   Fetchcatogoryimagesevent(
       {required this.searchQuery, this.Catogoty, this.Servicetype});
 }
+
+
+class EditCategory extends ServiceEvent {
+  final CategoryModel category;
+  EditCategory({required this.category});
+}
+
+class EditMaterial extends ServiceEvent {
+  final MaterialModel cloth;
+  EditMaterial({required this.cloth});
+}
+class EditInstruction extends ServiceEvent {
+  final InstructionModel instruction;
+  EditInstruction({required this.instruction});
+}

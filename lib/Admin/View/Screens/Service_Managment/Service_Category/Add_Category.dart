@@ -38,12 +38,16 @@ class _CategoryAddState extends State<CategoryAdd> {
     "assets/Dress/t-shirt.png",
     "assets/Dress/shirt.png",
     "assets/Dress/jacket.png",
+    "assets/Dress/flared_frock.png",
+    "assets/Dress/frock.png",
+    "assets/Dress/wmgown.png",
+    "assets/Dress/wmtshirt.png",
   ];
 
   List<String> bagImages = [
     "assets/Dress/carpet.png",
-    "assets/Dress/carpet.png",
-    "assets/Dress/carpet.png",
+    "assets/Dress/frock.png",
+    "assets/Dress/curtain.png",
   ];
 
   List<String> shoeImages = [
@@ -57,14 +61,14 @@ class _CategoryAddState extends State<CategoryAdd> {
     List<String> categoryList = selectedServiceType == "Bag Service"
         ? categoriesBag
         : selectedServiceType == "Shoe Service"
-        ? categoriesShoes
-        : categories;
+            ? categoriesShoes
+            : categories;
 
     List<String> imageList = selectedServiceType == "Bag Service"
         ? bagImages
         : selectedServiceType == "Shoe Service"
-        ? shoeImages
-        : defaultImages;
+            ? shoeImages
+            : defaultImages;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -81,7 +85,8 @@ class _CategoryAddState extends State<CategoryAdd> {
                   children: [
                     Text(
                       "Add Category",
-                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(width: 18),
                     Container(height: 40, width: 400),
@@ -114,7 +119,8 @@ class _CategoryAddState extends State<CategoryAdd> {
                             width: 120,
                             child: Text("Service Type",
                                 style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold))),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold))),
                         SizedBox(width: 10),
                         Expanded(
                           child: DropdownButtonFormField<String>(
@@ -131,7 +137,7 @@ class _CategoryAddState extends State<CategoryAdd> {
                               });
                             },
                             validator: (value) =>
-                            value == null ? 'Select a service type' : null,
+                                value == null ? 'Select a service type' : null,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 hintText: "Select Service"),
@@ -148,7 +154,8 @@ class _CategoryAddState extends State<CategoryAdd> {
                             width: 120,
                             child: Text("Category",
                                 style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold))),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold))),
                         SizedBox(width: 10),
                         Expanded(
                           child: DropdownButtonFormField<String>(
@@ -163,7 +170,7 @@ class _CategoryAddState extends State<CategoryAdd> {
                               });
                             },
                             validator: (value) =>
-                            value == null ? 'Select a category' : null,
+                                value == null ? 'Select a category' : null,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 hintText: "Select Category"),
@@ -180,7 +187,8 @@ class _CategoryAddState extends State<CategoryAdd> {
                             width: 120,
                             child: Text("Product Name",
                                 style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold))),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold))),
                         SizedBox(width: 10),
                         Expanded(
                           child: TextFormField(
@@ -204,7 +212,8 @@ class _CategoryAddState extends State<CategoryAdd> {
                             width: 120,
                             child: Text("Product Image",
                                 style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold))),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold))),
                         SizedBox(width: 10),
                         Expanded(
                           child: DropdownButtonFormField<String>(
@@ -219,7 +228,7 @@ class _CategoryAddState extends State<CategoryAdd> {
                               });
                             },
                             validator: (value) =>
-                            value == null ? 'Select a product image' : null,
+                                value == null ? 'Select a product image' : null,
                             items: imageList.map((String imgPath) {
                               return DropdownMenuItem(
                                 value: imgPath,
@@ -262,9 +271,8 @@ class _CategoryAddState extends State<CategoryAdd> {
                                     product_image: imagePath ?? "",
                                   );
 
-                                  context
-                                      .read<ServiceBloc>()
-                                      .add(CategoryAddEvent(category: category));
+                                  context.read<ServiceBloc>().add(
+                                      CategoryAddEvent(category: category));
                                 }
                               },
                               style: ElevatedButton.styleFrom(
@@ -275,11 +283,12 @@ class _CategoryAddState extends State<CategoryAdd> {
                               child: state is CategoryLoading
                                   ? Loading_Widget()
                                   : Text("Submit",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold)),
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold)),
                             );
+
                           },
                         ),
                       ),

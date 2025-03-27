@@ -1,15 +1,46 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:laundry/User/view/Screens/Profile/profilepage.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:laundry/Controller/bloc/Authbloc/Userauthmodel/Usermodel.dart';
+import '../../../../Controller/bloc/Authbloc/auth_bloc.dart';
+import '../../../../Widget/constands/Loading.dart';
 import '../../../../Widget/constands/colors.dart';
 import '../../../../Widget/constands/widgets.dart';
-import '../Bottom_navigation/btm_navigation.dart';
 
-class EditProfilePage extends StatelessWidget {
+class EditProfilePage extends StatefulWidget {
+  const EditProfilePage({
+    super.key,
+    required this.userid,
+    required this.username,
+    required this.phone,
+    required this.imagePath,
+  });
+
+  final String userid;
+  final String username;
+  final String phone;
+  final String imagePath;
+
+  @override
+  _EditProfilePageState createState() => _EditProfilePageState();
+}
+
+class _EditProfilePageState extends State<EditProfilePage> {
+  TextEditingController usernameController= TextEditingController();
+  TextEditingController phoneController= TextEditingController();
+  String? imagePath;
+
+  @override
+  void initState() {
+    super.initState();
+    usernameController.text=widget.username;
+    phoneController.text=widget.phone;
+    imagePath = widget.imagePath;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.white,
+    return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -31,10 +62,12 @@ class EditProfilePage extends StatelessWidget {
         children: [
           SizedBox(height: 50), // Added space from the top
 
-          // Profile Picture (At the Top)
+          // Profile Picture (Network Image Support)
           CircleAvatar(
             radius: 45,
-            backgroundImage: AssetImage("assets/profile_pic.png"), // Update with your image path
+            backgroundImage: imagePath != null && imagePath!.isNotEmpty
+                ? NetworkImage(imagePath!)
+                : NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4ZqivCNC7yvJqthqZOVvxSjDLyDxtai-cbQ&s"),
           ),
           SizedBox(height: 8),
 
@@ -60,38 +93,56 @@ class EditProfilePage extends StatelessWidget {
             child: Column(
               children: [
                 CustomTextForm(
-                    prefixIcon: Icon(Icons.person), hintText: "Username"),
+                  controller: usernameController,
+                  prefixIcon: Icon(Icons.person),
+                  hintText: "Username",
+                ),
                 SizedBox(height: 10),
                 CustomTextForm(
-                    prefixIcon: Icon(Icons.phone), hintText: "Mobile Number"),
-                SizedBox(height: 10),
-                CustomTextForm(
-                    prefixIcon: Icon(Icons.email), hintText: "Email"),
-                SizedBox(height: 20), // Adjusted space before button
+                  controller: phoneController,
+                  prefixIcon: Icon(Icons.phone),
+                  hintText: "Mobile Number",
+                ),
+                SizedBox(height: 70),
 
                 // Update Button
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: MaterialButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => ProfilePage()),
-                      );
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      "Update ",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                BlocConsumer<AuthBloc, AuthState>(
+                  listener: (context, state) {
+                    if (state is UserByidLoaded) {
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  builder: (context, state) {
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: MaterialButton(
+                        onPressed: () {
+                          UserModel user = UserModel(
+                            uid: widget.userid,
+                            name: usernameController.text,
+                            phone: phoneController.text,
+                            imageUrl: imagePath ?? "",
+                          );
+
+                          context.read<AuthBloc>().add(EditProfile(user: user));
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: state is UsersLoading
+                            ? Loading_Widget()
+                            : Text(
+                          "Update",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        color: defaultColor,
                       ),
-                    ),
-                    color: defaultColor,
-                  ),
+                    );
+                  },
                 ),
               ],
             ),

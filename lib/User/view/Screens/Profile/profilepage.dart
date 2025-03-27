@@ -93,7 +93,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => EditProfilePage()),
+                      builder: (context) => EditProfilePage(
+                        userid: user.uid ?? "", // Provide a default empty string if null
+                        username: user.name ?? "",
+                        phone: user.phone ?? "",
+                        imagePath: user.imageUrl ?? "",
+                         )),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -120,6 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   title: "Addresses",
                   context: context,
                   page: AddressesPage(user),
+                    //(user),
                 ),
                 _buildProfileOption(
                   icon: Icons.info_outline,

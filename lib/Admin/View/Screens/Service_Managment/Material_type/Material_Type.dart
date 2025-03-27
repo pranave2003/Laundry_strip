@@ -139,7 +139,7 @@ class _MaterialTypeState extends State<MaterialType> {
                               //title: Text("Edit Service"),
                               content: SizedBox(
                                 width: 700,
-                                height: 400, // Adjust size as needed
+                                height: 450, // Adjust size as needed
                                 child:
                                     AddMaterial(), // Embedding ServiceEdit Widget
                               ),
@@ -257,8 +257,16 @@ class _MaterialTypeState extends State<MaterialType> {
                                                   width: 700,
                                                   height:
                                                       400, // Adjust size as needed
-                                                  child:
-                                                      EditMaterial(), // Embedding ServiceEdit Widget
+                                                  child: EdittingMaterial(
+                                                      materialid:
+                                                      cloth.material_id,
+                                                    materialtype:
+                                                    cloth.material_type,
+                                                    materialname:
+                                                    cloth.material_name,
+
+
+                                                      ),  // Embedding ServiceEdit Widget
                                                 ),
                                                 actions: [
                                                   TextButton(

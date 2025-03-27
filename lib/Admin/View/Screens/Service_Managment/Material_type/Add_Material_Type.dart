@@ -66,7 +66,8 @@ class _AddMaterialState extends State<AddMaterial> {
                         width: 120,
                         child: Text(
                           "Material Type",
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ),
                       SizedBox(width: 10),
@@ -82,12 +83,15 @@ class _AddMaterialState extends State<AddMaterial> {
                               selectCategory = newValue;
                             });
                           },
-                          validator: (value) => value == null ? 'Please select a category' : null, // Validation
+                          validator: (value) => value == null
+                              ? 'Please select a category'
+                              : null, // Validation
                           items: ['cloth', 'Bag', 'Shoes']
-                              .map((String category) => DropdownMenuItem<String>(
-                            value: category,
-                            child: Text(category),
-                          ))
+                              .map(
+                                  (String category) => DropdownMenuItem<String>(
+                                        value: category,
+                                        child: Text(category),
+                                      ))
                               .toList(),
                         ),
                       ),
@@ -103,7 +107,8 @@ class _AddMaterialState extends State<AddMaterial> {
                         height: 40, // Match image height
                         child: Text(
                           "Material Name",
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ),
                       SizedBox(width: 10),
@@ -114,8 +119,9 @@ class _AddMaterialState extends State<AddMaterial> {
                             border: OutlineInputBorder(),
                             hintText: "Enter Material Name",
                           ),
-                          validator: (value) =>
-                          (value == null || value.isEmpty) ? 'Please enter material name' : null, // Validation
+                          validator: (value) => (value == null || value.isEmpty)
+                              ? 'Please enter material name'
+                              : null, // Validation
                         ),
                       ),
                     ],
@@ -143,19 +149,25 @@ class _AddMaterialState extends State<AddMaterial> {
                                   material_type: selectCategory,
                                 );
 
-                                context.read<ServiceBloc>().add(MaterialAddevent(cloth: user));
+                                context
+                                    .read<ServiceBloc>()
+                                    .add(MaterialAddevent(cloth: user));
                               }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
                             ),
                             child: state is Loading
                                 ? Loading_Widget()
                                 : Text(
-                              "Submit",
-                              style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
-                            ),
+                                    "Submit",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                           );
                         },
                       ),

@@ -224,9 +224,10 @@ class _ServiceCategoryState extends State<ServiceCategory> {
           Expanded(
             child: BlocConsumer<ServiceBloc, ServiceState>(
               listener: (context, state) {
-                if(state is RefreshCategory){
-                  context.read<ServiceBloc>().add(
-                      FetchCategory(searchQuery: null));
+                if (state is RefreshCategory) {
+                  context
+                      .read<ServiceBloc>()
+                      .add(FetchCategory(searchQuery: null));
                 }
                 // TODO: implement listener
               },
@@ -309,10 +310,18 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                                                 //title: Text("Edit Service"),
                                                 content: SizedBox(
                                                   width: 730,
-                                                  height: 500,
+                                                  height: 600,
                                                   // Adjust size as needed
-                                                  child:
-                                                      CategoryEdit(), // Embedding ServiceEdit Widget
+                                                  child: CategoryEdit(
+                                                      catogoryid:
+                                                          category.category_id,
+                                                      Productname:
+                                                          category.product_name,
+                                                      service: category.service,
+                                                      category:
+                                                          category.category,
+                                                      productimage: category
+                                                          .product_image), // Embedding ServiceEdit Widget
                                                 ),
                                                 actions: [
                                                   TextButton(

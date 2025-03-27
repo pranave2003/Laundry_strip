@@ -31,6 +31,16 @@ class FetchUserDetailsById extends AuthEvent {}
 class FetchUsers extends AuthEvent {
   final String? searchQuery;
   FetchUsers({required this.searchQuery});
+
 }
 
+class EditProfile extends AuthEvent {
+  final UserModel user;
+  EditProfile({required this.user});
+}
+
+// class EditAddress extends AuthEvent {
+//   final UserModel user;
+//   EditAddress({required this.user});
+// }
 

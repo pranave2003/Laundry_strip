@@ -281,7 +281,12 @@ class _ClothInstructionsState extends State<ClothInstructions> {
                                       width: 700,
                                       height: 400,
                                       // Adjust size as needed
-                                      child: ClothInstructionsEdit(), // Embedding ServiceEdit Widget
+                                      child: ClothInstructionsEdit(instructionid:
+                                      instruction.instruction_id,
+                                          instructionname:
+                                          instruction.instruction_name,
+                                          instructiontype: instruction
+                                              .instruction_type),  // Embedding ServiceEdit Widget
                                     ),
                                     actions: [
                                       TextButton(

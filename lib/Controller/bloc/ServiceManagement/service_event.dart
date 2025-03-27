@@ -3,7 +3,6 @@ part of 'service_bloc.dart';
 @immutable
 sealed class ServiceEvent {}
 
-
 // class FetchInstructionEvent extends ServiceEvent {
 //   final String? searchQuery;
 //   final String? status;
@@ -24,22 +23,22 @@ class InstructionAddEvent extends ServiceEvent {
   final InstructionModel instruction;
   InstructionAddEvent({required this.instruction});
 }
+
 class FetchInstruction extends ServiceEvent {
   final String? searchQuery;
   FetchInstruction({required this.searchQuery});
 }
-
 
 class CategoryAddEvent extends ServiceEvent {
   final CategoryModel category;
   CategoryAddEvent({required this.category});
 }
 
-
 class FetchCategory extends ServiceEvent {
   final String? searchQuery;
   FetchCategory({required this.searchQuery});
 }
+
 class DeleteCategory extends ServiceEvent {
   final String? id;
   DeleteCategory({required this.id});
@@ -49,8 +48,18 @@ class DeleteMaterial extends ServiceEvent {
   final String? id;
   DeleteMaterial({required this.id});
 }
+
 class DeleteInstruction extends ServiceEvent {
   final String? id;
   DeleteInstruction({required this.id});
 }
 
+// class Fetchcatogorybydropdown extends ServiceEvent {}
+
+class Fetchcatogoryimagesevent extends ServiceEvent {
+  final String? searchQuery;
+  final String? Catogoty;
+  final String? Servicetype;
+  Fetchcatogoryimagesevent(
+      {required this.searchQuery, this.Catogoty, this.Servicetype});
+}

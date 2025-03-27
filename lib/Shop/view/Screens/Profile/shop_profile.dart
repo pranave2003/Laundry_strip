@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Shop/view/Screens/Profile/shopTerms.dart';
+import 'package:laundry/Widget/constands/Loading.dart';
 
 import '../../../../Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
 import 'ContactUs.dart';
@@ -44,7 +45,7 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
           BlocBuilder<ShopAuthblocBloc, ShopAuthblocState>(
             builder: (context, state) {
               if (state is Shoploading) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(child: Loading_Widget());
               } else if (state is ShopByidLoaded) {
                 final shop = state.userData;
                 return Container(

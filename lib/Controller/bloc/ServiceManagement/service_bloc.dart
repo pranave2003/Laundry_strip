@@ -39,7 +39,7 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
       emit(InstructionLoading());
       try {
         CollectionReference MaterialCollection =
-        FirebaseFirestore.instance.collection('MaterialTypes');
+            FirebaseFirestore.instance.collection('MaterialTypes');
 
         Query query = MaterialCollection;
         QuerySnapshot snapshot = await query.get();
@@ -61,7 +61,6 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
         emit(failerror(e.toString()));
       }
     });
-
 
     on<InstructionAddEvent>(
       (event, emit) async {
@@ -86,12 +85,11 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
       },
     );
 
-
     on<FetchInstruction>((event, emit) async {
       emit(InstructionLoading());
       try {
         CollectionReference InstructionCollection =
-        FirebaseFirestore.instance.collection('Instruction_Types');
+            FirebaseFirestore.instance.collection('Instruction_Types');
 
         Query query = InstructionCollection;
         QuerySnapshot snapshot = await query.get();
@@ -116,7 +114,7 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
 
 ///////
     on<CategoryAddEvent>(
-          (event, emit) async {
+      (event, emit) async {
         emit(CategoryLoading());
         try {
           var orderRef = FirebaseFirestore.instance
@@ -140,12 +138,11 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
       },
     );
 
-
     on<FetchCategory>((event, emit) async {
       emit(CategoryLoading());
       try {
         CollectionReference CategoryCollection =
-        FirebaseFirestore.instance.collection('Service_Category');
+            FirebaseFirestore.instance.collection('Service_Category');
 
         Query query = CategoryCollection;
         QuerySnapshot snapshot = await query.get();
@@ -168,10 +165,55 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
       }
     });
 
+    on<Fetchcatogoryimagesevent>((event, emit) async {
+      emit(CategoryLoading());
+      try {
+        CollectionReference categoryCollection =
+        FirebaseFirestore.instance.collection('Service_Category');
+
+        Query query = categoryCollection;
+
+        // Apply filters for service and category if they are not null or empty
+        if (event.Servicetype != null && event.Servicetype!.isNotEmpty) {
+          query = query.where('service', isEqualTo: event.Servicetype);
+        }
+        if (event.Catogoty != null && event.Catogoty!.isNotEmpty) {
+          query = query.where('category', isEqualTo: event.Catogoty);
+        }
+
+        QuerySnapshot snapshot = await query.get();
+
+        // Extract and store unique product image URLs and image names using a Set
+        Set<String> uniqueImageNames = {}; // To track unique names
+
+        List<Map<String, String>> imagesList = snapshot.docs.map((doc) {
+          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+          String image = data['product_image']?.toString() ?? '';
+          String name = data['product_name']?.toString() ?? '';
+
+          // Ensure unique names
+          if (!uniqueImageNames.contains(name)) {
+            uniqueImageNames.add(name);
+            return {'image': image, 'name': name};
+          }
+          return null;
+        }).where((element) => element != null).cast<Map<String, String>>().toList();
+
+        emit(Categoryloadedimage(images: imagesList));
+      } catch (e) {
+        emit(Categoryfailerror(e.toString()));
+      }
+    });
+
+
     on<DeleteCategory>((event, emit) async {
       emit(CategoryLoading());
       try {
-        FirebaseFirestore.instance.collection("Service_Category").doc(event.id).delete();
+        FirebaseFirestore.instance
+            .collection("Service_Category")
+            .doc(event.id)
+            .delete();
         emit(RefreshCategory());
       } catch (e) {
         emit(Categoryfailerror(e.toString()));
@@ -180,7 +222,10 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
     on<DeleteMaterial>((event, emit) async {
       emit(Loading());
       try {
-        FirebaseFirestore.instance.collection("MaterialTypes").doc(event.id).delete();
+        FirebaseFirestore.instance
+            .collection("MaterialTypes")
+            .doc(event.id)
+            .delete();
         emit(RefreshMaterial());
       } catch (e) {
         emit(failerror(e.toString()));
@@ -189,12 +234,14 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
     on<DeleteInstruction>((event, emit) async {
       emit(InstructionLoading());
       try {
-        FirebaseFirestore.instance.collection("Instruction_Types").doc(event.id).delete();
+        FirebaseFirestore.instance
+            .collection("Instruction_Types")
+            .doc(event.id)
+            .delete();
         emit(RefreshInstruction());
       } catch (e) {
         emit(Instructionfailerror(e.toString()));
       }
     });
-
   }
 }

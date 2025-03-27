@@ -217,6 +217,8 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
             FirebaseFirestore.instance.collection('Laundry_Shops');
 
         Query query = shopCollection;
+        query = query.where("Services", arrayContains: event.service);
+
         QuerySnapshot snapshot = await query.get();
 
         List<ShopModel> shop = snapshot.docs.map((doc) {

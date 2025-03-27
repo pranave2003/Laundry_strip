@@ -1,8 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:laundry/Controller/bloc/ServiceManagement/service_bloc.dart';
 import '../../../../Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
 
+import '../../../Controller/bloc/ServiceManagement/Dropdownbloc/dropdownbloc_bloc.dart';
+import '../../../Controller/bloc/ServiceManagement/Shopadddproduct/addproduct_bloc.dart';
 import '../../../firebase_options.dart';
 import 'Auth/ShopSplash.dart';
 import 'Auth/shop_login.dart';
@@ -25,6 +28,15 @@ class MyApp extends StatelessWidget {
         BlocProvider<ShopAuthblocBloc>(
           create: (context) => ShopAuthblocBloc()..add(FetchShopDetailsById()),
         ),
+        BlocProvider<ServiceBloc>(
+          create: (context) =>
+              ServiceBloc()..add(Fetchcatogoryimagesevent(searchQuery: null)),
+        ),
+        BlocProvider<DropdownblocBloc>(
+          create: (context) =>
+              DropdownblocBloc()..add(Fetchcatogorybydropdown()),
+        ),
+        BlocProvider<AddproductBloc>(create: (context) => AddproductBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

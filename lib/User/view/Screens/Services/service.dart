@@ -18,13 +18,13 @@ class _ServiceState extends State<Service> {
   String? selectedService; // Stores the name of the selected service
 
   List<Map<String, dynamic>> serviceList = [
-    {"icon": "assets/icon/wash_fold.png", "name": "Wash +\nFold"},
-    {"icon": "assets/icon/wash_iron.png", "name": "Wash +\nIron"},
-    {"icon": "assets/icon/steam_iron.png", "name": "Steam\nIron"},
-    {"icon": "assets/icon/dry_clean.png", "name": "Dry\nClean"},
-    {"icon": "assets/icon/bag_service.png", "name": "Bag\nServices"},
+    {"icon": "assets/icon/wash_fold.png", "name": "Wash + Fold"},
+    {"icon": "assets/icon/wash_iron.png", "name": "Wash + Iron"},
+    {"icon": "assets/icon/steam_iron.png", "name": "Steam Iron"},
+    {"icon": "assets/icon/dry_clean.png", "name": "Dry Clean"},
+    {"icon": "assets/icon/bag_service.png", "name": "Bag Service"},
     {"icon": "assets/icon/shoe_service.png", "name": "Shoe Service"},
-    {"icon": "assets/icon/household_service.png", "name": "Household Services"},
+    {"icon": "assets/icon/household_service.png", "name": "Household Service"},
     {"icon": "assets/icon/stain_removal.png", "name": "Stain Removal"},
   ];
 
@@ -62,7 +62,8 @@ class _ServiceState extends State<Service> {
                     setState(() {
                       selectedIndex = index;
                       selectedService = serviceList[index]["name"];
-                      print(selectedService);
+                      context.read<ShopAuthblocBloc>().add(UserFetchShop(
+                          searchQuery: null, service: selectedService));
                     });
                   },
                   child: Container(
@@ -118,92 +119,112 @@ class _ServiceState extends State<Service> {
 
             // Nearby Service Provider List
             BlocConsumer<ShopAuthblocBloc, ShopAuthblocState>(
-              listener: (context, state) {
-                // TODO: implement listener
-              },
-              builder: (context, state) {
-                if (state is ShopLoading) {
-                  return Center(child: Loading_Widget());
-                } else if (state is Shopfailerror) {
-                  return Text(state.error.toString());
-                } else if (state is Shoploaded) {
-                  if (state.Shop.isEmpty) {
-// Return "No data found" if txhe list is empty
-                    return Center(
-                      child: Text(
-                        "No data found",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    );
-                  }
-                  return SizedBox(
-                    height: 400,
-                    child: ListView.builder(
-                      itemCount: state.Shop.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Card(
-                            color: selectedService == "Wash +\nFold"
-                                ? Colors.white
-                                : Colors.white,
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                SelectService(),
-                                          ),
-                                        );
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                              10),
-                                          child: Image.asset(
-                                            "assets/shop_img/img.png",
-                                            width: 100,
-                                            height: 100,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
-                                      children: [
-                                        Text("Provider Name"),
-                                        SizedBox(
-                                          width: 200,
-                                          child: Text(
-                                            "Address example, City, Zip Code",
-                                          ),
-                                        ),
-                                        Text("Additional Info"),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
+                listener: (context, state) {
+              // TODO: implement listener
+            }, builder: (context, state) {
+              if (state is ShopLoading) {
+                return Center(child: Loading_Widget());
+              } else if (state is Shopfailerror) {
+                return Text(state.error.toString());
+              } else if (state is Shoploaded) {
+                if (state.Shop.isEmpty) {
+                  return Center(
+                    child: Text(
+                      "No data found",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   );
                 }
-                return SizedBox();
+                return SizedBox(
+                  height: 400,
+                  child: ListView.builder(
+                    itemCount: state.Shop.length,
+                    itemBuilder: (context, index) {
+                      final Shop = state.Shop[index];
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Card(
+                          color: selectedService == "Wash +\nFold"
+                              ? Colors.white
+                              : Colors.white,
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SelectService(),
+                                        ),
+                                      );
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.asset(
+                                          "assets/shop_img/img.png",
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        Shop.shop_name.toString(),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ), // Display Shop Name
+                                      SizedBox(
+                                        width: 200,
+                                        child: Text(
+                                          "${Shop.District}, ${Shop.city}, ${Shop.post}",
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Shop.selectServices != null &&
+                                                Shop.selectServices!.isNotEmpty
+                                            ? Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: List.generate(
+                                                  Shop.selectServices!.length,
+                                                  (index) => Text(
+                                                    Shop.selectServices![index],
+                                                    style: TextStyle(
+                                                        color: Colors.green),
+                                                  ), // Display each service
+                                                ),
+                                              )
+                                            : Text(
+                                                "No Services Available"), // Show message if list is empty
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
               }
-
-            ),
+              return SizedBox();
+            }),
           ],
         ),
       ),

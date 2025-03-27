@@ -15,13 +15,15 @@ final class failerror extends ServiceState {
 
   failerror(this.error);
 }
+
 class Materialloaded extends ServiceState {
   final List<MaterialModel> cloth;
 
   Materialloaded(
-      this.cloth,
-      );
+    this.cloth,
+  );
 }
+
 // instruction
 final class InstructionLoading extends ServiceState {}
 
@@ -32,12 +34,13 @@ final class Instructionfailerror extends ServiceState {
 
   Instructionfailerror(this.error);
 }
+
 class Instructionloaded extends ServiceState {
   final List<InstructionModel> instruction;
 
   Instructionloaded(
-      this.instruction,
-      );
+    this.instruction,
+  );
 }
 
 // category
@@ -50,18 +53,36 @@ final class Categoryfailerror extends ServiceState {
 
   Categoryfailerror(this.error);
 }
+
 class Categoryloaded extends ServiceState {
   final List<CategoryModel> category;
 
   Categoryloaded(
-      this.category,
-      );
+    this.category,
+  );
+}
 
-}
-class RefreshCategory extends ServiceState {
-}
-class RefreshMaterial extends ServiceState {
-}
-class RefreshInstruction extends ServiceState {
+class RefreshCategory extends ServiceState {}
 
+class RefreshMaterial extends ServiceState {}
+
+class RefreshInstruction extends ServiceState {}
+
+// class fetchcatogorydropdownloading extends ServiceState {}
+//
+// class catogoryLoadedDOMAIN extends ServiceState {
+//   final List<String> catogory;
+//   catogoryLoadedDOMAIN(this.catogory);
+// }
+
+class Categoryloadedimage extends ServiceState {
+  final List<Map<String, String>> images;
+
+  Categoryloadedimage( { required this.images});
+}
+
+
+class Fetchcatogotyerror extends ServiceState {
+  final String msg;
+  Fetchcatogotyerror(this.msg);
 }

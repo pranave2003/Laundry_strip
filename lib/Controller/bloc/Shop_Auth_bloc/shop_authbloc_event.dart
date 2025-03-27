@@ -2,6 +2,7 @@ part of 'shop_authbloc_bloc.dart';
 
 @immutable
 sealed class ShopAuthblocEvent {}
+
 class shopcheckloginstateevent extends ShopAuthblocEvent {}
 
 // login
@@ -23,7 +24,6 @@ class ShopSignupEvent extends ShopAuthblocEvent {
 
 class ShopSigOutEvent extends ShopAuthblocEvent {}
 
-
 // get shop details
 
 class FetchShopDetailsById extends ShopAuthblocEvent {}
@@ -32,8 +32,9 @@ class FetchShop extends ShopAuthblocEvent {
   final String? searchQuery;
   FetchShop({required this.searchQuery});
 }
+
 class UserFetchShop extends ShopAuthblocEvent {
   final String? searchQuery;
-  UserFetchShop({required this.searchQuery});
+  final String? service;
+  UserFetchShop({required this.searchQuery, this.service});
 }
-

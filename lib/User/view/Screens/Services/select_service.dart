@@ -36,18 +36,46 @@ class _SelectServiceState extends State<SelectService> {
 
   Map<String, List<Map<String, dynamic>>> categoryItems = {
     "All": [
-      {"name": "Shirt Full Standard Pack", "price": 80, "icon": "assets/Dress/shirt.png"},
-      {"name": "T-Shirt Full Standard Pack", "price": 100, "icon": "assets/Dress/t-shirt.png"},
-      {"name": "Jacket Standard Pack", "price": 200, "icon": "assets/Dress/jacket.png"},
+      {
+        "name": "Shirt Full Standard Pack",
+        "price": 80,
+        "icon": "assets/Dress/shirt.png"
+      },
+      {
+        "name": "T-Shirt Full Standard Pack",
+        "price": 100,
+        "icon": "assets/Dress/t-shirt.png"
+      },
+      {
+        "name": "Jacket Standard Pack",
+        "price": 200,
+        "icon": "assets/Dress/jacket.png"
+      },
       {"name": "T-Shirt", "price": 150, "icon": "assets/Dress/wmtshirt.png"},
       {"name": "Gown", "price": 150, "icon": "assets/Dress/wmgown.png"},
-      {"name": "Baby Clothes Pack", "price": 120, "icon": "assets/Dress/frock.png"},
+      {
+        "name": "Baby Clothes Pack",
+        "price": 120,
+        "icon": "assets/Dress/frock.png"
+      },
       {"name": "Carpet", "price": 250, "icon": "assets/Dress/carpet.png"},
     ],
     "Men": [
-      {"name": "Shirt Full Standard Pack", "price": 80, "icon": "assets/Dress/shirt.png"},
-      {"name": "T-Shirt Full Standard Pack", "price": 100, "icon": "assets/Dress/t-shirt.png"},
-      {"name": "Jacket Standard Pack", "price": 200, "icon": "assets/Dress/jacket.png"},
+      {
+        "name": "Shirt Full Standard Pack",
+        "price": 80,
+        "icon": "assets/Dress/shirt.png"
+      },
+      {
+        "name": "T-Shirt Full Standard Pack",
+        "price": 100,
+        "icon": "assets/Dress/t-shirt.png"
+      },
+      {
+        "name": "Jacket Standard Pack",
+        "price": 200,
+        "icon": "assets/Dress/jacket.png"
+      },
     ],
     "Women": [
       {"name": "T-Shirt", "price": 100, "icon": "assets/Dress/wmtshirt.png"},
@@ -55,7 +83,11 @@ class _SelectServiceState extends State<SelectService> {
     ],
     "Kids": [
       {"name": "Frock", "price": 120, "icon": "assets/Dress/frock.png"},
-      {"name": "Flared Frock", "price": 60, "icon": "assets/Dress/flared_frock.png"},
+      {
+        "name": "Flared Frock",
+        "price": 60,
+        "icon": "assets/Dress/flared_frock.png"
+      },
     ],
     "Household": [
       {"name": "Carpet", "price": 250, "icon": "assets/Dress/carpet.png"},
@@ -143,8 +175,8 @@ class _SelectServiceState extends State<SelectService> {
                     displayedItems, selectedItems, updateSelectedItems)),
 
             Expanded(
-                child: buildAddedItemsSection(
-                    context, selectedItems, updateSelectedItems)), // Pass context here
+                child: buildAddedItemsSection(context, selectedItems,
+                    updateSelectedItems)), // Pass context here
           ],
         ),
       ),
@@ -166,7 +198,7 @@ class _SelectServiceState extends State<SelectService> {
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
               decoration: BoxDecoration(
                 color:
-                selectedCategoryIndex == index ? Colors.blue : Colors.white,
+                    selectedCategoryIndex == index ? Colors.blue : Colors.white,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: defaultColor),
               ),
@@ -187,11 +219,13 @@ class _SelectServiceState extends State<SelectService> {
   }
 }
 
-Widget buildAddedItemsSection(BuildContext context, List<Map<String, dynamic>> selectedItems, Function updateSelectedItems) {
+Widget buildAddedItemsSection(BuildContext context,
+    List<Map<String, dynamic>> selectedItems, Function updateSelectedItems) {
   return ListView(
     children: [
       ExpansionTile(
-        title: Text("Added Items", style: TextStyle(fontWeight: FontWeight.bold)),
+        title:
+            Text("Added Items", style: TextStyle(fontWeight: FontWeight.bold)),
         children: selectedItems.map((item) {
           return ListTile(
             leading: Image.asset(item["icon"], width: 40, height: 40),
@@ -202,7 +236,9 @@ Widget buildAddedItemsSection(BuildContext context, List<Map<String, dynamic>> s
                 Text("Service Type: ${item["serviceType"] ?? "N/A"}"),
                 Text("Fabric: ${item["fabricType"] ?? "Not Selected"}"),
                 Text("Instructions: ${item["instructions"] ?? "None"}"),
-                Text("₹ ${item["price"]}", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green)),
+                Text("₹ ${item["price"]}",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.green)),
               ],
             ),
             trailing: IconButton(
@@ -219,7 +255,8 @@ Widget buildAddedItemsSection(BuildContext context, List<Map<String, dynamic>> s
         style: ElevatedButton.styleFrom(
           backgroundColor: defaultColor,
           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 140),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onPressed: () {
           Navigator.push(
@@ -228,7 +265,8 @@ Widget buildAddedItemsSection(BuildContext context, List<Map<String, dynamic>> s
           );
         },
         child: Center(
-          child: Text("Continue", style: TextStyle(color: Colors.white, fontSize: 20)),
+          child: Text("Continue",
+              style: TextStyle(color: Colors.white, fontSize: 20)),
         ),
       ),
     ],

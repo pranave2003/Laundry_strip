@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 
 import 'Addproductmodel/Addproductmodel.dart';
@@ -8,6 +9,7 @@ part 'addproduct_event.dart';
 part 'addproduct_state.dart';
 
 class AddproductBloc extends Bloc<AddproductEvent, AddproductState> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   AddproductBloc() : super(AddproductInitial()) {
     on<Addproductevent>((event, emit) async {
       emit(AddproductLoading());
@@ -34,25 +36,30 @@ class AddproductBloc extends Bloc<AddproductEvent, AddproductState> {
 
     on<FetchProduct>((event, emit) async {
       emit(AddproductLoading());
-      try {
-        CollectionReference productCollection =
-            FirebaseFirestore.instance.collection('Shop_product');
+      User? shop = _auth.currentUser;
+      if (shop != null) {
+        try {
+          CollectionReference productCollection =
+              FirebaseFirestore.instance.collection('Shop_product');
 
-        QuerySnapshot snapshot = await productCollection.get();
+          QuerySnapshot snapshot = await productCollection
+              .where("shopid", isEqualTo: shop.uid)
+              .get();
 
-        List<Addproductmodel> product = snapshot.docs.map((doc) {
-          return Addproductmodel.fromMap(doc.data() as Map<String, dynamic>);
-        }).toList();
-        if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
-          product = product.where((viewshops) {
-            return viewshops.Productprice!
-                .toLowerCase()
-                .contains(event.searchQuery!.toLowerCase());
+          List<Addproductmodel> product = snapshot.docs.map((doc) {
+            return Addproductmodel.fromMap(doc.data() as Map<String, dynamic>);
           }).toList();
+          if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
+            product = product.where((viewshops) {
+              return viewshops.Productprice!
+                  .toLowerCase()
+                  .contains(event.searchQuery!.toLowerCase());
+            }).toList();
+          }
+          emit(AddproductLoaded(product));
+        } catch (e) {
+          emit(addproductfail(error: e.toString()));
         }
-        emit(AddproductLoaded(product));
-      } catch (e) {
-        emit(addproductfail(error: e.toString()));
       }
     });
     on<DeleteProduct>((event, emit) async {

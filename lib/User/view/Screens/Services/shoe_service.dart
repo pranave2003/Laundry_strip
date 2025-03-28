@@ -23,7 +23,10 @@ class _ShoeServiceState extends State<ShoeService> {
     {"icon": "assets/icon/dry_clean.png", "name": "Dry \nClean"},
     {"icon": "assets/icon/bag_service.png", "name": "Bag \nService"},
     {"icon": "assets/icon/shoe_service.png", "name": "Shoe \nService"},
-    {"icon": "assets/icon/household_service.png", "name": "Household \nService"},
+    {
+      "icon": "assets/icon/household_service.png",
+      "name": "Household \nService"
+    },
     {"icon": "assets/icon/stain_removal.png", "name": "Stain \nRemoval"},
   ];
 
@@ -42,7 +45,11 @@ class _ShoeServiceState extends State<ShoeService> {
       {"name": "Heels", "price": 250, "icon": "assets/Dress/sh.jpg"},
     ],
     "Boots": [
-      {"name": "Boot Heels", "price": 350, "icon": "assets/Dress/boot_heels.jpg"},
+      {
+        "name": "Boot Heels",
+        "price": 350,
+        "icon": "assets/Dress/boot_heels.jpg"
+      },
     ],
   };
 
@@ -61,7 +68,8 @@ class _ShoeServiceState extends State<ShoeService> {
     });
   }
 
-  void updateSelectedItemsShoe(Map<String, dynamic> item, {bool remove = false}) {
+  void updateSelectedItemsShoe(Map<String, dynamic> item,
+      {bool remove = false}) {
     setState(() {
       if (remove) {
         selectedItems.remove(item);
@@ -98,24 +106,6 @@ class _ShoeServiceState extends State<ShoeService> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // GridView.builder(
-            //   physics: NeverScrollableScrollPhysics(),
-            //   shrinkWrap: true,
-            //   padding: EdgeInsets.all(10),
-            //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //     mainAxisSpacing: 0,
-            //     mainAxisExtent: 130,
-            //     crossAxisSpacing: 15,
-            //     childAspectRatio: 1.0,
-            //     crossAxisCount: 4,
-            //   ),
-            //   itemCount: serviceList.length,
-            //   itemBuilder: (context, index) {
-            //     return WashFold(
-            //         icon: serviceList[index]["icon"].toString(),
-            //         title: serviceList[index]["name"].toString());
-            //   },
-            // ),
             SizedBox(height: 10),
             _buildCategoryFilter(),
             SizedBox(height: 20),
@@ -128,6 +118,49 @@ class _ShoeServiceState extends State<ShoeService> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildAddedItemsSection(
+      BuildContext context,
+      List<Map<String, dynamic>> selectedItems,
+      Function(Map<String, dynamic>, {bool remove}) updateSelectedItems) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Selected Items",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 10),
+        selectedItems.isEmpty
+            ? Center(
+                child: Text("No items selected"),
+              )
+            : ListView.builder(
+                shrinkWrap: true,
+                itemCount: selectedItems.length,
+                itemBuilder: (context, index) {
+                  final item = selectedItems[index];
+                  return ListTile(
+                    leading: Image.asset(
+                      item["icon"],
+                      width: 40,
+                      height: 40,
+                      fit: BoxFit.cover,
+                    ),
+                    title: Text(item["name"]),
+                    subtitle: Text("₹${item["price"]}"),
+                    trailing: IconButton(
+                      icon: Icon(Icons.remove_circle, color: Colors.red),
+                      onPressed: () {
+                        updateSelectedItems(item, remove: true);
+                      },
+                    ),
+                  );
+                },
+              ),
+      ],
     );
   }
 
@@ -146,7 +179,7 @@ class _ShoeServiceState extends State<ShoeService> {
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
               decoration: BoxDecoration(
                 color:
-                selectedCategoryIndex == index ? Colors.blue : Colors.white,
+                    selectedCategoryIndex == index ? Colors.blue : Colors.white,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: defaultColor),
               ),

@@ -10,3 +10,13 @@ class Fetchcatogorybydropdown extends DropdownblocEvent {
     this.service,
   });
 }
+
+class Fetchshopproductcatogory_inuser extends DropdownblocEvent {
+  final String? service;
+  final String? shopid;
+
+  Fetchshopproductcatogory_inuser({
+    this.service,
+    this.shopid,
+  });
+}

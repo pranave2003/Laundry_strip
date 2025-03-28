@@ -1,17 +1,18 @@
-//Select a Service
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:laundry/User/view/Screens/Services/select_vendor.dart';
+import 'package:laundry/Controller/bloc/Shop_Auth_bloc/Shopmodel/Shopmodel.dart';
 import 'package:laundry/User/view/Screens/Services/service.dart';
+import '../../../../Controller/bloc/ServiceManagement/Dropdownbloc/dropdownbloc_bloc.dart';
+import '../../../../Controller/bloc/ServiceManagement/Shopadddproduct/Addproductmodel/Addproductmodel.dart';
 import '../../../../Controller/bloc/ServiceManagement/Shopadddproduct/addproduct_bloc.dart';
 import '../../../../Widget/constands/Loading.dart';
-import '../../../../Widget/constands/colors.dart';
-import '../../../../Widget/constands/widgets.dart';
 import '../Address/pickup_delivery.dart';
-import 'Widgets/Aleartdailog.dart';
+import '../../../../Widget/constands/colors.dart';
 
 class SelectService extends StatefulWidget {
-  const SelectService({super.key});
+  const SelectService(this.shop, {super.key});
+
+  final ShopModel shop;
 
   @override
   State<SelectService> createState() => _SelectServiceState();
@@ -19,22 +20,9 @@ class SelectService extends StatefulWidget {
 
 class _SelectServiceState extends State<SelectService> {
   int selectedCategoryIndex = 0;
-  List<Map<String, dynamic>> selectedItems = [];
 
-  // List<Map<String, dynamic>> serviceList = [
-  //   {"icon": "assets/icon/wash_fold.png", "name": "Wash +\nFold"},
-  //   {"icon": "assets/icon/wash_iron.png", "name": "Wash +\nIron"},
-  //   {"icon": "assets/icon/steam_iron.png", "name": "Steam \nIron"},
-  //   {"icon": "assets/icon/dry_clean.png", "name": "Dry \nClean"},
-  //   {"icon": "assets/icon/bag_service.png", "name": "Bag \nService"},
-  //   {"icon": "assets/icon/shoe_service.png", "name": "Shoe \nService"},
-  //   {
-  //     "icon": "assets/icon/household_service.png",
-  //     "name": "Household \nService"
-  //   },
-  //   {"icon": "assets/icon/stain_removal.png", "name": "Stain \nRemoval"},
-  // ];
-
+  String? selectedService;
+  String? selectedCategory;
   List<String> categories = ["All", "Men", "Women", "Kids", "Household"];
 
   Map<String, List<Map<String, dynamic>>> categoryItems = {
@@ -94,7 +82,7 @@ class _SelectServiceState extends State<SelectService> {
     ],
     "Household": [
       {"name": "Carpet", "price": 250, "icon": "assets/Dress/carpet.png"},
-      {"name": "Curtains ", "price": 300, "icon": "assets/Dress/curtain.png"},
+      {"name": "Curtains", "price": 300, "icon": "assets/Dress/curtain.png"},
     ],
   };
 
@@ -113,12 +101,16 @@ class _SelectServiceState extends State<SelectService> {
     });
   }
 
-  void updateSelectedItems(Map<String, dynamic> item, {bool remove = false}) {
+  Set<Addproductmodel> selectedItems = {};
+
+  void updateSelectedItems(Addproductmodel item, {bool remove = false}) {
     setState(() {
       if (remove) {
         selectedItems.remove(item);
       } else {
-        selectedItems.add(item);
+        if (!selectedItems.contains(item)) {
+          selectedItems.add(item);
+        }
       }
     });
   }
@@ -127,21 +119,46 @@ class _SelectServiceState extends State<SelectService> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          "Select a Service",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+      bottomSheet: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: MaterialButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return PickupDelivery();
+                },
+              ));
+            },
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  " Continue ",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                )),
+            color: defaultColor,
+          ),
         ),
+      ),
+      appBar: AppBar(
+        title: Text("Select a Service",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.black),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back), // Back arrow icon
+          icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => Service()),
-            );
+                context, MaterialPageRoute(builder: (context) => Service()));
           },
         ),
       ),
@@ -150,152 +167,274 @@ class _SelectServiceState extends State<SelectService> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // GridView.builder(
-            //   physics: NeverScrollableScrollPhysics(),
-            //   shrinkWrap: true,
-            //   padding: EdgeInsets.all(10),
-            //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //     mainAxisSpacing: 0,
-            //     mainAxisExtent: 130,
-            //     crossAxisSpacing: 15,
-            //     childAspectRatio: 1.0,
-            //     crossAxisCount: 4,
-            //   ),
-            //   itemCount: serviceList.length,
-            //   itemBuilder: (context, index) {
-            //     return WashFold(
-            //         icon: serviceList[index]["icon"].toString(),
-            //         title: serviceList[index]["name"].toString());
-            //   },
-            // ),
+            Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.grey),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButtonFormField<String>(
+                  style: TextStyle(color: Colors.black),
+                  decoration: InputDecoration(
+                    hintText: "Select Service Type",
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                  ),
+                  items: widget.shop.selectServices != null &&
+                          widget.shop.selectServices!.isNotEmpty
+                      ? widget.shop.selectServices!.map((service) {
+                          return DropdownMenuItem(
+                            value: service,
+                            child: Text(service),
+                          );
+                        }).toList()
+                      : [],
+                  onChanged: (value) {
+                    setState(() {
+                      selectedService = value;
 
+                      context.read<DropdownblocBloc>().add(
+                          Fetchshopproductcatogory_inuser(
+                              service: selectedService,
+                              shopid: widget.shop.shopid));
+                      selectedCategory = null;
+
+                      // context.read<ServiceBloc>().add(Fetchcatogoryimagesevent(
+                      //     searchQuery: null,
+                      //     Catogoty: selectedCategory,
+                      //     Servicetype: selectedService));
+                    });
+                  },
+                ),
+              ),
+            ),
             SizedBox(height: 10),
-            _buildCategoryFilter(),
+            selectedService != null
+                ? Column(
+                    children: [
+                      BlocBuilder<DropdownblocBloc, DropdownblocState>(
+                        builder: (context, state) {
+                          if (state is fetchcatogorydropdownloading) {
+                            return Loading_Widget();
+                          } else if (state is FetchcatogotyError) {
+                            return Center(child: Text(state.msg));
+                          } else if (state is catogoryLoadedDOMAIN) {
+                            return Container(
+                              height: 50,
+                              width: double.infinity,
+                              // Makes it responsive
+                              padding: EdgeInsets.symmetric(horizontal: 12),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: Colors.grey),
+                              ),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: DropdownButtonHideUnderline(
+                                      child: DropdownButton<String>(
+                                        style: TextStyle(color: Colors.black),
+                                        dropdownColor: Colors.white,
+                                        isExpanded: true,
+                                        hint: Text(
+                                          "Choose Category",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 15),
+                                        ),
+                                        value: selectedCategory,
+                                        items:
+                                            state.catogory.map((String place) {
+                                          return DropdownMenuItem<String>(
+                                            value: place,
+                                            child: Text(
+                                              place,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium,
+                                            ),
+                                          );
+                                        }).toList(),
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            selectedCategory = newValue;
+                                            context.read<AddproductBloc>().add(
+                                                FetchproductinUser(
+                                                    searchQuery: null,
+                                                    shopid:
+                                                        widget.shop.shopid));
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                          return SizedBox();
+                        },
+                      ),
+                      selectedCategory != null
+                          ? Container(
+                              height: 300,
+                              color: Colors.white,
+                              child:
+                                  BlocConsumer<AddproductBloc, AddproductState>(
+                                listener: (context, state) {
+                                  // TODO: implement listener
+                                },
+                                builder: (context, state) {
+                                  if (state is AddproductLoading) {
+                                    return Center(child: Loading_Widget());
+                                  } else if (state is addproductfail) {
+                                    return Text(state.error.toString());
+                                  } else if (state is AddproductLoaded) {
+                                    if (state.product.isEmpty) {
+                                      // Return "No data found" if txhe list is empty
+                                      return Center(
+                                        child: Text(
+                                          "No data found",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      );
+                                    }
+                                    return ListView.builder(
+                                      itemCount: state.product.length,
+                                      itemBuilder: (context, index) {
+                                        return ListTile(
+                                          leading: Image.asset(
+                                              state
+                                                  .product[index].product_image,
+                                              width: 40,
+                                              height: 40),
+                                          title: Text(state
+                                              .product[index].product_name),
+                                          subtitle: Text(
+                                              "₹${state.product[index].Productprice}"),
+                                          trailing: IconButton(
+                                            icon: Icon(Icons.add_circle_outline,
+                                                color: Colors.green),
+                                            onPressed: () {
+                                              updateSelectedItems(
+                                                  state.product[index]);
+                                            },
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  }
+                                  return SizedBox();
+                                },
+                              ),
+                            )
+                          : SizedBox()
+                    ],
+                  )
+                : SizedBox(),
+            // _buildCategoryFilter(),
             SizedBox(height: 20),
-
-            Expanded(
-                child: buildServiceItemListShoe(
-                    displayedItems, selectedItems, updateSelectedItems)),
-
-            Expanded(
-                child: buildAddedItemsSection(context, selectedItems,
-                    updateSelectedItems)), // Pass context here
+            // Expanded(child: _buildServiceItemList(displayedItems)),
+            Expanded(child: _buildAddedItemsSection()),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildCategoryFilter() {
-    return BlocConsumer<AddproductBloc, AddproductState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
-      builder: (context, state) {
-    if (state is AddproductLoading) {
-    return Center(child: Loading_Widget());
-    } else if (state is addproductfail) {
-    return Text(state.error.toString());
-    } else if (state is AddproductLoaded) {
-      if (state.product.isEmpty) {
-        // Return "No data found" if txhe list is empty
-        return Center(
-          child: Text(
-            "No data found",
-            style: TextStyle(
-                fontSize: 16, fontWeight: FontWeight.bold),
+  // Widget _buildCategoryFilter() {
+  //   return SingleChildScrollView(
+  //     scrollDirection: Axis.horizontal,
+  //     child: Row(
+  //       children: List.generate(categories.length, (index) {
+  //         return GestureDetector(
+  //           onTap: () => updateCategory(index),
+  //           child: Container(
+  //             margin: EdgeInsets.only(right: 10),
+  //             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+  //             decoration: BoxDecoration(
+  //               color:
+  //                   selectedCategoryIndex == index ? Colors.blue : Colors.white,
+  //               borderRadius: BorderRadius.circular(8),
+  //               border: Border.all(color: defaultColor),
+  //             ),
+  //             child: Text(categories[index],
+  //                 style: TextStyle(
+  //                   color: selectedCategoryIndex == index
+  //                       ? Colors.white
+  //                       : Colors.blue,
+  //                   fontWeight: FontWeight.bold,
+  //                 )),
+  //           ),
+  //         );
+  //       }),
+  //     ),
+  //   );
+  // }
+  //
+  // Widget _buildServiceItemList(List<Map<String, dynamic>> items) {
+  //   return ListView.builder(
+  //     itemCount: items.length,
+  //     itemBuilder: (context, index) {
+  //       var item = items[index];
+  //       return ListTile(
+  //         leading: Image.asset(item["icon"], width: 40, height: 40),
+  //         title: Text(item["name"]),
+  //         subtitle: Text("₹ ${item["price"]}"),
+  //         trailing: IconButton(
+  //           icon: Icon(Icons.add_circle_outline, color: Colors.green),
+  //           onPressed: () => updateSelectedItems(item),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
+  // Widget _buildServiceItemList(List<Map<String, dynamic>> items) {
+  //   return ListView.builder(
+  //     itemCount: items.length,
+  //     itemBuilder: (context, index) {
+  //       var item = items[index];
+  //       return ListTile(
+  //         leading: Image.asset(item["icon"], width: 40, height: 40),
+  //         title: Text(item["name"]),
+  //         subtitle: Text("₹ ${item["price"]}"),
+  //         trailing: IconButton(
+  //           icon: Icon(Icons.add_circle_outline, color: Colors.green),
+  //           onPressed: () {
+  //             var product = Addproductmodel(
+  //               product_image: item["icon"],
+  //               product_name: item["name"],
+  //               Productprice: item["price"],
+  //             );
+  //             updateSelectedItems(product);
+  //           },
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
+  Widget _buildAddedItemsSection() {
+    return ExpansionTile(
+      title: Text("Added Items", style: TextStyle(fontWeight: FontWeight.bold)),
+      initiallyExpanded: true, // This keeps the ExpansionTile open by default
+      children: selectedItems.map((item) {
+        return ListTile(
+          leading: Image.asset(item.product_image, width: 40, height: 40),
+          title: Text(item.product_name),
+          trailing: IconButton(
+            icon: Icon(Icons.remove_circle_outline, color: Colors.red),
+            onPressed: () => updateSelectedItems(item, remove: true),
           ),
         );
-      }
-      return SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: List.generate(categories.length, (index) {
-            return GestureDetector(
-              onTap: () {
-                updateCategory(index);
-              },
-              child: Container(
-                margin: EdgeInsets.only(right: 10),
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                decoration: BoxDecoration(
-                  color:
-                  selectedCategoryIndex == index ? Colors.blue : Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: defaultColor),
-                ),
-                child: Text(
-                  categories[index],
-                  style: TextStyle(
-                    color: selectedCategoryIndex == index
-                        ? Colors.white
-                        : Colors.blue,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            );
-          }),
-        ),
-      );
-    }
-    return SizedBox();
-      },
+      }).toList(),
     );
   }
-}
-
-Widget buildAddedItemsSection(BuildContext context,
-    List<Map<String, dynamic>> selectedItems, Function updateSelectedItems) {
-  return ListView(
-    children: [
-      ExpansionTile(
-        title:
-        Text("Added Items", style: TextStyle(fontWeight: FontWeight.bold)),
-        children: selectedItems.map((item) {
-          return ListTile(
-            leading: Image.asset(item["icon"], width: 40, height: 40),
-            title: Text(item["name"]),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Service Type: ${item["serviceType"] ?? "N/A"}"),
-                Text("Fabric: ${item["fabricType"] ?? "Not Selected"}"),
-                Text("Instructions: ${item["instructions"] ?? "None"}"),
-                Text("₹ ${item["price"]}",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.green)),
-              ],
-            ),
-            trailing: IconButton(
-              icon: Icon(Icons.remove_circle_outline, color: Colors.red),
-              onPressed: () {
-                updateSelectedItems(item, remove: true);
-              },
-            ),
-          );
-        }).toList(),
-      ),
-      SizedBox(height: 8),
-      ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: defaultColor,
-          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 140),
-          shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => PickupDelivery()),
-          );
-        },
-        child: Center(
-          child: Text("Continue",
-              style: TextStyle(color: Colors.white, fontSize: 20)),
-        ),
-      ),
-    ],
-  );
 }

@@ -156,9 +156,9 @@ class _ServiceState extends State<Service> {
                                     onTap: () {
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(
-                                          builder: (context) => SelectService(),
-                                        ),
+                                        MaterialPageRoute(builder: (context) {
+                                          return SelectService(Shop);
+                                        }),
                                       );
                                     },
                                     child: Padding(
@@ -183,7 +183,13 @@ class _ServiceState extends State<Service> {
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18),
-                                      ), // Display Shop Name
+                                      ),
+                                      Text(
+                                        Shop.shopid.toString(),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 10),
+                                      ),
                                       SizedBox(
                                         width: 200,
                                         child: Text(

@@ -38,5 +38,34 @@ class DropdownblocBloc extends Bloc<DropdownblocEvent, DropdownblocState> {
         }
       }
     });
+
+    on<Fetchshopproductcatogory_inuser>((event, emit) async {
+      try {
+        emit(
+            fetchcatogorydropdownloading()); // Emit loading state before fetching data
+
+        await for (var snapshot in FirebaseFirestore.instance
+            .collection('Shop_product')
+            .where("service", isEqualTo: event.service)
+            .where("shopid", isEqualTo: event.shopid)
+            .snapshots()) {
+          // Use a Set to avoid duplicate categories
+          Set<String> domainSet =
+              snapshot.docs.map((doc) => doc['category'] as String).toSet();
+
+          List<String> uniqueDomain = domainSet.toList();
+
+          print("Unique Domain: $uniqueDomain");
+
+          if (!emit.isDone) {
+            emit(catogoryLoadedDOMAIN(uniqueDomain));
+          }
+        }
+      } catch (e) {
+        if (!emit.isDone) {
+          emit(FetchcatogotyError(e.toString()));
+        }
+      }
+    });
   }
 }

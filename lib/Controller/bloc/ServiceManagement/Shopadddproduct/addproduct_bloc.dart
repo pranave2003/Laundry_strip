@@ -49,6 +49,7 @@ class AddproductBloc extends Bloc<AddproductEvent, AddproductState> {
           List<Addproductmodel> product = snapshot.docs.map((doc) {
             return Addproductmodel.fromMap(doc.data() as Map<String, dynamic>);
           }).toList();
+
           if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
             product = product.where((viewshops) {
               return viewshops.Productprice!
@@ -61,6 +62,36 @@ class AddproductBloc extends Bloc<AddproductEvent, AddproductState> {
           emit(addproductfail(error: e.toString()));
         }
       }
+    });
+
+    on<FetchproductinUser>((event, emit) async {
+      emit(AddproductLoading());
+
+
+        try {
+          CollectionReference productCollection =
+              FirebaseFirestore.instance.collection('Shop_product');
+
+          QuerySnapshot snapshot = await productCollection
+              .where("shopid", isEqualTo:event.shopid)
+              .get();
+
+          List<Addproductmodel> product = snapshot.docs.map((doc) {
+            return Addproductmodel.fromMap(doc.data() as Map<String, dynamic>);
+          }).toList();
+
+          if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
+            product = product.where((viewshops) {
+              return viewshops.Productprice!
+                  .toLowerCase()
+                  .contains(event.searchQuery!.toLowerCase());
+            }).toList();
+          }
+          emit(AddproductLoaded(product));
+        } catch (e) {
+          emit(addproductfail(error: e.toString()));
+        }
+
     });
     on<DeleteProduct>((event, emit) async {
       emit(AddproductLoading());

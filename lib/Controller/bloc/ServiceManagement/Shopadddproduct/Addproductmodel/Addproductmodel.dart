@@ -1,20 +1,20 @@
 class Addproductmodel {
   final productid;
-  final String service;
-  final String category;
-  final String product_name;
-  final String product_image;
-  final String shopid;
-  final String Productprice;
+  final service;
+  final category;
+  final product_name;
+  final product_image;
+  final shopid;
+  final Productprice;
 
   Addproductmodel({
     this.productid,
-    required this.service,
-    required this.category,
-    required this.product_name,
-    required this.product_image,
-    required this.shopid,
-    required this.Productprice,
+    this.service,
+    this.category,
+    this.product_name,
+    this.product_image,
+    this.shopid,
+    this.Productprice,
   });
 
   factory Addproductmodel.fromMap(Map<String, dynamic> data) {

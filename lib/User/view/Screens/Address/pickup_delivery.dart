@@ -64,14 +64,13 @@ class _PickupDeliveryState extends State<PickupDelivery> {
         elevation: 0,
         leading: IconButton(
           onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => SelectService()), // Replace with the actual page
-            );
+            // Navigator.pushReplacement(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => SelectService()), // Replace with the actual page
+            // );
           },
           icon: Icon(Icons.arrow_back, color: Colors.black),
         ),
-
         title: Text(
           "Pickup and Delivery Address",
           style: TextStyle(
@@ -127,7 +126,9 @@ class _PickupDeliveryState extends State<PickupDelivery> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildDatePicker("Select Pickup Date", _pickupDate, true),
-                const SizedBox(width: 8,),
+                const SizedBox(
+                  width: 8,
+                ),
                 _buildDatePicker("Expect Delivery Date", _deliveryDate, false),
               ],
             ),
@@ -148,7 +149,9 @@ class _PickupDeliveryState extends State<PickupDelivery> {
                 return _buildTimeSlotButton(slot);
               }).toList(),
             ),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             const Text(
               "Delivery Time Slot",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -163,16 +166,21 @@ class _PickupDeliveryState extends State<PickupDelivery> {
                 return _buildDeliveryTimeSlotButton(slot);
               }).toList(),
             ),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
 
             // Continue Button
             SizedBox(
-              width: MediaQuery.of(context).size.width,height: 50,
+              width: MediaQuery.of(context).size.width,
+              height: 50,
               child: MaterialButton(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => OrderSummaryPage()), // Replace with your destination page
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            OrderSummaryPage()), // Replace with your destination page
                   );
                 },
                 shape: RoundedRectangleBorder(
@@ -266,10 +274,13 @@ class _PickupDeliveryState extends State<PickupDelivery> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    date != null ? DateFormat("dd/MM/yyyy").format(date) : "--/--/----",
+                    date != null
+                        ? DateFormat("dd/MM/yyyy").format(date)
+                        : "--/--/----",
                     style: const TextStyle(fontSize: 14),
                   ),
-                  const Icon(Icons.calendar_today, size: 18, color: Colors.blue),
+                  const Icon(Icons.calendar_today,
+                      size: 18, color: Colors.blue),
                 ],
               ),
             ),
@@ -291,14 +302,16 @@ class _PickupDeliveryState extends State<PickupDelivery> {
         width: 160,
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: _selectedTimeSlot == timeSlot ? Secondary : Colors.grey.shade200,
+          color:
+              _selectedTimeSlot == timeSlot ? Secondary : Colors.grey.shade200,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Center(
           child: Text(
             timeSlot,
             style: TextStyle(
-              color: _selectedTimeSlot == timeSlot ? Colors.white : Colors.black,
+              color:
+                  _selectedTimeSlot == timeSlot ? Colors.white : Colors.black,
               fontSize: 14,
             ),
           ),
@@ -306,6 +319,7 @@ class _PickupDeliveryState extends State<PickupDelivery> {
       ),
     );
   }
+
   Widget _buildDeliveryTimeSlotButton(String timeSlot) {
     return GestureDetector(
       onTap: () {
@@ -317,14 +331,18 @@ class _PickupDeliveryState extends State<PickupDelivery> {
         width: 160,
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: _selectedDeliveryTimeSlot == timeSlot ? Secondary : Colors.grey.shade200,
+          color: _selectedDeliveryTimeSlot == timeSlot
+              ? Secondary
+              : Colors.grey.shade200,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Center(
           child: Text(
             timeSlot,
             style: TextStyle(
-              color: _selectedDeliveryTimeSlot == timeSlot ? Colors.white : Colors.black,
+              color: _selectedDeliveryTimeSlot == timeSlot
+                  ? Colors.white
+                  : Colors.black,
               fontSize: 14,
             ),
           ),
@@ -333,4 +351,3 @@ class _PickupDeliveryState extends State<PickupDelivery> {
     );
   }
 }
-

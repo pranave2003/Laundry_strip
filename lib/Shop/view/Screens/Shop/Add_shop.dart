@@ -290,7 +290,7 @@ class _Shop_AddState extends State<Shop_Add> {
         child: BlocConsumer<AddproductBloc, AddproductState>(
           listener: (context, state) {
             if (state is Addproductsuccess) {
-              Navigator.of(context).pop();
+              Navigator.pop(context, true);
             }
           },
           builder: (context, state) {

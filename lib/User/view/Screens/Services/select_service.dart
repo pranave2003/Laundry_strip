@@ -1,7 +1,10 @@
 //Select a Service
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/User/view/Screens/Services/select_vendor.dart';
 import 'package:laundry/User/view/Screens/Services/service.dart';
+import '../../../../Controller/bloc/ServiceManagement/Shopadddproduct/addproduct_bloc.dart';
+import '../../../../Widget/constands/Loading.dart';
 import '../../../../Widget/constands/colors.dart';
 import '../../../../Widget/constands/widgets.dart';
 import '../Address/pickup_delivery.dart';
@@ -184,37 +187,61 @@ class _SelectServiceState extends State<SelectService> {
   }
 
   Widget _buildCategoryFilter() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: List.generate(categories.length, (index) {
-          return GestureDetector(
-            onTap: () {
-              updateCategory(index);
-            },
-            child: Container(
-              margin: EdgeInsets.only(right: 10),
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-              decoration: BoxDecoration(
-                color:
-                    selectedCategoryIndex == index ? Colors.blue : Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: defaultColor),
-              ),
-              child: Text(
-                categories[index],
-                style: TextStyle(
-                  color: selectedCategoryIndex == index
-                      ? Colors.white
-                      : Colors.blue,
-                  fontWeight: FontWeight.bold,
+    return BlocConsumer<AddproductBloc, AddproductState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+    if (state is AddproductLoading) {
+    return Center(child: Loading_Widget());
+    } else if (state is addproductfail) {
+    return Text(state.error.toString());
+    } else if (state is AddproductLoaded) {
+      if (state.product.isEmpty) {
+        // Return "No data found" if txhe list is empty
+        return Center(
+          child: Text(
+            "No data found",
+            style: TextStyle(
+                fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        );
+      }
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: List.generate(categories.length, (index) {
+            return GestureDetector(
+              onTap: () {
+                updateCategory(index);
+              },
+              child: Container(
+                margin: EdgeInsets.only(right: 10),
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                decoration: BoxDecoration(
+                  color:
+                  selectedCategoryIndex == index ? Colors.blue : Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: defaultColor),
+                ),
+                child: Text(
+                  categories[index],
+                  style: TextStyle(
+                    color: selectedCategoryIndex == index
+                        ? Colors.white
+                        : Colors.blue,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-          );
-        }),
-      ),
+            );
+          }),
+        ),
+      );
+    }
+    return SizedBox();
+      },
     );
   }
 }
@@ -225,7 +252,7 @@ Widget buildAddedItemsSection(BuildContext context,
     children: [
       ExpansionTile(
         title:
-            Text("Added Items", style: TextStyle(fontWeight: FontWeight.bold)),
+        Text("Added Items", style: TextStyle(fontWeight: FontWeight.bold)),
         children: selectedItems.map((item) {
           return ListTile(
             leading: Image.asset(item["icon"], width: 40, height: 40),
@@ -256,7 +283,7 @@ Widget buildAddedItemsSection(BuildContext context,
           backgroundColor: defaultColor,
           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 140),
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onPressed: () {
           Navigator.push(

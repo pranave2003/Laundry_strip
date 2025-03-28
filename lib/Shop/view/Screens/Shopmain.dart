@@ -36,7 +36,9 @@ class MyApp extends StatelessWidget {
           create: (context) =>
               DropdownblocBloc()..add(Fetchcatogorybydropdown()),
         ),
-        BlocProvider<AddproductBloc>(create: (context) => AddproductBloc()),
+        BlocProvider<AddproductBloc>(
+            create: (context) =>
+                AddproductBloc()..add(FetchProduct(searchQuery: null))),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

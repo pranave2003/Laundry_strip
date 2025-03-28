@@ -14,7 +14,7 @@ class ScanQr extends StatelessWidget {
         height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/background.png'), // Replace with your background image
+            image: AssetImage('assets/line-scan.png'), // Replace with your background image
             fit: BoxFit.cover,
           ),
        ),

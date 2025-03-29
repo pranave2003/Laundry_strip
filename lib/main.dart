@@ -13,6 +13,7 @@ import 'Shop/view/Screens/Orders/order_details.dart';
 import 'Shop/view/Screens/Shop/Add_shop.dart';
 import 'Shop/view/Screens/Shop/S_view.dart';
 import 'Shop/view/Screens/Splash/shop_splash.dart';
+import 'User/view/Screens/Address/pickup_delivery.dart';
 import 'User/view/Screens/Bottom_navigation/btm_navigation.dart';
 import 'User/view/Screens/Home/home_page.dart';
 import 'User/view/Screens/Services/select_service.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
           bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: Colors.white),
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
-        ));
-        // home:SelectService());
+        ),
+        home:PickupDelivery());
   }
 }

@@ -5,12 +5,23 @@ import '../../../../Widget/constands/colors.dart';
 import 'E_receipt.dart';
 
 class OrderSummaryPage extends StatelessWidget {
-  const OrderSummaryPage({super.key});
+  const OrderSummaryPage(
+      {super.key,
+      required this.pickupdate,
+      required this.deliverydate,
+      required this.selectedtimeslot,
+      required this.selecteddeliverytimeslot});
+  final pickupdate;
+  final deliverydate;
+  final selectedtimeslot;
+  final selecteddeliverytimeslot;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.white,
-      appBar: AppBar(backgroundColor: Colors.white,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
         title: const Text(
           "Order Summary",
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -45,23 +56,29 @@ class OrderSummaryPage extends StatelessWidget {
                     children: [
                       const Text(
                         "Pure Press Laundry",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 4),
                       Row(
                         children: [
-                          const Icon(Icons.local_laundry_service, size: 16, color: Colors.blue),
+                          const Icon(Icons.local_laundry_service,
+                              size: 16, color: Colors.blue),
                           const SizedBox(width: 4),
-                          const Text("Laundry", style: TextStyle(color: Colors.black)),
+                          const Text("Laundry",
+                              style: TextStyle(color: Colors.black)),
                           const SizedBox(width: 10),
-                          const Icon(Icons.star, color: Colors.yellow, size: 16),
-                          const Text(" 4.8", style: TextStyle(fontWeight: FontWeight.bold)),
+                          const Icon(Icons.star,
+                              color: Colors.yellow, size: 16),
+                          const Text(" 4.8",
+                              style: TextStyle(fontWeight: FontWeight.bold)),
                         ],
                       ),
                       const SizedBox(height: 4),
                       Row(
                         children: [
-                          const Icon(Icons.location_on, size: 16, color: Colors.blue),
+                          const Icon(Icons.location_on,
+                              size: 16, color: Colors.blue),
                           const Text(" 0.8 km"),
                           const SizedBox(width: 10),
                           const Icon(Icons.timer, size: 16, color: Colors.blue),
@@ -76,17 +93,19 @@ class OrderSummaryPage extends StatelessWidget {
             const SizedBox(height: 16),
             // Booking and Delivery Dates
             _buildDateRow("Booking Date", "Jan 03, 2025 | 09:10 AM"),
-            _buildDateRow("Pickup Date & Time", "Jan 08, 2025 | 10:00 AM"),
-            _buildDateRow("Delivery Date & Time", "Jan 14, 2025 | 09:00 AM"),
+            _buildDateRow("Pickup Date & Time", "${pickupdate}|" "${selectedtimeslot}"),
+            _buildDateRow("Delivery Date & Time", "${selectedtimeslot}|" "${selecteddeliverytimeslot}"),
             const Divider(height: 20, thickness: 1),
             // Added Items
-            const Text("Added items", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            const Text("Added items",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             _buildAddedItem("Dry Clean", "₹ 200.00"),
             _buildAddedItem("Dry Clean", "₹ 200.00"),
             const Divider(height: 20, thickness: 1),
             // Total Charges
-            const Text("Total Charges", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            const Text("Total Charges",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             _buildChargeRow("Wash + Fold", "₹ 150.00"),
             _buildChargeRow("Dry Clean (2)", "₹ 200.00"),
             _buildChargeRow("Delivery Charges", "₹ 30.00"),
@@ -101,17 +120,23 @@ class OrderSummaryPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => PaymentSuccessful()), // Replace with your destination page
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            PaymentSuccessful()), // Replace with your destination page
                   );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: defaultColor,
                   padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
                 ),
                 child: const Text(
                   "Complete Payment",
-                  style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -128,8 +153,11 @@ class OrderSummaryPage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: const TextStyle(color: Colors.black87, fontSize: 14)),
-          Text(date, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+          Text(title,
+              style: const TextStyle(color: Colors.black87, fontSize: 14)),
+          Text(date,
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
         ],
       ),
     );
@@ -145,7 +173,9 @@ class OrderSummaryPage extends StatelessWidget {
           Text(name, style: const TextStyle(fontSize: 14)),
           Row(
             children: [
-              Text(price, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+              Text(price,
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold)),
               const SizedBox(width: 10),
               GestureDetector(
                 onTap: () {
@@ -169,11 +199,15 @@ class OrderSummaryPage extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(fontSize: 14, fontWeight: isBold ? FontWeight.bold : FontWeight.normal),
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: isBold ? FontWeight.bold : FontWeight.normal),
           ),
           Text(
             amount,
-            style: TextStyle(fontSize: 14, fontWeight: isBold ? FontWeight.bold : FontWeight.normal),
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: isBold ? FontWeight.bold : FontWeight.normal),
           ),
         ],
       ),

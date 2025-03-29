@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:laundry/Widget/constands/colors.dart';
 
+import '../../../../Controller/bloc/Authbloc/selection_cubit.dart';
 import '../Orders/order_summary.dart';
 import '../Services/select_service.dart';
 import '../Services/select_vendor.dart';
@@ -66,7 +68,9 @@ class _PickupDeliveryState extends State<PickupDelivery> {
           onPressed: () {
             // Navigator.pushReplacement(
             //   context,
-            //   MaterialPageRoute(builder: (context) => SelectService()), // Replace with the actual page
+            //   MaterialPageRoute(
+            //       builder: (context) =>
+            //           SelectService()), // Replace with the actual page
             // );
           },
           icon: Icon(Icons.arrow_back, color: Colors.black),
@@ -176,18 +180,46 @@ class _PickupDeliveryState extends State<PickupDelivery> {
               height: 50,
               child: MaterialButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            OrderSummaryPage()), // Replace with your destination page
-                  );
+                  if (_pickupDate != null &&
+                      _deliveryDate != null &&
+                      _selectedTimeSlot != null &&
+                      _selectedDeliveryTimeSlot != null) {
+                    context
+                        .read<SelectionCubit>()
+                        .updateSelection("pickeddate", _pickupDate.toString());
+                    context.read<SelectionCubit>().updateSelection(
+                        "deliverydate", _deliveryDate.toString());
+                    context.read<SelectionCubit>().updateSelection(
+                        "timeslot", _selectedTimeSlot.toString());
+                    context.read<SelectionCubit>().updateSelection(
+                        "deliverytimeslot",
+                        _selectedDeliveryTimeSlot.toString());
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => OrderSummaryPage(
+                                pickupdate: _pickupDate.toString(),
+                                deliverydate: _deliveryDate.toString(),
+                            selectedtimeslot: _selectedTimeSlot.toString(),
+                            selecteddeliverytimeslot: _selectedDeliveryTimeSlot.toString(),
+
+
+                          )),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text(
+                              "Please select all required details before continuing!")),
+                    );
+                  }
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
-                  "Continue ",
+                  "Continue",
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,

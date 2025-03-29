@@ -67,31 +67,31 @@ class AddproductBloc extends Bloc<AddproductEvent, AddproductState> {
     on<FetchproductinUser>((event, emit) async {
       emit(AddproductLoading());
 
+      try {
+        CollectionReference productCollection =
+            FirebaseFirestore.instance.collection('Shop_product');
 
-        try {
-          CollectionReference productCollection =
-              FirebaseFirestore.instance.collection('Shop_product');
+        QuerySnapshot snapshot = await productCollection
+            .where("shopid", isEqualTo: event.shopid)
+            .where("category", isEqualTo: event.catogory)
+            .where("service", isEqualTo: event.service)
+            .get();
 
-          QuerySnapshot snapshot = await productCollection
-              .where("shopid", isEqualTo:event.shopid)
-              .get();
+        List<Addproductmodel> product = snapshot.docs.map((doc) {
+          return Addproductmodel.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
 
-          List<Addproductmodel> product = snapshot.docs.map((doc) {
-            return Addproductmodel.fromMap(doc.data() as Map<String, dynamic>);
+        if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
+          product = product.where((viewshops) {
+            return viewshops.Productprice!
+                .toLowerCase()
+                .contains(event.searchQuery!.toLowerCase());
           }).toList();
-
-          if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
-            product = product.where((viewshops) {
-              return viewshops.Productprice!
-                  .toLowerCase()
-                  .contains(event.searchQuery!.toLowerCase());
-            }).toList();
-          }
-          emit(AddproductLoaded(product));
-        } catch (e) {
-          emit(addproductfail(error: e.toString()));
         }
-
+        emit(AddproductLoaded(product));
+      } catch (e) {
+        emit(addproductfail(error: e.toString()));
+      }
     });
     on<DeleteProduct>((event, emit) async {
       emit(AddproductLoading());

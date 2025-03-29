@@ -25,7 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
     Navigator.pushNamedAndRemoveUntil(
       context,
       "/login",
-          (route) => false,
+      (route) => false,
     );
   }
 
@@ -46,139 +46,140 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-    if (state is Userloading) {
-    return const Center(child: CircularProgressIndicator());
-    } else if (state is UserByidLoaded) {
-      final user = state.Userdata;
-      return Column(
-        children: [
-          // Profile Header inside a Light Grey Container
-      Container(
-      color: Colors.grey.shade200,
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            const CircleAvatar(
-              radius: 35,
-              backgroundImage: AssetImage(
-                  "assets/profile_pic.png"), // Update with your image path
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${user.name ?? ''}',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    '${user.phone ?? ''}',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  Text(
-                    '${user.email ?? ''}',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ],
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to Edit Profile Page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => EditProfilePage(
-                        userid: user.uid ?? "", // Provide a default empty string if null
-                        username: user.name ?? "",
-                        phone: user.phone ?? "",
-                        imagePath: user.imageUrl ?? "",
-                         )),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey.shade300,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              child: const Text(
-                "Edit",
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-          ],
-        ),
-      ),
-
-          // Profile Options List
-          Expanded(
-            child: ListView(
+          if (state is Userloading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is UserByidLoaded) {
+            final user = state.Userdata;
+            return Column(
               children: [
-                _buildProfileOption(
-                  icon: Icons.location_on,
-                  title: "Addresses",
-                  context: context,
-                  page: AddressesPage(user),
-                    //(user),
+                // Profile Header inside a Light Grey Container
+                Container(
+                  color: Colors.grey.shade200,
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      const CircleAvatar(
+                        radius: 35,
+                        backgroundImage: AssetImage(
+                            "assets/profile_pic.png"), // Update with your image path
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${user.name ?? ''}',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              '${user.phone ?? ''}',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                            Text(
+                              '${user.email ?? ''}',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Navigate to Edit Profile Page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditProfilePage(
+                                      userid: user.uid ??
+                                          "", // Provide a default empty string if null
+                                      username: user.name ?? "",
+                                      phone: user.phone ?? "",
+                                      imagePath: user.imageUrl ?? "",
+                                    )),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey.shade300,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        child: const Text(
+                          "Edit",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                _buildProfileOption(
-                  icon: Icons.info_outline,
-                  title: "About Us",
-                  context: context,
-                  page: AboutUsPage(),
-                ),
-                _buildProfileOption(
-                  icon: Icons.phone,
-                  title: "Contact Us",
-                  context: context,
-                  page: ContactUsPage(),
-                ),
-                _buildProfileOption(
-                  icon: Icons.chat_bubble_outline_rounded,
-                  title: "Chat With Us",
-                  context: context,
-                  page: const ChatPage(),
-                ),
-                _buildProfileOption(
-                  icon: Icons.rule,
-                  title: "Terms & Conditions",
-                  context: context,
-                  page: TermsAndConditionsPage(),
-                ),
-                _buildProfileOption(
-                  icon: Icons.privacy_tip,
-                  title: "Privacy Policies",
-                  context: context,
-                  page: PrivacyPolicyPage(),
-                ),
-                _buildProfileOption(
-                  icon: Icons.delete,
-                  title: "Remove Account",
-                  context: context,
-                  isDestructive: true,
-                  showArrow: false,
-                ),
-                _buildProfileOption(
-                  icon: Icons.logout,
-                  title: "Logout",
-                  context: context,
-                  onTap: _logout,
-                  isDestructive: true,
-                  showArrow: false,
+
+                // Profile Options List
+                Expanded(
+                  child: ListView(
+                    children: [
+                      _buildProfileOption(
+                        icon: Icons.location_on,
+                        title: "Addresses",
+                        context: context,
+                        page: AddressesPage(user),
+                        //(user),
+                      ),
+                      _buildProfileOption(
+                        icon: Icons.info_outline,
+                        title: "About Us",
+                        context: context,
+                        page: AboutUsPage(),
+                      ),
+                      _buildProfileOption(
+                        icon: Icons.phone,
+                        title: "Contact Us",
+                        context: context,
+                        page: ContactUsPage(),
+                      ),
+                      _buildProfileOption(
+                        icon: Icons.chat_bubble_outline_rounded,
+                        title: "Chat With Us",
+                        context: context,
+                        page: const ChatPage(),
+                      ),
+                      _buildProfileOption(
+                        icon: Icons.rule,
+                        title: "Terms & Conditions",
+                        context: context,
+                        page: TermsAndConditionsPage(),
+                      ),
+                      _buildProfileOption(
+                        icon: Icons.privacy_tip,
+                        title: "Privacy Policies",
+                        context: context,
+                        page: PrivacyPolicyPage(),
+                      ),
+                      _buildProfileOption(
+                        icon: Icons.delete,
+                        title: "Remove Account",
+                        context: context,
+                        isDestructive: true,
+                        showArrow: false,
+                      ),
+                      _buildProfileOption(
+                        icon: Icons.logout,
+                        title: "Logout",
+                        context: context,
+                        onTap: _logout,
+                        isDestructive: true,
+                        showArrow: false,
+                      ),
+                    ],
+                  ),
                 ),
               ],
-            ),
-          ),
-        ],
-      );
-    }
-    return SizedBox();
+            );
+          }
+          return SizedBox();
         },
       ),
     );
@@ -220,10 +221,10 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           trailing: showArrow
               ? const Icon(Icons.arrow_forward_ios,
-              size: 16, color: Colors.grey)
+                  size: 16, color: Colors.grey)
               : null,
           onTap: onTap ??
-                  () {
+              () {
                 if (page != null) {
                   Navigator.push(
                     context,
@@ -248,15 +249,3 @@ class ChatPage extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-

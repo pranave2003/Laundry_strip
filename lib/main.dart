@@ -36,10 +36,10 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
           appBarTheme: AppBarTheme(color: Colors.white),
-          bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: Colors.white),
+          bottomNavigationBarTheme:
+              BottomNavigationBarThemeData(backgroundColor: Colors.white),
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
-        ),
-        home:PickupDelivery());
+        ));
   }
 }

@@ -20,87 +20,8 @@ class SelectService extends StatefulWidget {
 
 class _SelectServiceState extends State<SelectService> {
   int selectedCategoryIndex = 0;
-
   String? selectedService;
   String? selectedCategory;
-  List<String> categories = ["All", "Men", "Women", "Kids", "Household"];
-
-  Map<String, List<Map<String, dynamic>>> categoryItems = {
-    "All": [
-      {
-        "name": "Shirt Full Standard Pack",
-        "price": 80,
-        "icon": "assets/Dress/shirt.png"
-      },
-      {
-        "name": "T-Shirt Full Standard Pack",
-        "price": 100,
-        "icon": "assets/Dress/t-shirt.png"
-      },
-      {
-        "name": "Jacket Standard Pack",
-        "price": 200,
-        "icon": "assets/Dress/jacket.png"
-      },
-      {"name": "T-Shirt", "price": 150, "icon": "assets/Dress/wmtshirt.png"},
-      {"name": "Gown", "price": 150, "icon": "assets/Dress/wmgown.png"},
-      {
-        "name": "Baby Clothes Pack",
-        "price": 120,
-        "icon": "assets/Dress/frock.png"
-      },
-      {"name": "Carpet", "price": 250, "icon": "assets/Dress/carpet.png"},
-    ],
-    "Men": [
-      {
-        "name": "Shirt Full Standard Pack",
-        "price": 80,
-        "icon": "assets/Dress/shirt.png"
-      },
-      {
-        "name": "T-Shirt Full Standard Pack",
-        "price": 100,
-        "icon": "assets/Dress/t-shirt.png"
-      },
-      {
-        "name": "Jacket Standard Pack",
-        "price": 200,
-        "icon": "assets/Dress/jacket.png"
-      },
-    ],
-    "Women": [
-      {"name": "T-Shirt", "price": 100, "icon": "assets/Dress/wmtshirt.png"},
-      {"name": "Gown", "price": 150, "icon": "assets/Dress/wmgown.png"},
-    ],
-    "Kids": [
-      {"name": "Frock", "price": 120, "icon": "assets/Dress/frock.png"},
-      {
-        "name": "Flared Frock",
-        "price": 60,
-        "icon": "assets/Dress/flared_frock.png"
-      },
-    ],
-    "Household": [
-      {"name": "Carpet", "price": 250, "icon": "assets/Dress/carpet.png"},
-      {"name": "Curtains", "price": 300, "icon": "assets/Dress/curtain.png"},
-    ],
-  };
-
-  List<Map<String, dynamic>> displayedItems = [];
-
-  @override
-  void initState() {
-    super.initState();
-    displayedItems = List.from(categoryItems["All"]!);
-  }
-
-  void updateCategory(int index) {
-    setState(() {
-      selectedCategoryIndex = index;
-      displayedItems = List.from(categoryItems[categories[index]]!);
-    });
-  }
-
   Set<Addproductmodel> selectedItems = {};
 
   void updateSelectedItems(Addproductmodel item, {bool remove = false}) {
@@ -119,35 +40,6 @@ class _SelectServiceState extends State<SelectService> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      bottomSheet: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: MaterialButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) {
-                  return PickupDelivery();
-                },
-              ));
-            },
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  " Continue ",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                )),
-            color: defaultColor,
-          ),
-        ),
-      ),
       appBar: AppBar(
         title: Text("Select a Service",
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
@@ -264,6 +156,8 @@ class _SelectServiceState extends State<SelectService> {
                                             selectedCategory = newValue;
                                             context.read<AddproductBloc>().add(
                                                 FetchproductinUser(
+                                                    catogory: selectedCategory,
+                                                    service: selectedService,
                                                     searchQuery: null,
                                                     shopid:
                                                         widget.shop.shopid));
@@ -338,88 +232,42 @@ class _SelectServiceState extends State<SelectService> {
                     ],
                   )
                 : SizedBox(),
-            // _buildCategoryFilter(),
             SizedBox(height: 20),
-            // Expanded(child: _buildServiceItemList(displayedItems)),
             Expanded(child: _buildAddedItemsSection()),
           ],
         ),
       ),
+      bottomSheet: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: MaterialButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return PickupDelivery(widget.shop, selectedItems);
+                },
+              ));
+            },
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  " Continue ",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                )),
+            color: defaultColor,
+          ),
+        ),
+      ),
     );
   }
-
-  // Widget _buildCategoryFilter() {
-  //   return SingleChildScrollView(
-  //     scrollDirection: Axis.horizontal,
-  //     child: Row(
-  //       children: List.generate(categories.length, (index) {
-  //         return GestureDetector(
-  //           onTap: () => updateCategory(index),
-  //           child: Container(
-  //             margin: EdgeInsets.only(right: 10),
-  //             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-  //             decoration: BoxDecoration(
-  //               color:
-  //                   selectedCategoryIndex == index ? Colors.blue : Colors.white,
-  //               borderRadius: BorderRadius.circular(8),
-  //               border: Border.all(color: defaultColor),
-  //             ),
-  //             child: Text(categories[index],
-  //                 style: TextStyle(
-  //                   color: selectedCategoryIndex == index
-  //                       ? Colors.white
-  //                       : Colors.blue,
-  //                   fontWeight: FontWeight.bold,
-  //                 )),
-  //           ),
-  //         );
-  //       }),
-  //     ),
-  //   );
-  // }
-  //
-  // Widget _buildServiceItemList(List<Map<String, dynamic>> items) {
-  //   return ListView.builder(
-  //     itemCount: items.length,
-  //     itemBuilder: (context, index) {
-  //       var item = items[index];
-  //       return ListTile(
-  //         leading: Image.asset(item["icon"], width: 40, height: 40),
-  //         title: Text(item["name"]),
-  //         subtitle: Text("₹ ${item["price"]}"),
-  //         trailing: IconButton(
-  //           icon: Icon(Icons.add_circle_outline, color: Colors.green),
-  //           onPressed: () => updateSelectedItems(item),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
-  // Widget _buildServiceItemList(List<Map<String, dynamic>> items) {
-  //   return ListView.builder(
-  //     itemCount: items.length,
-  //     itemBuilder: (context, index) {
-  //       var item = items[index];
-  //       return ListTile(
-  //         leading: Image.asset(item["icon"], width: 40, height: 40),
-  //         title: Text(item["name"]),
-  //         subtitle: Text("₹ ${item["price"]}"),
-  //         trailing: IconButton(
-  //           icon: Icon(Icons.add_circle_outline, color: Colors.green),
-  //           onPressed: () {
-  //             var product = Addproductmodel(
-  //               product_image: item["icon"],
-  //               product_name: item["name"],
-  //               Productprice: item["price"],
-  //             );
-  //             updateSelectedItems(product);
-  //           },
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 
   Widget _buildAddedItemsSection() {
     return ExpansionTile(
@@ -428,7 +276,14 @@ class _SelectServiceState extends State<SelectService> {
       children: selectedItems.map((item) {
         return ListTile(
           leading: Image.asset(item.product_image, width: 40, height: 40),
-          title: Text(item.product_name),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(item.product_name),
+              Text(item.Productprice),
+              Text(item.category,style: TextStyle(color: Colors.grey,fontSize: 10),),
+            ],
+          ),
           trailing: IconButton(
             icon: Icon(Icons.remove_circle_outline, color: Colors.red),
             onPressed: () => updateSelectedItems(item, remove: true),

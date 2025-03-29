@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
 import '../../../Controller/bloc/Authbloc/auth_bloc.dart';
+import '../../../Controller/bloc/Orderbloc/order_bloc.dart';
 import '../../../Controller/bloc/ServiceManagement/Dropdownbloc/dropdownbloc_bloc.dart';
 import '../../../Controller/bloc/ServiceManagement/Shopadddproduct/addproduct_bloc.dart';
 import '../../../firebase_options.dart';
@@ -25,8 +26,11 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(),
-        ),
+            create: (context) => AuthBloc()
+              ..add(
+                FetchUserDetailsById(),
+              )),
+        BlocProvider<OrderBloc>(create: (context) => OrderBloc()),
         BlocProvider<ShopAuthblocBloc>(
           create: (context) =>
               ShopAuthblocBloc()..add(UserFetchShop(searchQuery: null)),

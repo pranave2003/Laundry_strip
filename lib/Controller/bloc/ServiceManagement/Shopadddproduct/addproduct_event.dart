@@ -17,7 +17,14 @@ class FetchProduct extends AddproductEvent {
 class FetchproductinUser extends AddproductEvent {
   final String? searchQuery;
   final String? shopid;
-  FetchproductinUser({required this.searchQuery, required this.shopid});
+  final String? catogory;
+  final String? service;
+
+  FetchproductinUser(
+      {required this.searchQuery,
+      required this.shopid,
+      this.catogory,
+      this.service});
 }
 
 class DeleteProduct extends AddproductEvent {

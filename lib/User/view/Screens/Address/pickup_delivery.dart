@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:laundry/Controller/bloc/ServiceManagement/Shopadddproduct/Addproductmodel/Addproductmodel.dart';
+import 'package:laundry/Controller/bloc/Shop_Auth_bloc/Shopmodel/Shopmodel.dart';
+import 'package:laundry/Widget/constands/Loading.dart';
 import 'package:laundry/Widget/constands/colors.dart';
-
-import '../../../../Controller/bloc/Authbloc/selection_cubit.dart';
+import '../../../../Controller/bloc/Authbloc/Userauthmodel/Usermodel.dart';
+import '../../../../Controller/bloc/Authbloc/auth_bloc.dart';
 import '../Orders/order_summary.dart';
-import '../Services/select_service.dart';
-import '../Services/select_vendor.dart';
-import 'Add_address.dart';
 
 class PickupDelivery extends StatefulWidget {
-  const PickupDelivery({super.key});
-
+  PickupDelivery(this.shop, this.selectedItems, {super.key});
+  final ShopModel shop;
+  Set<Addproductmodel> selectedItems;
   @override
   State<PickupDelivery> createState() => _PickupDeliveryState();
 }
@@ -57,6 +58,39 @@ class _PickupDeliveryState extends State<PickupDelivery> {
     }
   }
 
+  void _validateAndProceed() {
+    if (_pickupDate == null ||
+        _deliveryDate == null ||
+        _selectedTimeSlot == null ||
+        _selectedDeliveryTimeSlot == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please select all required fields."),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OrderSummaryPage(
+            shop: widget.shop,
+            widget.selectedItems,
+            pickupdate: DateFormat("dd/MM/yyyy").format(_pickupDate!),
+            deliveryDate: DateFormat("dd/MM/yyyy").format(_deliveryDate!),
+            selectedDeliveryTimeSlot: _selectedDeliveryTimeSlot,
+            selectedTimeSlot: _selectedTimeSlot,
+            Userid: userid,
+            username: username),
+      ),
+    );
+  }
+
+  String? userid;
+  String? username;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,19 +98,8 @@ class _PickupDeliveryState extends State<PickupDelivery> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            // Navigator.pushReplacement(
-            //   context,
-            //   MaterialPageRoute(
-            //       builder: (context) =>
-            //           SelectService()), // Replace with the actual page
-            // );
-          },
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-        ),
         title: Text(
-          "Pickup and Delivery Address",
+          "Pickup and Delivery Address {}",
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -89,38 +112,53 @@ class _PickupDeliveryState extends State<PickupDelivery> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Address Type Selection (Radio Buttons + Add Address Button)
+
             Row(
               children: [
                 _buildRadioButton("Home"),
-                //_buildRadioButton("Office"),
-                //_buildAddAddressButton(context),
               ],
             ),
             const SizedBox(height: 12),
 
             // Address Details
             // Address Details
-            Container(
-              width: double.infinity, // This ensures it takes full width
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Kavya (Home)",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    "2GQ9+988, Jalahalli Cross Rd, Peenya,\nBengaluru, Karnataka 560058, India",
-                    style: TextStyle(fontSize: 14),
-                  ),
-                ],
-              ),
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                if (state is Userloading) {
+                  return const Center(child: Loading_Widget());
+                } else if (state is UserByidLoaded) {
+                  final user = state.Userdata;
+                  userid = user.uid;
+                  return Container(
+                    width: double.infinity, // This ensures it takes full width
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade100,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${user.name} (Home)",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          "${user.name}, ${user.state}, ${user.District}, ${user.place}, ${user.pin}",
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        Text(
+                          "Phone:  ${user.phone}",
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                return SizedBox();
+              },
             ),
 
             const SizedBox(height: 26),
@@ -179,47 +217,12 @@ class _PickupDeliveryState extends State<PickupDelivery> {
               width: MediaQuery.of(context).size.width,
               height: 50,
               child: MaterialButton(
-                onPressed: () {
-                  if (_pickupDate != null &&
-                      _deliveryDate != null &&
-                      _selectedTimeSlot != null &&
-                      _selectedDeliveryTimeSlot != null) {
-                    context
-                        .read<SelectionCubit>()
-                        .updateSelection("pickeddate", _pickupDate.toString());
-                    context.read<SelectionCubit>().updateSelection(
-                        "deliverydate", _deliveryDate.toString());
-                    context.read<SelectionCubit>().updateSelection(
-                        "timeslot", _selectedTimeSlot.toString());
-                    context.read<SelectionCubit>().updateSelection(
-                        "deliverytimeslot",
-                        _selectedDeliveryTimeSlot.toString());
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => OrderSummaryPage(
-                                pickupdate: _pickupDate.toString(),
-                                deliverydate: _deliveryDate.toString(),
-                            selectedtimeslot: _selectedTimeSlot.toString(),
-                            selecteddeliverytimeslot: _selectedDeliveryTimeSlot.toString(),
-
-
-                          )),
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          content: Text(
-                              "Please select all required details before continuing!")),
-                    );
-                  }
-                },
+                onPressed: _validateAndProceed,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
-                  "Continue",
+                  "Continue ",
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -255,33 +258,6 @@ class _PickupDeliveryState extends State<PickupDelivery> {
       ),
     );
   }
-
-  // Widget for "Add Address" Button
-  // Widget _buildAddAddressButton(BuildContext context) {
-  //   return Expanded(
-  //     child: GestureDetector(
-  //       onTap: () {
-  //         Navigator.push(
-  //           context,
-  //           MaterialPageRoute(builder: (context) => AddAddressPage()),
-  //         );
-  //       },
-  //       child: Container(
-  //         padding: const EdgeInsets.symmetric(vertical: 8),
-  //         decoration: BoxDecoration(
-  //           color: Colors.grey.shade200,
-  //           borderRadius: BorderRadius.circular(8),
-  //         ),
-  //         child: const Center(
-  //           child: Text(
-  //             "Add Address +",
-  //             style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   // Widget for Date Picker
   Widget _buildDatePicker(String label, DateTime? date, bool isPickupDate) {

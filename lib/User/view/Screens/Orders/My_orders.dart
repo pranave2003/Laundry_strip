@@ -1,8 +1,14 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
 
-import '../../../../Widget/constands/colors.dart';
-import '../Bottom_navigation/btm_navigation.dart';
-import 'order_tracking.dart'; // Import OrderTracking page
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
+import '../../../../Widget/constands/Loading.dart';
+import '../Services/service.dart';
+import 'Order/Allorders.dart';
+import 'Order/CancelledOreder.dart';
+import 'Order/Deliverd.dart';
+import 'Order/inprogress.dart';
 
 class MyOrdersPage extends StatefulWidget {
   const MyOrdersPage({super.key});
@@ -13,76 +19,6 @@ class MyOrdersPage extends StatefulWidget {
 
 class _MyOrdersPageState extends State<MyOrdersPage> {
   int selectedIndex = 0;
-
-  final List<Map<String, dynamic>> orders = [
-    {
-      "item": "Shirt",
-      "pack": "Standard Pack",
-      "service": "Dry Clean",
-      "orderId": "8547 9658 2578",
-      "date": "Jan 03, 2025",
-      "status": "In Progress",
-      "icon": "assets/Dress/shirt.png",
-      "statusColor": Colors.orange.shade50,
-      "textColor": Colors.orange,
-    },
-    {
-      "item": "Jacket",
-      "pack": "Standard Pack",
-      "service": "Steam Iron",
-      "orderId": "7541 9674 5789",
-      "date": "Jan 08, 2025",
-      "status": "Delivered",
-      "icon": "assets/Dress/t-shirt.png",
-      "statusColor": Colors.green.shade50,
-      "textColor": Colors.green,
-    },
-    {
-      "item": "Frock",
-      "pack": "Standard Pack",
-      "service": "Steam Iron",
-      "orderId": "7541 9674 5789",
-      "date": "Dec 03, 2024",
-      "status": "Cancelled",
-      "icon": "assets/Dress/frock.png",
-      "statusColor": Colors.red.shade50,
-      "textColor": Colors.red,
-    },
-    {
-      "item": "T-shirt",
-      "pack": "Premium Pack",
-      "service": "Wash & Fold",
-      "orderId": "9632 4587 1234",
-      "date": "Feb 10, 2025",
-      "status": "In Progress",
-      "icon": "assets/Dress/t-shirt.png",
-      "statusColor": Colors.orange.shade50,
-      "textColor": Colors.orange,
-    },
-    {
-      "item": "Gown",
-      "pack": "Deluxe Pack",
-      "service": "Dry Clean",
-      "orderId": "8745 2365 7854",
-      "date": "Mar 01, 2025",
-      "status": "Delivered",
-      "icon": "assets/Dress/wmgown.png",
-      "statusColor": Colors.green.shade50,
-      "textColor": Colors.green,
-    },
-    {
-      "item": "T-shirt",
-      "pack": "Standard Pack",
-      "service": "Steam Iron",
-      "orderId": "9874 5621 3478",
-      "date": "Feb 25, 2025",
-      "status": "Cancelled",
-      "icon": "assets/Dress/wmtshirt.png",
-      "statusColor": Colors.red.shade50,
-      "textColor": Colors.red,
-    },
-  ];
-
   List<String> filters = ["All", "In Progress", "Delivered", "Cancelled"];
 
   @override
@@ -96,9 +32,6 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         automaticallyImplyLeading: false,
-
-
-
       ),
       body: Column(
         children: [
@@ -136,96 +69,130 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
           ),
           const SizedBox(height: 8),
           Expanded(
-            child: ListView.builder(
-              itemCount: orders.length,
-              itemBuilder: (context, index) {
-                final order = orders[index];
-                if (selectedIndex != 0 &&
-                    filters[selectedIndex] != order["status"]) {
-                  return const SizedBox.shrink();
-                }
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => OrderTracking(order: order), // Pass order properly
-                      ),
-                    );
-
-
-                  },
-                  child: _buildOrderCard(order),
-                );
-              },
+            child: IndexedStack(
+              index: selectedIndex,
+              children: [
+                Myallorder(),
+                InProgressOrders(),
+                DeliveredOrders(),
+                CancelledOrders(),
+              ],
             ),
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildOrderCard(Map<String, dynamic> order) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 2,
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                color: primary,
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: Center(
-                child: Image.asset(order["icon"], width: 35, height: 35),
-              ),
+class Myallorder extends StatefulWidget {
+  const Myallorder({super.key});
+
+  @override
+  State<Myallorder> createState() => _MyallorderState();
+}
+
+class _MyallorderState extends State<Myallorder> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<ShopAuthblocBloc, ShopAuthblocState>(
+        listener: (context, state) {
+      // TODO: implement listener
+    }, builder: (context, state) {
+      if (state is ShopLoading) {
+        return Center(child: Loading_Widget());
+      } else if (state is Shopfailerror) {
+        return Text(state.error.toString());
+      } else if (state is Shoploaded) {
+        if (state.Shop.isEmpty) {
+          return Center(
+            child: Text(
+              "No data found",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(order["item"],
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold)),
-                  Text(order["pack"],
-                      style: const TextStyle(
-                          fontSize: 14, color: Colors.grey)),
-                  Text("(${order["service"]})",
-                      style: const TextStyle(
-                          fontSize: 12, color: Colors.grey)),
-                  const SizedBox(height: 4),
-                  Text("Order ID:  ${order["orderId"]}",
-                      style: const TextStyle(
-                          fontSize: 12, color: Colors.black87)),
-                  Text("Order Date:  ${order["date"]}",
-                      style: const TextStyle(
-                          fontSize: 12, color: Colors.black87)),
-                ],
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(
-                color: order["statusColor"],
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(order["status"],
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: order["textColor"])),
-            ),
-          ],
-        ),
-      ),
-    );
+          );
+        }
+        return SizedBox(
+          height: 400,
+          child: ListView.builder(
+            itemCount: state.Shop.length,
+            itemBuilder: (context, index) {
+              final Shop = state.Shop[index];
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.asset(
+                                  "assets/shop_img/img.png",
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                Shop.shop_name.toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
+                              ),
+                              Text(
+                                Shop.shopid.toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 10),
+                              ),
+                              SizedBox(
+                                width: 200,
+                                child: Text(
+                                  "${Shop.District}, ${Shop.city}, ${Shop.post}",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Container(
+                                child: Shop.selectServices != null &&
+                                        Shop.selectServices!.isNotEmpty
+                                    ? Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: List.generate(
+                                          Shop.selectServices!.length,
+                                          (index) => Text(
+                                            Shop.selectServices![index],
+                                            style:
+                                                TextStyle(color: Colors.green),
+                                          ), // Display each service
+                                        ),
+                                      )
+                                    : Text(
+                                        "No Services Available"), // Show message if list is empty
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      }
+      return SizedBox();
+    });
   }
 }

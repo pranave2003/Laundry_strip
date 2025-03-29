@@ -48,14 +48,14 @@ class Usersloaded extends AuthState {
   final List<UserModel> Users;
 
   Usersloaded(
-      this.Users,
-      );
+    this.Users,
+  );
 }
 
 class Userload extends AuthState {
   final UserModel user;
 
   Userload(
-      this.user,
-      );
+    this.user,
+  );
 }

@@ -31,7 +31,7 @@ class _BottomNavExampleState extends State<BottomNavExample> {
 
   final List<Widget> _pages = [
     HomePage(),
-    Service(),
+    Userservice(),
     MyOrdersPage(), // Change this to OrdersPage
     ProfilePage(), // Corrected this to be ProfileScreen instead of HomePage
   ];

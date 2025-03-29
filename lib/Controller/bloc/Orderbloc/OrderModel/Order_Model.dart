@@ -1,4 +1,4 @@
-import 'package:laundry/Controller/bloc/Shop_Auth_bloc/Shopmodel/Shopmodel.dart';
+
 
 class OrderItem {
   final String productId;
@@ -8,6 +8,7 @@ class OrderItem {
   final String service;
   final String catogoty;
   final String shopid;
+  final String productimage;
 
   OrderItem({
     required this.productId,
@@ -16,6 +17,7 @@ class OrderItem {
     required this.price,
     required this.service,
     required this.catogoty,
+    required this.productimage,
     required this.shopid,
   });
 
@@ -26,7 +28,8 @@ class OrderItem {
         'price': price,
         'shopid': shopid,
         'service': service,
-        'catogoty': catogoty
+        'catogoty': catogoty,
+        'productimage': productimage
       };
 
   factory OrderItem.fromJson(Map<String, dynamic> json) => OrderItem(
@@ -36,7 +39,8 @@ class OrderItem {
       price: json['price'],
       shopid: json['shopid'],
       service: json['service'],
-      catogoty: json['catogory']);
+      catogoty: json['catogory'],
+      productimage: json['productimage']);
 }
 
 class OrderModel {
@@ -45,28 +49,49 @@ class OrderModel {
   final String userid;
   final String Totalcharge;
   final String status;
-  final ShopModel shop;
+
   final String pickupdate;
   final String pickupTime;
   final String Deliverydate;
   final String DeliveryTime;
   final String Orderdate;
   final String username;
+  final shopid;
+  final shopname;
 
   OrderModel({
     this.orderid,
+    this.shopid,
+    this.shopname,
     required this.items,
     required this.userid,
     required this.username,
     required this.Totalcharge,
     required this.status,
-    required this.shop,
     required this.pickupdate,
     required this.pickupTime,
     required this.Deliverydate,
     required this.DeliveryTime,
     required this.Orderdate,
   });
+
+  factory OrderModel.fromMap(Map<String, dynamic> json) => OrderModel(
+        orderid: json['orderId'],
+        userid: json['userId'],
+        username: json['username'],
+        items: (json['items'] as List)
+            .map((item) => OrderItem.fromJson(item))
+            .toList(),
+        Totalcharge: json['totalAmount'],
+        status: json['status'],
+        Orderdate: json['orderDate'],
+        shopid: json['shopid'],
+        shopname: json['shopname'],
+        pickupdate: json["pickupdate"],
+        pickupTime: json["pickupTime"],
+        DeliveryTime: json["DeliveryTime"],
+        Deliverydate: json["Deliverydate"],
+      );
 
   // factory OrderModel.fromMap(Map<String, dynamic> data) {
   //   return OrderModel(

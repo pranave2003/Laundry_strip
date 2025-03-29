@@ -22,3 +22,14 @@ class orderloaded extends OrderState {
     this.order,
   );
 }
+
+////
+final class orderfetchloading extends OrderState {}
+
+final class Order_fetch_failerror extends OrderState {
+  final String error;
+
+  Order_fetch_failerror(this.error);
+}
+
+

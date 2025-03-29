@@ -6,14 +6,14 @@ import 'package:laundry/Widget/constands/colors.dart';
 import '../../../../Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
 import '../../../../Widget/constands/Loading.dart';
 
-class Service extends StatefulWidget {
-  const Service({super.key});
+class Userservice extends StatefulWidget {
+  const Userservice({super.key});
 
   @override
-  State<Service> createState() => _ServiceState();
+  State<Userservice> createState() => _UserserviceState();
 }
 
-class _ServiceState extends State<Service> {
+class _UserserviceState extends State<Userservice> {
   int? selectedIndex = 0; // Stores the index of the selected service
   String? selectedService; // Stores the name of the selected service
 

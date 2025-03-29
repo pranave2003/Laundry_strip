@@ -257,7 +257,8 @@ class OrderSummaryPage extends StatefulWidget {
       required this.deliveryDate,
       this.selectedDeliveryTimeSlot,
       this.selectedTimeSlot,
-      required this.Userid,required this. username});
+      required this.Userid,
+      required this.username});
   final ShopModel shop;
   final pickupdate;
   final deliveryDate;
@@ -305,6 +306,7 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
       username: widget.username,
       items: selectedItems.map((item) {
         return OrderItem(
+            productimage: item.product_image,
             productId:
                 item.productid, // Ensure 'id' is available in Addproductmodel
             productName: item.product_name,
@@ -316,7 +318,9 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
       }).toList(),
       Totalcharge: calculateTotalPrice().toString(),
       status: '1',
-      shop: widget.shop,
+
+      shopid: widget.shop.shopid,
+      shopname: widget.shop.shop_name,
       Orderdate: formattedDate,
       Deliverydate: widget.deliveryDate,
       DeliveryTime: widget.selectedDeliveryTimeSlot,

@@ -23,18 +23,45 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           'totalAmount': event.order.Totalcharge,
           'status': event.order.status,
           'orderDate': event.order.Orderdate,
-          "shopid": event.order.shop.shopid,
-          "shopname": event.order.shop.shop_name,
+          "shopid": event.order.shopid,
+          "shopname": event.order.shopname,
           "pickupdate": event.order.pickupdate,
           "pickupTime": event.order.pickupTime,
           "Deliverydate": event.order.Deliverydate,
           "DeliveryTime": event.order.DeliveryTime,
-          "timestamp": DateTime.now()
+          "timestamp": DateTime.now().toString()
         });
 
         emit(orderSuccess());
       } catch (e) {
         emit(orderFailure(e.toString()));
+      }
+    });
+
+    on<Fetchorders>((event, emit) async {
+      emit(orderfetchloading());
+      try {
+        CollectionReference usersCollection =
+            FirebaseFirestore.instance.collection('Orders');
+
+        Query query = usersCollection;
+        QuerySnapshot snapshot = await query.get();
+
+        List<OrderModel> users = snapshot.docs.map((doc) {
+          return OrderModel.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
+
+        if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
+          users = users.where((viewuser) {
+            return viewuser.shopname!
+                .toLowerCase()
+                .contains(event.searchQuery!.toLowerCase());
+          }).toList();
+        }
+        print(users.toString());
+        emit(orderloaded(users));
+      } catch (e) {
+        emit(Order_fetch_failerror(e.toString()));
       }
     });
   }

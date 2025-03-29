@@ -129,6 +129,7 @@ class _PickupDeliveryState extends State<PickupDelivery> {
                 } else if (state is UserByidLoaded) {
                   final user = state.Userdata;
                   userid = user.uid;
+                  username = user.name;
                   return Container(
                     width: double.infinity, // This ensures it takes full width
                     padding: const EdgeInsets.all(12),

@@ -302,6 +302,7 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
 
   void placeOrder(BuildContext context) {
     final order = OrderModel(
+      orderid: "",
       userid: widget.Userid, // You should replace this with the actual user ID
       username: widget.username,
       items: selectedItems.map((item) {

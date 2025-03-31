@@ -34,12 +34,14 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
         emit(orderSuccess());
       } catch (e) {
+        print(e);
         emit(orderFailure(e.toString()));
       }
     });
 
     on<Fetchorders>((event, emit) async {
       emit(orderfetchloading());
+
       try {
         CollectionReference usersCollection =
             FirebaseFirestore.instance.collection('Orders');
@@ -47,21 +49,36 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         Query query = usersCollection;
         QuerySnapshot snapshot = await query.get();
 
-        List<OrderModel> users = snapshot.docs.map((doc) {
+        List<OrderModel> product = snapshot.docs.map((doc) {
           return OrderModel.fromMap(doc.data() as Map<String, dynamic>);
         }).toList();
+        print("check");
 
         if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
-          users = users.where((viewuser) {
+          product = product.where((viewuser) {
             return viewuser.shopname!
                 .toLowerCase()
                 .contains(event.searchQuery!.toLowerCase());
           }).toList();
         }
-        print(users.toString());
-        emit(orderloaded(users));
+        print(product.toString());
+        emit(orderloaded(order: product));
       } catch (e) {
-        emit(Order_fetch_failerror(e.toString()));
+        emit(OrderFailure(e.toString()));
+      }
+    });
+
+    on<FetchOrders>((event, emit) async {
+      emit(OrderLoading());
+      try {
+        QuerySnapshot snapshot = await firestore.collection('Orders').get();
+        List<OrderModel> orders = snapshot.docs.map((doc) {
+          return OrderModel.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
+        emit(OrderLoaded(orders));
+      } catch (e) {
+        print(e);
+        emit(OrderFailure(e.toString()));
       }
     });
   }

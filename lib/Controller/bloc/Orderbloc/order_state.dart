@@ -18,9 +18,9 @@ final class orderFailure extends OrderState {
 class orderloaded extends OrderState {
   final List<OrderModel> order;
 
-  orderloaded(
-    this.order,
-  );
+  orderloaded({
+    required this.order,
+  });
 }
 
 ////
@@ -33,3 +33,16 @@ final class Order_fetch_failerror extends OrderState {
 }
 
 
+
+
+class OrderLoading extends OrderState {}
+
+class OrderLoaded extends OrderState {
+  final List<OrderModel> orders;
+  OrderLoaded(this.orders);
+}
+
+class OrderFailure extends OrderState {
+  final String message;
+  OrderFailure(this.message);
+}

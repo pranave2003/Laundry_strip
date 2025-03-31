@@ -72,7 +72,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
             child: IndexedStack(
               index: selectedIndex,
               children: [
-                Myallorder(),
+                Allorderswrapper(),
                 InProgressOrders(),
                 DeliveredOrders(),
                 CancelledOrders(),

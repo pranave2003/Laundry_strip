@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Widget/constands/Loading.dart';
 
 import '../../../../../Controller/bloc/Orderbloc/order_bloc.dart';
-
-
+import '../Order_tracking.dart';
 
 class Inprogresswrapper extends StatefulWidget {
   const Inprogresswrapper({super.key});
@@ -18,12 +17,11 @@ class _InprogresswrapperState extends State<Inprogresswrapper> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-      OrderBloc()..add(Fetchorders(searchQuery: null, status: "0")),
+          OrderBloc()..add(Fetchorders(searchQuery: null, status: "1")),
       child: InprogressOrders(),
     );
   }
 }
-
 
 class InprogressOrders extends StatelessWidget {
   const InprogressOrders({super.key});
@@ -92,7 +90,7 @@ class InprogressOrders extends StatelessWidget {
                             children: order.items.map((item) {
                               return Padding(
                                 padding:
-                                const EdgeInsets.symmetric(vertical: 4.0),
+                                    const EdgeInsets.symmetric(vertical: 4.0),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -104,7 +102,7 @@ class InprogressOrders extends StatelessWidget {
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(item.productName,
                                               style: TextStyle(
@@ -137,6 +135,27 @@ class InprogressOrders extends StatelessWidget {
                           ),
                           SizedBox(
                             height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return OrderTracking(
+                                          order: state.orders[index],
+                                        );
+                                      },
+                                    ));
+                                  },
+                                  child: Text(
+                                    "Open",
+                                    style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold),
+                                  ))
+                            ],
                           ),
                           Text("Customer Name: ${order.username}",
                               style: TextStyle(fontSize: 14)),

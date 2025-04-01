@@ -1,140 +1,8 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:laundry/Widget/constands/Loading.dart';
-//
-// import '../../../../../Controller/bloc/Orderbloc/order_bloc.dart';
-//
-// class Allorderswrapper extends StatelessWidget {
-//   const Allorderswrapper({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider(
-//       create: (context) => OrderBloc()..add(FetchOrders()),
-//       child: AllOrders(),
-//     );
-//   }
-// }
-//
-// class AllOrders extends StatelessWidget {
-//   const AllOrders({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<OrderBloc, OrderState>(
-//       builder: (context, state) {
-//         if (state is OrderLoading) {
-//           return Center(child: CircularProgressIndicator());
-//         } else if (state is OrderLoaded) {
-//           return ListView.builder(
-//             itemCount: state.orders.length,
-//             itemBuilder: (context, index) {
-//               var order = state.orders[index];
-//               return Card(
-//                 margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-//                 shape: RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.circular(12)),
-//                 elevation: 2,
-//                 color: Colors.white,
-//                 child: ExpansionTile(
-//                   title: Row(
-//                     children: [
-//                       const SizedBox(width: 12),
-//                       Expanded(
-//                         child: Column(
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           children: [
-//                             Text("Service: ${order.orderid}",
-//                                 style: const TextStyle(
-//                                     fontSize: 12, color: Colors.grey)),
-//                             const SizedBox(height: 4),
-//                             Text("Order ID: ${order.orderid}",
-//                                 style: const TextStyle(
-//                                     fontSize: 12, color: Colors.black87)),
-//                             Text("Order Date: ${order.Orderdate}",
-//                                 style: const TextStyle(
-//                                     fontSize: 12, color: Colors.black87)),
-//                           ],
-//                         ),
-//                       ),
-//                       Container(
-//                         padding: const EdgeInsets.symmetric(
-//                             horizontal: 10, vertical: 4),
-//                         decoration: BoxDecoration(
-//                           borderRadius: BorderRadius.circular(8),
-//                         ),
-//                         child: Text("Status",
-//                             style: TextStyle(
-//                               fontSize: 12,
-//                               fontWeight: FontWeight.bold,
-//                             )),
-//                       ),
-//                     ],
-//                   ),
-//                   children: [
-//                     Row(
-//                       children: [
-//                         const SizedBox(width: 28),
-//                         Expanded(
-//                           child: Column(
-//                             crossAxisAlignment: CrossAxisAlignment.start,
-//                             children: [
-//                               Text("Customer Name: ${order.username}",
-//                                   style: TextStyle(fontSize: 14)),
-//                               Text("Total Amount: \$${order.Totalcharge}",
-//                                   style: TextStyle(fontSize: 14)),
-//                               Text("Delivery Address: ${order.deliveryaddress}",
-//                                   style: TextStyle(
-//                                       fontSize: 14,
-//                                       color: Colors.grey.shade900,
-//                                       fontWeight: FontWeight.bold)),
-//                               Text(order.items.length.toString()),
-//                               Column(
-//                                 children: order.items.map((item) {
-//                                   return ListTile(
-//                                     leading: Image.network(item.productimage,
-//                                         width: 40,
-//                                         height: 40,
-//                                         fit: BoxFit.cover),
-//                                     title: Text(item.productName,
-//                                         style: TextStyle(fontSize: 14)),
-//                                     subtitle: Column(
-//                                       crossAxisAlignment:
-//                                           CrossAxisAlignment.start,
-//                                       children: [
-//                                         Text("Quantity: ${item.quantity},"),
-//                                         Text("Price: ${item.price}"),
-//                                         Text("Price: ${item.service}"),
-//                                         Text("Price: ${item.catogoty}"),
-//                                       ],
-//                                     ),
-//                                   );
-//                                 }).toList(),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ],
-//                 ),
-//               );
-//             },
-//           );
-//         } else if (state is OrderFailure) {
-//           return Center(child: Text("Error: ${state.message ?? ""}"));
-//         }
-//         return Container();
-//       },
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Widget/constands/Loading.dart';
-
 import '../../../../../Controller/bloc/Orderbloc/order_bloc.dart';
+import '../Order_tracking.dart';
 
 class Allorderswrapper extends StatelessWidget {
   const Allorderswrapper({super.key});
@@ -142,8 +10,10 @@ class Allorderswrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          OrderBloc()..add(Fetchorders(searchQuery: null, status: "0")),
+      create: (context) => OrderBloc()
+        ..add(Fetchorders(
+          searchQuery: null,
+        )),
       child: AllOrders(),
     );
   }
@@ -262,6 +132,27 @@ class AllOrders extends StatelessWidget {
                           SizedBox(
                             height: 20,
                           ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return OrderTracking(
+                                          order: state.orders[index],
+                                        );
+                                      },
+                                    ));
+                                  },
+                                  child: Text(
+                                    "Open",
+                                    style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold),
+                                  ))
+                            ],
+                          ),
                           Text("Customer Name: ${order.username}",
                               style: TextStyle(fontSize: 14)),
                           Text("Total Amount: \$${order.Totalcharge}",
@@ -276,6 +167,42 @@ class AllOrders extends StatelessWidget {
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.bold)),
                           Divider(),
+                          Row(
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text("Confirm Cancellation"),
+                                        content: Text(
+                                            "Are you sure you want to cancel this order?"),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .pop(); // Close dialog
+                                            },
+                                            child: Text("No"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              // Perform order cancellation logic here
+                                              Navigator.of(context)
+                                                  .pop(); // Close dialog
+                                            },
+                                            child: Text("Yes, Cancel"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Text("Order Cancel"),
+                              )
+                            ],
+                          )
                         ],
                       ),
                     ),

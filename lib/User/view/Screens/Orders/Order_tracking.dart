@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:laundry/Controller/bloc/Orderbloc/OrderModel/Order_Model.dart';
 
 class OrderTracking extends StatelessWidget {
-  final Map<String, dynamic> order;
+  final OrderModel order;
 
   const OrderTracking({super.key, required this.order});
-
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class OrderTracking extends StatelessWidget {
           children: [
             // Order ID
             Text(
-              "Order ID: ${order["orderId"]}",
+              "Order ID: ${order.orderid}",
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
@@ -36,8 +36,9 @@ class OrderTracking extends StatelessWidget {
                 const Icon(Icons.local_shipping, color: Color(0xFF3582C3)),
                 const SizedBox(width: 8),
                 Text(
-                  "Estimated Delivery: ${order["date"]}",
-                  style: const TextStyle(color: Color(0xFF3582C3), fontSize: 15),
+                  "Estimated Delivery: ${order.Deliverydate}",
+                  style:
+                      const TextStyle(color: Color(0xFF3582C3), fontSize: 15),
                 ),
               ],
             ),
@@ -51,7 +52,7 @@ class OrderTracking extends StatelessWidget {
             const SizedBox(height: 12),
 
             // Display ordered item
-            _buildOrderItem(order["service"], "₹ 200.00"), // Example price
+            _buildOrderItem(order.shopname, "₹ 200.00"), // Example price
 
             const Divider(),
 
@@ -64,17 +65,18 @@ class OrderTracking extends StatelessWidget {
                   const Text("Status:",
                       style: TextStyle(fontSize: 14, color: Colors.black87)),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
-                      color: order["statusColor"],
+                      color: Colors.green,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      order["status"],
+                      order.status,
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: order["textColor"]),
+                          color: Colors.blue),
                     ),
                   ),
                 ],
@@ -94,8 +96,11 @@ class OrderTracking extends StatelessWidget {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "₹ 200.00", // Example total amount, you can update it dynamically
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.green),
+                    "${order.Totalcharge}", // Example total amount, you can update it dynamically
+                    style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green),
                   ),
                 ],
               ),
@@ -124,19 +129,59 @@ class OrderTracking extends StatelessWidget {
             ),
             const SizedBox(height: 12),
 
-            // Tracking Steps
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    _buildTrackingStep("Order Confirmed", "Your order is confirmed",
-                        Icons.inventory_2, order["status"] == "In Progress" ? Colors.blue : Colors.grey),
-                    _buildTrackingStep("Parcel Picked", "Your order is picked",
-                        Icons.local_shipping, order["status"] == "Delivered" ? Colors.green : Colors.grey),
-                    _buildTrackingStep("In Progress", "Your order is in progress",
-                        Icons.local_laundry_service_outlined, order["status"] == "In Progress" ? Colors.orange : Colors.grey),
-                    _buildTrackingStep("Delivered",
-                        "Your order is successfully delivered", Icons.check_circle, order["status"] == "Delivered" ? Colors.green : Colors.grey, false),
+                    order.status == "0"
+                        ? _buildTrackingStep(
+                            "Order Placed",
+                            "Your order is Placed",
+                            Icons.inventory_2,
+                            order.status == "0" ? Colors.green : Colors.grey)
+                        : order.status == "1"
+                            ? _buildTrackingStep(
+                                "Order Confirmed",
+                                "Your order is confirmed",
+                                Icons.inventory_2,
+                                order.status == "1" ? Colors.blue : Colors.grey)
+                            : _buildTrackingStep(
+                                "Order Rejected By Shop",
+                                "Your order is confirmed",
+                                Icons.closed_caption_disabled_rounded,
+                                order.status == "2" ? Colors.red : Colors.grey),
+                    order.Rejected == "0" && order.status != "2"
+                        ? Column(
+                            children: [
+                              _buildTrackingStep(
+                                  "Parcel Picked",
+                                  "Your order is picked",
+                                  Icons.local_shipping,
+                                  order.PIckup == "1"
+                                      ? Colors.green
+                                      : Colors.grey),
+                              _buildTrackingStep(
+                                  "In Progress",
+                                  "Your order is in progress",
+                                  Icons.local_laundry_service_outlined,
+                                  order.workinprogress == "1"
+                                      ? Colors.orange
+                                      : Colors.grey),
+                              _buildTrackingStep(
+                                  "Delivered",
+                                  "Your order is successfully delivered",
+                                  Icons.check_circle,
+                                  order.Delivered == "1"
+                                      ? Colors.green
+                                      : Colors.grey,
+                                  false),
+                            ],
+                          )
+                        : _buildTrackingStep(
+                            "Order Cancelled",
+                            "Your order is Cancelled",
+                            Icons.close,
+                            order.Rejected == "1" ? Colors.red : Colors.grey),
                   ],
                 ),
               ),
@@ -168,7 +213,9 @@ class OrderTracking extends StatelessWidget {
   }
 
   // Tracking Step Widget
-  Widget _buildTrackingStep(String title, String subtitle, IconData icon, Color color, [bool showLine = true]) {
+  Widget _buildTrackingStep(
+      String title, String subtitle, IconData icon, Color color,
+      [bool showLine = true]) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
@@ -191,7 +238,8 @@ class OrderTracking extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: color),
+                style: TextStyle(
+                    fontSize: 14, fontWeight: FontWeight.bold, color: color),
               ),
               Text(
                 subtitle,

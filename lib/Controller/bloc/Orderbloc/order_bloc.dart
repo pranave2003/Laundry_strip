@@ -32,7 +32,13 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           "DeliveryTime": event.order.DeliveryTime,
           "timestamp": DateTime.now().toString(),
           "deliveryaddress": event.order.deliveryaddress,
-
+          "Driverid": "",
+          "Drivername": "",
+          "Drivernumber": "",
+          "PIckup": "0",
+          "Rejectreason": "",
+          "Rejected":"0",
+          "workinprogress": "0"
         });
 
         emit(orderSuccess());

@@ -21,7 +21,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           'username': event.order.username,
           'items': event.order.items.map((item) => item.toJson()).toList(),
           'totalAmount': event.order.Totalcharge,
-          'status': event.order.status,
+          'status': "0",
+          'Delivered': "0",
           'orderDate': event.order.Orderdate,
           "shopid": event.order.shopid,
           "shopname": event.order.shopname,
@@ -29,7 +30,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           "pickupTime": event.order.pickupTime,
           "Deliverydate": event.order.Deliverydate,
           "DeliveryTime": event.order.DeliveryTime,
-          "timestamp": DateTime.now().toString()
+          "timestamp": DateTime.now().toString(),
+          "deliveryaddress": event.order.deliveryaddress,
+
         });
 
         emit(orderSuccess());
@@ -47,6 +50,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             FirebaseFirestore.instance.collection('Orders');
 
         Query query = usersCollection;
+        query = query.where("status", isEqualTo: event.status);
         QuerySnapshot snapshot = await query.get();
 
         List<OrderModel> product = snapshot.docs.map((doc) {
@@ -62,24 +66,24 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           }).toList();
         }
         print(product.toString());
-        emit(orderloaded(order: product));
+        emit(OrderLoaded(product));
       } catch (e) {
         emit(OrderFailure(e.toString()));
       }
     });
 
-    on<FetchOrders>((event, emit) async {
-      emit(OrderLoading());
-      try {
-        QuerySnapshot snapshot = await firestore.collection('Orders').get();
-        List<OrderModel> orders = snapshot.docs.map((doc) {
-          return OrderModel.fromMap(doc.data() as Map<String, dynamic>);
-        }).toList();
-        emit(OrderLoaded(orders));
-      } catch (e) {
-        print(e);
-        emit(OrderFailure(e.toString()));
-      }
-    });
+    // on<FetchOrders>((event, emit) async {
+    //   emit(OrderLoading());
+    //   try {
+    //     QuerySnapshot snapshot = await firestore.collection('Orders').get();
+    //     List<OrderModel> orders = snapshot.docs.map((doc) {
+    //       return OrderModel.fromMap(doc.data() as Map<String, dynamic>);
+    //     }).toList();
+    //     emit(OrderLoaded(orders));
+    //   } catch (e) {
+    //     print(e);
+    //     emit(OrderFailure(e.toString()));
+    //   }
+    // });
   }
 }

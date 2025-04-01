@@ -83,13 +83,17 @@ class _PickupDeliveryState extends State<PickupDelivery> {
             selectedDeliveryTimeSlot: _selectedDeliveryTimeSlot,
             selectedTimeSlot: _selectedTimeSlot,
             Userid: userid,
-            username: username),
+            username: username,
+          address:address
+
+        ),
       ),
     );
   }
 
   String? userid;
   String? username;
+  String? address;
 
   @override
   Widget build(BuildContext context) {
@@ -130,6 +134,9 @@ class _PickupDeliveryState extends State<PickupDelivery> {
                   final user = state.Userdata;
                   userid = user.uid;
                   username = user.name;
+                  address =
+                      "${user.name}, ${user.place}, ${user.District}, ${user.state}, ${user.post}, ${user.pin}, ${user.phone}";
+
                   return Container(
                     width: double.infinity, // This ensures it takes full width
                     padding: const EdgeInsets.all(12),

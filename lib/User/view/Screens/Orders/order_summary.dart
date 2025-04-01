@@ -242,12 +242,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:laundry/User/view/Screens/Orders/payment_successful.dart';
 import '../../../../Controller/bloc/Orderbloc/OrderModel/Order_Model.dart';
 import '../../../../Controller/bloc/Orderbloc/order_bloc.dart';
 import '../../../../Controller/bloc/ServiceManagement/Shopadddproduct/Addproductmodel/Addproductmodel.dart';
 import '../../../../Controller/bloc/Shop_Auth_bloc/Shopmodel/Shopmodel.dart';
-import '../../../../Widget/constands/colors.dart';
 
 class OrderSummaryPage extends StatefulWidget {
   const OrderSummaryPage(this.selectedItems,
@@ -258,7 +256,8 @@ class OrderSummaryPage extends StatefulWidget {
       this.selectedDeliveryTimeSlot,
       this.selectedTimeSlot,
       required this.Userid,
-      required this.username});
+      required this.username,
+      required this.address});
   final ShopModel shop;
   final pickupdate;
   final deliveryDate;
@@ -266,6 +265,7 @@ class OrderSummaryPage extends StatefulWidget {
   final selectedTimeSlot;
   final Userid;
   final username;
+  final address;
   final Set<Addproductmodel> selectedItems;
 
   @override
@@ -302,6 +302,7 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
 
   void placeOrder(BuildContext context) {
     final order = OrderModel(
+      deliveryaddress: widget.address,
       orderid: "",
       userid: widget.Userid, // You should replace this with the actual user ID
       username: widget.username,

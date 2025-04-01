@@ -73,9 +73,9 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
               index: selectedIndex,
               children: [
                 Allorderswrapper(),
-                InProgressOrders(),
-                DeliveredOrders(),
-                CancelledOrders(),
+                Inprogresswrapper(),
+                Deliverdwrrapper(),
+                Cancelorderwrapper(),
               ],
             ),
           ),

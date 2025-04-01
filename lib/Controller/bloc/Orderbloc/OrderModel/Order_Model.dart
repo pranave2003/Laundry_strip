@@ -158,6 +158,8 @@ class OrderModel {
   final String username;
   final dynamic shopid;
   final dynamic shopname;
+  final dynamic deliveryaddress;
+  final dynamic Delivered;
 
   OrderModel({
     required this.orderid,
@@ -173,26 +175,30 @@ class OrderModel {
     required this.Deliverydate,
     required this.DeliveryTime,
     required this.Orderdate,
+    this.deliveryaddress,
+    this.Delivered,
   });
 
   factory OrderModel.fromMap(Map<String, dynamic> json) {
     return OrderModel(
-      orderid: json['orderId'] ?? '',
-      userid: json['userId'] ?? '',
-      username: json['username'] ?? '',
-      items: (json['items'] as List<dynamic>?)
-              ?.map((item) => OrderItem.fromJson(item as Map<String, dynamic>))
-              .toList() ??
-          [],
-      Totalcharge: json['totalAmount'] ?? '',
-      status: json['status'] ?? '',
-      Orderdate: json['orderDate'] ?? '',
-      shopid: json['shopid'] ?? '',
-      shopname: json['shopname'] ?? '',
-      pickupdate: json["pickupdate"] ?? '',
-      pickupTime: json["pickupTime"] ?? '',
-      DeliveryTime: json["DeliveryTime"] ?? '',
-      Deliverydate: json["Deliverydate"] ?? '',
-    );
+        orderid: json['orderId'] ?? '',
+        userid: json['userId'] ?? '',
+        username: json['username'] ?? '',
+        items: (json['items'] as List<dynamic>?)
+                ?.map(
+                    (item) => OrderItem.fromJson(item as Map<String, dynamic>))
+                .toList() ??
+            [],
+        Totalcharge: json['totalAmount'] ?? '',
+        status: json['status'] ?? '',
+        Orderdate: json['orderDate'] ?? '',
+        shopid: json['shopid'] ?? '',
+        shopname: json['shopname'] ?? '',
+        pickupdate: json["pickupdate"] ?? '',
+        pickupTime: json["pickupTime"] ?? '',
+        DeliveryTime: json["DeliveryTime"] ?? '',
+        Deliverydate: json["Deliverydate"] ?? '',
+        deliveryaddress: json['deliveryaddress'] ?? "",
+        Delivered: json['Delivered'] ?? "");
   }
 }

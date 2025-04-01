@@ -1,10 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Widget/constands/Loading.dart';
 
 import '../../../../../Controller/bloc/Orderbloc/order_bloc.dart';
-
-
 
 class Cancelorderwrapper extends StatefulWidget {
   const Cancelorderwrapper({super.key});
@@ -16,14 +15,17 @@ class Cancelorderwrapper extends StatefulWidget {
 class _CancelorderwrapperState extends State<Cancelorderwrapper> {
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    // Example: If shopid is stored in user's displayName (change as needed)
+    String? userid = user?.uid;
     return BlocProvider(
-      create: (context) =>
-      OrderBloc()..add(Fetchorders(searchQuery: null, status: "0")),
+      create: (context) => OrderBloc()
+        ..add(Fetchorders(searchQuery: null, status: "2", userid: userid)),
       child: cancelorders(),
     );
   }
 }
-
 
 class cancelorders extends StatelessWidget {
   const cancelorders({super.key});
@@ -92,7 +94,7 @@ class cancelorders extends StatelessWidget {
                             children: order.items.map((item) {
                               return Padding(
                                 padding:
-                                const EdgeInsets.symmetric(vertical: 4.0),
+                                    const EdgeInsets.symmetric(vertical: 4.0),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -104,7 +106,7 @@ class cancelorders extends StatelessWidget {
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(item.productName,
                                               style: TextStyle(

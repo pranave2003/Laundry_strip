@@ -50,13 +50,14 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
     on<Fetchorders>((event, emit) async {
       emit(orderfetchloading());
-      print("datassss ${event.shopid.toString()}");
+      print("datassss ${event.userid.toString()}");
       try {
         CollectionReference usersCollection =
             FirebaseFirestore.instance.collection('Orders');
 
         Query query = usersCollection;
         query = query.where("shopid", isEqualTo: event.shopid);
+        query = query.where("userId", isEqualTo: event.userid);
         if (event.status != null) {
           query = query.where("status", isEqualTo: event.status);
         }

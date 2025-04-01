@@ -15,10 +15,12 @@ class Fetchorders extends OrderEvent {
   final String? RejectedReason;
   final String? Deliverd;
   final String? shopid;
+  final String? userid;
 
   Fetchorders(
       {required this.searchQuery,
       this.status,
+      this.userid,
       this.shopid,
       this.RejectedReason,
       this.Rejected,
@@ -34,7 +36,7 @@ class Acceptorderevent extends OrderEvent {
 }
 
 class Assigndriver extends OrderEvent {
-  final String?orderid;
+  final String? orderid;
   final String? driverid;
   final String? drivername;
   final String? drivernumber;

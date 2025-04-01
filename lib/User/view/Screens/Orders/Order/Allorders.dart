@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Widget/constands/Loading.dart';
@@ -9,11 +10,13 @@ class Allorderswrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    // Example: If shopid is stored in user's displayName (change as needed)
+    String? userid = user?.uid;
     return BlocProvider(
-      create: (context) => OrderBloc()
-        ..add(Fetchorders(
-          searchQuery: null,
-        )),
+      create: (context) =>
+          OrderBloc()..add(Fetchorders(searchQuery: null, userid: userid)),
       child: AllOrders(),
     );
   }

@@ -108,7 +108,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 // Update Button
                 BlocConsumer<AuthBloc, AuthState>(
                   listener: (context, state) {
-                    if (state is UserByidLoaded) {
+                    if (state is Userload) {
                       Navigator.of(context).pop();
                     }
                   },

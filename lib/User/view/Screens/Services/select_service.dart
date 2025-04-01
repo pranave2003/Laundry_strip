@@ -49,8 +49,9 @@ class _SelectServiceState extends State<SelectService> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => Userservice()));
+            Navigator.pop(context);
+            //Navigator.pushReplacement(
+              //  context, MaterialPageRoute(builder: (context) => Userservice()));
           },
         ),
       ),

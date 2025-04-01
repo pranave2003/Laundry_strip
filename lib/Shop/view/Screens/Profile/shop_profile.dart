@@ -90,6 +90,11 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                             ),
                             const SizedBox(height: 6),
                             Text(
+                              '${shop.owner_name ?? ''}',
+                              style:
+                              TextStyle(color: Colors.grey, fontSize: 14),
+                            ),
+                            Text(
                               '${shop.email ?? ''}',
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 14),

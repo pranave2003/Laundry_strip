@@ -46,10 +46,11 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Orders()),
-            );
+            Navigator.pop(context);
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => Orders()),
+            // );
           },
         ),
       ),
@@ -198,10 +199,11 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Orders()),
-                  );
+                  Navigator.pop(context);
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => Orders()),
+                  // );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: defaultColor,

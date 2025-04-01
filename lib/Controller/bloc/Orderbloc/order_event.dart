@@ -11,12 +11,24 @@ class placeorder extends OrderEvent {
 class Fetchorders extends OrderEvent {
   final String? searchQuery;
   final String? status;
-  Fetchorders({required this.searchQuery, this.status});
+  final String? Rejected;
+  final String? RejectedReason;
+  final String? Deliverd;
+  final String? shopid;
+
+  Fetchorders(
+      {required this.searchQuery,
+      this.status,
+      this.shopid,
+      this.RejectedReason,
+      this.Rejected,
+      this.Deliverd});
 }
 
-// woking...
-// class FetchOrders extends OrderEvent {
-//   final String? searchQuery;
-//   final String? status;
-//   FetchOrders({this.status, this.searchQuery});
-// }
+//Accept order
+
+class Acceptorderevent extends OrderEvent {
+  final String? status;
+  final String? orderid;
+  Acceptorderevent({required this.status, required this.orderid});
+}

@@ -2,28 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Widget/constands/Loading.dart';
 import '../../../../../Controller/bloc/Orderbloc/order_bloc.dart';
-import '../Order_tracking.dart';
+import 'order_details.dart';
 
-class Allorderswrapper extends StatelessWidget {
-  const Allorderswrapper({super.key});
+// class Shopinprogresswrapper extends StatelessWidget {
+//   const Shopinprogresswrapper({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocProvider(
+//       create: (context) =>
+//           OrderBloc()..add(Fetchorders(searchQuery: null, status: "1")),
+//       child: Shop_Inprogress(),
+//     );
+//   }
+// }
+
+class Shop_Inprogress extends StatefulWidget {
+  const Shop_Inprogress({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => OrderBloc()
-        ..add(Fetchorders(
-          searchQuery: null,
-        )),
-      child: AllOrders(),
-    );
-  }
+  State<Shop_Inprogress> createState() => _Shop_InprogressState();
 }
 
+class _Shop_InprogressState extends State<Shop_Inprogress> {
 
-
-class AllOrders extends StatelessWidget {
-  const AllOrders({super.key});
-
+  void initState() {
+    // TODO: implement initState
+    context.read<OrderBloc>()..add(Fetchorders(searchQuery: null, status: "1"));
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OrderBloc, OrderState>(
@@ -31,12 +38,17 @@ class AllOrders extends StatelessWidget {
         if (state is orderfetchloading) {
           return Center(child: Loading_Widget());
         } else if (state is OrderLoaded) {
-          return ListView.builder(
+          return state.orders.isEmpty
+              ? Center(
+            child: Text("No data"),
+          )
+              : ListView.builder(
             itemCount: state.orders.length,
             itemBuilder: (context, index) {
               var order = state.orders[index];
               return Card(
-                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                margin: const EdgeInsets.symmetric(
+                    horizontal: 12, vertical: 6),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12)),
                 elevation: 2,
@@ -87,10 +99,11 @@ class AllOrders extends StatelessWidget {
                           Column(
                             children: order.items.map((item) {
                               return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4.0),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 4.0),
                                 child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
                                   children: [
                                     Image.network(item.productimage,
                                         width: 50,
@@ -100,29 +113,36 @@ class AllOrders extends StatelessWidget {
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Text(item.productName,
                                               style: TextStyle(
                                                   fontSize: 14,
-                                                  fontWeight: FontWeight.bold)),
+                                                  fontWeight:
+                                                  FontWeight.bold)),
                                           const SizedBox(height: 4),
-                                          Text("Quantity: ${item.quantity}",
+                                          Text(
+                                              "Quantity: ${item.quantity}",
                                               style: TextStyle(
                                                   fontSize: 12,
-                                                  color: Colors.grey.shade800)),
+                                                  color: Colors
+                                                      .grey.shade800)),
                                           Text("Price: ${item.price}",
                                               style: TextStyle(
                                                   fontSize: 12,
-                                                  color: Colors.grey.shade800)),
+                                                  color: Colors
+                                                      .grey.shade800)),
                                           Text("Service: ${item.service}",
                                               style: TextStyle(
                                                   fontSize: 12,
-                                                  color: Colors.grey.shade800)),
-                                          Text("Category: ${item.catogoty}",
+                                                  color: Colors
+                                                      .grey.shade800)),
+                                          Text(
+                                              "Category: ${item.catogoty}",
                                               style: TextStyle(
                                                   fontSize: 12,
-                                                  color: Colors.grey.shade800)),
+                                                  color: Colors
+                                                      .grey.shade800)),
                                         ],
                                       ),
                                     ),
@@ -139,18 +159,19 @@ class AllOrders extends StatelessWidget {
                             children: [
                               TextButton(
                                   onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) {
-                                        return OrderTracking(
-                                          order: state.orders[index],
-                                        );
-                                      },
-                                    ));
+                                    Navigator.push(context,
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return OrderDetailsPage(
+                                              order: state.orders[index],
+                                            );
+                                          },
+                                        ));
                                   },
                                   child: Text(
-                                    "Open",
+                                    "Manage Order",
                                     style: TextStyle(
-                                        color: Colors.blue,
+                                        color: Colors.red,
                                         fontWeight: FontWeight.bold),
                                   ))
                             ],
@@ -159,7 +180,8 @@ class AllOrders extends StatelessWidget {
                               style: TextStyle(fontSize: 14)),
                           Text("Total Amount: \$${order.Totalcharge}",
                               style: TextStyle(fontSize: 14)),
-                          Text("Delivery Address: ${order.deliveryaddress}",
+                          Text(
+                              "Delivery Address: ${order.deliveryaddress}",
                               style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.grey.shade900,
@@ -167,44 +189,9 @@ class AllOrders extends StatelessWidget {
                           const SizedBox(height: 8),
                           Text("Total Items: ${order.items.length}",
                               style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold)),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold)),
                           Divider(),
-                          Row(
-                            children: [
-                              TextButton(
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text("Confirm Cancellation"),
-                                        content: Text(
-                                            "Are you sure you want to cancel this order?"),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context)
-                                                  .pop(); // Close dialog
-                                            },
-                                            child: Text("No"),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              // Perform order cancellation logic here
-                                              Navigator.of(context)
-                                                  .pop(); // Close dialog
-                                            },
-                                            child: Text("Yes, Cancel"),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                                child: Text("Order Cancel"),
-                              )
-                            ],
-                          )
                         ],
                       ),
                     ),
@@ -221,3 +208,6 @@ class AllOrders extends StatelessWidget {
     );
   }
 }
+
+
+

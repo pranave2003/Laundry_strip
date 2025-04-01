@@ -37,7 +37,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           "Drivernumber": "",
           "PIckup": "0",
           "Rejectreason": "",
-          "Rejected":"0",
+          "Rejected": "0",
           "workinprogress": "0"
         });
 
@@ -57,12 +57,14 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
         Query query = usersCollection;
         query = query.where("status", isEqualTo: event.status);
+        query = query.where("shopid", isEqualTo: event.shopid);
+        query = query.where("Rejected", isEqualTo: event.Rejected);
+        query = query.where("Delivered", isEqualTo: event.Deliverd);
         QuerySnapshot snapshot = await query.get();
-
+        print("fetch order");
         List<OrderModel> product = snapshot.docs.map((doc) {
           return OrderModel.fromMap(doc.data() as Map<String, dynamic>);
         }).toList();
-        print("check");
 
         if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
           product = product.where((viewuser) {
@@ -71,25 +73,26 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
                 .contains(event.searchQuery!.toLowerCase());
           }).toList();
         }
-        print(product.toString());
+
         emit(OrderLoaded(product));
       } catch (e) {
         emit(OrderFailure(e.toString()));
       }
     });
 
-    // on<FetchOrders>((event, emit) async {
-    //   emit(OrderLoading());
-    //   try {
-    //     QuerySnapshot snapshot = await firestore.collection('Orders').get();
-    //     List<OrderModel> orders = snapshot.docs.map((doc) {
-    //       return OrderModel.fromMap(doc.data() as Map<String, dynamic>);
-    //     }).toList();
-    //     emit(OrderLoaded(orders));
-    //   } catch (e) {
-    //     print(e);
-    //     emit(OrderFailure(e.toString()));
-    //   }
-    // });
+    on<Acceptorderevent>((event, emit) async {
+      emit(ActionLoading());
+      try {
+        FirebaseFirestore.instance
+            .collection("Orders")
+            .doc(event.orderid)
+            .update({"status": event.status});
+
+        emit(orderRefresh());
+      } catch (e) {
+        print(e);
+        emit(OrderFailure(e.toString()));
+      }
+    });
   }
 }

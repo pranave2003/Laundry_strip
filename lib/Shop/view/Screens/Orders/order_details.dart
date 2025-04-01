@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:laundry/Controller/bloc/Orderbloc/OrderModel/Order_Model.dart';
 import 'package:laundry/Widget/constands/colors.dart';
 
 import 'Orders.dart';
 
 class OrderDetailsPage extends StatefulWidget {
-  const OrderDetailsPage({super.key});
-
+  const OrderDetailsPage({super.key, required this.order});
+  final OrderModel order;
   @override
   State<OrderDetailsPage> createState() => _OrderDetailsPageState();
 }
@@ -69,14 +70,18 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                     children: [
                       const Text(
                         "Amal",
-                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 4),
-                      const Text("Phone No: 8962147896", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                      const Text("Phone No: 8962147896",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 4),
                       const Text(
                         "Address: 2GQ9+988, Jalahalli Cross Rd, Peenya, Bengaluru, Karnataka 560058, India",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -84,7 +89,8 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                 Column(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: _getStatusColor(orderStatus),
                         borderRadius: BorderRadius.circular(12),
@@ -100,7 +106,8 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                     const SizedBox(height: 4),
                     CircleAvatar(
                       radius: 30,
-                      backgroundImage: AssetImage("assets/driver1.png"), // Change as needed
+                      backgroundImage:
+                          AssetImage("assets/driver1.png"), // Change as needed
                     ),
                   ],
                 ),
@@ -110,13 +117,17 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
             const SizedBox(height: 10),
 
             // Order Details
-            const Text("Services: Wash+Fold, Dry Clean", style: TextStyle(fontSize: 16)),
+            const Text("Services: Wash+Fold, Dry Clean",
+                style: TextStyle(fontSize: 16)),
             const SizedBox(height: 4),
-            const Text("Order ID: 8547 9658 2578", style: TextStyle(fontSize: 16)),
+            const Text("Order ID: 8547 9658 2578",
+                style: TextStyle(fontSize: 16)),
             const SizedBox(height: 4),
-            const Text("Order Date: Jan 03, 2025", style: TextStyle(fontSize: 16)),
+            const Text("Order Date: Jan 03, 2025",
+                style: TextStyle(fontSize: 16)),
             const SizedBox(height: 4),
-            const Text("Expected Delivery Date: Jan 07, 2025", style: TextStyle(fontSize: 16)),
+            const Text("Expected Delivery Date: Jan 07, 2025",
+                style: TextStyle(fontSize: 16)),
             const SizedBox(height: 4),
             const Text(
               "Total Amount: ₹ 350.00",
@@ -126,7 +137,8 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
             const SizedBox(height: 20),
 
             // Items List
-            const Text("Items Added:", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text("Items Added:",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
 
             // Item 1
@@ -138,7 +150,8 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Shirt Standard Pack", style: TextStyle(fontSize: 16)),
-                    Text("(Dry Clean) ₹ 150", style: TextStyle(fontSize: 14, color: Colors.grey)),
+                    Text("(Dry Clean) ₹ 150",
+                        style: TextStyle(fontSize: 14, color: Colors.grey)),
                   ],
                 ),
               ],
@@ -154,8 +167,10 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                 const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Jacket Standard Pack", style: TextStyle(fontSize: 16)),
-                    Text("(Wash + Fold) ₹ 200", style: TextStyle(fontSize: 14, color: Colors.grey)),
+                    Text("Jacket Standard Pack",
+                        style: TextStyle(fontSize: 16)),
+                    Text("(Wash + Fold) ₹ 200",
+                        style: TextStyle(fontSize: 14, color: Colors.grey)),
                   ],
                 ),
               ],
@@ -172,13 +187,16 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                 ),
                 DropdownButton<String>(
                   value: orderStatus,
-                  items: ["In Progress", "Delivered", "Cancelled"].map((String status) {
+                  items: ["In Progress", "Delivered", "Cancelled"]
+                      .map((String status) {
                     return DropdownMenuItem(
                       value: status,
                       child: Text(
                         status,
                         style: TextStyle(
-                          fontWeight: status == "In Progress" ? FontWeight.bold : FontWeight.normal,
+                          fontWeight: status == "In Progress"
+                              ? FontWeight.bold
+                              : FontWeight.normal,
                         ),
                       ),
                     );

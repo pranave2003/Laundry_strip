@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:laundry/Controller/bloc/Orderbloc/order_bloc.dart';
 import 'package:laundry/Controller/bloc/ServiceManagement/service_bloc.dart';
 import '../../../../Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
 
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
           create: (context) =>
               ServiceBloc()..add(Fetchcatogoryimagesevent(searchQuery: null)),
         ),
+        BlocProvider<OrderBloc>(create: (context) => OrderBloc()),
         BlocProvider<DropdownblocBloc>(
           create: (context) =>
               DropdownblocBloc()..add(Fetchcatogorybydropdown()),

@@ -8,6 +8,8 @@ final class OrderInitial extends OrderState {}
 final class orderverLoading extends OrderState {}
 
 final class orderSuccess extends OrderState {}
+final class orderRefresh extends OrderState {}
+final class ActionLoading extends OrderState {}
 
 final class orderFailure extends OrderState {
   final String error;

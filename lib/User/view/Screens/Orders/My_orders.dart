@@ -85,3 +85,114 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
   }
 }
 
+class Myallorder extends StatefulWidget {
+  const Myallorder({super.key});
+
+  @override
+  State<Myallorder> createState() => _MyallorderState();
+}
+
+class _MyallorderState extends State<Myallorder> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<ShopAuthblocBloc, ShopAuthblocState>(
+        listener: (context, state) {
+      // TODO: implement listener
+    }, builder: (context, state) {
+      if (state is ShopLoading) {
+        return Center(child: Loading_Widget());
+      } else if (state is Shopfailerror) {
+        return Text(state.error.toString());
+      } else if (state is Shoploaded) {
+        if (state.Shop.isEmpty) {
+          return Center(
+            child: Text(
+              "No data found",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          );
+        }
+        return SizedBox(
+          height: 400,
+          child: ListView.builder(
+            itemCount: state.Shop.length,
+            itemBuilder: (context, index) {
+              final Shop = state.Shop[index];
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.asset(
+                                  "assets/shop_img/img.png",
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                Shop.shop_name.toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
+                              ),
+                              Text(
+                                Shop.shopid.toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 10),
+                              ),
+                              SizedBox(
+                                width: 200,
+                                child: Text(
+                                  "${Shop.District}, ${Shop.city}, ${Shop.post}",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Container(
+                                child: Shop.selectServices != null &&
+                                        Shop.selectServices!.isNotEmpty
+                                    ? Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: List.generate(
+                                          Shop.selectServices!.length,
+                                          (index) => Text(
+                                            Shop.selectServices![index],
+                                            style:
+                                                TextStyle(color: Colors.green),
+                                          ), // Display each service
+                                        ),
+                                      )
+                                    : Text(
+                                        "No Services Available"), // Show message if list is empty
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      }
+      return SizedBox();
+    });
+  }
+}

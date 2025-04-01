@@ -15,8 +15,6 @@ import '../QRscan/Scan_QR.dart';
 import '../Shop/Add_shop.dart';
 import '../Shop/view.dart';
 
-
-
 class ShopBottomNavWrapper extends StatelessWidget {
   const ShopBottomNavWrapper({super.key});
 

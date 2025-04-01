@@ -30,3 +30,4 @@ class OrderFailure extends OrderState {
   final String message;
   OrderFailure(this.message);
 }
+

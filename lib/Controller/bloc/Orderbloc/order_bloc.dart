@@ -50,16 +50,23 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
     on<Fetchorders>((event, emit) async {
       emit(orderfetchloading());
-
+      print("datassss ${event.shopid.toString()}");
       try {
         CollectionReference usersCollection =
             FirebaseFirestore.instance.collection('Orders');
 
         Query query = usersCollection;
-        query = query.where("status", isEqualTo: event.status);
         query = query.where("shopid", isEqualTo: event.shopid);
-        query = query.where("Rejected", isEqualTo: event.Rejected);
-        query = query.where("Delivered", isEqualTo: event.Deliverd);
+        if (event.status != null) {
+          query = query.where("status", isEqualTo: event.status);
+        }
+        if (event.Rejected != null) {
+          query = query.where("Rejected", isEqualTo: event.Rejected);
+        }
+        if (event.Deliverd != null) {
+          query = query.where("Delivered", isEqualTo: event.Deliverd);
+        }
+
         QuerySnapshot snapshot = await query.get();
         print("fetch order");
         List<OrderModel> product = snapshot.docs.map((doc) {
@@ -87,6 +94,26 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             .collection("Orders")
             .doc(event.orderid)
             .update({"status": event.status});
+
+        emit(orderRefresh());
+      } catch (e) {
+        print(e);
+        emit(OrderFailure(e.toString()));
+      }
+    });
+
+    on<Assigndriver>((event, emit) async {
+      emit(ActionLoading());
+      try {
+        FirebaseFirestore.instance
+            .collection("Orders")
+            .doc(event.orderid)
+            .update({
+          "Driverid": event.driverid,
+          "Drivername": event.drivername,
+          "Drivernumber": event.drivernumber,
+          "PIckup": event.PIckup
+        });
 
         emit(orderRefresh());
       } catch (e) {

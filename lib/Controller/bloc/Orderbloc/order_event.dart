@@ -32,3 +32,17 @@ class Acceptorderevent extends OrderEvent {
   final String? orderid;
   Acceptorderevent({required this.status, required this.orderid});
 }
+
+class Assigndriver extends OrderEvent {
+  final String?orderid;
+  final String? driverid;
+  final String? drivername;
+  final String? drivernumber;
+  final String? PIckup;
+  Assigndriver(
+      {required this.PIckup,
+      required this.orderid,
+      required this.driverid,
+      required this.drivername,
+      required this.drivernumber});
+}

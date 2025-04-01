@@ -5,13 +5,13 @@ import '../../../../../Controller/bloc/Orderbloc/order_bloc.dart';
 import 'order_details.dart';
 
 class Shop_orderCancelledwrapper extends StatelessWidget {
-  const Shop_orderCancelledwrapper({super.key});
-
+  const Shop_orderCancelledwrapper(this.shopid, {super.key});
+  final shopid;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          OrderBloc()..add(Fetchorders(searchQuery: null, status: "2")),
+          OrderBloc()..add(Fetchorders(searchQuery: null, status: "2",shopid: shopid)),
       child: Ordercancelled_wrapper(),
     );
   }
@@ -182,54 +182,7 @@ class Ordercancelled_wrapper extends StatelessWidget {
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold)),
                                 Divider(),
-                                Text("Manage Order ${order.orderid}",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.red)),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors
-                                              .green, // Green color for Accept
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                8), // Box shape
-                                          ),
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 12),
-                                        ),
-                                        onPressed: () {},
-                                        child: Text(
-                                          "Accept",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                      SizedBox(width: 20),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors
-                                              .red, // Red color for Reject
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                8), // Box shape
-                                          ),
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 12),
-                                        ),
-                                        onPressed: () {},
-                                        child: Text(
-                                          "Reject",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
+
                               ],
                             ),
                           ),

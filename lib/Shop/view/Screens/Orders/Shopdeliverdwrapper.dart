@@ -5,13 +5,13 @@ import '../../../../../Controller/bloc/Orderbloc/order_bloc.dart';
 import 'order_details.dart';
 
 class ShopiDeliverdwrapper extends StatelessWidget {
-  const ShopiDeliverdwrapper({super.key});
-
+  const ShopiDeliverdwrapper(this.shopid, {super.key});
+  final shopid;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          OrderBloc()..add(Fetchorders(searchQuery: null, Deliverd: "1")),
+      create: (context) => OrderBloc()
+        ..add(Fetchorders(searchQuery: null, Deliverd: "1", shopid: shopid)),
       child: Deliverdshop(),
     );
   }
@@ -70,11 +70,13 @@ class Deliverdshop extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                  order.status == "0" ? "Pending" : "Progress",
+                                  order.Delivered == "1"
+                                      ? "Delivered"
+                                      : "Progress",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.pink)),
+                                      color: Colors.green)),
                             ),
                           ],
                         ),
@@ -181,54 +183,6 @@ class Deliverdshop extends StatelessWidget {
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold)),
                                 Divider(),
-                                Text("Manage Order}",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.red)),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors
-                                              .green, // Green color for Accept
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                8), // Box shape
-                                          ),
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 12),
-                                        ),
-                                        onPressed: () {},
-                                        child: Text(
-                                          "Accept",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                      SizedBox(width: 20),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors
-                                              .red, // Red color for Reject
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                8), // Box shape
-                                          ),
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 12),
-                                        ),
-                                        onPressed: () {},
-                                        child: Text(
-                                          "Reject",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
                               ],
                             ),
                           ),

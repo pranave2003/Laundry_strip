@@ -92,7 +92,7 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                             Text(
                               '${shop.owner_name ?? ''}',
                               style:
-                              TextStyle(color: Colors.grey, fontSize: 14),
+                                  TextStyle(color: Colors.grey, fontSize: 14),
                             ),
                             Text(
                               '${shop.email ?? ''}',
@@ -149,13 +149,13 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                   icon: Icons.phone,
                   title: "Contact Us",
                   context: context,
-                  page:  ContactUs(),
+                  page: ContactUs(),
                 ),
                 _buildProfileOption(
                   icon: Icons.rule,
                   title: "Terms & Conditions",
                   context: context,
-                  page:  LaundryShopTermsPage(),
+                  page: LaundryShopTermsPage(),
                 ),
                 _buildProfileOption(
                   icon: Icons.privacy_tip,
@@ -238,7 +238,6 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
     );
   }
 }
-
 
 //PrivacyPolicy
 class PrivacyPolicy extends StatelessWidget {

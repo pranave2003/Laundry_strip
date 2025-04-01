@@ -4,18 +4,18 @@ import 'package:laundry/Widget/constands/Loading.dart';
 import '../../../../../Controller/bloc/Orderbloc/order_bloc.dart';
 import 'order_details.dart';
 
-// class Shopinprogresswrapper extends StatelessWidget {
-//   const Shopinprogresswrapper({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider(
-//       create: (context) =>
-//           OrderBloc()..add(Fetchorders(searchQuery: null, status: "1")),
-//       child: Shop_Inprogress(),
-//     );
-//   }
-// }
+class Shopinprogresswrapper extends StatelessWidget {
+  const Shopinprogresswrapper(this.shopid, {super.key});
+  final shopid;
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => OrderBloc()
+        ..add(Fetchorders(searchQuery: null, status: "1", shopid: shopid)),
+      child: Shop_Inprogress(),
+    );
+  }
+}
 
 class Shop_Inprogress extends StatefulWidget {
   const Shop_Inprogress({super.key});
@@ -25,12 +25,6 @@ class Shop_Inprogress extends StatefulWidget {
 }
 
 class _Shop_InprogressState extends State<Shop_Inprogress> {
-
-  void initState() {
-    // TODO: implement initState
-    context.read<OrderBloc>()..add(Fetchorders(searchQuery: null, status: "1"));
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OrderBloc, OrderState>(
@@ -40,166 +34,166 @@ class _Shop_InprogressState extends State<Shop_Inprogress> {
         } else if (state is OrderLoaded) {
           return state.orders.isEmpty
               ? Center(
-            child: Text("No data"),
-          )
+                  child: Text("No data"),
+                )
               : ListView.builder(
-            itemCount: state.orders.length,
-            itemBuilder: (context, index) {
-              var order = state.orders[index];
-              return Card(
-                margin: const EdgeInsets.symmetric(
-                    horizontal: 12, vertical: 6),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
-                elevation: 2,
-                color: Colors.white,
-                child: ExpansionTile(
-                  title: Row(
-                    children: [
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  itemCount: state.orders.length,
+                  itemBuilder: (context, index) {
+                    var order = state.orders[index];
+                    return Card(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 6),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      elevation: 2,
+                      color: Colors.white,
+                      child: ExpansionTile(
+                        title: Row(
                           children: [
-                            Text("Service: ${order.orderid}",
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.grey)),
-                            const SizedBox(height: 4),
-                            Text("Order ID: ${order.orderid}",
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.black87)),
-                            Text("Order Date: ${order.Orderdate}",
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.black87)),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Service: ${order.orderid}",
+                                      style: const TextStyle(
+                                          fontSize: 12, color: Colors.grey)),
+                                  const SizedBox(height: 4),
+                                  Text("Order ID: ${order.orderid}",
+                                      style: const TextStyle(
+                                          fontSize: 12, color: Colors.black87)),
+                                  Text("Order Date: ${order.Orderdate}",
+                                      style: const TextStyle(
+                                          fontSize: 12, color: Colors.black87)),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                  order.status == "0" ? "Pending" : "Progress",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.amber)),
+                            ),
                           ],
                         ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                            order.status == "0" ? "Pending" : "Progress",
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.pink)),
-                      ),
-                    ],
-                  ),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            children: order.items.map((item) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 4.0),
-                                child: Row(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    Image.network(item.productimage,
-                                        width: 50,
-                                        height: 50,
-                                        fit: BoxFit.cover),
-                                    const SizedBox(width: 12),
-                                    Expanded(
-                                      child: Column(
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  children: order.items.map((item) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0),
+                                      child: Row(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text(item.productName,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight:
-                                                  FontWeight.bold)),
-                                          const SizedBox(height: 4),
-                                          Text(
-                                              "Quantity: ${item.quantity}",
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors
-                                                      .grey.shade800)),
-                                          Text("Price: ${item.price}",
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors
-                                                      .grey.shade800)),
-                                          Text("Service: ${item.service}",
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors
-                                                      .grey.shade800)),
-                                          Text(
-                                              "Category: ${item.catogoty}",
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors
-                                                      .grey.shade800)),
+                                          Image.network(item.productimage,
+                                              width: 50,
+                                              height: 50,
+                                              fit: BoxFit.cover),
+                                          const SizedBox(width: 12),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(item.productName,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                const SizedBox(height: 4),
+                                                Text(
+                                                    "Quantity: ${item.quantity}",
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors
+                                                            .grey.shade800)),
+                                                Text("Price: ${item.price}",
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors
+                                                            .grey.shade800)),
+                                                Text("Service: ${item.service}",
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors
+                                                            .grey.shade800)),
+                                                Text(
+                                                    "Category: ${item.catogoty}",
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors
+                                                            .grey.shade800)),
+                                              ],
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                    ),
+                                    );
+                                  }).toList(),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                            builder: (context) {
+                                              return OrderDetailsPage(
+                                                order: state.orders[index],
+                                              );
+                                            },
+                                          ));
+                                        },
+                                        child: Text(
+                                          "Manage Order",
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.bold),
+                                        ))
                                   ],
                                 ),
-                              );
-                            }).toList(),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return OrderDetailsPage(
-                                              order: state.orders[index],
-                                            );
-                                          },
-                                        ));
-                                  },
-                                  child: Text(
-                                    "Manage Order",
+                                Text("Customer Name: ${order.username}",
+                                    style: TextStyle(fontSize: 14)),
+                                Text("Total Amount: \$${order.Totalcharge}",
+                                    style: TextStyle(fontSize: 14)),
+                                Text(
+                                    "Delivery Address: ${order.deliveryaddress}",
                                     style: TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold),
-                                  ))
-                            ],
+                                        fontSize: 14,
+                                        color: Colors.grey.shade900,
+                                        fontWeight: FontWeight.bold)),
+                                const SizedBox(height: 8),
+                                Text("Total Items: ${order.items.length}",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold)),
+                                Divider(),
+                              ],
+                            ),
                           ),
-                          Text("Customer Name: ${order.username}",
-                              style: TextStyle(fontSize: 14)),
-                          Text("Total Amount: \$${order.Totalcharge}",
-                              style: TextStyle(fontSize: 14)),
-                          Text(
-                              "Delivery Address: ${order.deliveryaddress}",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey.shade900,
-                                  fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 8),
-                          Text("Total Items: ${order.items.length}",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold)),
-                          Divider(),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
+                    );
+                  },
+                );
         } else if (state is OrderFailure) {
           return Center(child: Text("Error: ${state.message ?? ""}"));
         }
@@ -208,6 +202,3 @@ class _Shop_InprogressState extends State<Shop_Inprogress> {
     );
   }
 }
-
-
-

@@ -13,32 +13,26 @@ class Shopallorderwrapper extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           OrderBloc()..add(Fetchorders(searchQuery: null, shopid: shopid)),
-      child: Shop_Allorders(),
+      child: Shop_Allorders(shop: shopid),
     );
   }
 }
 
 class Shop_Allorders extends StatefulWidget {
-  const Shop_Allorders({super.key});
-
+  const Shop_Allorders({super.key, required this.shop});
+  final shop;
   @override
   State<Shop_Allorders> createState() => _Shop_AllordersState();
 }
 
 class _Shop_AllordersState extends State<Shop_Allorders> {
   @override
-  void initState() {
-    // TODO: implement initState
-    context.read<OrderBloc>()..add(Fetchorders(searchQuery: null));
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocConsumer<OrderBloc, OrderState>(
       listener: (context, state) {
         if (state is orderRefresh) {
-          context.read<OrderBloc>()..add(Fetchorders(searchQuery: null));
+          context.read<OrderBloc>()
+            ..add(Fetchorders(searchQuery: null, shopid: widget.shop));
         }
       },
       builder: (context, state) {
@@ -85,19 +79,23 @@ class _Shop_AllordersState extends State<Shop_Allorders> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
-                            order.status == "0"
-                                ? "Pending"
-                                : order.status == "1"
-                                    ? "Accept the order"
-                                    : "Rejected",
+                            order.PIckup == "1"
+                                ? "Picked"
+                                : order.status == "0"
+                                    ? "Pending"
+                                    : order.status == "1"
+                                        ? "Accept the order"
+                                        : "Rejected",
                             style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
-                                color: order.status == "0"
-                                    ? Colors.grey
-                                    : order.status == "1"
-                                        ? Colors.green
-                                        : Colors.red)),
+                                color: order.PIckup == "1"
+                                    ? Colors.orange
+                                    : order.status == "0"
+                                        ? Colors.grey
+                                        : order.status == "1"
+                                            ? Colors.green
+                                            : Colors.red)),
                       ),
                     ],
                   ),
@@ -193,57 +191,61 @@ class _Shop_AllordersState extends State<Shop_Allorders> {
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.bold)),
                           Divider(),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        Colors.green, // Green color for Accept
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(8), // Box shape
-                                    ),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 12),
+                          order.status == "0"
+                              ? Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors
+                                              .green, // Green color for Accept
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                8), // Box shape
+                                          ),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 12),
+                                        ),
+                                        onPressed: () {
+                                          context.read<OrderBloc>()
+                                            ..add(Acceptorderevent(
+                                                status: "1",
+                                                orderid: order.orderid));
+                                        },
+                                        child: Text(
+                                          "Accept",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                      SizedBox(width: 20),
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors
+                                              .red, // Red color for Reject
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                8), // Box shape
+                                          ),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 12),
+                                        ),
+                                        onPressed: () {
+                                          context.read<OrderBloc>()
+                                            ..add(Acceptorderevent(
+                                                status: "2",
+                                                orderid: order.orderid));
+                                        },
+                                        child: Text(
+                                          "Reject",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  onPressed: () {
-                                    context.read<OrderBloc>()
-                                      ..add(Acceptorderevent(
-                                          status: "1", orderid: order.orderid));
-                                  },
-                                  child: Text(
-                                    "Accept",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                                SizedBox(width: 20),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        Colors.red, // Red color for Reject
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(8), // Box shape
-                                    ),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 12),
-                                  ),
-                                  onPressed: () {
-                                    context.read<OrderBloc>()
-                                      ..add(Acceptorderevent(
-                                          status: "2", orderid: order.orderid));
-                                  },
-                                  child: Text(
-                                    "Reject",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
+                                )
+                              : SizedBox()
                         ],
                       ),
                     ),

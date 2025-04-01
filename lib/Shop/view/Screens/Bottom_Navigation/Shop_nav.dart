@@ -40,7 +40,7 @@ class _Shop_NavigationState extends State<Shop_Navigation> {
     LaundryView(),
     Orders(),
     ScanQr(), // Change this to OrdersPage
-    OrderAssignPage(),
+    Assignorderwrapper(),
   ];
 
   @override

@@ -30,50 +30,47 @@ class _OrdersState extends State<Orders> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => OrderBloc()..add(Fetchorders(searchQuery: null)),
-      child: BlocBuilder<ShopAuthblocBloc, ShopAuthblocState>(
-        builder: (context, state) {
-          if (state is Shoploading) {
-            return const Center(child: Loading_Widget());
-          } else if (state is ShopByidLoaded) {
-            final shop = state.userData;
-            return Scaffold(
+    return BlocBuilder<ShopAuthblocBloc, ShopAuthblocState>(
+      builder: (context, state) {
+        if (state is Shoploading) {
+          return const Center(child: Loading_Widget());
+        } else if (state is ShopByidLoaded) {
+          final shop = state.userData;
+          return Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
               backgroundColor: Colors.white,
-              appBar: AppBar(
-                backgroundColor: Colors.white,
-                title: const Text(
-                  "Orders",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                automaticallyImplyLeading: false,
-                bottom: TabBar(
-                  controller: _tabController,
-                  labelColor: Colors.blue,
-                  unselectedLabelColor: Colors.black,
-                  indicatorColor: Colors.blue,
-                  tabs: const [
-                    Tab(text: "All"),
-                    Tab(text: "In Progress"),
-                    Tab(text: "Delivered"),
-                    Tab(text: "Cancelled"),
-                  ],
-                ),
+              title: Text(
+                "Orders ${state.userData.shopid}",
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              body: TabBarView(
+              automaticallyImplyLeading: false,
+              bottom: TabBar(
                 controller: _tabController,
-                children: [
-                  Shopallorderwrapper(shop.shopid),
-                  Shop_Inprogress(),
-                  ShopiDeliverdwrapper(),
-                  Shop_orderCancelledwrapper(),
+                labelColor: Colors.blue,
+                unselectedLabelColor: Colors.black,
+                indicatorColor: Colors.blue,
+                tabs: const [
+                  Tab(text: "All"),
+                  Tab(text: "In Progress"),
+                  Tab(text: "Delivered"),
+                  Tab(text: "Cancelled"),
                 ],
               ),
-            );
-          }
-          return SizedBox();
-        },
-      ),
+            ),
+            body: TabBarView(
+              controller: _tabController,
+              children: [
+                Shopallorderwrapper(shop.shopid),
+                Shopinprogresswrapper(shop.shopid),
+                ShopiDeliverdwrapper(shop.shopid),
+                Shop_orderCancelledwrapper(shop.shopid),
+              ],
+            ),
+          );
+        }
+        return SizedBox();
+      },
     );
   }
 }

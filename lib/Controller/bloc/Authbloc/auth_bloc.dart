@@ -286,7 +286,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         File imageFile = File(pickedFile.path);
         String fileName =
-            "Shop_profile/${DateTime.now().millisecondsSinceEpoch}.jpg";
+            "Userprofile/${DateTime.now().millisecondsSinceEpoch}.jpg";
 
         // Upload to Firebase Storage
         UploadTask uploadTask =

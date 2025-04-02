@@ -103,6 +103,36 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       }
     });
 
+    on<Updateworkingprogress>((event, emit) async {
+      emit(ActionLoading());
+      try {
+        FirebaseFirestore.instance
+            .collection("Orders")
+            .doc(event.orderid)
+            .update({"workinprogress": event.Progress});
+
+        emit(orderRefresh());
+      } catch (e) {
+        print(e);
+        emit(OrderFailure(e.toString()));
+      }
+    });
+
+    on<DeliverdUpdate>((event, emit) async {
+      emit(ActionLoading());
+      try {
+        FirebaseFirestore.instance
+            .collection("Orders")
+            .doc(event.orderid)
+            .update({"Delivered": event.Deliverd});
+
+        emit(orderRefresh());
+      } catch (e) {
+        print(e);
+        emit(OrderFailure(e.toString()));
+      }
+    });
+
     on<Assigndriver>((event, emit) async {
       emit(ActionLoading());
       try {

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:laundry/Widget/constands/Loading.dart';
 
 import '../../../../Controller/bloc/Authbloc/auth_bloc.dart';
 import '../Address/My_Address.dart';
@@ -30,6 +31,13 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    context.read<AuthBloc>()..add(FetchUserDetailsById());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -47,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           if (state is Userloading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: Loading_Widget());
           } else if (state is UserByidLoaded) {
             final user = state.Userdata;
             return Column(
@@ -58,10 +66,27 @@ class _ProfilePageState extends State<ProfilePage> {
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
                     children: [
-                      const CircleAvatar(
-                        radius: 35,
-                        backgroundImage: AssetImage(
-                            "assets/profile_pic.png"), // Update with your image path
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                            12), // Rounded corners for image
+                        child: Image.network(
+                          user.imageUrl.toString(),
+                          width: 100, // Adjusted width
+                          height: 100, // Adjusted height
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              width: 130,
+                              height: 100,
+                              color: Colors.grey[300], // Placeholder background
+                              child: Icon(
+                                Icons.image_not_supported,
+                                size: 50,
+                                color: Colors.grey[600],
+                              ),
+                            );
+                          },
+                        ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(

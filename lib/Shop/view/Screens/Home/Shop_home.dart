@@ -13,7 +13,12 @@ class ShopHome extends StatefulWidget {
 }
 
 class _ShopHomeState extends State<ShopHome> {
-  List<String> images = ["shop_offer.png", "c2.jpg", "shop_offer.png", "c2.jpg"];
+  List<String> images = [
+    "shop_offer.png",
+    "c2.jpg",
+    "shop_offer.png",
+    "c2.jpg"
+  ];
   int currentIndex = 0;
   final PageController _pageController = PageController();
 
@@ -63,7 +68,6 @@ class _ShopHomeState extends State<ShopHome> {
             ),
           ],
         ),
-
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
@@ -72,7 +76,7 @@ class _ShopHomeState extends State<ShopHome> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ShopProfilePage(),
+                    builder: (context) => Profilewrapper(),
                   ),
                 );
               },
@@ -154,7 +158,9 @@ class _ShopHomeState extends State<ShopHome> {
                       width: currentIndex == index ? 30 : 10,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
-                        color: currentIndex == index ? Colors.blueAccent : Colors.black.withOpacity(0.4),
+                        color: currentIndex == index
+                            ? Colors.blueAccent
+                            : Colors.black.withOpacity(0.4),
                       ),
                     ),
                   );
@@ -179,7 +185,6 @@ class _ShopHomeState extends State<ShopHome> {
           ),
         ),
       ),
-
     );
   }
 }

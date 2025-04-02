@@ -38,6 +38,7 @@ class EditProfile extends AuthEvent {
   final UserModel user;
   EditProfile({required this.user});
 }
+class PickAndUploadImageEvent extends AuthEvent {}
 
 // class EditAddress extends AuthEvent {
 //   final UserModel user;

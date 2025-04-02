@@ -5,6 +5,7 @@ import '../../../../Controller/bloc/Authbloc/auth_bloc.dart';
 import '../../../../Widget/constands/Loading.dart';
 import '../../../../Widget/constands/colors.dart';
 import '../../../../Widget/constands/widgets.dart';
+import '../Bottom_navigation/btm_navigation.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({
@@ -25,15 +26,15 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  TextEditingController usernameController= TextEditingController();
-  TextEditingController phoneController= TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   String? imagePath;
 
   @override
   void initState() {
     super.initState();
-    usernameController.text=widget.username;
-    phoneController.text=widget.phone;
+    usernameController.text = widget.username;
+    phoneController.text = widget.phone;
     imagePath = widget.imagePath;
   }
 
@@ -63,26 +64,58 @@ class _EditProfilePageState extends State<EditProfilePage> {
           SizedBox(height: 50), // Added space from the top
 
           // Profile Picture (Network Image Support)
-          CircleAvatar(
-            radius: 45,
-            backgroundImage: imagePath != null && imagePath!.isNotEmpty
-                ? NetworkImage(imagePath!)
-                : NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4ZqivCNC7yvJqthqZOVvxSjDLyDxtai-cbQ&s"),
+          Image.network(
+            imagePath.toString(),
+            width: 100, // Adjusted width
+            height: 100, // Adjusted height
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                width: 130,
+                height: 100,
+                color: Colors.grey[300], // Placeholder background
+                child: Icon(
+                  Icons.image_not_supported,
+                  size: 50,
+                  color: Colors.grey[600],
+                ),
+              );
+            },
           ),
           SizedBox(height: 8),
 
           // "Change Picture" Button
-          TextButton(
-            onPressed: () {
-              print("Change Picture Clicked"); // Add image picker logic here
+          BlocBuilder<AuthBloc, AuthState>(
+            builder: (context, state) {
+              if (state is ProfileImageSuccess) {
+                // setState(() {
+                //   Navigator.pushReplacement(context, MaterialPageRoute(
+                //     builder: (context) {
+                //       return BottomNavWrapper();
+                //     },
+                //   ));
+                // });
+              }
+              return TextButton(
+                onPressed: () {
+                  context.read<AuthBloc>()..add(PickAndUploadImageEvent());
+                },
+                child: state is ProfileImageLoading
+                    ? Loading_Widget()
+                    : state is ProfileImageSuccess
+                        ? Text(
+                            "Profile Updated",
+                            style: TextStyle(color: Colors.green),
+                          )
+                        : Text(
+                            "Change Picture",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+              );
             },
-            child: Text(
-              "Change Picture",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
           ),
 
           SizedBox(height: 30), // Added space before form fields
@@ -132,13 +165,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         child: state is UsersLoading
                             ? Loading_Widget()
                             : Text(
-                          "Update",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
+                                "Update",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
                         color: defaultColor,
                       ),
                     );

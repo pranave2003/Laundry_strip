@@ -20,20 +20,24 @@ class ShopAuthenticatedError extends ShopAuthblocState {
   ShopAuthenticatedError({required this.message});
 }
 
-// final class ShopByidLoaded extends ShopAuthblocState {
-//   final ShopModel Userdata;
-//   ShopByidLoaded(this.Userdata);
-// }
-//
-// class Shoploading extends ShopAuthblocState {}
-//
-// class ShopError extends ShopAuthblocState {
-//   String error;
-//   ShopError({required this.error});
-// }
+// profile
 
+class ProfileImageInitial extends ShopAuthblocState {}
 
-//
+class ProfileImageLoading extends ShopAuthblocState {}
+
+class ProfileImageSuccess extends ShopAuthblocState {
+}
+
+class ProfileImageFailure extends ShopAuthblocState {
+  final String error;
+  ProfileImageFailure(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}
+
+//fetch by id
 final class ShopByidLoaded extends ShopAuthblocState {
   final ShopModel userData;
   ShopByidLoaded(this.userData);
@@ -61,9 +65,6 @@ class Shoploaded extends ShopAuthblocState {
   final List<ShopModel> Shop;
 
   Shoploaded(
-      this.Shop,
-      );
-
-
+    this.Shop,
+  );
 }
-

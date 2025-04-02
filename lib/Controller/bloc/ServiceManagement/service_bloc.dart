@@ -295,6 +295,5 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
         emit(Instructionfailerror(e.toString()));
       }
     });
-
   }
 }

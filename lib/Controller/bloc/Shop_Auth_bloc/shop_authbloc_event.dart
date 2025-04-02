@@ -20,6 +20,9 @@ class ShopSignupEvent extends ShopAuthblocEvent {
   ShopSignupEvent({required this.shop});
 }
 
+// update Profile
+
+class PickAndUploadImageEvent extends ShopAuthblocEvent {}
 //signout
 
 class ShopSigOutEvent extends ShopAuthblocEvent {}

@@ -10,8 +10,8 @@ class Shop_orderCancelledwrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          OrderBloc()..add(Fetchorders(searchQuery: null, status: "2",shopid: shopid)),
+      create: (context) => OrderBloc()
+        ..add(Fetchorders(searchQuery: null, status: "2", shopid: shopid)),
       child: Ordercancelled_wrapper(),
     );
   }
@@ -182,7 +182,6 @@ class Ordercancelled_wrapper extends StatelessWidget {
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold)),
                                 Divider(),
-
                               ],
                             ),
                           ),

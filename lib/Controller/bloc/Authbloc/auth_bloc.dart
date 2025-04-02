@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 
 import 'Userauthmodel/Usermodel.dart';
@@ -10,6 +14,8 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  final ImagePicker _imagePicker = ImagePicker();
   AuthBloc() : super(AuthInitial()) {
     // check Auth or Not
     on<checkloginstateevent>(
@@ -77,7 +83,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     //Login
     on<LoginEvent>(
-          (event, emit) async {
+      (event, emit) async {
         emit(Authloading());
         try {
           final userCredential = await _auth.signInWithEmailAndPassword(
@@ -176,13 +182,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       }
     });
-
+    User? user = _auth.currentUser;
     //Sign Out
     on<SigOutEvent>(
       (event, emit) async {
         try {
-          User? user = _auth.currentUser;
-
           if (user != null) {
             // Get the Player ID from OneSignalService
 
@@ -208,7 +212,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(UsersLoading());
       try {
         CollectionReference usersCollection =
-        FirebaseFirestore.instance.collection('Laundry_Users');
+            FirebaseFirestore.instance.collection('Laundry_Users');
 
         Query query = usersCollection;
         QuerySnapshot snapshot = await query.get();
@@ -267,5 +271,42 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
+    //   update profilephoto
+
+    on<PickAndUploadImageEvent>((event, emit) async {
+      try {
+        // Pick Image from Gallery
+        final pickedFile =
+            await _imagePicker.pickImage(source: ImageSource.gallery);
+        if (pickedFile == null) {
+          return; // User canceled image selection
+        }
+
+        emit(ProfileImageLoading());
+
+        File imageFile = File(pickedFile.path);
+        String fileName =
+            "Shop_profile/${DateTime.now().millisecondsSinceEpoch}.jpg";
+
+        // Upload to Firebase Storage
+        UploadTask uploadTask =
+            _firebaseStorage.ref(fileName).putFile(imageFile);
+        TaskSnapshot snapshot = await uploadTask;
+
+        // Get Download URL
+        String downloadUrl = await snapshot.ref.getDownloadURL();
+        print(downloadUrl);
+        if (user != null) {
+          FirebaseFirestore.instance
+              .collection("Laundry_Users")
+              .doc(user.uid)
+              .update({"imageUrl": downloadUrl});
+        }
+        emit(ProfileImageSuccess());
+      } catch (e) {
+        print(e);
+        emit(ProfileImageFailure("Failed to upload image"));
+      }
+    });
   }
 }

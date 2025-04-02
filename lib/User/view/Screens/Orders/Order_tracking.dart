@@ -9,7 +9,7 @@ class OrderTracking extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar(backgroundColor: Colors.white,
         title: const Text(
           "Order Tracking",
           style: TextStyle(fontWeight: FontWeight.bold),

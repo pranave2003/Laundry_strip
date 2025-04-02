@@ -21,9 +21,12 @@ class Shopallorderwrapper extends StatelessWidget {
 class Shop_Allorders extends StatefulWidget {
   const Shop_Allorders({super.key, required this.shop});
   final shop;
+
   @override
   State<Shop_Allorders> createState() => _Shop_AllordersState();
 }
+
+String orderStatus = "Working Progress";
 
 class _Shop_AllordersState extends State<Shop_Allorders> {
   @override
@@ -72,6 +75,32 @@ class _Shop_AllordersState extends State<Shop_Allorders> {
                           ],
                         ),
                       ),
+                      // Container(
+                      //   padding: const EdgeInsets.symmetric(
+                      //       horizontal: 10, vertical: 4),
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(8),
+                      //   ),
+                      //   child: Text(
+                      //       order.PIckup == "1"
+                      //           ? "Picked"
+                      //           : order.status == "0"
+                      //               ? "Pending"
+                      //               : order.status == "1"
+                      //                   ? "Accept the order"
+                      //                   : "Rejected",
+                      //       style: TextStyle(
+                      //           fontSize: 12,
+                      //           fontWeight: FontWeight.bold,
+                      //           color: order.PIckup == "1"
+                      //               ? Colors.orange
+                      //               : order.status == "0"
+                      //                   ? Colors.grey
+                      //                   : order.status == "1"
+                      //                       ? Colors.green
+                      //                       : Colors.red)),
+                      // ),
+
                       Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 4),
@@ -79,23 +108,35 @@ class _Shop_AllordersState extends State<Shop_Allorders> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
-                            order.PIckup == "1"
-                                ? "Picked"
-                                : order.status == "0"
-                                    ? "Pending"
-                                    : order.status == "1"
-                                        ? "Accept the order"
-                                        : "Rejected",
+                            order.Delivered == "1"
+                                ? "Delivered"
+                                : order.workinprogress == "1"
+                                    ? "In progress"
+                                    : order.PIckup == "1"
+                                        ? "Assign Driver"
+                                        : order.Rejected == "1"
+                                            ? "Rejected by shop"
+                                            : order.status == "2"
+                                                ? "Cancelled"
+                                                : order.status == "1"
+                                                    ? "Confirm order"
+                                                    : "Pending",
                             style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
-                                color: order.PIckup == "1"
-                                    ? Colors.orange
-                                    : order.status == "0"
-                                        ? Colors.grey
-                                        : order.status == "1"
-                                            ? Colors.green
-                                            : Colors.red)),
+                                color: order.Delivered == "1"
+                                    ? Colors.green
+                                    : order.workinprogress == "1"
+                                        ? Colors.blue.shade900
+                                        : order.PIckup == "1"
+                                            ? Colors.orange
+                                            : order.Rejected == "1"
+                                                ? Colors.brown
+                                                : order.status == "2"
+                                                    ? Colors.red
+                                                    : order.status == "1"
+                                                        ? Colors.blue
+                                                        : Colors.grey)),
                       ),
                     ],
                   ),
@@ -159,18 +200,58 @@ class _Shop_AllordersState extends State<Shop_Allorders> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
+                              DropdownButton<String>(
+                                value: orderStatus,
+                                items: [
+                                  "Working Progress",
+                                  "Delivered",
+                                ].map((String status) {
+                                  return DropdownMenuItem(
+                                    value: status,
+                                    child: Text(
+                                      status,
+                                      style: TextStyle(
+                                        fontWeight: status == "In Progress"
+                                            ? FontWeight.bold
+                                            : FontWeight.normal,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (newStatus) {
+                                  setState(() {
+                                    orderStatus = newStatus!;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
                               TextButton(
                                   onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) {
-                                        return OrderDetailsPage(
-                                          order: state.orders[index],
-                                        );
-                                      },
-                                    ));
+                                    // Navigator.push(context, MaterialPageRoute(
+                                    //   builder: (context) {
+                                    //     return OrderDetailsPage(
+                                    //       order: state.orders[index],
+                                    //     );
+                                    //   },
+                                    // ));
+                                    if (orderStatus == "Working Progress") {
+                                      context.read<OrderBloc>()
+                                        ..add(Updateworkingprogress(
+                                            orderid: order.orderid,
+                                            Progress: "1"));
+                                    } else if (orderStatus == "Delivered") {
+                                      context.read<OrderBloc>()
+                                        ..add(DeliverdUpdate(
+                                            orderid: order.orderid,
+                                            Deliverd: "1"));
+                                    }
                                   },
                                   child: Text(
-                                    "Manage Order",
+                                    "Update",
                                     style: TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.bold),

@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 
 import 'Shopmodel/Shopmodel.dart';
@@ -10,6 +14,8 @@ part 'shop_authbloc_state.dart';
 
 class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  final ImagePicker _imagePicker = ImagePicker();
 
   ShopAuthblocBloc() : super(ShopAuthblocInitial()) {
     on<shopcheckloginstateevent>(
@@ -130,9 +136,9 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
       },
     );
 
+    User? shop = _auth.currentUser;
     on<FetchShopDetailsById>((event, emit) async {
       emit(Shoploading());
-      User? shop = _auth.currentUser;
 
       if (shop != null) {
         try {
@@ -182,6 +188,42 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
         }
       },
     );
+    // update Profile
+    on<PickAndUploadImageEvent>((event, emit) async {
+      try {
+        // Pick Image from Gallery
+        final pickedFile =
+            await _imagePicker.pickImage(source: ImageSource.gallery);
+        if (pickedFile == null) {
+          return; // User canceled image selection
+        }
+
+        emit(ProfileImageLoading());
+
+        File imageFile = File(pickedFile.path);
+        String fileName =
+            "Shop_profile/${DateTime.now().millisecondsSinceEpoch}.jpg";
+
+        // Upload to Firebase Storage
+        UploadTask uploadTask =
+            _firebaseStorage.ref(fileName).putFile(imageFile);
+        TaskSnapshot snapshot = await uploadTask;
+
+        // Get Download URL
+        String downloadUrl = await snapshot.ref.getDownloadURL();
+        print(downloadUrl);
+        if (shop != null) {
+          FirebaseFirestore.instance
+              .collection("Laundry_Shops")
+              .doc(shop.uid)
+              .update({"imageUrl": downloadUrl});
+        }
+        emit(ProfileImageSuccess());
+      } catch (e) {
+        print(e);
+        emit(ProfileImageFailure("Failed to upload image"));
+      }
+    });
 
     on<FetchShop>((event, emit) async {
       emit(ShopLoading());

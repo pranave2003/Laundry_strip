@@ -35,6 +35,21 @@ class Acceptorderevent extends OrderEvent {
   Acceptorderevent({required this.status, required this.orderid});
 }
 
+// Update Working in progress
+
+class Updateworkingprogress extends OrderEvent {
+  final String? Progress;
+  final String? orderid;
+  Updateworkingprogress({required this.Progress, required this.orderid});
+}
+
+// Updated
+class DeliverdUpdate extends OrderEvent {
+  final String? Deliverd;
+  final String? orderid;
+  DeliverdUpdate({required this.Deliverd, required this.orderid});
+}
+
 class Assigndriver extends OrderEvent {
   final String? orderid;
   final String? driverid;

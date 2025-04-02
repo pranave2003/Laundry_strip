@@ -7,6 +7,23 @@ import 'package:laundry/Widget/constands/Loading.dart';
 import '../../../../Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
 import 'ContactUs.dart';
 
+class Profilewrapper extends StatefulWidget {
+  const Profilewrapper({super.key});
+
+  @override
+  State<Profilewrapper> createState() => _ProfilewrapperState();
+}
+
+class _ProfilewrapperState extends State<Profilewrapper> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<ShopAuthblocBloc>(
+      create: (context) => ShopAuthblocBloc()..add(FetchShopDetailsById()),
+      child: ShopProfilePage(),
+    );
+  }
+}
+
 class ShopProfilePage extends StatefulWidget {
   const ShopProfilePage({super.key});
 
@@ -42,9 +59,17 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
       body: Column(
         children: [
           // Profile Header inside a Light Grey Container
-          BlocBuilder<ShopAuthblocBloc, ShopAuthblocState>(
+          BlocConsumer<ShopAuthblocBloc, ShopAuthblocState>(
+            listener: (context, state) {
+              if (state is ProfileImageSuccess) {
+                context.read<ShopAuthblocBloc>()..add(FetchShopDetailsById());
+              }
+            },
             builder: (context, state) {
               if (state is Shoploading) {
+                return const Center(child: Loading_Widget());
+              }
+              if (state is ProfileImageLoading) {
                 return const Center(child: Loading_Widget());
               } else if (state is ShopByidLoaded) {
                 final shop = state.userData;
@@ -65,16 +90,34 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                            12), // Rounded corners for image
-                        child: Image.asset(
-                          "assets/shop_img/img.png",
-                          width: 130, // Adjusted width
-                          height: 100, // Adjusted height
-                          fit: BoxFit.cover,
-                        ),
+                      Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                12), // Rounded corners for image
+                            child: Image.network(
+                              shop.ShopImage.toString(),
+                              width: 130, // Adjusted width
+                              height: 100, // Adjusted height
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Container(
+                                  width: 130,
+                                  height: 100,
+                                  color: Colors
+                                      .grey[300], // Placeholder background
+                                  child: Icon(
+                                    Icons.image_not_supported,
+                                    size: 50,
+                                    color: Colors.grey[600],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
+
                       const SizedBox(width: 16), // More spacing
                       Expanded(
                         child: Column(
@@ -114,7 +157,8 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                           // Navigate to Edit Profile Page
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blueAccent, // Better color
+                          backgroundColor: Colors.blueAccent,
+                          // Better color
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
                                 8), // Less rounded for a modern look
@@ -134,7 +178,17 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
               return SizedBox();
             },
           ),
-
+          Row(
+            children: [
+              TextButton(
+                  onPressed: () {
+                    context
+                        .read<ShopAuthblocBloc>()
+                        .add(PickAndUploadImageEvent());
+                  },
+                  child: Text("Edit Profile")),
+            ],
+          ),
           // Profile Options List
           Expanded(
             child: ListView(

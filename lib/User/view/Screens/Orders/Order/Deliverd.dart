@@ -37,7 +37,11 @@ class Deliverdorder extends StatelessWidget {
         if (state is orderfetchloading) {
           return Center(child: Loading_Widget());
         } else if (state is OrderLoaded) {
-          return ListView.builder(
+          return state.orders.isEmpty
+              ? Center(
+            child: Text("No Orders"),
+          )
+              : ListView.builder(
             itemCount: state.orders.length,
             itemBuilder: (context, index) {
               var order = state.orders[index];
@@ -55,9 +59,11 @@ class Deliverdorder extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Service: ${order.orderid}",
+                            Text("shop: ${order.shopname}",
                                 style: const TextStyle(
-                                    fontSize: 12, color: Colors.grey)),
+                                    fontSize: 15,
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold)),
                             const SizedBox(height: 4),
                             Text("Order ID: ${order.orderid}",
                                 style: const TextStyle(
@@ -65,6 +71,7 @@ class Deliverdorder extends StatelessWidget {
                             Text("Order Date: ${order.Orderdate}",
                                 style: const TextStyle(
                                     fontSize: 12, color: Colors.black87)),
+
                           ],
                         ),
                       ),
@@ -75,11 +82,35 @@ class Deliverdorder extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
-                            order.status == "0" ? "Pending" : "Progress",
+                            order.Delivered == "1"
+                                ? "Delivered"
+                                : order.workinprogress == "1"
+                                ? "In progress"
+                                : order.PIckup == "1"
+                                ? "Assign Driver"
+                                : order.Rejected == "1"
+                                ? "Rejected by shop"
+                                : order.status == "2"
+                                ? "Cancelled"
+                                : order.status == "1"
+                                ? "Confirm order"
+                                : "Pending",
                             style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.pink)),
+                                color: order.Delivered == "1"
+                                    ? Colors.green
+                                    : order.workinprogress == "1"
+                                    ? Colors.blue.shade900
+                                    : order.PIckup == "1"
+                                    ? Colors.orange
+                                    : order.Rejected == "1"
+                                    ? Colors.brown
+                                    : order.status == "2"
+                                    ? Colors.red
+                                    : order.status == "1"
+                                    ? Colors.blue
+                                    : Colors.grey)),
                       ),
                     ],
                   ),

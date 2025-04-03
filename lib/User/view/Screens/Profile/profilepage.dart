@@ -5,6 +5,7 @@ import 'package:laundry/Widget/constands/Loading.dart';
 
 import '../../../../Controller/bloc/Authbloc/auth_bloc.dart';
 import '../Address/My_Address.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'AboutUs.dart';
 import 'ContactUs.dart';
@@ -66,28 +67,58 @@ class _ProfilePageState extends State<ProfilePage> {
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
                     children: [
+                      // ClipRRect(
+                      //   borderRadius: BorderRadius.circular(
+                      //       12), // Rounded corners for image
+                      //   child: Image.network(
+                      //     user.imageUrl.toString(),
+                      //     width: 100, // Adjusted width
+                      //     height: 100, // Adjusted height
+                      //     fit: BoxFit.cover,
+                      //     errorBuilder: (context, error, stackTrace) {
+                      //       return Container(
+                      //         width: 130,
+                      //         height: 100,
+                      //         color: Colors.grey[300], // Placeholder background
+                      //         child: Icon(
+                      //           Icons.image_not_supported,
+                      //           size: 50,
+                      //           color: Colors.grey[600],
+                      //         ),
+                      //       );
+                      //     },
+                      //   ),
+                      // ),
+
                       ClipRRect(
                         borderRadius: BorderRadius.circular(
                             12), // Rounded corners for image
-                        child: Image.network(
-                          user.imageUrl.toString(),
+                        child: CachedNetworkImage(
+                          imageUrl: user.imageUrl.toString(),
                           width: 100, // Adjusted width
                           height: 100, // Adjusted height
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              width: 130,
-                              height: 100,
-                              color: Colors.grey[300], // Placeholder background
-                              child: Icon(
-                                Icons.image_not_supported,
-                                size: 50,
-                                color: Colors.grey[600],
-                              ),
-                            );
-                          },
+                          placeholder: (context, url) => Container(
+                            width: 100,
+                            height: 100,
+                            color: Colors.grey[300], // Placeholder background
+                            child: Center(
+                              child: Loading_Widget(), // Loading indicator
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => Container(
+                            width: 100,
+                            height: 100,
+                            color: Colors.grey[300], // Placeholder background
+                            child: Icon(
+                              Icons.image_not_supported,
+                              size: 50,
+                              color: Colors.grey[600],
+                            ),
+                          ),
                         ),
                       ),
+
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(

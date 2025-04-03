@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:laundry/Widget/constands/Loading.dart';
 
 import '../../../../Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
 import 'ContactUs.dart';
+import 'Edit_Shop_Profile.dart';
 
 class Profilewrapper extends StatefulWidget {
   const Profilewrapper({super.key});
@@ -42,6 +44,7 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,17 +62,10 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
       body: Column(
         children: [
           // Profile Header inside a Light Grey Container
-          BlocConsumer<ShopAuthblocBloc, ShopAuthblocState>(
-            listener: (context, state) {
-              if (state is ProfileImageSuccess) {
-                context.read<ShopAuthblocBloc>()..add(FetchShopDetailsById());
-              }
-            },
+          BlocBuilder<ShopAuthblocBloc, ShopAuthblocState>(
+
             builder: (context, state) {
               if (state is Shoploading) {
-                return const Center(child: Loading_Widget());
-              }
-              if (state is ProfileImageLoading) {
                 return const Center(child: Loading_Widget());
               } else if (state is ShopByidLoaded) {
                 final shop = state.userData;
@@ -95,12 +91,20 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(
                                 12), // Rounded corners for image
-                            child: Image.network(
-                              shop.ShopImage.toString(),
+                            child: CachedNetworkImage(
+                              imageUrl:shop.ShopImage.toString(),
                               width: 130, // Adjusted width
                               height: 100, // Adjusted height
                               fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
+                              placeholder: (context, url) => Container(
+                                width: 100,
+                                height: 100,
+                                color: Colors.grey[300], // Placeholder background
+                                child: Center(
+                                  child: Loading_Widget(), // Loading indicator
+                                ),
+                              ),
+                              errorWidget: (context, error, stackTrace) {
                                 return Container(
                                   width: 130,
                                   height: 100,
@@ -155,6 +159,17 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                       ElevatedButton(
                         onPressed: () {
                           // Navigate to Edit Profile Page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditShop_ProfilePage(
+                                  shopid: shop.shopid ??
+                                      "", // Provide a default empty string if null
+                                  shopname: shop.shop_name ?? "",
+                                  phone: shop.phone ?? "",
+                                  imagePath: shop.ShopImage ?? "",
+                                )),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blueAccent,

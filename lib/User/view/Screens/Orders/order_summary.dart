@@ -316,7 +316,9 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
             price: item.Productprice,
             service: item.service,
             shopid: item.shopid,
-            catogoty: item.category);
+            catogoty: item.category,
+            instruction: "",
+            meterialtype: "");
       }).toList(),
       Totalcharge: calculateTotalPrice().toString(),
       status: '1',

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../Controller/bloc/Orderbloc/order_bloc.dart';
+import '../../../../Widget/constands/Loading.dart';
 import '../../../Model/Order_Model/Order_model.dart';
 
 class OrdersPage extends StatefulWidget {
@@ -12,29 +15,29 @@ class OrdersPage extends StatefulWidget {
 class _OrdersPageState extends State<OrdersPage> {
   String selectedFilter = "All";
 
-  final List<Order> orders = [
-    Order(
-        orderId: "1A2",
-        name: "Amal",
-        orderedDate: "03 Jan 2025",
-        pickupDate: "03 Jan 2025",
-        deliveryDate: "03 Jan 2025",
-        status: "In Progress"),
-    Order(
-        orderId: "2V4",
-        name: "Arun",
-        orderedDate: "05 Jan 2025",
-        pickupDate: "05 Jan 2025",
-        deliveryDate: "05 Jan 2025",
-        status: "Cancelled"),
-    Order(
-        orderId: "3G1",
-        name: "Pooja",
-        orderedDate: "08 Jan 2025",
-        pickupDate: "08 Jan 2025",
-        deliveryDate: "08 Jan 2025",
-        status: "Delivered"),
-  ];
+  // final List<Order> orders = [
+  //   Order(
+  //       orderId: "1A2",
+  //       name: "Amal",
+  //       orderedDate: "03 Jan 2025",
+  //       pickupDate: "03 Jan 2025",
+  //       deliveryDate: "03 Jan 2025",
+  //       status: "In Progress"),
+  //   Order(
+  //       orderId: "2V4",
+  //       name: "Arun",
+  //       orderedDate: "05 Jan 2025",
+  //       pickupDate: "05 Jan 2025",
+  //       deliveryDate: "05 Jan 2025",
+  //       status: "Cancelled"),
+  //   Order(
+  //       orderId: "3G1",
+  //       name: "Pooja",
+  //       orderedDate: "08 Jan 2025",
+  //       pickupDate: "08 Jan 2025",
+  //       deliveryDate: "08 Jan 2025",
+  //       status: "Delivered"),
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -141,75 +144,116 @@ class _OrdersPageState extends State<OrdersPage> {
               ],
             ),
             const SizedBox(height: 20),
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                        minWidth: MediaQuery.of(context).size.width),
-                    child: DataTable(
-                      columnSpacing: 10,
-                      columns: const [
-                        DataColumn(
-                            label: Text("SI/NO",
-                                style: TextStyle(fontWeight: FontWeight.bold))),
-                        DataColumn(
-                            label: Text("Order Id",
-                                style: TextStyle(fontWeight: FontWeight.bold))),
-                        DataColumn(
-                            label: Text("Name",
-                                style: TextStyle(fontWeight: FontWeight.bold))),
-                        DataColumn(
-                            label: Text("Ordered Date",
-                                style: TextStyle(fontWeight: FontWeight.bold))),
-                        DataColumn(
-                            label: Text("Pickup Date",
-                                style: TextStyle(fontWeight: FontWeight.bold))),
-                        DataColumn(
-                            label: Text("Delivery Date",
-                                style: TextStyle(fontWeight: FontWeight.bold))),
-                        DataColumn(
-                            label: Text("Status",
-                                style: TextStyle(fontWeight: FontWeight.bold))),
-                      ],
-                      rows: orders
-                          .where((order) =>
-                              selectedFilter == "All" ||
-                              order.status == selectedFilter)
-                          .map((order) => DataRow(cells: [
-                                DataCell(Text(
-                                    (orders.indexOf(order) + 1).toString())),
-                                DataCell(Text(order.orderId)),
-                                DataCell(Text(order.name)),
-                                DataCell(Text(order.orderedDate)),
-                                DataCell(Text(order.pickupDate)),
-                                DataCell(Text(order.deliveryDate)),
-                                DataCell(
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6, vertical: 2),
-                                    decoration: BoxDecoration(
-                                      color: _getStatusColor(order.status),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Text(
-                                      order.status,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14),
-                                    ),
-                                  ),
-                                ),
-                              ]))
-                          .toList(),
-                    ),
-                  ),
-                ),
+            BlocBuilder<OrderBloc, OrderState>(
+  builder: (context, state) {
+    if (state is orderverLoading) {
+    return Center(child: Loading_Widget());
+    } else if (state is orderFailure) {
+    return Text(state.error.toString());
+    } else if (state is OrderLoaded) {
+      if (state.orders.isEmpty) {
+// Return "No data found" if txhe list is empty
+        return Center(
+          child: Text(
+            "No data found",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        );
+      }
+      return Expanded(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                  minWidth: MediaQuery
+                      .of(context)
+                      .size
+                      .width),
+              child: DataTable(
+                columnSpacing: 10,
+                columns: const [
+                  DataColumn(
+                      label: Text("SI/NO",
+                          style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text("Order Id",
+                          style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text("User Name",
+                          style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text("Shop Name",
+                          style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text("Ordered Date",
+                          style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text("Pickup Date",
+                          style: TextStyle(fontWeight: FontWeight.bold))),
+                  DataColumn(
+                      label: Text("Delivery Date",
+                          style: TextStyle(fontWeight: FontWeight.bold))),
+
+
+                  DataColumn(
+                      label: Text("Status",
+                          style: TextStyle(fontWeight: FontWeight.bold))),
+                ],
+                // rows: orders
+                //     .where((order) =>
+                // selectedFilter == "All" ||
+                //     order.status == selectedFilter)
+                //     .map((order) =>
+                //     DataRow(cells: [
+                //       DataCell(Text(
+                //           (orders.indexOf(order) + 1).toString())),
+                rows: List.generate(state.orders.length, (index) {
+                  final orders = state.orders[index];
+
+                  return DataRow(
+                      cells: [
+                        DataCell(Text((index + 1).toString(),
+                            style: TextStyle(fontWeight: FontWeight.bold))),
+
+                        DataCell(Text(orders.orderid.toString())),
+                        DataCell(Text(orders.username.toString())),
+                        DataCell(Text(orders.shopname.toString())),
+                        DataCell(Text(orders.Orderdate.toString())),
+                        DataCell(Text(orders.pickupdate.toString())),
+                        DataCell(Text(orders.Deliverydate.toString())),
+
+                        DataCell(
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: _getStatusColor(orders.status),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              orders.status,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14),
+                            ),
+                          ),
+                        ),
+                      ]);
+                })
+
+                    .toList(),
               ),
             ),
+          ),
+        ),
+      );
+    }
+    return SizedBox();
+  },
+),
           ],
         ),
       ),

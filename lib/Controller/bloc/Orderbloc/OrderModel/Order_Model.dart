@@ -87,17 +87,20 @@ class OrderItem {
   final String catogoty; // Keeping spelling as "catogoty"
   final String shopid;
   final String productimage;
+  final String meterialtype;
+  final String instruction;
 
-  OrderItem({
-    required this.productId,
-    required this.productName,
-    required this.quantity,
-    required this.price,
-    required this.service,
-    required this.catogoty,
-    required this.productimage,
-    required this.shopid,
-  });
+  OrderItem(
+      {required this.productId,
+      required this.productName,
+      required this.quantity,
+      required this.price,
+      required this.service,
+      required this.catogoty,
+      required this.productimage,
+      required this.shopid,
+      required this.instruction,
+      required this.meterialtype});
 
   Map<String, dynamic> toJson() => {
         'productId': productId,
@@ -108,6 +111,8 @@ class OrderItem {
         'service': service,
         'catogoty': catogoty,
         'productimage': productimage,
+        "instruction": instruction,
+        "meterialtype": meterialtype,
       };
 
   factory OrderItem.fromJson(Map<String, dynamic> json) => OrderItem(
@@ -119,5 +124,7 @@ class OrderItem {
         service: json['service'] ?? '',
         catogoty: json['catogoty'] ?? '',
         productimage: json['productimage'] ?? '',
+        instruction: json['instruction'] ?? '',
+        meterialtype: json['meterialtype'] ?? '',
       );
 }

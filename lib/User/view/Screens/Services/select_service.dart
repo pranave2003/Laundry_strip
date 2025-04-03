@@ -23,6 +23,8 @@ class _SelectServiceState extends State<SelectService> {
   String? selectedService;
   String? selectedCategory;
   Set<Addproductmodel> selectedItems = {};
+  String? selectedFabricType;
+  String? selectedInstruction;
 
   void updateSelectedItems(Addproductmodel item, {bool remove = false}) {
     setState(() {
@@ -51,7 +53,7 @@ class _SelectServiceState extends State<SelectService> {
           onPressed: () {
             Navigator.pop(context);
             //Navigator.pushReplacement(
-              //  context, MaterialPageRoute(builder: (context) => Userservice()));
+            //  context, MaterialPageRoute(builder: (context) => Userservice()));
           },
         ),
       ),
@@ -217,8 +219,261 @@ class _SelectServiceState extends State<SelectService> {
                                             icon: Icon(Icons.add_circle_outline,
                                                 color: Colors.green),
                                             onPressed: () {
-                                              updateSelectedItems(
-                                                  state.product[index]);
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    titlePadding:
+                                                        EdgeInsets.zero,
+                                                    contentPadding:
+                                                        EdgeInsets.zero,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
+                                                    title: Container(
+                                                      padding:
+                                                          EdgeInsets.all(10),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  10),
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  10),
+                                                        ),
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            "Add item",
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                          IconButton(
+                                                            onPressed: () =>
+                                                                Navigator.pop(
+                                                                    context),
+                                                            icon: Icon(
+                                                                Icons
+                                                                    .close_sharp,
+                                                                color:
+                                                                    Colors.red),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    content: Container(
+                                                      height: 400,
+                                                      width: double.infinity,
+                                                      padding:
+                                                          EdgeInsets.all(10),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.red,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                      ),
+                                                      child: Column(
+                                                        children: [
+                                                          Text("Material Type",
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Container(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          10),
+                                                              margin: EdgeInsets
+                                                                  .only(top: 5),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border: Border.all(
+                                                                    color: Colors
+                                                                        .grey),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                              ),
+                                                              child:
+                                                                  DropdownButton<
+                                                                      String>(
+                                                                isExpanded:
+                                                                    true,
+                                                                underline:
+                                                                    SizedBox(),
+                                                                hint: Text(
+                                                                    "Select Material"),
+                                                                value:
+                                                                    selectedFabricType,
+                                                                onChanged:
+                                                                    (value) {
+                                                                  setState(() {
+                                                                    selectedFabricType =
+                                                                        value;
+                                                                  });
+                                                                },
+                                                                items: [
+                                                                  "Cotton",
+                                                                  "Silk",
+                                                                  "Wool"
+                                                                ].map((String
+                                                                    item) {
+                                                                  return DropdownMenuItem<
+                                                                      String>(
+                                                                    value: item,
+                                                                    child: Text(
+                                                                        item),
+                                                                  );
+                                                                }).toList(),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 10),
+                                                          Text(
+                                                              "Special Instructions",
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Container(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          10),
+                                                              margin: EdgeInsets
+                                                                  .only(top: 5),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border: Border.all(
+                                                                    color: Colors
+                                                                        .grey),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                              ),
+                                                              child:
+                                                                  DropdownButton<
+                                                                      String>(
+                                                                isExpanded:
+                                                                    true,
+                                                                underline:
+                                                                    SizedBox(),
+                                                                hint: Text(
+                                                                    "Select Instructions"),
+                                                                value:
+                                                                    selectedInstruction,
+                                                                onChanged:
+                                                                    (value) {
+                                                                  setState(() {
+                                                                    selectedInstruction =
+                                                                        value;
+                                                                  });
+                                                                },
+                                                                items: [
+                                                                  "None",
+                                                                  "Hand Wash",
+                                                                  "Low Heat Dry",
+                                                                  "Use Mild Detergent"
+                                                                ].map((String
+                                                                    item) {
+                                                                  return DropdownMenuItem<
+                                                                      String>(
+                                                                    value: item,
+                                                                    child: Text(
+                                                                        item),
+                                                                  );
+                                                                }).toList(),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    actions: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          ElevatedButton(
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              backgroundColor:
+                                                                  Colors.blue,
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5),
+                                                              ),
+                                                            ),
+                                                            onPressed: () =>
+                                                                Navigator.pop(
+                                                                    context),
+                                                            child: Padding(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          10,
+                                                                      horizontal:
+                                                                          40),
+                                                              child: Text(
+                                                                "Add item",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 10),
+                                                          TextButton(
+                                                            onPressed: () =>
+                                                                Navigator.pop(
+                                                                    context),
+                                                            child: Text(
+                                                              "Cancel",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .red),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+
+                                              // updateSelectedItems(
+                                              //     state.product[index]);
                                             },
                                           ),
                                         );
@@ -282,7 +537,10 @@ class _SelectServiceState extends State<SelectService> {
             children: [
               Text(item.product_name),
               Text(item.Productprice),
-              Text(item.category,style: TextStyle(color: Colors.grey,fontSize: 10),),
+              Text(
+                item.category,
+                style: TextStyle(color: Colors.grey, fontSize: 10),
+              ),
             ],
           ),
           trailing: IconButton(

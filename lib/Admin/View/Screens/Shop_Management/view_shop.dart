@@ -108,7 +108,7 @@ class ViewShopsScreen extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       child: DataTable(
                         columnSpacing: 38.0,
-                        dataRowHeight: 100,
+                        dataRowHeight: 10,
                         // Increased row spacing
                         headingRowColor: MaterialStateColor.resolveWith(
                             (states) => Colors.grey[50]!),
@@ -149,7 +149,7 @@ class ViewShopsScreen extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16))),
                           DataColumn(
-                              label: Text("Status",
+                              label: Text("Services",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16))),
@@ -198,7 +198,7 @@ class ViewShopsScreen extends StatelessWidget {
                               ),
                             ),
                             DataCell(Text(shop.LaundryCapacity.toString())),
-                            DataCell(Text(shop.selectServices.toString())),
+                            DataCell(Text(shop.selectServices!.join("\n"))),
                             // DataCell(Text(shop['shopName']!)),
                             // DataCell(Text(shop['email']!)),
                             // DataCell(Text(shop['phone']!)),

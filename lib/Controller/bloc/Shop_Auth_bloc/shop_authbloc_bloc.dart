@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 
@@ -57,8 +59,8 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
             "owner_name": event.shop.owner_name,
             "Shop_Name": event.shop.shop_name,
             "timestamp": DateTime.now(),
-            "ban": "1",
-            "status": "1",
+            "ban": "0",
+            "status": "0",
             "phone": event.shop.phone,
             "street": event.shop.street,
             "city": event.shop.city,
@@ -188,43 +190,130 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
         }
       },
     );
+
+    on<AcceptReject>(
+      (event, emit) async {
+        print("Acccpet");
+        try {
+          // Get the Player ID from OneSignalService
+          print(event.shopid);
+          // Update Firestore with the correct user ID and OneSignal ID
+          await FirebaseFirestore.instance
+              .collection("Laundry_Shops")
+              .doc(event.shopid) // Use current user's UID
+              .update({"status": event.status}); // Update with OneSignal ID
+
+          // Sign out the user
+
+          emit(Refresh());
+        } catch (e) {
+          emit(Shopfailerror(e.toString()));
+        }
+      },
+    );
+
+    on<EditShopProfile>((event, emit) async {
+      emit(ShopLoading());
+      try {
+        FirebaseFirestore.instance
+            .collection("Laundry_Shops")
+            .doc(event.shop.shopid)
+            .update({
+          "Shop_Name": event.shop.shop_name,
+          "phone": event.shop.phone,
+          "ShopImage": event.shop.ShopImage,
+        });
+        emit(Shopload(event.shop));
+      } catch (e) {
+        emit(Shopfailerror(e.toString()));
+      }
+    });
     // update Profile
+    // on<PickAndUploadImageEvent>((event, emit) async {
+    //   try {
+    //     // Pick Image from Gallery
+    //     final pickedFile =
+    //         await _imagePicker.pickImage(source: ImageSource.gallery);
+    //     if (pickedFile == null) {
+    //       return; // User canceled image selection
+    //     }
+    //
+    //     emit(ProfileImageLoading());
+    //
+    //     File imageFile = File(pickedFile.path);
+    //     String fileName =
+    //         "Shop_profile/${DateTime.now().millisecondsSinceEpoch}.jpg";
+    //
+    //     // Upload to Firebase Storage
+    //     UploadTask uploadTask =
+    //         _firebaseStorage.ref(fileName).putFile(imageFile);
+    //     TaskSnapshot snapshot = await uploadTask;
+    //
+    //     // Get Download URL
+    //     String downloadUrl = await snapshot.ref.getDownloadURL();
+    //     print(downloadUrl);
+    //     if (shop != null) {
+    //       FirebaseFirestore.instance
+    //           .collection("Laundry_Shops")
+    //           .doc(shop.uid)
+    //           .update({"imageUrl": downloadUrl});
+    //     }
+    //     emit(ProfileImageSuccess());
+    //   } catch (e) {
+    //     print(e);
+    //     emit(ProfileImageFailure("Failed to upload image"));
+    //   }
+    // });
+
     on<PickAndUploadImageEvent>((event, emit) async {
       try {
-        // Pick Image from Gallery
-        final pickedFile =
-            await _imagePicker.pickImage(source: ImageSource.gallery);
-        if (pickedFile == null) {
-          return; // User canceled image selection
-        }
-
         emit(ProfileImageLoading());
 
-        File imageFile = File(pickedFile.path);
+        // ✅ Open file picker
+        FilePickerResult? result = await FilePicker.platform.pickFiles(
+          type: FileType.image, // Pick only image files
+          withData: true, // Required for web
+        );
+
+        if (result == null) {
+          print("No image selected.");
+          return; // User canceled selection
+        }
+
         String fileName =
             "Shop_profile/${DateTime.now().millisecondsSinceEpoch}.jpg";
+        Reference storageRef = _firebaseStorage.ref().child(fileName);
+        UploadTask uploadTask;
 
-        // Upload to Firebase Storage
-        UploadTask uploadTask =
-            _firebaseStorage.ref(fileName).putFile(imageFile);
+        if (kIsWeb) {
+          // ✅ Web: Upload image as bytes
+          Uint8List imageData = result.files.first.bytes!;
+          uploadTask = storageRef.putData(imageData);
+        } else {
+          // ✅ Mobile: Upload image as a File
+          File imageFile = File(result.files.first.path!);
+          uploadTask = storageRef.putFile(imageFile);
+        }
+
+        // ✅ Wait for the upload to complete
         TaskSnapshot snapshot = await uploadTask;
-
-        // Get Download URL
         String downloadUrl = await snapshot.ref.getDownloadURL();
-        print(downloadUrl);
+        print("Uploaded Image URL: $downloadUrl");
+
+        // ✅ Update Firestore with the image URL
         if (shop != null) {
-          FirebaseFirestore.instance
+          await FirebaseFirestore.instance
               .collection("Laundry_Shops")
               .doc(shop.uid)
               .update({"imageUrl": downloadUrl});
         }
+
         emit(ProfileImageSuccess());
       } catch (e) {
-        print(e);
+        print("Error: $e");
         emit(ProfileImageFailure("Failed to upload image"));
       }
     });
-
     on<FetchShop>((event, emit) async {
       emit(ShopLoading());
       try {
@@ -232,6 +321,7 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
             FirebaseFirestore.instance.collection('Laundry_Shops');
 
         Query query = shopCollection;
+        query = query.where("status", isEqualTo: event.status);
         QuerySnapshot snapshot = await query.get();
 
         List<ShopModel> shop = snapshot.docs.map((doc) {

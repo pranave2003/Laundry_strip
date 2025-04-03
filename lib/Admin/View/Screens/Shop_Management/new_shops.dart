@@ -3,9 +3,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
 import '../../../../Widget/constands/Loading.dart';
+import 'Shop/AcceptedShop.dart';
+import 'Shop/RejectedShop.dart';
+import 'Shop/newshop.dart';
 
-class LaundryShopsPage extends StatelessWidget {
+class LaundryShopsPage extends StatefulWidget {
   @override
+  State<LaundryShopsPage> createState() => _LaundryShopsPageState();
+}
+
+class _LaundryShopsPageState extends State<LaundryShopsPage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,6 +133,7 @@ class LaundryShopsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TabBar(
+                      controller: _tabController,
                       labelColor: Colors.black,
                       unselectedLabelColor: Colors.black54,
                       indicatorColor: Colors.blue,
@@ -126,10 +148,15 @@ class LaundryShopsPage extends StatelessWidget {
                     SizedBox(height: 10),
                     Expanded(
                       child: TabBarView(
+                        controller: _tabController,
                         children: [
-                          _buildShopTable(context, 'new'),
-                          _buildShopTable(context, 'accepted'),
-                          _buildShopTable(context, 'rejected'),
+                          NewshopWrapper(),
+                          AcceptedshopWrapper(),
+                          RejectedshopWrapper(),
+
+                          // _buildShopTable(context, 'new'),
+                          // _buildShopTable(context, 'accepted'),
+                          // _buildShopTable(context, 'rejected'),
                         ],
                       ),
                     ),
@@ -143,118 +170,180 @@ class LaundryShopsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildShopTable(BuildContext context, String type) {
-    return BlocBuilder<ShopAuthblocBloc, ShopAuthblocState>(
-      builder: (context, state) {
-        if (state is ShopLoading) {
-          return Center(child: Loading_Widget());
-        } else if (state is Shopfailerror) {
-          return Text(state.error.toString());
-        } else if (state is Shoploaded) {
-          if (state.Shop.isEmpty) {
-// Return "No data found" if txhe list is empty
-            return Center(
-              child: Text(
-                "No data found",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-            );
-          }
-          return SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: DataTable(
-              columnSpacing: 33,
-              headingRowHeight: 45,
-              dataRowHeight: 100,
-              border: TableBorder(
-                horizontalInside:
-                    BorderSide(width: 1, color: Colors.grey.shade300),
-              ),
-              columns: [
-                _buildHeaderCell('S/no'),
-                _buildHeaderCell('Owner Name'),
-                _buildHeaderCell('Shop Name'),
-                _buildHeaderCell('Email'),
-                _buildHeaderCell('Phone'),
-                _buildHeaderCell('Address'),
-                _buildHeaderCell('Laundry Capacity'),
-                _buildHeaderCell('Action'),
-                _buildHeaderCell('Services'),
-                _buildHeaderCell('Action'),
-
-              ],
-              rows: List.generate(state.Shop.length, (index) {
-                final shop = state.Shop[index];
-
-                return DataRow(
-                  cells: [
-                    DataCell(Text((index + 1).toString(),
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                    DataCell(Text(shop.owner_name.toString(), style: TextStyle(fontSize: 14))),
-                    DataCell(Text(shop.shop_name.toString(),style: TextStyle(fontSize: 14))),
-                    DataCell(
-                        Text(shop.email.toString(), style: TextStyle(fontSize: 14))),
-                    DataCell(Text(shop.phone.toString(),  style: TextStyle(fontSize: 14))),
-                    DataCell(
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            shop.street.toString(),
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text(shop.city.toString(),
-                              overflow: TextOverflow.ellipsis),
-                          Text(shop.District.toString(),
-                              overflow: TextOverflow.ellipsis),
-                          Text(shop.post.toString(),
-                              overflow: TextOverflow.ellipsis),
-                        ],
-                      ),
-                    ),
-                    DataCell(Text(shop.LaundryCapacity.toString())),
-                    DataCell(Text(shop.selectServices.toString())),
-                    DataCell(_buildViewButton(context)),
-                    DataCell(Column(
-                      children: [
-                        OutlinedButton(
-                          onPressed: () {},
-                          style: OutlinedButton.styleFrom(
-                            side: BorderSide(
-                                color: Colors.green, width: 2), // Green border
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                          ),
-                          child: Text('Accept',
-                              style: TextStyle(color: Colors.green)),
-                        ),
-                        SizedBox(height: 8,),
-                        OutlinedButton(
-                          onPressed: () {},
-                          style: OutlinedButton.styleFrom(
-                            side: BorderSide(
-                                color: Colors.red, width: 2), // Green border
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                          ),
-                          child: Text('Reject',
-                              style: TextStyle(color: Colors.red)),
-                        ),
-                      ],
-                    )),
-                  ],
-                );
-              }).toList(),
-            ),
-          );
-        };
-        return SizedBox();
-      },
-    );
-  }
+//   Widget _buildShopTable(BuildContext context, String type) {
+//     return BlocBuilder<ShopAuthblocBloc, ShopAuthblocState>(
+//       builder: (context, state) {
+//         if (state is ShopLoading) {
+//           return Center(child: Loading_Widget());
+//         } else if (state is Shopfailerror) {
+//           return Text(state.error.toString());
+//         } else if (state is Shoploaded) {
+//           if (state.Shop.isEmpty) {
+// // Return "No data found" if txhe list is empty
+//             return Center(
+//               child: Text(
+//                 "No data found",
+//                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+//               ),
+//             );
+//           }
+//           return SingleChildScrollView(
+//             scrollDirection: Axis.vertical,
+//             child: SingleChildScrollView(
+//               scrollDirection: Axis.horizontal,
+//               child: DataTable(
+//                 columnSpacing: 33,
+//                 headingRowHeight: 45,
+//                 dataRowHeight: 130,
+//                 border: TableBorder(
+//                   horizontalInside:
+//                       BorderSide(width: 1, color: Colors.grey.shade300),
+//                 ),
+//                 columns: [
+//                   _buildHeaderCell('S/no'),
+//                   _buildHeaderCell('Owner Name'),
+//                   _buildHeaderCell('Shop Name'),
+//                   _buildHeaderCell('Email'),
+//                   _buildHeaderCell('Phone'),
+//                   _buildHeaderCell('Address'),
+//                   _buildHeaderCell('Laundry Capacity'),
+//                   _buildHeaderCell('Services'),
+//                   //_buildHeaderCell('Services'),
+//                   _buildHeaderCell('Action'),
+//
+//                 ],
+//                 rows: List.generate(state.Shop.length, (index) {
+//                   final shop = state.Shop[index];
+//
+//                   return DataRow(
+//                     cells: [
+//                       DataCell(Text((index + 1).toString(),
+//                           style: TextStyle(fontWeight: FontWeight.bold))),
+//                       DataCell(Text(shop.owner_name.toString(), style: TextStyle(fontSize: 14))),
+//                       DataCell(Text(shop.shop_name.toString(),style: TextStyle(fontSize: 14))),
+//                       DataCell(
+//                           Text(shop.email.toString(), style: TextStyle(fontSize: 14))),
+//                       DataCell(Text(shop.phone.toString(),  style: TextStyle(fontSize: 14))),
+//                       DataCell(
+//                         Column(
+//                           mainAxisAlignment: MainAxisAlignment.center,
+//                           crossAxisAlignment: CrossAxisAlignment.start,
+//                           children: [
+//                             Text(
+//                               shop.street.toString(),
+//                               style: const TextStyle(
+//                                   fontWeight: FontWeight.bold),
+//                               overflow: TextOverflow.ellipsis,
+//                             ),
+//                             Text(shop.city.toString(),
+//                                 overflow: TextOverflow.ellipsis),
+//                             Text(shop.District.toString(),
+//                                 overflow: TextOverflow.ellipsis),
+//                             Text(shop.post.toString(),
+//                                 overflow: TextOverflow.ellipsis),
+//                           ],
+//                         ),
+//                       ),
+//                       DataCell(Text('${shop.LaundryCapacity} kg')),
+//                       //DataCell(Text(shop.selectServices.toString())),
+//                       DataCell(
+//                         Text(
+//                           shop.selectServices!.join("\n"), // Join list items with a new line
+//                           maxLines: 8,
+//                           overflow: TextOverflow.ellipsis,
+//                         ),
+//                       ),
+//
+//                       //DataCell(_buildViewButton(context)),
+//                       // DataCell(Column(
+//                       //   children: [
+//                       //     OutlinedButton(
+//                       //       onPressed: () {},
+//                       //       style: OutlinedButton.styleFrom(
+//                       //         side: BorderSide(
+//                       //             color: Colors.green, width: 2), // Green border
+//                       //         shape: RoundedRectangleBorder(
+//                       //             borderRadius: BorderRadius.circular(8)),
+//                       //       ),
+//                       //       child: Text('Accept',
+//                       //           style: TextStyle(color: Colors.green)),
+//                       //     ),
+//                       //     SizedBox(height: 8,),
+//                       //     OutlinedButton(
+//                       //       onPressed: () {},
+//                       //       style: OutlinedButton.styleFrom(
+//                       //         side: BorderSide(
+//                       //             color: Colors.red, width: 2), // Green border
+//                       //         shape: RoundedRectangleBorder(
+//                       //             borderRadius: BorderRadius.circular(8)),
+//                       //       ),
+//                       //       child: Text('Reject',
+//                       //           style: TextStyle(color: Colors.red)),
+//                       //     ),
+//                       //   ],
+//                       // )),
+//                       DataCell(
+//                         Column(
+//                           mainAxisAlignment: MainAxisAlignment.center,
+//                           children: [
+//                             if (type == 'new') ...[ // Show Accept & Reject for "New Shops"
+//                               OutlinedButton(
+//                                 onPressed: () {
+//                                   // Handle Accept action
+//                                 },
+//                                 style: OutlinedButton.styleFrom(
+//                                   side: BorderSide(color: Colors.green, width: 2),
+//                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+//                                 ),
+//                                 child: Text('Accept', style: TextStyle(color: Colors.green)),
+//                               ),
+//                               SizedBox(height: 8),
+//                               OutlinedButton(
+//                                 onPressed: () {
+//                                   // Handle Reject action
+//                                 },
+//                                 style: OutlinedButton.styleFrom(
+//                                   side: BorderSide(color: Colors.red, width: 2),
+//                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+//                                 ),
+//                                 child: Text('Reject', style: TextStyle(color: Colors.red)),
+//                               ),
+//                             ]
+//                             else if (type == 'accepted') ...[ // Show only "Accepted" for "Accepted Shops"
+//                               OutlinedButton(
+//                                 onPressed: null, // Disabled button
+//                                 style: OutlinedButton.styleFrom(
+//                                   side: BorderSide(color: Colors.green, width: 2),
+//                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+//                                 ),
+//                                 child: Text('Accepted', style: TextStyle(color: Colors.green)),
+//                               ),
+//                             ]
+//                             else if (type == 'rejected') ...[ // Show only "Rejected" for "Rejected Shops"
+//                                 OutlinedButton(
+//                                   onPressed: null, // Disabled button
+//                                   style: OutlinedButton.styleFrom(
+//                                     side: BorderSide(color: Colors.red, width: 2),
+//                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+//                                   ),
+//                                   child: Text('Rejected', style: TextStyle(color: Colors.red)),
+//                                 ),
+//                               ]
+//                           ],
+//                         ),
+//                       ),
+//
+//                     ],
+//                   );
+//                 }).toList(),
+//               ),
+//             ),
+//           );
+//         };
+//         return SizedBox();
+//       },
+//     );
+//   }
 
   DataColumn _buildHeaderCell(String text) {
     return DataColumn(
@@ -265,67 +354,7 @@ class LaundryShopsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildViewButton(BuildContext context) {
-    return TextButton(
-      onPressed: () {
-        _showServicesDialog(context);
-      },
-      style: TextButton.styleFrom(
-        foregroundColor: Colors.blue,
-        side: BorderSide(color: Colors.blue),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      ),
-      child: Text('View'),
-    );
-  }
-
-  void _showServicesDialog(BuildContext context) {
-    List<Map<String, String>> services = [
-      {"icon": "assets/icon/wash_fold.png", "name": "Wash + Fold"},
-      {"icon": "assets/icon/wash_iron.png", "name": "Wash + Iron"},
-      {"icon": "assets/icon/steam_iron.png", "name": "Steam Iron"},
-      {"icon": "assets/icon/dry_clean.png", "name": "Dry Clean"},
-      {"icon": "assets/icon/bag_service.png", "name": "Bag Service"},
-      {"icon": "assets/icon/shoe_service.png", "name": "Shoe Service"},
-      {"icon": "assets/icon/stain_removal.png", "name": "Stain Removal"},
-      {
-        "icon": "assets/icon/household_service.png",
-        "name": "Household Service"
-      },
-    ];
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title:
-              Text("Services", style: TextStyle(fontWeight: FontWeight.bold)),
-          content: Container(
-            width: 300, // **Set a fixed width**
-            constraints: BoxConstraints(maxHeight: 300), // **Limit max height**
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: services.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Image.asset(services[index]["icon"]!,
-                      width: 30, height: 30),
-                  title: Text(services[index]["name"]!),
-                );
-              },
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text("Close"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
+  // Widget _buildViewButton(BuildContext context) {
   Widget _buildBoldText(String text) {
     return Text(
       text,

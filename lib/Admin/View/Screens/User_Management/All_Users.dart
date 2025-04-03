@@ -173,8 +173,25 @@ class _AllUsersState extends State<AllUsers> {
                                     CircleAvatar(
                                         radius: 30,
                                         backgroundColor: Colors.grey.shade300,
-                                        backgroundImage: NetworkImage(
-                                            user.imageUrl.toString())),
+                                      child: Image.network(
+                                        user.imageUrl.toString(),
+                                        width: 100, // Adjusted width
+                                        height: 100, // Adjusted height
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (context, error, stackTrace) {
+                                          return Container(
+                                            width: 130,
+                                            height: 100,
+                                            color: Colors.grey[300], // Placeholder background
+                                            child: Icon(
+                                              Icons.image_not_supported,
+                                              size: 50,
+                                              color: Colors.grey[600],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
                                     const SizedBox(width: 10),
                                     Expanded(
                                       child: Column(

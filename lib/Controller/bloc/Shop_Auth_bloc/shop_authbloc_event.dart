@@ -20,6 +20,12 @@ class ShopSignupEvent extends ShopAuthblocEvent {
   ShopSignupEvent({required this.shop});
 }
 
+//edit profile
+class EditShopProfile extends ShopAuthblocEvent {
+  final ShopModel shop;
+  EditShopProfile({required this.shop});
+}
+
 // update Profile
 
 class PickAndUploadImageEvent extends ShopAuthblocEvent {}
@@ -33,7 +39,8 @@ class FetchShopDetailsById extends ShopAuthblocEvent {}
 
 class FetchShop extends ShopAuthblocEvent {
   final String? searchQuery;
-  FetchShop({required this.searchQuery});
+  final String? status;
+  FetchShop({required this.searchQuery,this.status});
 }
 
 class UserFetchShop extends ShopAuthblocEvent {
@@ -41,3 +48,11 @@ class UserFetchShop extends ShopAuthblocEvent {
   final String? service;
   UserFetchShop({required this.searchQuery, this.service});
 }
+
+// accept or reject
+class AcceptReject extends ShopAuthblocEvent {
+  final String? status;
+  final String? shopid;
+  AcceptReject({required this.status,required this.shopid});
+}
+

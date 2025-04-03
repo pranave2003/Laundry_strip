@@ -8,6 +8,7 @@ import 'package:laundry/Controller/bloc/ServiceManagement/service_bloc.dart';
 import '../../../Controller/bloc/Authbloc/auth_bloc.dart';
 import '../../../Controller/bloc/Driverbloc/driverbloc_bloc.dart';
 import '../../../Controller/bloc/Driverbloc/driverbloc_event.dart';
+import '../../../Controller/bloc/Orderbloc/order_bloc.dart';
 import '../../../Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
 import '../../../Widget/constands/colors.dart';
 import '../../../firebase_options.dart';
@@ -64,6 +65,10 @@ class MyApp extends StatelessWidget {
         BlocProvider<ServiceBloc>(
           create: (context) =>
           ServiceBloc()..add(FetchCategory(searchQuery: null)),
+        ),
+        BlocProvider<OrderBloc>(
+          create: (context) =>
+          OrderBloc()..add(Fetchorders(searchQuery: null)),
         ),
       ],
       child: MaterialApp(

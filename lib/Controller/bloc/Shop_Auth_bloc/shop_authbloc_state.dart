@@ -54,6 +54,7 @@ class ShopError extends ShopAuthblocState {
 final class ShopLoading extends ShopAuthblocState {}
 
 final class ShopGetSuccess extends ShopAuthblocState {}
+final class Refresh extends ShopAuthblocState {}
 
 final class Shopfailerror extends ShopAuthblocState {
   final String error;
@@ -67,4 +68,14 @@ class Shoploaded extends ShopAuthblocState {
   Shoploaded(
     this.Shop,
   );
+
 }
+class Shopload extends ShopAuthblocState {
+  final ShopModel shop;
+
+  Shopload(
+      this.shop,
+      );
+}
+
+

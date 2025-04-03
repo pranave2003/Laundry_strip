@@ -93,27 +93,29 @@ class _ProfilePageState extends State<ProfilePage> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(
                             12), // Rounded corners for image
-                        child: CachedNetworkImage(
-                          imageUrl: user.imageUrl.toString(),
-                          width: 100, // Adjusted width
-                          height: 100, // Adjusted height
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
-                            width: 100,
-                            height: 100,
-                            color: Colors.grey[300], // Placeholder background
-                            child: Center(
-                              child: Loading_Widget(), // Loading indicator
+                        child: Center(
+                          child: CachedNetworkImage(
+                            imageUrl: user.imageUrl.toString(),
+                            width: 100, // Adjusted width
+                            height: 100, // Adjusted height
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Container(
+                              width: 100,
+                              height: 100,
+                              color: Colors.grey[300], // Placeholder background
+                              child: Center(
+                                child: Loading_Widget(), // Loading indicator
+                              ),
                             ),
-                          ),
-                          errorWidget: (context, url, error) => Container(
-                            width: 100,
-                            height: 100,
-                            color: Colors.grey[300], // Placeholder background
-                            child: Icon(
-                              Icons.image_not_supported,
-                              size: 50,
-                              color: Colors.grey[600],
+                            errorWidget: (context, url, error) => Container(
+                              width: 100,
+                              height: 100,
+                              color: Colors.grey[300], // Placeholder background
+                              child: Icon(
+                                Icons.image_not_supported,
+                                size: 50,
+                                color: Colors.grey[600],
+                              ),
                             ),
                           ),
                         ),

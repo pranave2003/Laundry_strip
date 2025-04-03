@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:laundry/Admin/View/Screens/Shop_Management/All_shop.dart';
+
 import 'package:laundry/Admin/View/Screens/User_Management/All_Users.dart';
 import 'package:laundry/Controller/bloc/ServiceManagement/service_bloc.dart';
 import '../../../Controller/bloc/Authbloc/auth_bloc.dart';
@@ -17,15 +17,11 @@ import '../Screens/Order_management/All_orders.dart';
 import '../Screens/Order_management/Assign_order.dart';
 import '../Screens/Revenue/Reports.dart';
 import '../Screens/Service_Managment/Material_type/Material_Type.dart';
-import '../Screens/Service_Managment/Material_type/Bag_material.dart';
-import '../Screens/Service_Managment/Material_type/Shoe_material.dart';
+
 import '../Screens/Service_Managment/Service_Category/View_Category.dart';
-import '../Screens/Service_Managment/Servicetype/Service_type.dart';
-import '../Screens/Service_Managment/Special_instruction/Bag_Instructions.dart';
+
 import '../Screens/Service_Managment/Special_instruction/Cloth_Instructions.dart';
-import '../Screens/Service_Managment/Special_instruction/Shoe_Instructions.dart';
-import '../Screens/Shop_Management/Accepted_shop.dart';
-import '../Screens/Shop_Management/Rejected_shop.dart';
+
 import '../Screens/Shop_Management/new_shops.dart';
 import '../Screens/Shop_Management/view_shop.dart';
 

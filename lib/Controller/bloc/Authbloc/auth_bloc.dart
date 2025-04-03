@@ -1,9 +1,14 @@
-import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_picker/image_picker.dart';
+import 'dart:io' if (dart.library.html) 'dart:html' as html;
+import 'dart:typed_data';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'Userauthmodel/Usermodel.dart';
 part 'auth_event.dart';
@@ -12,7 +17,7 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
-  final ImagePicker _imagePicker = ImagePicker();
+
   AuthBloc() : super(AuthInitial()) {
     // check Auth or Not
     on<checkloginstateevent>(
@@ -270,38 +275,88 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     //   update profilephoto
 
+    // on<PickAndUploadImageEvent>((event, emit) async {
+    //   try {
+    //     // Pick Image from Gallery
+    //     final pickedFile =
+    //         await _imagePicker.pickImage(source: ImageSource.gallery);
+    //     if (pickedFile == null) {
+    //       return; // User canceled image selection
+    //     }
+    //
+    //     emit(ProfileImageLoading());
+    //
+    //     File imageFile = File(pickedFile.path);
+    //     String fileName =
+    //         "Userprofile/${DateTime.now().millisecondsSinceEpoch}.jpg";
+    //
+    //     // Upload to Firebase Storage
+    //     UploadTask uploadTask =
+    //         _firebaseStorage.ref(fileName).putFile(imageFile);
+    //     TaskSnapshot snapshot = await uploadTask;
+    //
+    //     // Get Download URL
+    //     String downloadUrl = await snapshot.ref.getDownloadURL();
+    //     print(downloadUrl);
+    //     if (user != null) {
+    //       FirebaseFirestore.instance
+    //           .collection("Laundry_Users")
+    //           .doc(user.uid)
+    //           .update({"imageUrl": downloadUrl});
+    //     }
+    //     emit(ProfileImageSuccess());
+    //   } catch (e) {
+    //     print(e);
+    //     emit(ProfileImageFailure("Failed to upload image"));
+    //   }
+    // });
+
     on<PickAndUploadImageEvent>((event, emit) async {
       try {
-        // Pick Image from Gallery
-        final pickedFile =
-            await _imagePicker.pickImage(source: ImageSource.gallery);
-        if (pickedFile == null) {
-          return; // User canceled image selection
-        }
-
         emit(ProfileImageLoading());
 
-        File imageFile = File(pickedFile.path);
+        // ✅ Open file picker
+        FilePickerResult? result = await FilePicker.platform.pickFiles(
+          type: FileType.image, // Pick only image files
+          withData: true, // Required for web
+        );
+
+        if (result == null) {
+          print("No image selected.");
+          return; // User canceled selection
+        }
+
         String fileName =
             "Userprofile/${DateTime.now().millisecondsSinceEpoch}.jpg";
+        Reference storageRef = _firebaseStorage.ref().child(fileName);
+        UploadTask uploadTask;
 
-        // Upload to Firebase Storage
-        UploadTask uploadTask =
-            _firebaseStorage.ref(fileName).putFile(imageFile);
+        if (kIsWeb) {
+          // ✅ Web: Upload image as bytes
+          Uint8List imageData = result.files.first.bytes!;
+          uploadTask = storageRef.putData(imageData);
+        } else {
+          // ✅ Mobile: Upload image as a File
+          File imageFile = File(result.files.first.path!);
+          uploadTask = storageRef.putFile(imageFile);
+        }
+
+        // ✅ Wait for the upload to complete
         TaskSnapshot snapshot = await uploadTask;
-
-        // Get Download URL
         String downloadUrl = await snapshot.ref.getDownloadURL();
-        print(downloadUrl);
+        print("Uploaded Image URL: $downloadUrl");
+
+        // ✅ Update Firestore with the image URL
         if (user != null) {
-          FirebaseFirestore.instance
+          await FirebaseFirestore.instance
               .collection("Laundry_Users")
               .doc(user.uid)
               .update({"imageUrl": downloadUrl});
         }
+
         emit(ProfileImageSuccess());
       } catch (e) {
-        print(e);
+        print("Error: $e");
         emit(ProfileImageFailure("Failed to upload image"));
       }
     });

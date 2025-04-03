@@ -1,0 +1,2 @@
+/Users/pranave/Desktop/AWH/Laundry/android/app/.cxx/Debug/6x6t3h3i/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/pranave/Desktop/AWH/Laundry/android/app/.cxx/Debug/6x6t3h3i/armeabi-v7a/CMakeFiles/rebuild_cache.dir

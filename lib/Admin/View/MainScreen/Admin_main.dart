@@ -9,6 +9,7 @@ import '../../../Controller/bloc/Authbloc/auth_bloc.dart';
 import '../../../Controller/bloc/Driverbloc/driverbloc_bloc.dart';
 import '../../../Controller/bloc/Driverbloc/driverbloc_event.dart';
 import '../../../Controller/bloc/Orderbloc/order_bloc.dart';
+import '../../../Controller/bloc/ServiceManagement/Shopadddproduct/addproduct_bloc.dart';
 import '../../../Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
 import '../../../Widget/constands/colors.dart';
 import '../../../firebase_options.dart';
@@ -70,6 +71,12 @@ class MyApp extends StatelessWidget {
           create: (context) =>
           OrderBloc()..add(Fetchorders(searchQuery: null)),
         ),
+        BlocProvider<AddproductBloc>(
+          create: (context) {
+            return AddproductBloc()..add(FetchProduct(searchQuery: null));
+          },
+        ),
+
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -252,7 +259,7 @@ class _AdminPageState extends State<AdminPage> {
                       LaundryShopsPage(),
                     ),
                     SubListTile(
-                      'All Shops',
+                      'View Shops',
                       ViewShopsScreen(),
                     ),
                     // SubListTile(

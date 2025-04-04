@@ -239,6 +239,7 @@
 //   }
 // }
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -246,6 +247,7 @@ import '../../../../Controller/bloc/Orderbloc/OrderModel/Order_Model.dart';
 import '../../../../Controller/bloc/Orderbloc/order_bloc.dart';
 import '../../../../Controller/bloc/ServiceManagement/Shopadddproduct/Addproductmodel/Addproductmodel.dart';
 import '../../../../Controller/bloc/Shop_Auth_bloc/Shopmodel/Shopmodel.dart';
+import '../../../../Widget/constands/Loading.dart';
 
 class OrderSummaryPage extends StatefulWidget {
   const OrderSummaryPage(this.selectedItems,
@@ -419,13 +421,43 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // ClipRRect(
+        //   borderRadius: BorderRadius.circular(10),
+        //   child: Image.asset(
+        //     "assets/shop_img/img.png",
+        //     width: 80,
+        //     height: 80,
+        //     fit: BoxFit.cover,
+        //   ),
+        // ),
         ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Image.asset(
-            "assets/shop_img/img.png",
-            width: 80,
-            height: 80,
-            fit: BoxFit.cover,
+          borderRadius: BorderRadius.circular(
+              12), // Rounded corners for image
+          child: Center(
+            child: CachedNetworkImage(
+              imageUrl: widget.shop.ShopImage.toString(),
+              width: 100, // Adjusted width
+              height: 100, // Adjusted height
+              fit: BoxFit.cover,
+              placeholder: (context, url) => Container(
+                width: 100,
+                height: 100,
+                color: Colors.grey[300], // Placeholder background
+                child: Center(
+                  child: Loading_Widget(), // Loading indicator
+                ),
+              ),
+              errorWidget: (context, url, error) => Container(
+                width: 100,
+                height: 100,
+                color: Colors.grey[300], // Placeholder background
+                child: Icon(
+                  Icons.image_not_supported,
+                  size: 50,
+                  color: Colors.grey[600],
+                ),
+              ),
+            ),
           ),
         ),
         const SizedBox(width: 12),
@@ -439,22 +471,22 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 4),
-              const Row(
+               Row(
                 children: [
                   Icon(Icons.local_laundry_service,
                       size: 16, color: Colors.blue),
                   SizedBox(width: 4),
-                  Text("Laundry", style: TextStyle(color: Colors.black)),
+                  Text("Laundry Capacity: ${widget.shop.LaundryCapacity} kg", style: TextStyle(color: Colors.black)),
                   SizedBox(width: 10),
                   Icon(Icons.star, color: Colors.yellow, size: 16),
                   Text(" 4.8", style: TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
               const SizedBox(height: 4),
-              const Row(
+               Row(
                 children: [
                   Icon(Icons.location_on, size: 16, color: Colors.blue),
-                  Text(" 0.8 km"),
+                  Text(" ${widget.shop.District} "),
                   SizedBox(width: 10),
                   Icon(Icons.timer, size: 16, color: Colors.blue),
                   Text(" 5 Mins"),

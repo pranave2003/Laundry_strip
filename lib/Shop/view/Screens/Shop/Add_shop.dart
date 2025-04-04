@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Controller/bloc/ServiceManagement/service_bloc.dart';
@@ -69,12 +70,43 @@ class _Shop_AddState extends State<Shop_Add> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Image.asset("assets/shop_img/img3.png", height: 180),
+                      //Image.asset("assets/shop_img/img3.png", height: 180),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                            12), // Rounded corners for image
+                        child: CachedNetworkImage(
+                          imageUrl:shop.ShopImage.toString(),
+                          width: 460, // Adjusted width
+                          height: 180, // Adjusted height
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Container(
+                            width: 100,
+                            height: 100,
+                            color: Colors.grey[300], // Placeholder background
+                            child: Center(
+                              child: Loading_Widget(), // Loading indicator
+                            ),
+                          ),
+                          errorWidget: (context, error, stackTrace) {
+                            return Container(
+                              width: 130,
+                              height: 100,
+                              color: Colors
+                                  .grey[300], // Placeholder background
+                              child: Icon(
+                                Icons.image_not_supported,
+                                size: 50,
+                                color: Colors.grey[600],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                       SizedBox(height: 10),
                       Text('${shop.shop_name ?? ''}',
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
-                      Text("Laundry Capacity: ${shop.LaundryCapacity ?? ''} "),
+                      Text("Laundry Capacity: ${shop.LaundryCapacity ?? ''} Kg"),
                       Text("Owner: ${shop.owner_name ?? ''}"),
                       Text(
                           "Address: ${shop.District ?? ''}, ${shop.city ?? ''}, ${shop.post ?? ''}"),

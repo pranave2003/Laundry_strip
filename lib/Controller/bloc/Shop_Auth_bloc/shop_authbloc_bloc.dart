@@ -330,7 +330,7 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
 
         if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
           shop = shop.where((viewshop) {
-            return viewshop.owner_name!
+            return viewshop.shop_name!
                 .toLowerCase()
                 .contains(event.searchQuery!.toLowerCase());
           }).toList();
@@ -350,6 +350,7 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
 
         Query query = shopCollection;
         query = query.where("Services", arrayContains: event.service);
+        query = query.where("status", arrayContains: event.status);
 
         QuerySnapshot snapshot = await query.get();
 

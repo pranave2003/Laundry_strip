@@ -46,7 +46,8 @@ class FetchShop extends ShopAuthblocEvent {
 class UserFetchShop extends ShopAuthblocEvent {
   final String? searchQuery;
   final String? service;
-  UserFetchShop({required this.searchQuery, this.service});
+  final String? status;
+  UserFetchShop({required this.searchQuery, this.service,this.status});
 }
 
 // accept or reject

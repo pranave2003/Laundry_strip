@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/User/view/Screens/Services/select_service.dart';
@@ -8,6 +9,10 @@ import '../../../../Widget/constands/Loading.dart';
 
 class Userservice extends StatefulWidget {
   const Userservice({super.key});
+
+
+
+
 
   @override
   State<Userservice> createState() => _UserserviceState();
@@ -63,7 +68,7 @@ class _UserserviceState extends State<Userservice> {
                       selectedIndex = index;
                       selectedService = serviceList[index]["name"];
                       context.read<ShopAuthblocBloc>().add(UserFetchShop(
-                          searchQuery: null, service: selectedService));
+                          searchQuery: null, service: selectedService,status: "1"));
                     });
                   },
                   child: Container(
@@ -163,15 +168,48 @@ class _UserserviceState extends State<Userservice> {
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.asset(
-                                          "assets/shop_img/img.png",
-                                          width: 100,
-                                          height: 100,
+                                      child:
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                            12), // Rounded corners for image
+                                        child: CachedNetworkImage(
+                                          imageUrl: Shop.ShopImage.toString(),
+                                          width: 130, // Adjusted width
+                                          height: 100, // Adjusted height
                                           fit: BoxFit.cover,
+                                          placeholder: (context, url) => Container(
+                                            width: 100,
+                                            height: 100,
+                                            color: Colors.grey[300], // Placeholder background
+                                            child: Center(
+                                              child: Loading_Widget(), // Loading indicator
+                                            ),
+                                          ),
+                                          errorWidget: (context, error, stackTrace) {
+                                            return Container(
+                                              width: 130,
+                                              height: 100,
+                                              color: Colors
+                                                  .grey[300], // Placeholder background
+                                              child: Icon(
+                                                Icons.image_not_supported,
+                                                size: 50,
+                                                color: Colors.grey[600],
+                                              ),
+                                            );
+                                          },
                                         ),
                                       ),
+
+                                      // ClipRRect(
+                                      //   borderRadius: BorderRadius.circular(10),
+                                      //   child: Image.asset(
+                                      //     "assets/shop_img/img.png",
+                                      //     width: 100,
+                                      //     height: 100,
+                                      //     fit: BoxFit.cover,
+                                      //   ),
+                                      // ),
                                     ),
                                   ),
                                   Column(

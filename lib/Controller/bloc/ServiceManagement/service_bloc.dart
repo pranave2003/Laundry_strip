@@ -213,7 +213,7 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
     on<DeleteCategory>((event, emit) async {
       emit(CategoryLoading());
       try {
-        FirebaseFirestore.instance
+         FirebaseFirestore.instance
             .collection("Service_Category")
             .doc(event.id)
             .delete();

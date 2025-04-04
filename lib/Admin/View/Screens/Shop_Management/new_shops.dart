@@ -67,26 +67,31 @@ class _LaundryShopsPageState extends State<LaundryShopsPage>
                   Row(
                     children: [
                       // Search Bar
-                      Container(
-                        height: 40,
-                        width: 400,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(18)),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(18),
-                            ),
-                            hintText: 'Search Laundry Shops',
-                            prefixIcon: Icon(Icons.search, color: Colors.grey),
-                          ),
-                        ),
-                      ),
+                      // Container(
+                      //   height: 40,
+                      //   width: 400,
+                      //   decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(18)),
+                      //   child: TextField(
+                      //     onChanged: (value) {
+                      //       context
+                      //           .read<ShopAuthblocBloc>()
+                      //           .add(FetchShop(searchQuery: value)); // P
+                      //     },
+                      //     decoration: InputDecoration(
+                      //       filled: true,
+                      //       fillColor: Colors.white,
+                      //       enabledBorder: OutlineInputBorder(
+                      //         borderSide: BorderSide(color: Colors.grey),
+                      //       ),
+                      //       border: OutlineInputBorder(
+                      //         borderRadius: BorderRadius.circular(18),
+                      //       ),
+                      //       hintText: 'Search Laundry Shops',
+                      //       prefixIcon: Icon(Icons.search, color: Colors.grey),
+                      //     ),
+                      //   ),
+                      // ),
                       const SizedBox(width: 10),
                       CircleAvatar(
                         backgroundColor: Color(0xffD9D9D9),

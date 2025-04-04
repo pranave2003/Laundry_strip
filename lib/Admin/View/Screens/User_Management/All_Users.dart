@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Controller/bloc/Authbloc/auth_bloc.dart';
@@ -171,25 +172,36 @@ class _AllUsersState extends State<AllUsers> {
                                 child: Row(
                                   children: [
                                     CircleAvatar(
-                                        radius: 30,
-                                        backgroundColor: Colors.grey.shade300,
-                                      child: Image.network(
-                                        user.imageUrl.toString(),
+                                      radius: 30,
+                                      backgroundColor: Colors.grey.shade300,
+                                      child: CachedNetworkImage(
+                                        imageUrl: user.imageUrl.toString(),
                                         width: 100, // Adjusted width
                                         height: 100, // Adjusted height
                                         fit: BoxFit.cover,
-                                        errorBuilder: (context, error, stackTrace) {
-                                          return Container(
-                                            width: 130,
-                                            height: 100,
-                                            color: Colors.grey[300], // Placeholder background
-                                            child: Icon(
-                                              Icons.image_not_supported,
-                                              size: 50,
-                                              color: Colors.grey[600],
-                                            ),
-                                          );
-                                        },
+                                        placeholder: (context, url) =>
+                                            Container(
+                                          width: 100,
+                                          height: 100,
+                                          color: Colors.grey[
+                                              300], // Placeholder background
+                                          child: Center(
+                                            child:
+                                                Loading_Widget(), // Loading indicator
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Container(
+                                          width: 100,
+                                          height: 100,
+                                          color: Colors.grey[
+                                              300], // Placeholder background
+                                          child: Icon(
+                                            Icons.image_not_supported,
+                                            size: 50,
+                                            color: Colors.grey[600],
+                                          ),
+                                        ),
                                       ),
                                     ),
                                     const SizedBox(width: 10),
@@ -210,9 +222,14 @@ class _AllUsersState extends State<AllUsers> {
                                               //style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                                               children: [
                                                 TextSpan(
-                                                  text: "${user.place ?? 'N/A'}, ${user.post ?? 'N/A'}, ${user.pin ?? 'N/A'}\n"
+                                                  text:
+                                                      "${user.place ?? 'N/A'}, ${user.post ?? 'N/A'}, ${user.pin ?? 'N/A'}\n"
                                                       "${user.District ?? 'N/A'}, Kerala",
-                                                  style: TextStyle(fontWeight: FontWeight.normal, height: 1.5), // Added height for proper spacing
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      height:
+                                                          1.5), // Added height for proper spacing
                                                 ),
                                               ],
                                             ),

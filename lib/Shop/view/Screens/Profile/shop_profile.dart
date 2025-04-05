@@ -44,7 +44,6 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +62,6 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
         children: [
           // Profile Header inside a Light Grey Container
           BlocBuilder<ShopAuthblocBloc, ShopAuthblocState>(
-
             builder: (context, state) {
               if (state is Shoploading) {
                 return const Center(child: Loading_Widget());
@@ -92,14 +90,15 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                             borderRadius: BorderRadius.circular(
                                 12), // Rounded corners for image
                             child: CachedNetworkImage(
-                              imageUrl:shop.ShopImage.toString(),
+                              imageUrl: shop.ShopImage.toString(),
                               width: 130, // Adjusted width
                               height: 100, // Adjusted height
                               fit: BoxFit.cover,
                               placeholder: (context, url) => Container(
                                 width: 100,
                                 height: 100,
-                                color: Colors.grey[300], // Placeholder background
+                                color:
+                                    Colors.grey[300], // Placeholder background
                                 child: Center(
                                   child: Loading_Widget(), // Loading indicator
                                 ),
@@ -163,12 +162,12 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => EditShop_ProfilePage(
-                                  shopid: shop.shopid ??
-                                      "", // Provide a default empty string if null
-                                  shopname: shop.shop_name ?? "",
-                                  phone: shop.phone ?? "",
-                                  imagePath: shop.ShopImage ?? "",
-                                )),
+                                      shopid: shop.shopid ??
+                                          "", // Provide a default empty string if null
+                                      shopname: shop.shop_name ?? "",
+                                      phone: shop.phone ?? "",
+                                      imagePath: shop.ShopImage ?? "",
+                                    )),
                           );
                         },
                         style: ElevatedButton.styleFrom(

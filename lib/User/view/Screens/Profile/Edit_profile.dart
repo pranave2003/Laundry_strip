@@ -98,17 +98,30 @@ class _EditProfilePageState extends State<EditProfilePage> {
           SizedBox(height: 8),
 
           // "Change Picture" Button
-          BlocBuilder<AuthBloc, AuthState>(
-            builder: (context, state) {
+          BlocConsumer<AuthBloc, AuthState>(
+            listener: (context, state) {
               if (state is ProfileImageSuccess) {
-                // setState(() {
-                //   Navigator.pushReplacement(context, MaterialPageRoute(
-                //     builder: (context) {
-                //       return BottomNavWrapper();
-                //     },
-                //   ));
-                // });
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.green,
+                    content: Text('Profile Updated'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+
+                Navigator.of(context).pop();
               }
+              if (state is ProfileImageFailure) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text(state.error),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              }
+            },
+            builder: (context, state) {
               return TextButton(
                 onPressed: () {
                   context.read<AuthBloc>()..add(PickAndUploadImageEvent());

@@ -84,7 +84,7 @@ class AllOrders extends StatelessWidget {
                                           : order.PIckup == "1"
                                               ? "Assign Driver"
                                               : order.Rejected == "1"
-                                                  ? "Rejected by shop"
+                                                  ? "Rejected by user"
                                                   : order.status == "2"
                                                       ? "Cancelled"
                                                       : order.status == "1"
@@ -100,7 +100,7 @@ class AllOrders extends StatelessWidget {
                                               : order.PIckup == "1"
                                                   ? Colors.orange
                                                   : order.Rejected == "1"
-                                                      ? Colors.brown
+                                                      ? Colors.red
                                                       : order.status == "2"
                                                           ? Colors.red
                                                           : order.status == "1"

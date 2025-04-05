@@ -350,7 +350,7 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
 
         Query query = shopCollection;
         query = query.where("Services", arrayContains: event.service);
-        query = query.where("status", arrayContains: event.status);
+        query = query.where("status", isEqualTo: event.status);
 
         QuerySnapshot snapshot = await query.get();
 

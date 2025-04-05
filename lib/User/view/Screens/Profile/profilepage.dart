@@ -158,6 +158,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                       phone: user.phone ?? "",
                                       imagePath: user.imageUrl ?? "",
                                     )),
+                          ).then(
+                            (value) {
+                              context.read<AuthBloc>()
+                                ..add(FetchUserDetailsById());
+                            },
                           );
                         },
                         style: ElevatedButton.styleFrom(

@@ -323,6 +323,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         if (result == null) {
           print("No image selected.");
+
+          emit(ProfileImageFailure("No image selected."));
+
           return; // User canceled selection
         }
 

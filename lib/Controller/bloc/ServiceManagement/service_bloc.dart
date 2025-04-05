@@ -50,7 +50,7 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
 
         if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
           cloth = cloth.where((viewmaterial) {
-            return viewmaterial.material_name!
+            return viewmaterial.material_type!
                 .toLowerCase()
                 .contains(event.searchQuery!.toLowerCase());
           }).toList();
@@ -100,7 +100,7 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
 
         if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
           instruction = instruction.where((viewinstruction) {
-            return viewinstruction.instruction_name!
+            return viewinstruction.instruction_type!
                 .toLowerCase()
                 .contains(event.searchQuery!.toLowerCase());
           }).toList();

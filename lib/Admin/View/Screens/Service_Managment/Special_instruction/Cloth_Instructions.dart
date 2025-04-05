@@ -105,6 +105,11 @@ class _ClothInstructionsState extends State<ClothInstructions> {
                     decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(18)),
                     child: TextField(
+                      onChanged: (value) {
+                        context
+                            .read<ServiceBloc>()
+                            .add(FetchInstruction(searchQuery: value)); // P
+                      },
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,

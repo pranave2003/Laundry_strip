@@ -66,6 +66,11 @@ class _MaterialTypeState extends State<MaterialType> {
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(18)),
                     child: TextField(
+                      onChanged: (value) {
+                        context
+                            .read<ServiceBloc>()
+                            .add(FetchMaterial(searchQuery: value)); // P
+                      },
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,

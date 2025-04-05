@@ -21,6 +21,34 @@ class RejectedShopsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(backgroundColor: Colors.white,
+        actions: [
+          Container(
+            height: 40,
+            width: 400,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(18)),
+            child: TextField(
+              onChanged: (value) {
+                context
+                    .read<ShopAuthblocBloc>()
+                    .add(FetchShop(searchQuery: value,status: "2")); // P
+              },
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                hintText: 'Search Laundry Shops',
+                prefixIcon: Icon(Icons.search, color: Colors.grey),
+              ),
+            ),
+          ),
+        ],
+      ),
       backgroundColor: Colors.white,
       body: _buildShopTable(context),
     );

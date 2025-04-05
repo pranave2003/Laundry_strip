@@ -56,7 +56,7 @@ class ViewShopsScreen extends StatelessWidget {
                           onChanged: (value) {
                             context
                                 .read<ShopAuthblocBloc>()
-                                .add(FetchShop(searchQuery: value)); // P
+                                .add(FetchShop(searchQuery: value,status: "1")); // P
                           },
                           decoration: InputDecoration(
                             filled: true,

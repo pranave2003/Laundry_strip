@@ -282,6 +282,11 @@ class _AssignOrderPageState extends State<AssignOrderPage> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(18)),
                           child: TextField(
+                            onChanged: (value) {
+                              context
+                                  .read<OrderBloc>()
+                                  .add(Fetchorders(searchQuery: value)); // P
+                            },
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
@@ -730,11 +735,11 @@ class _AssignOrderPageState extends State<AssignOrderPage> {
                                     child: Align(
                                       alignment: Alignment.centerRight,
                                       child: Text(
-                                          "Grand Total: \$${totalOrderAmount.toStringAsFixed(2)}",
+                                          "Grand Total: ₹ ${order.Totalcharge}",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18,
-                                              color: Colors.red)),
+                                              color: Colors.black)),
                                     ),
                                   ),
                                   // Padding(

@@ -117,6 +117,11 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(18)),
                     child: TextField(
+                      onChanged: (value) {
+                        context
+                            .read<ServiceBloc>()
+                            .add(FetchCategory(searchQuery: value)); // P
+                      },
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,

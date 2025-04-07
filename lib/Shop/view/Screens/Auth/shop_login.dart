@@ -82,6 +82,16 @@ class _ShopLoginState extends State<ShopLogin> {
                           fontSize: 35,
                           fontWeight: FontWeight.bold),
                     ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'Shop Login',
+                      style: TextStyle(
+                        color: Colors.blueGrey[800],
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 1.0,
+                      ),
+                    ),
                     const SizedBox(height: 80),
                     Padding(
                       padding: const EdgeInsets.all(18.0),
@@ -164,23 +174,23 @@ class _ShopLoginState extends State<ShopLogin> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Checkbox(
-                                activeColor: Secondary,
-                                value: isChecked,
-                                onChanged: (val) {
-                                  setState(() {
-                                    isChecked = val!;
-                                    //isChecked = !isChecked;
-                                    // if(isChecked == false){
-                                    //   isChecked = true;
-                                    // }else{
-                                    //   isChecked = false;
-                                    // }
-                                  });
-                                },
-                              ),
-                              SizedBox(height: 8),
-                              Text("Remember Me "),
+                              // Checkbox(
+                              //   activeColor: Secondary,
+                              //   value: isChecked,
+                              //   onChanged: (val) {
+                              //     setState(() {
+                              //       isChecked = val!;
+                              //       //isChecked = !isChecked;
+                              //       // if(isChecked == false){
+                              //       //   isChecked = true;
+                              //       // }else{
+                              //       //   isChecked = false;
+                              //       // }
+                              //     });
+                              //   },
+                              // ),
+                              // SizedBox(height: 8),
+                              // Text("Remember Me "),
                               SizedBox(
                                 width: 70,
                               ),

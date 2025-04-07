@@ -16,6 +16,7 @@ class Fetchorders extends OrderEvent {
   final String? Deliverd;
   final String? shopid;
   final String? userid;
+  final String? driverId;
 
   Fetchorders(
       {required this.searchQuery,
@@ -24,7 +25,9 @@ class Fetchorders extends OrderEvent {
       this.shopid,
       this.RejectedReason,
       this.Rejected,
-      this.Deliverd});
+      this.Deliverd,
+      this.driverId,
+      });
 }
 
 //Accept order

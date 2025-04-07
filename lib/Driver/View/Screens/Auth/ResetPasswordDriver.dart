@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:laundry/User/view/Screens/auth/user_login.dart';
 import 'package:laundry/Widget/constands/colors.dart';
 
-class ForgotPasswordPage extends StatelessWidget {
+import 'Driver_Login.dart';
+
+class ForgotPasswordDriver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +13,7 @@ class ForgotPasswordPage extends StatelessWidget {
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => UserLogin()),
+              MaterialPageRoute(builder: (context) => DriverLogin()),
             );
           },
         ),

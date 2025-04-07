@@ -26,7 +26,6 @@ class UserLogin extends StatefulWidget {
 }
 
 class _UserLoginState extends State<UserLogin> {
-  bool isChecked = false;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -77,6 +76,16 @@ class _UserLoginState extends State<UserLogin> {
                         color: defaultColor,
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'User Login',
+                      style: TextStyle(
+                        color: Colors.blueGrey[800],
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 1.0,
                       ),
                     ),
                     const SizedBox(height: 80),
@@ -161,26 +170,27 @@ class _UserLoginState extends State<UserLogin> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 5),
 
                           // Remember Me & Forgot Password
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  Checkbox(
-                                    activeColor: Secondary,
-                                    value: isChecked,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        isChecked = val!;
-                                      });
-                                    },
-                                  ),
-                                  const Text("Remember Me"),
-                                ],
-                              ),
+                              //Row(
+                                //children: [
+                                  // Checkbox(
+                                  //   activeColor: Secondary,
+                                  //   value: isChecked,
+                                  //   onChanged: (val) {
+                                  //     setState(() {
+                                  //       isChecked = val!;
+                                  //     });
+                                  //   },
+                                  // ),
+                                  // const Text("Remember Me"),
+                               // ],
+                              //),
+                              SizedBox(width: 5,),
                               TextButton(
                                 onPressed: () {
                                   Navigator.push(

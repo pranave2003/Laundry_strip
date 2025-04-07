@@ -1,31 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../Controller/bloc/Authbloc/auth_bloc.dart';
+import 'package:laundry/Controller/bloc/Driverbloc/driverbloc_bloc.dart';
+import 'package:laundry/Controller/bloc/Driverbloc/driverbloc_state.dart';
+
+import '../../../../Controller/bloc/Driverbloc/driverbloc_event.dart';
 import '../../../../Widget/constands/Loading.dart';
 import '../../../../Widget/constands/colors.dart';
-import 'ResetPasswordUser.dart';
-import 'User_Register_page.dart';
+import 'Driver SignUp.dart';
+import 'ResetPasswordDriver.dart';
 
-class User_Loginwrapper extends StatelessWidget {
-  const User_Loginwrapper({super.key});
+class Driver_Loginwrapper extends StatelessWidget {
+  const Driver_Loginwrapper({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthBloc(),
-      child: UserLogin(),
+      create: (context) => DriverblocBloc(),
+      child: DriverLogin(),
     );
   }
 }
 
-class UserLogin extends StatefulWidget {
-  const UserLogin({super.key});
+class DriverLogin extends StatefulWidget {
+  const DriverLogin({super.key});
 
   @override
-  State<UserLogin> createState() => _UserLoginState();
+  State<DriverLogin> createState() => _DriverLoginState();
 }
 
-class _UserLoginState extends State<UserLogin> {
+class _DriverLoginState extends State<DriverLogin> {
   bool isChecked = false;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
@@ -33,8 +36,8 @@ class _UserLoginState extends State<UserLogin> {
 
   void _onLoginPressed(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      BlocProvider.of<AuthBloc>(context).add(
-        LoginEvent(
+      BlocProvider.of<DriverblocBloc>(context).add(
+        DriverLoginEvent(
           Email: _emailController.text.trim(),
           Password: _passwordController.text.trim(),
         ),
@@ -44,15 +47,15 @@ class _UserLoginState extends State<UserLogin> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthBloc, AuthState>(
+    return BlocConsumer<DriverblocBloc, DriverblocState>(
       listener: (context, state) {
-        if (state is Authenticated) {
+        if (state is DriverAuthenticated) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushNamedAndRemoveUntil(
                 context, '/home', (route) => false);
           });
         }
-        if (state is AuthenticatedError) {
+        if (state is DriverAuthenticatedError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
           );
@@ -74,17 +77,34 @@ class _UserLoginState extends State<UserLogin> {
                     Text(
                       'Laundry Mate',
                       style: TextStyle(
-                        color: defaultColor,
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
+                          color: defaultColor,
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'Driver Login',
+                      style: TextStyle(
+                        color: Colors.blueGrey[800],
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 1.0,
                       ),
                     ),
+                    // Text(
+                    //   'Driver Login',
+                    //   style: TextStyle(
+                    //       color: Colors.black,
+                    //       fontSize: 20,
+                    //       fontWeight: FontWeight.bold),
+                    // ),
+
+
                     const SizedBox(height: 80),
                     Padding(
                       padding: const EdgeInsets.all(18.0),
                       child: Column(
                         children: [
-                          // Username Field
                           TextFormField(
                             controller: _emailController,
                             decoration: InputDecoration(
@@ -107,8 +127,6 @@ class _UserLoginState extends State<UserLogin> {
                             },
                           ),
                           const SizedBox(height: 20),
-
-                          // Password Field
                           TextFormField(
                             controller: _passwordController,
                             decoration: InputDecoration(
@@ -128,17 +146,17 @@ class _UserLoginState extends State<UserLogin> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 30),
-
-                          // Loading Indicator
-                          if (state is Authloading) ...[
-                            const Text("Logging in..."),
-                            const Loading_Widget(),
-                          ],
-
-                          const SizedBox(height: 20),
-
-                          // Login Button
+                          SizedBox(
+                            height: 100,
+                            child: Column(
+                              children: [
+                                if (state is DriverAuthloading) ...[
+                                  const Text("Logging in..."),
+                                  const Loading_Widget(),
+                                ],
+                              ],
+                            ),
+                          ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width,
                             child: ElevatedButton(
@@ -161,62 +179,61 @@ class _UserLoginState extends State<UserLogin> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 20),
-
-                          // Remember Me & Forgot Password
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  Checkbox(
-                                    activeColor: Secondary,
-                                    value: isChecked,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        isChecked = val!;
-                                      });
-                                    },
-                                  ),
-                                  const Text("Remember Me"),
-                                ],
-                              ),
+                              // Checkbox(
+                              //   activeColor: Secondary,
+                              //   value: isChecked,
+                              //   onChanged: (val) {
+                              //     setState(() {
+                              //       isChecked = val!;
+                              //       //isChecked = !isChecked;
+                              //       // if(isChecked == false){
+                              //       //   isChecked = true;
+                              //       // }else{
+                              //       //   isChecked = false;
+                              //       // }
+                              //     });
+                              //   },
+                              // ),
+                              // SizedBox(height: 8),
+                              // Text("Remember Me "),
+                              SizedBox(
+                                width: 70,
+                               ),
                               TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          ForgotPasswordPage(),
-                                    ),
-                                  );
-                                },
-                                child: const Text(
-                                  "Forgot Password?",
-                                  style: TextStyle(color: Color(0xFF8E8E93)),
-                                ),
-                              ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ForgotPasswordDriver(),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    "Forgot Password?",
+                                    style: TextStyle(color: Color(0xFF8E8E93)),
+                                  )),
                             ],
                           ),
-
-                          const SizedBox(height: 40),
-
-                          // Sign Up Option
+                          SizedBox(
+                            height: 80,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text("New to Laundry Mate?"),
+                              Text("New to Laundry Mate?"),
                               TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Usersignupwrapper(),
-                                    ),
-                                  );
-                                },
-                                child: const Text("Sign Up"),
-                              ),
+                                  onPressed: () {
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return Driversignupwrapper();
+                                      },
+                                    ));
+                                  },
+                                  child: Text("Sign Up")),
                             ],
                           ),
                         ],

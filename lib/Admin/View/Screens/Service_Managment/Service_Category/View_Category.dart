@@ -310,34 +310,45 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                                           showDialog(
                                             context: context,
                                             builder: (context) {
-                                              return AlertDialog(
-                                                backgroundColor: Colors.white,
-                                                //title: Text("Edit Service"),
-                                                content: SizedBox(
-                                                  width: 730,
-                                                  height: 600,
-                                                  // Adjust size as needed
-                                                  child: CategoryEdit(
-                                                      catogoryid:
-                                                          category.category_id,
-                                                      Productname:
-                                                          category.product_name,
-                                                      service: category.service,
-                                                      category:
-                                                          category.category,
-                                                      productimage: category
-                                                          .product_image), // Embedding ServiceEdit Widget
-                                                ),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop(); // Close dialog
-                                                    },
-                                                    child: Text("Cancel"),
+                                              return StatefulBuilder(
+                                                  builder: (context, setState) {
+                                                AlertDialog(
+                                                  backgroundColor: Colors.white,
+                                                  //title: Text("Edit Service"),
+                                                  content: SizedBox(
+                                                    width: 730,
+                                                    height: 600,
+                                                    // Adjust size as needed
+                                                    child: CategoryEdit(
+                                                        catogoryid: category
+                                                            .category_id,
+                                                        Productname: category
+                                                            .product_name,
+                                                        service:
+                                                            category.service,
+                                                        category:
+                                                            category.category,
+                                                        productimage: category
+                                                            .product_image), // Embedding ServiceEdit Widget
                                                   ),
-                                                ],
-                                              );
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop(); // Close dialog
+                                                      },
+                                                      child: Text("Cancel"),
+                                                    ),
+                                                  ],
+                                                );
+                                                return SizedBox();
+                                              });
+                                            },
+                                          ).then(
+                                            (value) {
+                                              context.read<ServiceBloc>().add(
+                                                  FetchCategory(
+                                                      searchQuery: null));
                                             },
                                           );
                                         },
@@ -349,57 +360,67 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                                       SizedBox(
                                         width: 10,
                                       ),
-                                      IconButton(
-                                          onPressed: () {
-                                            context.read<ServiceBloc>().add(
-                                                DeleteCategory(
-                                                    id: category.category_id));
-                                          },
-                                          icon: Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                          ))
-
-
                                       // IconButton(
-                                      //   onPressed: () {
-                                      //     showDialog(
-                                      //       context: context,
-                                      //       builder: (BuildContext context) {
-                                      //         return AlertDialog(
-                                      //           title: Text('Confirm Deletion'),
-                                      //           content: Text('Are you sure you want to delete this category?'),
-                                      //           actions: [
-                                      //             TextButton(
-                                      //               onPressed: () {
-                                      //                 Navigator.of(context).pop(); // Close the dialog
-                                      //               },
-                                      //               child: Text('Cancel'),
-                                      //             ),
-                                      //             TextButton(
-                                      //               onPressed: () {
-                                      //                 // Dispatch the delete event
-                                      //                 context.read<ServiceBloc>().add(
-                                      //                   DeleteCategory(id: category.category_id),
-                                      //                 );
-                                      //                 Navigator.of(context).pop(); // Close the dialog
-                                      //               },
-                                      //               child: Text(
-                                      //                 'Delete',
-                                      //                 style: TextStyle(color: Colors.red),
-                                      //               ),
-                                      //             ),
-                                      //           ],
-                                      //         );
-                                      //       },
-                                      //     );
-                                      //   },
-                                      //   icon: Icon(
-                                      //     Icons.delete,
-                                      //     color: Colors.red,
-                                      //   ),
-                                      // ),
+                                      //     onPressed: () {
+                                      //       context.read<ServiceBloc>().add(
+                                      //           DeleteCategory(
+                                      //               id: category.category_id));
+                                      //     },
+                                      //     icon: Icon(
+                                      //       Icons.delete,
+                                      //       color: Colors.red,
+                                      //     ))
 
+                                      IconButton(
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: Text('Confirm Deletion'),
+                                                content: Text(
+                                                    'Are you sure you want to delete this category?'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop(); // Close the dialog
+                                                    },
+                                                    child: Text('Cancel'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      // Dispatch the delete event
+                                                      context
+                                                          .read<ServiceBloc>()
+                                                          .add(
+                                                            DeleteCategory(
+                                                                id: category
+                                                                    .category_id),
+                                                          );
+                                                      Navigator.of(context)
+                                                          .pop(); // Close the dialog
+                                                    },
+                                                    child: Text(
+                                                      'Delete',
+                                                      style: TextStyle(
+                                                          color: Colors.red),
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          ).then((value) {
+                                            context.read<ServiceBloc>().add(
+                                                FetchCategory(
+                                                    searchQuery: null));
+                                          },);
+                                        },
+                                        icon: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
                                     ],
                                   )),
                                 ],

@@ -6,19 +6,21 @@ class Driver {
   String? password;
   final String image;
   final String proof;
-  final String timestamp;
-  final bool isActive;
+  final  available;
+  final timestamp;
+
 
   Driver({
-    required this.timestamp,
+    this.timestamp,
     required this.name,
     required this.phone,
     required this.driverId,
     required this.email,
     this.password,
+    this.available,
     required this.image,
     required this.proof,
-    required this.isActive,
+
   });
 
   factory Driver.fromMap(Map<String, dynamic> data) {
@@ -27,9 +29,8 @@ class Driver {
       driverId: data['driverId'],
       name: data['name'],
       phone: data['phone'],
-      isActive: data['isActive'],
+
       proof: data['proof'],
-      timestamp: data['timestamp'],
       image: data['imageUrl'],
     );
   }

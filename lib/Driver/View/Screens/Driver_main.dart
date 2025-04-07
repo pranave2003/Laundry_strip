@@ -14,7 +14,6 @@ import 'Auth/Driver_Login.dart';
 import 'Auth/Driver_Splash.dart';
 import 'Btm_Nav/Driver_Btm_Nav.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -32,8 +31,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<DriverblocBloc>(
           create: (context) => DriverblocBloc()..add(FetchDriverDetailsById()),
         ),
-              BlocProvider<OrderBloc>(create: (context) => OrderBloc()),
-
+        BlocProvider<OrderBloc>(create: (context) => OrderBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -44,7 +42,6 @@ class MyApp extends StatelessWidget {
           '/home': (context) => DriverBottomNavWrapper(),
           '/login': (context) => Driver_Loginwrapper(),
         },
-
       ),
     );
   }

@@ -15,7 +15,8 @@ class DriverOrders extends StatefulWidget {
   State<DriverOrders> createState() => _DriverOrdersState();
 }
 
-class _DriverOrdersState extends State<DriverOrders> with SingleTickerProviderStateMixin {
+class _DriverOrdersState extends State<DriverOrders>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -63,7 +64,9 @@ class _DriverOrdersState extends State<DriverOrders> with SingleTickerProviderSt
             body: TabBarView(
               controller: _tabController,
               children: [
-                DriverAllOrdersWrapper(driver.driverId),
+                DriverAllOrdersWrapper(
+                  driverid: driver.driverId,
+                ),
                 DriverPendingWrapper(driver.driverId),
                 DriverInProgressWrapper(driver.driverId),
                 DriverCompletedWrapper(driver.driverId),
@@ -76,10 +79,6 @@ class _DriverOrdersState extends State<DriverOrders> with SingleTickerProviderSt
     );
   }
 }
-
-
-
-
 
 // import 'package:flutter/material.dart';
 // import 'DriverAllOrders.dart';

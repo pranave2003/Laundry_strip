@@ -11,16 +11,14 @@ import 'Drivermodel/Drivermodel.dart';
 import 'driverbloc_event.dart';
 import 'driverbloc_state.dart';
 
-
 class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
-
   DriverblocBloc() : super(DriverblocInitial()) {
     on<drivercheckloginstateevent>(
-          (event, emit) async {
+      (event, emit) async {
         User? user;
         try {
           await Future.delayed(Duration(seconds: 3));
@@ -33,17 +31,14 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
         } catch (e) {
           emit(DriverAuthenticatedError(
             message:
-            e
-                .toString()
-                .split('] ')
-                .last, // Extracts only the message part
+                e.toString().split('] ').last, // Extracts only the message part
           ));
         }
       },
     );
     // Signup
     on<DriverSignupEvent>(
-          (event, emit) async {
+      (event, emit) async {
         emit(DriverAuthloading());
         try {
           final usercredential = await _auth.createUserWithEmailAndPassword(
@@ -53,10 +48,7 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
           final user = usercredential.user;
 
           if (user != null) {
-            FirebaseFirestore.instance
-                .collection("drivers")
-                .doc(user.uid)
-                .set({
+            FirebaseFirestore.instance.collection("drivers").doc(user.uid).set({
               "driverId": user.uid,
               "email": user.email,
               "name": event.driver.name,
@@ -65,9 +57,8 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
               "status": "1",
               "phone": event.driver.phone,
               "proof": event.driver.proof,
-
               "imageUrl":
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4ZqivCNC7yvJqthqZOVvxSjDLyDxtai-cbQ&s",
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4ZqivCNC7yvJqthqZOVvxSjDLyDxtai-cbQ&s",
             });
             emit(DriverAuthenticated(user));
 
@@ -76,21 +67,15 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
             emit(DriverUnAuthenticated());
           }
         } catch (e) {
-          emit(DriverAuthenticatedError(message: e
-              .toString()
-              .split("]")
-              .last));
-          print("Authenticated Error : ${e
-              .toString()
-              .split(']')
-              .last}");
+          emit(DriverAuthenticatedError(message: e.toString().split("]").last));
+          print("Authenticated Error : ${e.toString().split(']').last}");
         }
       },
     );
 
     //Login
     on<DriverLoginEvent>(
-          (event, emit) async {
+      (event, emit) async {
         emit(DriverAuthloading());
         try {
           final userCredential = await _auth.signInWithEmailAndPassword(
@@ -145,34 +130,67 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
 
 //fetch by id
     User? driver = _auth.currentUser;
+    // on<FetchDriverDetailsById>((event, emit) async {
+    //   emit(Driverloading());
+    //   print("Driver loading ${driver?.uid.toString()}");
+    //
+    //   if (driver != null) {
+    //     try {
+    //       final driveris = FirebaseAuth.instance.currentUser;
+    //       // final ff = "uHeKwjOcLldt2gBQeZw51koDesz2";
+    //       if (driveris != null) {
+    //         final doc = await FirebaseFirestore.instance
+    //             .collection('drivers')
+    //             .doc(driveris.uid)
+    //             .get();
+    //         print("get");
+    //
+    //         if (doc.id.isNotEmpty) {
+    //           Driver userData = Driver.fromMap(doc.data()!);
+    //           print("userData $userData");
+    //           emit(DriverByidLoaded(userData));
+    //         } else {
+    //           emit(DriverError(error: "Driver profile not found"));
+    //         }
+    //       } else {
+    //         emit(DriverError(error: "Driver not authenticated"));
+    //       }
+    //     } catch (e) {
+    //       emit(DriverError(error: e.toString()));
+    //     }
+    //   }
+    // });
     on<FetchDriverDetailsById>((event, emit) async {
       emit(Driverloading());
-      print("Driver loading");
+      final driver = FirebaseAuth.instance.currentUser;
+      print("Driver loading ${driver?.uid}");
 
       if (driver != null) {
         try {
-          final driver = FirebaseAuth.instance.currentUser;
-          if (driver != null) {
-            final doc = await FirebaseFirestore.instance
-                .collection('drivers')
-                .doc("uHeKwjOcLldt2gBQeZw51koDesz2")
-                .get();
-            print("get");
+          final doc = await FirebaseFirestore.instance
+              .collection('drivers')
+              .doc(driver.uid)
+              .get();
 
-            if (doc.exists) {
-              Driver userData = Driver.fromMap(doc.data()!);
-              emit(DriverByidLoaded(userData));
-            } else {
-              emit(DriverError(error: "Driver profile not found"));
-            }
+          print("Document fetched");
+
+          if (doc.exists && doc.data() != null) {
+            Driver userData = Driver.fromMap(doc.data()!);
+            print("userData: $userData");
+            emit(DriverByidLoaded(userData));
           } else {
-            emit(DriverError(error: "Driver not authenticated"));
+            emit(DriverError(error: "Driver profile not found"));
           }
         } catch (e) {
+          print(e);
           emit(DriverError(error: e.toString()));
         }
+      } else {
+        print("error");
+        emit(DriverError(error: "Driver not authenticated"));
       }
     });
+
     on<PickUploadImageEvent>((event, emit) async {
       try {
         emit(ProfileImageLoading());
@@ -226,7 +244,6 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
       }
     });
 
-
     on<EditDriverProfile>((event, emit) async {
       emit(DriverLoading());
       try {
@@ -244,9 +261,8 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
       }
     });
 
-
     on<DriverSigOutEvent>(
-          (event, emit) async {
+      (event, emit) async {
         try {
           User? user = _auth.currentUser;
 
@@ -272,88 +288,86 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
     );
     // old commented
 
-      on<AddDriverEvent>(_onAddDriver);
-      on<FetchDrivers>(_fetchDrivers);
-      on<DeleteDriver>(_deleteDrivers);
+    on<AddDriverEvent>(_onAddDriver);
+    on<FetchDrivers>(_fetchDrivers);
+    on<DeleteDriver>(_deleteDrivers);
+  }
+
+  Future<void> _deleteDrivers(
+      DeleteDriver event, Emitter<DriverblocState> emit) async {
+    emit(DriverLoading());
+    try {
+      await firestore.collection("drivers").doc(event.id).delete();
+      add(FetchDrivers(status: true, searchQuery: null));
+    } catch (e) {
+      emit(DriverFailure(e.toString()));
     }
+  }
 
-    Future<void> _deleteDrivers(
-        DeleteDriver event, Emitter<DriverblocState> emit) async {
-      emit(DriverLoading());
-      try {
-        await firestore.collection("drivers").doc(event.id).delete();
-        add(FetchDrivers(status: true, searchQuery: null));
-      } catch (e) {
-        emit(DriverFailure(e.toString()));
-      }
+  Future<void> _onAddDriver(
+      AddDriverEvent event, Emitter<DriverblocState> emit) async {
+    emit(DriverLoading());
+    try {
+      DocumentReference docRef = firestore.collection('drivers').doc();
+
+      await docRef.set({
+        'driverId': docRef.id,
+        'name': event.driver.name,
+        'phone': event.driver.phone,
+        'email': event.driver.email,
+        'image': event.driver.image,
+        'available': event.driver.available,
+        'timestamp': event.driver.timestamp,
+      });
+
+      print("Driver added successfully");
+
+      // Fetch updated drivers before emitting success
+      await _fetchDrivers(
+          FetchDrivers(status: true, searchQuery: "null"), emit);
+
+      emit(DriverSuccess());
+    } catch (e) {
+      emit(DriverFailure(e.toString()));
     }
+  }
 
+  Future<void> _fetchDrivers(
+      FetchDrivers event, Emitter<DriverblocState> emit) async {
+    emit(DriverLoading());
+    try {
+      CollectionReference driversCollection =
+          FirebaseFirestore.instance.collection('drivers');
 
-    Future<void> _onAddDriver(
-        AddDriverEvent event, Emitter<DriverblocState> emit) async {
-      emit(DriverLoading());
-      try {
-        DocumentReference docRef = firestore.collection('drivers').doc();
+      Query query = driversCollection; // You can add filters here if needed
 
-        await docRef.set({
-          'driverId': docRef.id,
-          'name': event.driver.name,
-          'phone': event.driver.phone,
-          'email': event.driver.email,
-          'image': event.driver.image,
-          'isActive': event.driver.isActive,
-          'timestamp': event.driver.timestamp,
-        });
+      query = query.where("isActive", isEqualTo: event.status);
 
-        print("Driver added successfully");
+      QuerySnapshot snapshot = await query.get();
 
-        // Fetch updated drivers before emitting success
-        await _fetchDrivers(
-            FetchDrivers(status: true, searchQuery: "null"), emit);
-
-        emit(DriverSuccess());
-      } catch (e) {
-        emit(DriverFailure(e.toString()));
-      }
-    }
-
-    Future<void> _fetchDrivers(
-        FetchDrivers event, Emitter<DriverblocState> emit) async {
-      emit(DriverLoading());
-      try {
-        CollectionReference driversCollection =
-            FirebaseFirestore.instance.collection('drivers');
-
-        Query query = driversCollection; // You can add filters here if needed
-
-        query = query.where("isActive", isEqualTo: event.status);
-
-        QuerySnapshot snapshot = await query.get();
-
-        List<Driver> drivers = snapshot.docs.map((doc) {
-          return Driver(
-            driverId: doc['driverId'],
-            email: doc['email'],
-            password: doc['password'],
-            proof: doc['proof'],
-            isActive: doc['isActive'],
-            phone: doc['phone'],
-            name: doc['name'],
-            image: doc['image'] ?? "",
-            timestamp: doc["timestamp"] ?? "",
-          );
+      List<Driver> drivers = snapshot.docs.map((doc) {
+        return Driver(
+          driverId: doc['driverId'],
+          email: doc['email'],
+          password: doc['password'],
+          proof: doc['proof'],
+          available: doc['available'],
+          phone: doc['phone'],
+          name: doc['name'],
+          image: doc['image'] ?? "",
+          timestamp: doc["timestamp"] ?? "",
+        );
+      }).toList();
+      if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
+        drivers = drivers.where((driver) {
+          return driver.name
+              .toLowerCase()
+              .contains(event.searchQuery!.toLowerCase());
         }).toList();
-        if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
-          drivers = drivers.where((driver) {
-            return driver.name
-                .toLowerCase()
-                .contains(event.searchQuery!.toLowerCase());
-          }).toList();
-        }
-        emit(Driverloaded(drivers));
-      } catch (e) {
-        emit(DriverFailure(e.toString()));
       }
-     }
-
+      emit(Driverloaded(drivers));
+    } catch (e) {
+      emit(DriverFailure(e.toString()));
+    }
+  }
 }

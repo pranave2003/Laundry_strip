@@ -3,12 +3,10 @@
 import 'package:flutter/cupertino.dart';
 import 'Drivermodel/Drivermodel.dart';
 
-
 @immutable
 sealed class DriverblocEvent {}
 
-class drivercheckloginstateevent extends  DriverblocEvent{}
-
+class drivercheckloginstateevent extends DriverblocEvent {}
 
 // login
 
@@ -26,6 +24,7 @@ class DriverSignupEvent extends DriverblocEvent {
 }
 
 class FetchDriverDetailsById extends DriverblocEvent {}
+
 class AddDriverEvent extends DriverblocEvent {
   final Driver driver;
 

@@ -75,7 +75,7 @@ class _DriverSignupPageState extends State<DriverSignupPage> {
         driverId: const Uuid().v4(), // Unique ID
         image: _profileImage!.path,
         proof: _licenseProof!.path,
-        isActive: false, // default
+
         timestamp: DateTime.now().toIso8601String(),
       );
 
@@ -125,8 +125,8 @@ class _DriverSignupPageState extends State<DriverSignupPage> {
                     validator: (value) => value == null || value.trim().isEmpty
                         ? "Username is required"
                         : value.length < 3
-                        ? "Username should be at least 3 characters"
-                        : null,
+                            ? "Username should be at least 3 characters"
+                            : null,
                   ),
                   const SizedBox(height: 15),
 
@@ -139,8 +139,8 @@ class _DriverSignupPageState extends State<DriverSignupPage> {
                     validator: (value) => value == null || value.trim().isEmpty
                         ? "Mobile number is required"
                         : !RegExp(r'^[0-9]{10}$').hasMatch(value)
-                        ? "Enter a valid 10-digit mobile number"
-                        : null,
+                            ? "Enter a valid 10-digit mobile number"
+                            : null,
                   ),
                   const SizedBox(height: 15),
 
@@ -152,8 +152,8 @@ class _DriverSignupPageState extends State<DriverSignupPage> {
                     validator: (value) => value == null || value.trim().isEmpty
                         ? "Email is required"
                         : !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value.trim())
-                        ? "Enter a valid email"
-                        : null,
+                            ? "Enter a valid email"
+                            : null,
                   ),
                   const SizedBox(height: 15),
 
@@ -165,8 +165,8 @@ class _DriverSignupPageState extends State<DriverSignupPage> {
                     validator: (value) => value == null || value.trim().isEmpty
                         ? "Password is required"
                         : value.length < 6
-                        ? "Password must be at least 6 characters"
-                        : null,
+                            ? "Password must be at least 6 characters"
+                            : null,
                   ),
                   const SizedBox(height: 15),
 
@@ -174,7 +174,8 @@ class _DriverSignupPageState extends State<DriverSignupPage> {
                   GestureDetector(
                     onTap: () => _pickImage(true),
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 16),
                       margin: const EdgeInsets.only(bottom: 15),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -190,7 +191,9 @@ class _DriverSignupPageState extends State<DriverSignupPage> {
                                   ? "Profile Image Selected"
                                   : "Upload Profile Image",
                               style: TextStyle(
-                                color: _profileImage != null ? Colors.black : Colors.grey,
+                                color: _profileImage != null
+                                    ? Colors.black
+                                    : Colors.grey,
                               ),
                             ),
                           ),
@@ -198,7 +201,9 @@ class _DriverSignupPageState extends State<DriverSignupPage> {
                             _profileImage != null
                                 ? Icons.check_circle
                                 : Icons.upload_file,
-                            color: _profileImage != null ? Colors.green : Colors.grey,
+                            color: _profileImage != null
+                                ? Colors.green
+                                : Colors.grey,
                           ),
                         ],
                       ),
@@ -209,7 +214,8 @@ class _DriverSignupPageState extends State<DriverSignupPage> {
                   GestureDetector(
                     onTap: () => _pickImage(false),
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 16),
                       margin: const EdgeInsets.only(bottom: 15),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -225,7 +231,9 @@ class _DriverSignupPageState extends State<DriverSignupPage> {
                                   ? "License Proof Selected"
                                   : "Upload License Proof",
                               style: TextStyle(
-                                color: _licenseProof != null ? Colors.black : Colors.grey,
+                                color: _licenseProof != null
+                                    ? Colors.black
+                                    : Colors.grey,
                               ),
                             ),
                           ),
@@ -233,7 +241,9 @@ class _DriverSignupPageState extends State<DriverSignupPage> {
                             _licenseProof != null
                                 ? Icons.check_circle
                                 : Icons.upload_file,
-                            color: _licenseProof != null ? Colors.green : Colors.grey,
+                            color: _licenseProof != null
+                                ? Colors.green
+                                : Colors.grey,
                           ),
                         ],
                       ),
@@ -271,7 +281,7 @@ class _DriverSignupPageState extends State<DriverSignupPage> {
                     width: double.infinity,
                     child: MaterialButton(
                       onPressed:
-                      state is DriverAuthloading ? null : _registerUser,
+                          state is DriverAuthloading ? null : _registerUser,
                       color: defaultColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),

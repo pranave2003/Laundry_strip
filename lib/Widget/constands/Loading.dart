@@ -10,7 +10,7 @@ class Loading_Widget extends StatelessWidget {
     return Column(
       children: [
         LoadingAnimationWidget.dotsTriangle(
-          color: CupertinoColors.systemGrey,
+          color: CupertinoColors. lightBackgroundGray,
           size: 50,
         ),
       ],

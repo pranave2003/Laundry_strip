@@ -41,7 +41,7 @@ class DriverProfilePageState extends State<DriverProfilePage> {
     Navigator.pushNamedAndRemoveUntil(
       context,
       "/login",
-          (route) => false,
+      (route) => false,
     );
   }
 
@@ -72,7 +72,7 @@ class DriverProfilePageState extends State<DriverProfilePage> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius:
-                    BorderRadius.circular(12), // Slightly rounded corners
+                        BorderRadius.circular(12), // Slightly rounded corners
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black12,
@@ -99,7 +99,7 @@ class DriverProfilePageState extends State<DriverProfilePage> {
                                 width: 100,
                                 height: 100,
                                 color:
-                                Colors.grey[300], // Placeholder background
+                                    Colors.grey[300], // Placeholder background
                                 child: Center(
                                   child: Loading_Widget(), // Loading indicator
                                 ),
@@ -139,12 +139,12 @@ class DriverProfilePageState extends State<DriverProfilePage> {
                             Text(
                               '${driver.email ?? ''}',
                               style:
-                              TextStyle(color: Colors.grey, fontSize: 14),
+                                  TextStyle(color: Colors.grey, fontSize: 14),
                             ),
                             Text(
                               '${driver.phone ?? ''}',
                               style:
-                              TextStyle(color: Colors.grey, fontSize: 14),
+                                  TextStyle(color: Colors.grey, fontSize: 14),
                             ),
                           ],
                         ),
@@ -191,9 +191,7 @@ class DriverProfilePageState extends State<DriverProfilePage> {
             children: [
               TextButton(
                   onPressed: () {
-                    context
-                        .read<DriverblocBloc>()
-                        .add(PickUploadImageEvent());
+                    context.read<DriverblocBloc>().add(PickUploadImageEvent());
                   },
                   child: Text("Edit Profile")),
             ],
@@ -285,10 +283,10 @@ class DriverProfilePageState extends State<DriverProfilePage> {
           ),
           trailing: showArrow
               ? const Icon(Icons.arrow_forward_ios,
-              size: 16, color: Colors.grey)
+                  size: 16, color: Colors.grey)
               : null,
           onTap: onTap ??
-                  () {
+              () {
                 if (page != null) {
                   Navigator.push(
                     context,

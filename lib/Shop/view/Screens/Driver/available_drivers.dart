@@ -138,9 +138,10 @@ class AvailableDrivers extends StatelessWidget {
                                                 children: [
                                                   Icon(
                                                     Icons.circle,
-                                                    color: driver.isActive
-                                                        ? Colors.green
-                                                        : Colors.red,
+                                                    color:
+                                                        driver.available == "1"
+                                                            ? Colors.green
+                                                            : Colors.red,
                                                     size: 12,
                                                   ),
                                                   const SizedBox(width: 4),

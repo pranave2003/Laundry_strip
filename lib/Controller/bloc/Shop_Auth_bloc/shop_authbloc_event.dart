@@ -40,20 +40,26 @@ class FetchShopDetailsById extends ShopAuthblocEvent {}
 class FetchShop extends ShopAuthblocEvent {
   final String? searchQuery;
   final String? status;
-  FetchShop({required this.searchQuery,this.status});
+  FetchShop({required this.searchQuery, this.status});
 }
 
 class UserFetchShop extends ShopAuthblocEvent {
   final String? searchQuery;
   final String? service;
   final String? status;
-  UserFetchShop({required this.searchQuery, this.service,this.status});
+  final String? userpost;
+  final String? nearbypost;
+  UserFetchShop(
+      {required this.searchQuery,
+      this.service,
+      this.status,
+      this.nearbypost,
+      this.userpost});
 }
 
 // accept or reject
 class AcceptReject extends ShopAuthblocEvent {
   final String? status;
   final String? shopid;
-  AcceptReject({required this.status,required this.shopid});
+  AcceptReject({required this.status, required this.shopid});
 }
-

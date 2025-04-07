@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/User/view/Screens/Services/select_service.dart';
 import 'package:laundry/Widget/constands/colors.dart';
 
+import '../../../../Admin/Model/User_Model/user_model.dart';
+import '../../../../Controller/bloc/Authbloc/auth_bloc.dart';
 import '../../../../Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
 import '../../../../Widget/constands/Loading.dart';
 
@@ -17,6 +19,7 @@ class Userservice extends StatefulWidget {
 class _UserserviceState extends State<Userservice> {
   int? selectedIndex = 0; // Stores the index of the selected service
   String? selectedService; // Stores the name of the selected service
+  bool isChecked = false;
 
   List<Map<String, dynamic>> serviceList = [
     {"icon": "assets/icon/wash_fold.png", "name": "Wash + Fold"},
@@ -63,10 +66,18 @@ class _UserserviceState extends State<Userservice> {
                     setState(() {
                       selectedIndex = index;
                       selectedService = serviceList[index]["name"];
-                      context.read<ShopAuthblocBloc>().add(UserFetchShop(
-                          searchQuery: null,
-                          service: selectedService,
-                          status: "1"));
+                      final state = context.read<AuthBloc>().state;
+
+                      if (state is UserByidLoaded) {
+                        final userData = state.Userdata;
+
+                        context.read<ShopAuthblocBloc>().add(UserFetchShop(
+                            searchQuery: null,
+                            service: selectedService,
+                            status: "1",
+                            userpost: userData.pin,
+                            nearbypost: isChecked ? "1" : "0"));
+                      }
                     });
                   },
                   child: Container(
@@ -104,21 +115,28 @@ class _UserserviceState extends State<Userservice> {
             ),
 
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Nearby Service Providers",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Nearby Service Providers",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
+                    Checkbox(
+                      value: isChecked,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isChecked = value!;
+                        });
+                      },
+                    ),
+                  ],
+                )),
 
             // Nearby Service Provider List
             BlocConsumer<ShopAuthblocBloc, ShopAuthblocState>(

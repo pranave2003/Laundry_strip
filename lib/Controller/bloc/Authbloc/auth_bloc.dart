@@ -157,9 +157,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     //   },
     // );
 
+    User? user = _auth.currentUser;
+
     on<FetchUserDetailsById>((event, emit) async {
       emit(Userloading());
-      User? user = _auth.currentUser;
 
       if (user != null) {
         try {
@@ -184,7 +185,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       }
     });
-    User? user = _auth.currentUser;
+
     //Sign Out
     on<SigOutEvent>(
       (event, emit) async {

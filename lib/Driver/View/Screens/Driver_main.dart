@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<DriverblocBloc>(
           create: (context) => DriverblocBloc()..add(FetchDriverDetailsById()),
         ),
-              BlocProvider<OrderBloc>(create: (context) => OrderBloc())
+              BlocProvider<OrderBloc>(create: (context) => OrderBloc()),
 
       ],
       child: MaterialApp(

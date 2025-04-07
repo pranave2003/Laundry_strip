@@ -33,7 +33,7 @@ class _Driver_NavigationState extends State<Driver_Navigation> {
   final List<Widget> _pages = [
     DriverHome(),
     DriverScanQr(),
-    DriverOrders(driverId: '',),
+    DriverOrders(),
 
   ];
 

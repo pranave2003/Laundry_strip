@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 
 class DriverPendingWrapper extends StatelessWidget {
+  const DriverPendingWrapper(String driverId, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+class DriverPending extends StatelessWidget {
   final String driverId;
 
-  const DriverPendingWrapper(this.driverId, {super.key});
+  const DriverPending(this.driverId, {super.key});
 
   @override
   Widget build(BuildContext context) {

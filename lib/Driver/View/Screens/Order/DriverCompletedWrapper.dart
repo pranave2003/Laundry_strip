@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 
 class DriverCompletedWrapper extends StatelessWidget {
+  const DriverCompletedWrapper(String driverId, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+class DriverCompleted extends StatelessWidget {
   final String driverId;
 
-  const DriverCompletedWrapper(this.driverId, {super.key});
+  const DriverCompleted(this.driverId, {super.key});
 
   @override
   Widget build(BuildContext context) {

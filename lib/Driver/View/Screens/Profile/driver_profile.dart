@@ -4,20 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Controller/bloc/Driverbloc/driverbloc_bloc.dart';
 import 'package:laundry/Controller/bloc/Driverbloc/driverbloc_state.dart';
-import 'package:laundry/Shop/view/Screens/Profile/shopTerms.dart';
 import 'package:laundry/Widget/constands/Loading.dart';
 
 import '../../../../Controller/bloc/Driverbloc/driverbloc_event.dart';
 import '../../../../Shop/view/Screens/Profile/ContactUs.dart';
+import 'Driver_Terms_page.dart';
 
-class DriverProfilewrapper extends StatefulWidget {
+class DriverProfilewrapper extends StatelessWidget {
   const DriverProfilewrapper({super.key});
 
-  @override
-  State<DriverProfilewrapper> createState() => _DriverProfilewrapperState();
-}
-
-class _DriverProfilewrapperState extends State<DriverProfilewrapper> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<DriverblocBloc>(
@@ -152,18 +147,6 @@ class DriverProfilePageState extends State<DriverProfilePage> {
                       const SizedBox(width: 10), // Space before the button
                       ElevatedButton(
                         onPressed: () {
-                          // Navigate to Edit Profile Page
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => EditShop_ProfilePage(
-                          //         shopid: shop.shopid ??
-                          //             "", // Provide a default empty string if null
-                          //         shopname: shop.shop_name ?? "",
-                          //         phone: shop.phone ?? "",
-                          //         imagePath: shop.ShopImage ?? "",
-                          //       )),
-                          // );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blueAccent,
@@ -216,7 +199,7 @@ class DriverProfilePageState extends State<DriverProfilePage> {
                   icon: Icons.rule,
                   title: "Terms & Conditions",
                   context: context,
-                  page: LaundryShopTermsPage(),
+                  page: DriverTermsPage(),
                 ),
                 _buildProfileOption(
                   icon: Icons.privacy_tip,

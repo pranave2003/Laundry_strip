@@ -79,6 +79,9 @@ class _DriverAllOrdersState extends State<DriverAllOrders> {
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold)),
                           const SizedBox(height: 4),
+                          Text("Shop Name: ${order.shopname}",
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.black87)),
                           Text("Order ID: ${order.orderid}",
                               style: const TextStyle(
                                   fontSize: 12, color: Colors.black87)),

@@ -64,12 +64,11 @@ class _DriverOrdersState extends State<DriverOrders>
             body: TabBarView(
               controller: _tabController,
               children: [
-                DriverAllOrdersWrapper(
-                  driverid: driver.driverId,
+                DriverAllOrdersWrapper(driverid: driver.driverId,
                 ),
                 DriverPendingWrapper(driver.driverId),
-                DriverInProgressWrapper(driver.driverId),
-                DriverCompletedWrapper(driver.driverId),
+                DriverInProgressWrapper(driverid: driver.driverId),
+                DriverCompletedWrapper(driverid:driver.driverId),
               ],
             ),
           );

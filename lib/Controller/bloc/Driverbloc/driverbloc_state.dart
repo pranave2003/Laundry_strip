@@ -54,6 +54,9 @@ class ProfileImageFailure extends DriverblocState {
   List<Object?> get props => [error];
 }
 
+final class Refresh extends DriverblocState {}
+
+
 final class DriverLoading extends DriverblocState {}
 
 final class DriverSuccess extends DriverblocState {}

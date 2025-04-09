@@ -34,7 +34,6 @@ class DriverCompleted extends StatelessWidget {
         if (state is orderRefresh) {
           context.read<OrderBloc>()
             ..add(Fetchorders(
-              driverId: "uHeKwjOcLldt2gBQeZw51koDesz2",
               searchQuery: null,
             ));
         }
@@ -90,6 +89,7 @@ class DriverCompleted extends StatelessWidget {
                             order.Delivered == "1"
                                 ? "Delivered"
                                 : "Progress",
+
                             style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,

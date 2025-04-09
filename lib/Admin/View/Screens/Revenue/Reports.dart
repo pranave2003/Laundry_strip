@@ -169,7 +169,7 @@ class _MyRevenuePageState extends State<MyRevenuePage> {
   // 🟢 Recent Transactions Section
   Widget _buildRecentTransactions() {
     return Expanded(
-      child: Card(
+      child: Card(color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         elevation: 4,
         child: Padding(
@@ -178,7 +178,7 @@ class _MyRevenuePageState extends State<MyRevenuePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Recent Transactions",
+                "Recent Orders",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const Divider(thickness: 1, color: Colors.grey),
@@ -237,7 +237,7 @@ class _MyRevenuePageState extends State<MyRevenuePage> {
                             statusText = "Picked Up";
                             statusColor = Colors.purple;
                           }
-                          return Card(
+                          return Card( color: Colors.white,
                             elevation: 3,
                             margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                             child: Padding(
@@ -298,27 +298,27 @@ class _MyRevenuePageState extends State<MyRevenuePage> {
     );
   }
 
-  Widget _transactionTile(String orderId, String status, String amount, Color color) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 6),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 5,
-            spreadRadius: 1,
-          ),
-        ],
-      ),
-      child: ListTile(
-        contentPadding: EdgeInsets.zero,
-        title: Text(orderId, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(status, style: TextStyle(color: color, fontWeight: FontWeight.bold)),
-        trailing: Text(amount, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-      ),
-    );
-  }
+  // Widget _transactionTile(String orderId, String status, String amount, Color color) {
+  //   return Container(
+  //     margin: const EdgeInsets.symmetric(vertical: 6),
+  //     padding: const EdgeInsets.all(12),
+  //     decoration: BoxDecoration(
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.circular(12),
+  //       boxShadow: [
+  //         BoxShadow(
+  //           color: Colors.black12,
+  //           blurRadius: 5,
+  //           spreadRadius: 1,
+  //         ),
+  //       ],
+  //     ),
+  //     child: ListTile(
+  //       contentPadding: EdgeInsets.zero,
+  //       title: Text(orderId, style: const TextStyle(fontWeight: FontWeight.bold)),
+  //       subtitle: Text(status, style: TextStyle(color: color, fontWeight: FontWeight.bold)),
+  //       trailing: Text(amount, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+  //     ),
+  //   );
+  // }
 }

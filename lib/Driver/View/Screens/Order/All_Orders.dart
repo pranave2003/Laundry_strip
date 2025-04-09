@@ -44,7 +44,7 @@ class _DriverOrdersState extends State<DriverOrders>
             appBar: AppBar(
               backgroundColor: Colors.white,
               title: Text(
-                "Driver Orders - ${state.userData.driverId}",
+                "Driver Orders",
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               automaticallyImplyLeading: false,
@@ -66,7 +66,7 @@ class _DriverOrdersState extends State<DriverOrders>
               children: [
                 DriverAllOrdersWrapper(driverid: driver.driverId,
                 ),
-                DriverPendingWrapper(driver.driverId),
+                DriverPendingWrapper(driverid:driver.driverId),
                 DriverInProgressWrapper(driverid: driver.driverId),
                 DriverCompletedWrapper(driverid:driver.driverId),
               ],

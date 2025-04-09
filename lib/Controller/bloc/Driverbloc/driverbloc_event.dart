@@ -41,10 +41,17 @@ class EditDriverProfile extends DriverblocEvent {
 
 class PickUploadImageEvent extends DriverblocEvent {}
 
+
 //signout
 
 class DriverSigOutEvent extends DriverblocEvent {}
 
+class FetchDriver extends DriverblocEvent {
+  final String? status;
+  final String? searchQuery;
+  FetchDriver({required this.status, required this.searchQuery});
+}
+//
 class FetchDrivers extends DriverblocEvent {
   final bool status;
   final String? searchQuery;
@@ -54,4 +61,11 @@ class FetchDrivers extends DriverblocEvent {
 class DeleteDriver extends DriverblocEvent {
   final String id;
   DeleteDriver({required this.id});
+}
+
+
+class AcceptReject extends DriverblocEvent {
+  final String? status;
+  final String? driverId;
+  AcceptReject({required this.status, required this.driverId});
 }

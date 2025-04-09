@@ -32,7 +32,6 @@ class DriverInProgress extends StatelessWidget {
         if (state is orderRefresh) {
           context.read<OrderBloc>()
             ..add(Fetchorders(
-              driverId: "uHeKwjOcLldt2gBQeZw51koDesz2",
               searchQuery: null,
             ));
         }

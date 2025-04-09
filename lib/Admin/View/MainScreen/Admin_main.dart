@@ -15,6 +15,7 @@ import '../../../Widget/constands/colors.dart';
 import '../../../firebase_options.dart';
 import '../Screens/Dashboard/DasgboardMain.dart';
 import '../Screens/Driver_Management/All_driver.dart';
+import '../Screens/Driver_Management/driver_new.dart';
 import '../Screens/Order_management/All_orders.dart';
 import '../Screens/Order_management/Assign_order.dart';
 import '../Screens/Revenue/Reports.dart';
@@ -46,6 +47,10 @@ class MyApp extends StatelessWidget {
         BlocProvider<DriverblocBloc>(
           create: (context) => DriverblocBloc()
             ..add(FetchDrivers(status: true, searchQuery: null)),
+        ),
+        BlocProvider<DriverblocBloc>(
+          create: (context) =>
+          DriverblocBloc()..add(FetchDriver(searchQuery: null, status: '')),
         ),
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc()..add(FetchUsers(searchQuery: null)),
@@ -105,7 +110,7 @@ class _AdminPageState extends State<AdminPage> {
   @override
   void initState() {
     // TODO: implement initState
-    _selectedPage = Dasgboardmain();
+    _selectedPage = AdminDashboard();
     _selectedTile = "Dashboard";
     super.initState();
   }
@@ -120,9 +125,16 @@ class _AdminPageState extends State<AdminPage> {
         children: [
           // Left side: Management options
           Container(
-            color: Colors.grey[200],
+
             width: 300,
             padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+            ),
             child: ListView(
               children: [
                 Container(
@@ -164,7 +176,7 @@ class _AdminPageState extends State<AdminPage> {
                   ),
                 ),
                 // //////////////////////
-                _buildMainListTile('Dashboard', const Dasgboardmain(),
+                _buildMainListTile('Dashboard', const AdminDashboard(),
                     icon: Icons.dashboard),
                 // /////////////////////////
 
@@ -248,6 +260,10 @@ class _AdminPageState extends State<AdminPage> {
                     //   'All Driver',
                     //   AllDriversPage(),
                     // ),
+                    SubListTile(
+                      'New Drivers',
+                      DriverPage(),
+                    ),
                   ],
                 ),
                 _buildMainExpansionTile(
@@ -292,7 +308,7 @@ class _AdminPageState extends State<AdminPage> {
                     ),
                   ],
                 ),
-                _buildMainListTile('Log Out', const Dasgboardmain(),
+                _buildMainListTile('Log Out', const AdminDashboard(),
                     icon: Icons.logout_rounded),
               ],
             ),

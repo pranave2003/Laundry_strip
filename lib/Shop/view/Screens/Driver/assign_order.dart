@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../Controller/bloc/Orderbloc/order_bloc.dart';
 import '../../../../Widget/constands/Loading.dart';
+import '../../../../Widget/constands/colors.dart';
+import 'AssignFeesPage.dart';
 import 'available_drivers.dart';
 
 class Assignorderwrapper extends StatelessWidget {
@@ -29,7 +31,7 @@ class OrderAssignPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text("Order Assign",
+        title: const Text("Assign Driver",
             style: TextStyle(
                 color: Colors.black,
                 fontSize: 20,
@@ -41,8 +43,36 @@ class OrderAssignPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("All Orders",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Row(
+              children: [
+                const Text("All Orders",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                SizedBox(width: 260,),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AssignFeesPage(),
+                      ),
+                    );
+                    // Add your Assign Fees logic here
+                    print("Assign Fees button tapped");
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: defaultColor,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  ),
+                  child: const Text(
+                    "Assign Fees",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 10),
             Expanded(
               child: BlocConsumer<OrderBloc, OrderState>(
@@ -101,6 +131,7 @@ class OrderAssignPage extends StatelessWidget {
                                                 style: TextStyle(
                                                     color: Colors.amber),
                                               )
+
                                             : ElevatedButton(
                                                 onPressed: () {
                                                   Navigator.push(

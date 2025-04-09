@@ -9,6 +9,7 @@ import 'package:laundry/Widget/constands/Loading.dart';
 import '../../../../Controller/bloc/Driverbloc/driverbloc_event.dart';
 import '../../../../Shop/view/Screens/Profile/ContactUs.dart';
 import 'Driver_Terms_page.dart';
+import 'Edit_Driver_Profile.dart';
 
 class DriverProfilewrapper extends StatelessWidget {
   const DriverProfilewrapper({super.key});
@@ -147,6 +148,18 @@ class DriverProfilePageState extends State<DriverProfilePage> {
                       const SizedBox(width: 10), // Space before the button
                       ElevatedButton(
                         onPressed: () {
+                          // Navigate to Edit Profile Page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditDriver_ProfilePage(
+                                  driverId: driver.driverId ??
+                                      "", // Provide a default empty string if null
+                                  name: driver.name ?? "",
+                                  phone: driver.phone ?? "",
+                                  image: driver.image ?? "",
+                                )),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blueAccent,

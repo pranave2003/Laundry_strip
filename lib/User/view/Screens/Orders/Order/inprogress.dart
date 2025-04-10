@@ -5,6 +5,7 @@ import 'package:laundry/Widget/constands/Loading.dart';
 
 import '../../../../../Controller/bloc/Orderbloc/order_bloc.dart';
 import '../Order_tracking.dart';
+import 'ShowQr.dart';
 
 class Inprogresswrapper extends StatefulWidget {
   const Inprogresswrapper({super.key});
@@ -39,182 +40,214 @@ class InprogressOrders extends StatelessWidget {
         if (state is orderfetchloading) {
           return Center(child: Loading_Widget());
         } else if (state is OrderLoaded) {
-          return  state.orders.isEmpty
+          return state.orders.isEmpty
               ? Center(
-            child: Text("No Orders"),
-          )
-              :ListView.builder(
-            itemCount: state.orders.length,
-            itemBuilder: (context, index) {
-              var order = state.orders[index];
-              return Card(
-                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
-                elevation: 2,
-                color: Colors.white,
-                child: ExpansionTile(
-                  title: Row(
-                    children: [
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Text("No Orders"),
+                )
+              : ListView.builder(
+                  itemCount: state.orders.length,
+                  itemBuilder: (context, index) {
+                    var order = state.orders[index];
+                    return Card(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 6),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      elevation: 2,
+                      color: Colors.white,
+                      child: ExpansionTile(
+                        title: Row(
                           children: [
-                            Text("shop: ${order.shopname}",
-                                style: const TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold)),
-                            const SizedBox(height: 4),
-                            Text("Order ID: ${order.orderid}",
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.black87)),
-                            Text("Order Date: ${order.Orderdate}",
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.black87)),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("shop: ${order.shopname}",
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.blue,
+                                          fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 4),
+                                  Text("Order ID: ${order.orderid}",
+                                      style: const TextStyle(
+                                          fontSize: 12, color: Colors.black87)),
+                                  Text("Order Date: ${order.Orderdate}",
+                                      style: const TextStyle(
+                                          fontSize: 12, color: Colors.black87)),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                  order.Delivered == "1"
+                                      ? "Delivered"
+                                      : order.workinprogress == "1"
+                                          ? "In progress"
+                                          : order.PIckup == "1"
+                                              ? "Assign Driver"
+                                              : order.Rejected == "1"
+                                                  ? "Rejected by shop"
+                                                  : order.status == "2"
+                                                      ? "Cancelled"
+                                                      : order.status == "1"
+                                                          ? "Confirm order"
+                                                          : "Pending",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: order.Delivered == "1"
+                                          ? Colors.green
+                                          : order.workinprogress == "1"
+                                              ? Colors.blue.shade900
+                                              : order.PIckup == "1"
+                                                  ? Colors.orange
+                                                  : order.Rejected == "1"
+                                                      ? Colors.brown
+                                                      : order.status == "2"
+                                                          ? Colors.red
+                                                          : order.status == "1"
+                                                              ? Colors.blue
+                                                              : Colors.grey)),
+                            ),
                           ],
                         ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                            order.Delivered == "1"
-                                ? "Delivered"
-                                : order.workinprogress == "1"
-                                    ? "In progress"
-                                    : order.PIckup == "1"
-                                        ? "Assign Driver"
-                                        : order.Rejected == "1"
-                                            ? "Rejected by shop"
-                                            : order.status == "2"
-                                                ? "Cancelled"
-                                                : order.status == "1"
-                                                    ? "Confirm order"
-                                                    : "Pending",
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: order.Delivered == "1"
-                                    ? Colors.green
-                                    : order.workinprogress == "1"
-                                        ? Colors.blue.shade900
-                                        : order.PIckup == "1"
-                                            ? Colors.orange
-                                            : order.Rejected == "1"
-                                                ? Colors.brown
-                                                : order.status == "2"
-                                                    ? Colors.red
-                                                    : order.status == "1"
-                                                        ? Colors.blue
-                                                        : Colors.grey)),
-                      ),
-                    ],
-                  ),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            children: order.items.map((item) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.network(item.productimage,
-                                        width: 50,
-                                        height: 50,
-                                        fit: BoxFit.cover),
-                                    const SizedBox(width: 12),
-                                    Expanded(
-                                      child: Column(
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  children: order.items.map((item) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0),
+                                      child: Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(item.productName,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold)),
-                                          const SizedBox(height: 4),
-                                          Text("Quantity: ${item.quantity}",
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.grey.shade800)),
-                                          Text("Price: ${item.price}",
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.grey.shade800)),
-                                          Text("Service: ${item.service}",
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.grey.shade800)),
-                                          Text("Category: ${item.catogoty}",
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.grey.shade800)),
+                                          Image.network(item.productimage,
+                                              width: 50,
+                                              height: 50,
+                                              fit: BoxFit.cover),
+                                          const SizedBox(width: 12),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(item.productName,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                const SizedBox(height: 4),
+                                                Text(
+                                                    "Quantity: ${item.quantity}",
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors
+                                                            .grey.shade800)),
+                                                Text("Price: ${item.price}",
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors
+                                                            .grey.shade800)),
+                                                Text("Service: ${item.service}",
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors
+                                                            .grey.shade800)),
+                                                Text(
+                                                    "Category: ${item.catogoty}",
+                                                    style: TextStyle(
+                                                        fontSize: 12,
+                                                        color: Colors
+                                                            .grey.shade800)),
+                                              ],
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                    ),
+                                    );
+                                  }).toList(),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                            builder: (context) {
+                                              return OrderTracking(
+                                                order: state.orders[index],
+                                              );
+                                            },
+                                          ));
+                                        },
+                                        child: Text(
+                                          "Track order",
+                                          style: TextStyle(
+                                              color: Colors.blue,
+                                              fontWeight: FontWeight.bold),
+                                        ))
                                   ],
                                 ),
-                              );
-                            }).toList(),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) {
-                                        return OrderTracking(
-                                          order: state.orders[index],
-                                        );
-                                      },
-                                    ));
-                                  },
-                                  child: Text(
-                                    "Open",
+                                Text("Customer Name: ${order.username}",
+                                    style: TextStyle(fontSize: 14)),
+                                Text("Total Amount: \$${order.Totalcharge}",
+                                    style: TextStyle(fontSize: 14)),
+                                Text(
+                                    "Delivery Address: ${order.deliveryaddress}",
                                     style: TextStyle(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.bold),
-                                  ))
-                            ],
+                                        fontSize: 14,
+                                        color: Colors.grey.shade900,
+                                        fontWeight: FontWeight.bold)),
+                                const SizedBox(height: 8),
+                                Text("Total Items: ${order.items.length}",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold)),
+                                Divider(),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.green),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Orderhistory(
+                                              orderId: order.orderid.toString(),
+                                              totalitems: order.items.length,
+                                              username: order.username),
+                                        ),
+                                      );
+                                    },
+                                    child: Text("Open QR",
+                                        style: TextStyle(color: Colors.white)),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          Text("Customer Name: ${order.username}",
-                              style: TextStyle(fontSize: 14)),
-                          Text("Total Amount: \$${order.Totalcharge}",
-                              style: TextStyle(fontSize: 14)),
-                          Text("Delivery Address: ${order.deliveryaddress}",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey.shade900,
-                                  fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 8),
-                          Text("Total Items: ${order.items.length}",
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold)),
-                          Divider(),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
+                    );
+                  },
+                );
         } else if (state is OrderFailure) {
           return Center(child: Text("Error: ${state.message ?? ""}"));
         }

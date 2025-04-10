@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../Controller/bloc/Driverbloc/driverbloc_bloc.dart';
 import '../../../../Controller/bloc/Orderbloc/order_bloc.dart';
 
-class DriverCompletedWrapper extends StatelessWidget {
-  const DriverCompletedWrapper({super.key, required this.driverid});
+class DriverPickedWrapper extends StatelessWidget {
+  const DriverPickedWrapper({super.key, required this.driverid});
 
   final driverid;
 
@@ -16,14 +15,15 @@ class DriverCompletedWrapper extends StatelessWidget {
         ..add(Fetchorders(
           driverId: Driverid_blobal,
           searchQuery: null,
+          Picked: '1'
         )),
-      child: DriverCompleted(),
+      child: DriverPending(),
     );
   }
 }
 
-class DriverCompleted extends StatelessWidget {
-  const DriverCompleted({super.key});
+class DriverPending extends StatelessWidget {
+  const DriverPending({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,10 @@ class DriverCompleted extends StatelessWidget {
         if (state is orderRefresh) {
           context.read<OrderBloc>()
             ..add(Fetchorders(
-                driverId: Driverid_blobal, searchQuery: null, Deliverd: "1"));
+              Picked: "1",
+              driverId: Driverid_blobal,
+              searchQuery: null,
+            ));
         }
         // TODO: implement listener
       },
@@ -64,6 +67,15 @@ class DriverCompleted extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Text("Name: ${order.username}",
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 4),
+                                  Text("Shop Name: ${order.shopname}",
+                                      style: const TextStyle(
+                                          fontSize: 12, color: Colors.black87)),
                                   Text("Service: ${order.orderid}",
                                       style: const TextStyle(
                                           fontSize: 12, color: Colors.grey)),
@@ -77,21 +89,21 @@ class DriverCompleted extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 4),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                  order.Delivered == "1"
-                                      ? "Delivered"
-                                      : "Progress",
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.green)),
-                            ),
+                            // Container(
+                            //   padding: const EdgeInsets.symmetric(
+                            //       horizontal: 10, vertical: 4),
+                            //   decoration: BoxDecoration(
+                            //     borderRadius: BorderRadius.circular(8),
+                            //   ),
+                            //   child: Text(
+                            //       order.Delivered == "1"
+                            //           ? "Delivered"
+                            //           : "Progress",
+                            //       style: TextStyle(
+                            //           fontSize: 12,
+                            //           fontWeight: FontWeight.bold,
+                            //           color: Colors.green)),
+                            // ),
                           ],
                         ),
                         children: [

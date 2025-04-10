@@ -11,6 +11,8 @@ import 'Drivermodel/Drivermodel.dart';
 import 'driverbloc_event.dart';
 import 'driverbloc_state.dart';
 
+final Driverid_blobal = FirebaseAuth.instance.currentUser!.uid;
+
 class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -128,12 +130,11 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
       },
     );
 
-
     on<FetchDriver>((event, emit) async {
       emit(DriverLoading());
       try {
         CollectionReference driverCollection =
-        FirebaseFirestore.instance.collection('drivers');
+            FirebaseFirestore.instance.collection('drivers');
 
         Query query = driverCollection;
         query = query.where("status", isEqualTo: event.status);
@@ -156,7 +157,6 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
         emit(DriverFailure(e.toString()));
       }
     });
-
 
 //fetch by id
     User? driver = _auth.currentUser;
@@ -290,7 +290,7 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
     //accept reject
 
     on<AcceptReject>(
-          (event, emit) async {
+      (event, emit) async {
         print("Accept");
         try {
           // Get the Player ID from OneSignalService
@@ -312,7 +312,7 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
 
 //Ban Driver
     on<BanDriver>(
-          (event, emit) async {
+      (event, emit) async {
         print("Accept");
         try {
           // Get the Player ID from OneSignalService

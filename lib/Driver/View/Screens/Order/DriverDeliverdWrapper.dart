@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../Controller/bloc/Driverbloc/driverbloc_bloc.dart';
 import '../../../../Controller/bloc/Orderbloc/order_bloc.dart';
 
-class DriverCompletedWrapper extends StatelessWidget {
-  const DriverCompletedWrapper({super.key, required this.driverid});
+class DriverDeliverdWrapper extends StatelessWidget {
+  const DriverDeliverdWrapper({super.key, required this.driverid});
 
   final driverid;
 
@@ -14,16 +14,14 @@ class DriverCompletedWrapper extends StatelessWidget {
     return BlocProvider(
       create: (context) => OrderBloc()
         ..add(Fetchorders(
-          driverId: Driverid_blobal,
-          searchQuery: null,
-        )),
-      child: DriverCompleted(),
+            driverId: Driverid_blobal, searchQuery: null, Picked: "1")),
+      child: DriverInProgress(),
     );
   }
 }
 
-class DriverCompleted extends StatelessWidget {
-  const DriverCompleted({super.key});
+class DriverInProgress extends StatelessWidget {
+  const DriverInProgress({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +30,7 @@ class DriverCompleted extends StatelessWidget {
         if (state is orderRefresh) {
           context.read<OrderBloc>()
             ..add(Fetchorders(
-                driverId: Driverid_blobal, searchQuery: null, Deliverd: "1"));
+                driverId: Driverid_blobal, searchQuery: null, Picked: '1'));
         }
         // TODO: implement listener
       },
@@ -49,6 +47,7 @@ class DriverCompleted extends StatelessWidget {
                   itemCount: state.orders.length,
                   itemBuilder: (context, index) {
                     var order = state.orders[index];
+
                     return Card(
                       margin: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 6),
@@ -84,13 +83,11 @@ class DriverCompleted extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                  order.Delivered == "1"
-                                      ? "Delivered"
-                                      : "Progress",
+                                  order.status == "0" ? "Pending" : "Progress",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.green)),
+                                      color: Colors.amber)),
                             ),
                           ],
                         ),

@@ -5,8 +5,8 @@ import '../../../../Controller/bloc/Driverbloc/driverbloc_bloc.dart';
 import '../../../../Widget/constands/Loading.dart';
 import 'DriverAllOrders.dart';
 import 'DriverCompletedWrapper.dart';
-import 'DriverInProgressWrapper.dart';
-import 'DriverPendingWrapper.dart';
+import 'DriverDeliverdWrapper.dart';
+import 'Driverpikedwrapper.dart';
 
 class DriverOrders extends StatefulWidget {
   const DriverOrders({super.key});
@@ -22,7 +22,7 @@ class _DriverOrdersState extends State<DriverOrders>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -55,20 +55,19 @@ class _DriverOrdersState extends State<DriverOrders>
                 indicatorColor: Colors.blue,
                 tabs: const [
                   Tab(text: "All"),
-                  Tab(text: "Pending"),
-                  Tab(text: "In Progress"),
-                  Tab(text: "Completed"),
+                  Tab(text: "Picked"),
+                  Tab(text: "Delivered"),
                 ],
               ),
             ),
             body: TabBarView(
               controller: _tabController,
               children: [
-                DriverAllOrdersWrapper(driverid: driver.driverId,
+                DriverAllOrdersWrapper(
+                  driverid: driver.driverId,
                 ),
-                DriverPendingWrapper(driverid:driver.driverId),
-                DriverInProgressWrapper(driverid: driver.driverId),
-                DriverCompletedWrapper(driverid:driver.driverId),
+                DriverPickedWrapper(driverid: driver.driverId),
+                DriverDeliverdWrapper(driverid: driver.driverId),
               ],
             ),
           );
@@ -82,8 +81,8 @@ class _DriverOrdersState extends State<DriverOrders>
 // import 'package:flutter/material.dart';
 // import 'DriverAllOrders.dart';
 // import 'DriverCompletedWrapper.dart';
-// import 'DriverInProgressWrapper.dart';
-// import 'DriverPendingWrapper.dart';
+// import 'DriverDeliverdWrapper.dart';
+// import 'Driverpikedwrapper.dart';
 //
 // class DriverOrders extends StatefulWidget {
 //   final String driverId; // Accept driverId

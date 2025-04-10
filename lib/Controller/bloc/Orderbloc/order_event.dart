@@ -17,17 +17,19 @@ class Fetchorders extends OrderEvent {
   final String? shopid;
   final String? userid;
   final String? driverId;
+  final String? Picked;
 
-  Fetchorders(
-      {required this.searchQuery,
-      this.status,
-      this.userid,
-      this.shopid,
-      this.RejectedReason,
-      this.Rejected,
-      this.Deliverd,
-      this.driverId,
-      });
+  Fetchorders({
+    required this.searchQuery,
+    this.status,
+    this.userid,
+    this.shopid,
+    this.RejectedReason,
+    this.Rejected,
+    this.Deliverd,
+    this.Picked,
+    this.driverId,
+  });
 }
 
 //Accept order
@@ -53,6 +55,12 @@ class DeliverdUpdate extends OrderEvent {
   DeliverdUpdate({required this.Deliverd, required this.orderid});
 }
 
+class pickupdelivery extends OrderEvent {
+  final String? pickup;
+  final String? orderid;
+  pickupdelivery({required this.pickup, required this.orderid});
+}
+
 class Assigndriver extends OrderEvent {
   final String? orderid;
   final String? driverid;
@@ -65,4 +73,19 @@ class Assigndriver extends OrderEvent {
       required this.driverid,
       required this.drivername,
       required this.drivernumber});
+}
+
+class Deliverd_scann_event extends OrderEvent {
+  final String? orderid;
+  final String? Deliverd;
+  final String? picked;
+  Deliverd_scann_event({required this.orderid, this.Deliverd, this.picked});
+}
+
+
+
+class FetchOrderDetailsById extends OrderEvent {
+
+  final String? orderid;
+  FetchOrderDetailsById({required this.orderid});
 }

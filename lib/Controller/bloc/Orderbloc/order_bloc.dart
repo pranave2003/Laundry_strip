@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 
 import 'OrderModel/Order_Model.dart';
@@ -59,6 +60,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         query = query.where("shopid", isEqualTo: event.shopid);
         query = query.where("userId", isEqualTo: event.userid);
         query = query.where("Driverid", isEqualTo: event.driverId);
+        query = query.where("PIckup", isEqualTo: event.Picked);
         if (event.status != null) {
           query = query.where("status", isEqualTo: event.status);
         }
@@ -70,7 +72,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         }
 
         QuerySnapshot snapshot = await query.get();
-        print("fetch order");
+
         List<OrderModel> product = snapshot.docs.map((doc) {
           return OrderModel.fromMap(doc.data() as Map<String, dynamic>);
         }).toList();
@@ -86,6 +88,30 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         emit(OrderLoaded(product));
       } catch (e) {
         emit(OrderFailure(e.toString()));
+      }
+    });
+
+    on<FetchOrderDetailsById>((event, emit) async {
+      emit(orderloadingbyid());
+
+      try {
+        final doc = await FirebaseFirestore.instance
+            .collection('Orders')
+            .doc(event.orderid)
+            .get();
+
+        print("Document fetched");
+
+        if (doc.exists && doc.data() != null) {
+          OrderModel userData = OrderModel.fromMap(doc.data()!);
+          print("userData: $userData");
+          emit(OrderByidLoaded(userData));
+        } else {
+          emit(Ordererror(error: "please Recheck"));
+        }
+      } catch (e) {
+        print(e);
+        emit(Ordererror(error: e.toString()));
       }
     });
 
@@ -134,6 +160,21 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       }
     });
 
+    on<pickupdelivery>((event, emit) async {
+      emit(ActionLoading());
+      try {
+        FirebaseFirestore.instance
+            .collection("Orders")
+            .doc(event.orderid)
+            .update({"PIckup": event.pickup});
+
+        emit(orderRefresh());
+      } catch (e) {
+        print(e);
+        emit(OrderFailure(e.toString()));
+      }
+    });
+
     on<Assigndriver>((event, emit) async {
       emit(ActionLoading());
       try {
@@ -151,6 +192,21 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       } catch (e) {
         print(e);
         emit(OrderFailure(e.toString()));
+      }
+    });
+
+    on<Deliverd_scann_event>((event, emit) async {
+      emit(scanndeliverdLoading());
+      try {
+        FirebaseFirestore.instance
+            .collection("Orders")
+            .doc(event.orderid)
+            .update(
+          {"Deliverd": event.Deliverd, "PIckup": event.picked},
+        );
+        emit(Scannersuccess());
+      } catch (e) {
+        emit(Deliverderror(error: e.toString()));
       }
     });
   }

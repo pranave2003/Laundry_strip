@@ -13,7 +13,7 @@ class AdminDashboard extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(24.0),
-        child: ListView(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text("Hello !", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             const SizedBox(height: 4),
@@ -61,107 +61,90 @@ class AdminDashboard extends StatelessWidget {
             const SizedBox(height: 32),
             const Text("Order Details", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
-            BlocBuilder<OrderBloc, OrderState>(
-  builder: (context, state) {
-    if (state is orderfetchloading) {
-    return Center(child: Loading_Widget());
-    } else if (state is OrderLoaded) {
-      if (state.orders.isEmpty) {
-        return Center(
-          child: Text("No Orders"),
-        );
-      }
-      return Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(
-                0, 4)),
-          ],
-        ),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-            columnSpacing: 70,
-            columns: const [
-              DataColumn(
-                  label: Text("S.No",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16))),
-              DataColumn(
-                  label: Text("Order Id",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16))),
-              DataColumn(
-                  label: Text("Shop Name",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16))),
-              DataColumn(
-                  label: Text("Customer Name",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16))),
+            Expanded(
+              child: BlocBuilder<OrderBloc, OrderState>(
+                builder: (context, state) {
+                  if (state is orderfetchloading) {
+                    return Center(child: Loading_Widget());
+                  } else if (state is OrderLoaded) {
+                    if (state.orders.isEmpty) {
+                      return Center(
+                        child: Text("No Orders"),
+                      );
+                    }
 
-              DataColumn(
-                  label: Text("Pick Up",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16))),
-              DataColumn(
-                  label: Text("Delivery",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16))),
-              DataColumn(
-                  label: Text("Amount",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16))),
+                    return ListView.builder(
+                      itemCount: state.orders.length,
+                      itemBuilder: (context, index) {
+                        final order = state.orders[index];
 
-              DataColumn(
-                  label: Text("Status",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16))),
-            ],
-    rows: List.generate(state.orders.length, (index) {
-    final order = state.orders[index];
-    return DataRow(cells: [
-    DataCell(Text((index + 1).toString())), // Serial Number
-    DataCell(Text(order.orderid.toString())),
-    DataCell(Text(order.shopname.toString())),
-    DataCell(Text(order.username.toString())),
-      DataCell(Text("${order.pickupdate} at ${order.pickupTime}")),
-      DataCell(Text("${order.Deliverydate} at ${order.DeliveryTime}")),
-      DataCell(Text(
-        "₹ ${order.Totalcharge}"
-      ),),
+                        // Determine the status text and color
+                        String statusText = "Pending";
+                        Color statusColor = Colors.orange;
 
-    DataCell(Container(
-    padding: EdgeInsets.symmetric(
-    horizontal: 12, vertical: 6),
-    decoration: BoxDecoration(
-    color: Colors.green.shade100,
-    borderRadius: BorderRadius.circular(12),
-    ),
-    child: const Text(
-    "Delivered", style: TextStyle(color: Colors.green)),
-    )),
-    ]);
+                        if (order.Delivered == "1") {
+                          statusText = "Delivered";
+                          statusColor = Colors.green;
+                        } else if (order.workinprogress == "1") {
+                          statusText = "Work In Progress";
+                          statusColor = Colors.orange;
+                        } else if (order.PIckup == "1") {
+                          statusText = "Picked Up";
+                          statusColor = Colors.purple;
+                        }
+                        return Card( color: Colors.white,
+                          elevation: 3,
+                          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: statusColor,
+                                  child: const Icon(Icons.local_laundry_service, color: Colors.white),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Order #${order.orderid}", style: const TextStyle(fontWeight: FontWeight.bold)),
+                                      Text("Shop: ${order.shopname}"),
+                                      Text("Username: ${order.username}"),
+                                      Text("Pickup: ${order.pickupdate} at ${order.pickupTime}"),
+                                      Text("Delivery: ${order.Deliverydate} at ${order.DeliveryTime}"),
+                                      Text(
+                                        statusText,
+                                        style: TextStyle(color: statusColor, fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    const Text("Total", style: TextStyle(fontSize: 15, color: Colors.grey)),
+                                    Text(
+                                      "₹ ${order.Totalcharge}",
+                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
 
-    }).toList(),
 
-          ),
-        ),
-      );
-    }return SizedBox();
-  },
-),
+                  }
+
+                  return SizedBox();
+                },
+              ),
+            ),
           ],
         ),
       ),

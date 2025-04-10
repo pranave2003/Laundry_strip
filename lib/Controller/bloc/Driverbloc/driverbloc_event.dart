@@ -69,3 +69,9 @@ class AcceptReject extends DriverblocEvent {
   final String? driverId;
   AcceptReject({required this.status, required this.driverId});
 }
+
+class BanDriver extends DriverblocEvent {
+  final String? ban;
+  final String? driverId;
+  BanDriver({required this.ban, required this.driverId});
+}

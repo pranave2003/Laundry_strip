@@ -168,6 +168,11 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                                       phone: shop.phone ?? "",
                                       imagePath: shop.ShopImage ?? "",
                                     )),
+                          ).then(
+                                (value) {
+                              context.read<ShopAuthblocBloc>()
+                                ..add(FetchShopDetailsById());
+                            },
                           );
                         },
                         style: ElevatedButton.styleFrom(

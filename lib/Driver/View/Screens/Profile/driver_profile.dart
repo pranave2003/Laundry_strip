@@ -159,6 +159,11 @@ class DriverProfilePageState extends State<DriverProfilePage> {
                                   phone: driver.phone ?? "",
                                   image: driver.image ?? "",
                                 )),
+                          ).then(
+                                (value) {
+                              context.read<DriverblocBloc>()
+                                ..add(FetchDriverDetailsById());
+                            },
                           );
                         },
                         style: ElevatedButton.styleFrom(

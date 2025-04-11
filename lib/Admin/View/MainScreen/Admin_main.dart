@@ -48,10 +48,10 @@ class MyApp extends StatelessWidget {
           create: (context) => DriverblocBloc()
             ..add(FetchDrivers(status: true, searchQuery: null)),
         ),
-        BlocProvider<DriverblocBloc>(
-          create: (context) =>
-          DriverblocBloc()..add(FetchDriver(searchQuery: null, status: '')),
-        ),
+        // BlocProvider<DriverblocBloc>(
+        //   create: (context) =>
+        //   DriverblocBloc()..add(FetchDriver(searchQuery: null, status: '')),
+        // ),
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc()..add(FetchUsers(searchQuery: null)),
         ),

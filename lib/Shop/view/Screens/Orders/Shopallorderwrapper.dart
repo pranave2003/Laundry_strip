@@ -197,6 +197,7 @@ class _Shop_AllordersState extends State<Shop_Allorders> {
                           SizedBox(
                             height: 20,
                           ),
+                          order.status == "1" ?
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -225,7 +226,8 @@ class _Shop_AllordersState extends State<Shop_Allorders> {
                                 },
                               ),
                             ],
-                          ),
+                          ):SizedBox(),
+                          order.status == "1" ?
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -257,7 +259,7 @@ class _Shop_AllordersState extends State<Shop_Allorders> {
                                         fontWeight: FontWeight.bold),
                                   ))
                             ],
-                          ),
+                          ) :SizedBox(),
                           Text("Customer Name: ${order.username}",
                               style: TextStyle(fontSize: 14)),
                           Text("Total Amount: \$${order.Totalcharge}",

@@ -105,13 +105,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               final userData = userDoc.data() as Map<String, dynamic>;
 
               // Check if the 'Ban' field is 1
-              if (userData['ban'] == "1") {
-                // Update OneSignal ID
-                await FirebaseFirestore.instance
-                    .collection("Laundry_Users")
-                    .doc(user.uid)
-                    .update({"Onesignal_id": "playerId"});
-
+              if (userData['ban'] == "0") {
                 emit(Authenticated(user));
                 print("Auth successfully");
               } else {

@@ -56,7 +56,7 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
               "name": event.driver.name,
               "timestamp": DateTime.now(),
               "ban": "0",
-              "status": "1",
+              "status": "0",
               "phone": event.driver.phone,
               "proof": event.driver.proof,
               "imageUrl":
@@ -98,12 +98,6 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
 
               // Check if the 'Ban' field is 1
               if (userData['ban'] == "1") {
-                // Update OneSignal ID
-                await FirebaseFirestore.instance
-                    .collection("drivers")
-                    .doc(user.uid)
-                    .update({"Onesignal_id": "playerId"});
-
                 emit(DriverAuthenticated(user));
                 print("Auth successfully");
               } else {
@@ -313,7 +307,7 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
 //Ban Driver
     on<BanDriver>(
       (event, emit) async {
-        print("Accept");
+        print("Banned");
         try {
           // Get the Player ID from OneSignalService
           print(event.driverId);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Widget/constands/Loading.dart';
 import '../../../../../Controller/bloc/Orderbloc/order_bloc.dart';
+import 'Shopallorderwrapper.dart';
 import 'order_details.dart';
 
 class Shopinprogresswrapper extends StatelessWidget {
@@ -55,6 +56,11 @@ class _Shop_InprogressState extends State<Shop_Inprogress> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Text("Name: ${order.username}",
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold)),
                                   Text("Service: ${order.orderid}",
                                       style: const TextStyle(
                                           fontSize: 12, color: Colors.grey)),
@@ -75,11 +81,44 @@ class _Shop_InprogressState extends State<Shop_Inprogress> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                  order.status == "0" ? "Pending" : "Progress",
+                                  order.status == "0"
+                                      ? " Pending"
+                                      : order.status == "1"
+                                      ? "Confirm order"
+                                      : order.status == "2"
+                                      ? "Cancelled Order"
+                                      :order.PIckup == "0"
+                                       ? "Waiting for Pick Up"
+                                      : order.PIckup == "1"
+                                  ? "Order Picked"
+                                      : order.workinprogress == "1"
+                                      ? "In  Progress"
+                                  : order.workinprogress == "2"
+                                      ? "Completed"
+                                      : order.Delivered == "1"
+                                      ? "Delivery Completed"
+                                      : "Completed",
+
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.amber)),
+                                      color: order.status == "0"
+                                          ? Colors.grey
+                                      : order.status == "1"
+                                          ? Colors.blue
+                                          : order.status == "2"
+                                          ? Colors.red
+                                          : order.PIckup == "0"
+                                          ? Colors.orange
+                                          : order.PIckup == "1"
+                                          ? Colors.orange
+                                          : order.PIckup == "2"
+                                          ? Colors.blue.shade900
+                                          : order.workinprogress == "2"
+                                          ? Colors.blue.shade900
+                                          : order.Delivered == "1"
+                                          ? Colors.green
+                                          : Colors.grey)),
                             ),
                           ],
                         ),
@@ -148,22 +187,83 @@ class _Shop_InprogressState extends State<Shop_Inprogress> {
                                 SizedBox(
                                   height: 20,
                                 ),
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.end,
+                                //   children: [
+                                //     TextButton(
+                                //         onPressed: () {
+                                //           Navigator.push(context,
+                                //               MaterialPageRoute(
+                                //             builder: (context) {
+                                //               return OrderDetailsPage(
+                                //                 order: state.orders[index],
+                                //               );
+                                //             },
+                                //           ));
+                                //         },
+                                //         child: Text(
+                                //           "Manage Order",
+                                //           style: TextStyle(
+                                //               color: Colors.red,
+                                //               fontWeight: FontWeight.bold),
+                                //         ))
+                                //   ],
+                                // ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    DropdownButton<String>(
+                                      value: orderStatus,
+                                      items: [
+                                        "Working Progress",
+                                        "Delivered",
+                                      ].map((String status) {
+                                        return DropdownMenuItem(
+                                          value: status,
+                                          child: Text(
+                                            status,
+                                            style: TextStyle(
+                                              fontWeight: status == "In Progress"
+                                                  ? FontWeight.bold
+                                                  : FontWeight.normal,
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newStatus) {
+                                        setState(() {
+                                          orderStatus = newStatus!;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     TextButton(
                                         onPressed: () {
-                                          Navigator.push(context,
-                                              MaterialPageRoute(
-                                            builder: (context) {
-                                              return OrderDetailsPage(
-                                                order: state.orders[index],
-                                              );
-                                            },
-                                          ));
+                                          // Navigator.push(context, MaterialPageRoute(
+                                          //   builder: (context) {
+                                          //     return OrderDetailsPage(
+                                          //       order: state.orders[index],
+                                          //     );
+                                          //   },
+                                          // ));
+                                          if (orderStatus == "Working Progress") {
+                                            context.read<OrderBloc>()
+                                              ..add(Updateworkingprogress(
+                                                  orderid: order.orderid,
+                                                  Progress: "1"));
+                                          } else if (orderStatus == "Delivered") {
+                                            context.read<OrderBloc>()
+                                              ..add(DeliverdUpdate(
+                                                  orderid: order.orderid,
+                                                  Deliverd: "1"));
+                                          }
                                         },
                                         child: Text(
-                                          "Manage Order",
+                                          "Update",
                                           style: TextStyle(
                                               color: Colors.red,
                                               fontWeight: FontWeight.bold),

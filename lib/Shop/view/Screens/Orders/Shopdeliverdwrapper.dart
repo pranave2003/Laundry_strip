@@ -50,6 +50,11 @@ class Deliverdshop extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Text("Name: ${order.username}",
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold)),
                                   Text("Service: ${order.orderid}",
                                       style: const TextStyle(
                                           fontSize: 12, color: Colors.grey)),

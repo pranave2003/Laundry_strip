@@ -296,7 +296,7 @@ class _OrdersPageState extends State<OrdersPage> {
       case "In Progress":
         return Colors.orange.shade200;
       default:
-        return Colors.grey.shade200;
+        return Colors.grey.shade400;
     }
   }
 }

@@ -17,7 +17,7 @@ class AcailableDriverwrapper extends StatelessWidget {
     return BlocProvider<DriverblocBloc>(
       create: (context) => DriverblocBloc()
         ..add(
-          FetchDrivers(status: true, searchQuery: null),
+          FetchDriver(status: "1", searchQuery: null),
         ),
       child: AvailableDrivers(orderid),
     );

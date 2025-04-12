@@ -97,9 +97,18 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
               final userData = userDoc.data() as Map<String, dynamic>;
 
               // Check if the 'Ban' field is 1
-              if (userData['ban'] == "1") {
-                emit(DriverAuthenticated(user));
-                print("Auth successfully");
+              if (userData['ban'] == "0") {
+                if (userData['status'] == "1") {
+                  emit(DriverAuthenticated(user));
+                  print("Auth successfully");
+                } else if (userData['status'] == "2") {
+                  emit(DriverAuthenticatedError(message: "Your Are Rejected"));
+                  await _auth.signOut();
+                } else {
+                  await _auth.signOut();
+                  emit(DriverAuthenticatedError(
+                      message: "Please waite ... you are in progress"));
+                }
               } else {
                 // Ban field is 0, return account deleted message
                 await _auth.signOut();

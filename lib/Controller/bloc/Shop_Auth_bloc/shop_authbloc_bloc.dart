@@ -105,15 +105,23 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
               final userData = userDoc.data() as Map<String, dynamic>;
 
               // Check if the 'Ban' field is 1
-              if (userData['ban'] == "1") {
+              if (userData['ban'] == "0") {
                 // Update OneSignal ID
                 await FirebaseFirestore.instance
                     .collection("Laundry_Shops")
                     .doc(user.uid)
                     .update({"Onesignal_id": "playerId"});
-
-                emit(ShopAuthenticated(user));
-                print("Auth successfully");
+                if (userData["status"] == "1") {
+                  emit(ShopAuthenticated(user));
+                  print("Auth successfully");
+                } else if (userData["status"] == "2") {
+                  await _auth.signOut();
+                  emit(ShopAuthenticatedError(message: "You Are Rejected"));
+                } else {
+                  await _auth.signOut();
+                  emit(ShopAuthenticatedError(
+                      message: "Please waite ... you are in progress"));
+                }
               } else {
                 // Ban field is 0, return account deleted message
                 await _auth.signOut();

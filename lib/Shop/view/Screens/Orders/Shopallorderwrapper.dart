@@ -247,6 +247,7 @@ class _Shop_AllordersState extends State<Shop_Allorders> {
                                             context.read<OrderBloc>()
                                               ..add(Updateworkingprogress(
                                                   orderid: order.orderid,
+                                                  pickup: "1",
                                                   Progress: "1"));
                                           } else if (orderStatus ==
                                               "Delivered") {

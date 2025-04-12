@@ -83,18 +83,21 @@ class Deliverdorder extends StatelessWidget {
                         ),
                         child: Text(
                           order.Delivered == "1"
-                              ? "Delivery Pending"
+                              ? "Delivered"
                               : order.workinprogress == "2"
-                              ? "In Progress"
+                              ? "work completed"
                               : order.workinprogress == "1"
                               ? "In Progress"
                               : order.PIckup == "1"
                               ? "Order Picked"
+                              : order.PIckup == "2"
+                              ? "pickup handover"
                               : order.PIckup == "0"
                               ? "Pick Up on the Way"
                               : order.status == "2"
                               ? "Cancelled Order"
-                              : order.status == "1"
+                              : order.status ==
+                              "1"
                               ? "Confirm Order"
                               : "Pending",
                           style: TextStyle(
@@ -108,13 +111,19 @@ class Deliverdorder extends StatelessWidget {
                                 ? Colors.blue.shade900
                                 : order.PIckup == "1"
                                 ? Colors.orange
+                                : order.PIckup == "2"
+                                ? Colors.brown
                                 : order.PIckup == "0"
                                 ? Colors.orange
-                                : order.status == "2"
+                                : order.status ==
+                                "2"
                                 ? Colors.red
-                                : order.status == "1"
-                                ? Colors.blue
-                                : Colors.grey,
+                                : order.status ==
+                                "1"
+                                ? Colors
+                                .blue
+                                : Colors
+                                .grey,
                           ),
                         )
 

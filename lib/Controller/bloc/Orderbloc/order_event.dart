@@ -44,8 +44,9 @@ class Acceptorderevent extends OrderEvent {
 
 class Updateworkingprogress extends OrderEvent {
   final String? Progress;
+  final String? pickup;
   final String? orderid;
-  Updateworkingprogress({required this.Progress, required this.orderid});
+  Updateworkingprogress({required this.Progress, required this.orderid,required this.pickup});
 }
 
 // Updated

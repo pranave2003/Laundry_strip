@@ -155,29 +155,39 @@ class OrderTracking extends StatelessWidget {
                                 order.status == "2" ? Colors.red : Colors.grey),
                     _buildTrackingStep(
                         order.PIckup == "0"
-                            ? "pickup pending"
+                            ? "pickup on the way"
                             : order.PIckup == "1"
-                                ? "Parcel Picked"
+                                ? "order Picked"
                                 : order.PIckup == "2"
                                     ? "received by shop"
-                                    : "",
-                        "Your order is picked",
-                        Icons.local_shipping,
-                        order.PIckup == "1"
-                            ? Colors.orange
-                            : order.PIckup == "2"
+                                    : "pending",
+                        order.PIckup == "0"
+                            ? "Delivery person on the way"
+                            : order.PIckup == "1"
+                                ? "Your order is picked"
+                                : "your item handover by shop",
+                        Icons.directions_bike,
+                        order.PIckup == "0"
+                            ? Colors.grey
+                            : order.PIckup == "1"
                                 ? Colors.blue.shade900
-                                : Colors.grey),
+                                : order.PIckup == "2"
+                                    ? Colors.green
+                                    : Colors.grey),
                     order.Rejected == "0" && order.status != "2"
                         ? Column(
                             children: [
                               _buildTrackingStep(
-                                  "In Progress",
+                                  order.workinprogress == "1"
+                                      ? " working In Progress"
+                                      : "work completed",
                                   "Your order is in progress",
                                   Icons.local_laundry_service_outlined,
                                   order.workinprogress == "1"
-                                      ? Colors.orange
-                                      : Colors.grey),
+                                      ? Colors.blue
+                                      : order.workinprogress == "2"
+                                          ? Colors.green
+                                          : Colors.grey),
                               _buildTrackingStep(
                                   "Delivered",
                                   "Your order is successfully delivered",

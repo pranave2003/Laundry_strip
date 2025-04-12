@@ -82,35 +82,44 @@ class cancelorders extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                  order.Delivered == "1"
-                                      ? "Delivered"
+                                  order.status == "0"
+                                      ? " Pending"
+                                      : order.status == "1"
+                                      ? "Confirm Order"
+                                      : order.status == "2"
+                                      ? "Cancelled Order"
+                                      :order.PIckup == "0"
+                                      ? "Pick Up on the Way"
+                                      : order.PIckup == "1"
+                                      ? "Order Picked"
                                       : order.workinprogress == "1"
-                                          ? "In progress"
-                                          : order.PIckup == "1"
-                                              ? "Assign Driver"
-                                              : order.Rejected == "1"
-                                                  ? "Rejected by shop"
-                                                  : order.status == "2"
-                                                      ? "Cancelled"
-                                                      : order.status == "1"
-                                                          ? "Confirm order"
-                                                          : "Pending",
+                                      ? "In Progress"
+                                      : order.workinprogress == "2"
+                                      ? "In Progress"
+                                      : order.Delivered == "1"
+                                      ? "Delivery Pending"
+                                      : "Delivered",
+
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
-                                      color: order.Delivered == "1"
+                                      color: order.status == "0"
+                                          ? Colors.grey
+                                          : order.status == "1"
+                                          ? Colors.blue
+                                          : order.status == "2"
+                                          ? Colors.red
+                                          : order.PIckup == "0"
+                                          ? Colors.orange
+                                          : order.PIckup == "1"
+                                          ? Colors.orange
+                                          : order.PIckup == "2"
+                                          ? Colors.blue.shade900
+                                          : order.workinprogress == "2"
+                                          ? Colors.blue.shade900
+                                          : order.Delivered == "1"
                                           ? Colors.green
-                                          : order.workinprogress == "1"
-                                              ? Colors.blue.shade900
-                                              : order.PIckup == "1"
-                                                  ? Colors.orange
-                                                  : order.Rejected == "1"
-                                                      ? Colors.brown
-                                                      : order.status == "2"
-                                                          ? Colors.red
-                                                          : order.status == "1"
-                                                              ? Colors.blue
-                                                              : Colors.grey)),
+                                          : Colors.grey)),
                             ),
                           ],
                         ),

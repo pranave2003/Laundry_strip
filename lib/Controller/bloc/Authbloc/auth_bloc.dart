@@ -60,7 +60,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               "name": event.user.name,
               "timestamp": DateTime.now(),
               "ban": "0",
-              "status": "1",
+              "status": "0",
               "phone": event.user.phone,
               "place": event.user.place,
               "post": event.user.post,

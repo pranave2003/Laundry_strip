@@ -431,8 +431,7 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
         //   ),
         // ),
         ClipRRect(
-          borderRadius: BorderRadius.circular(
-              12), // Rounded corners for image
+          borderRadius: BorderRadius.circular(12), // Rounded corners for image
           child: Center(
             child: CachedNetworkImage(
               imageUrl: widget.shop.ShopImage.toString(),
@@ -471,19 +470,20 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 4),
-               Row(
+              Row(
                 children: [
                   Icon(Icons.local_laundry_service,
                       size: 16, color: Colors.blue),
                   SizedBox(width: 4),
-                  Text("Laundry Capacity: ${widget.shop.LaundryCapacity} kg", style: TextStyle(color: Colors.black)),
+                  Text("Laundry Capacity: ${widget.shop.LaundryCapacity} kg",
+                      style: TextStyle(color: Colors.black)),
                   SizedBox(width: 10),
                   Icon(Icons.star, color: Colors.yellow, size: 16),
                   Text(" 4.8", style: TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
               const SizedBox(height: 4),
-               Row(
+              Row(
                 children: [
                   Icon(Icons.location_on, size: 16, color: Colors.blue),
                   Text(" ${widget.shop.District} "),

@@ -271,10 +271,6 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
             // Get the Player ID from OneSignalService
 
             // Update Firestore with the correct user ID and OneSignal ID
-            await FirebaseFirestore.instance
-                .collection("drivers")
-                .doc(user.uid) // Use current user's UID
-                .update({"Onesignal_id": "null"}); // Update with OneSignal ID
 
             // Sign out the user
             await _auth.signOut();

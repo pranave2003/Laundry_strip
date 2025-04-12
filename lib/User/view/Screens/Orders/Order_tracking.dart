@@ -9,7 +9,8 @@ class OrderTracking extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
         title: const Text(
           "Order Tracking",
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -135,31 +136,41 @@ class OrderTracking extends StatelessWidget {
                   children: [
                     order.status == "0"
                         ? _buildTrackingStep(
-                            "Order Placed",
-                            "Your order is Placed",
+                            "Order pending",
+                            "waiting for the confirmation",
                             Icons.inventory_2,
-                            order.status == "0" ? Colors.green : Colors.grey)
+                            order.status == "0" ? Colors.blue : Colors.grey)
                         : order.status == "1"
                             ? _buildTrackingStep(
                                 "Order Confirmed",
                                 "Your order is confirmed",
                                 Icons.inventory_2,
-                                order.status == "1" ? Colors.blue : Colors.grey)
+                                order.status == "1"
+                                    ? Colors.green
+                                    : Colors.grey)
                             : _buildTrackingStep(
                                 "Order Rejected By Shop",
-                                "Your order is confirmed",
+                                "Your order is Rejected",
                                 Icons.closed_caption_disabled_rounded,
                                 order.status == "2" ? Colors.red : Colors.grey),
+                    _buildTrackingStep(
+                        order.PIckup == "0"
+                            ? "pickup pending"
+                            : order.PIckup == "1"
+                                ? "Parcel Picked"
+                                : order.PIckup == "2"
+                                    ? "received by shop"
+                                    : "",
+                        "Your order is picked",
+                        Icons.local_shipping,
+                        order.PIckup == "1"
+                            ? Colors.orange
+                            : order.PIckup == "2"
+                                ? Colors.blue.shade900
+                                : Colors.grey),
                     order.Rejected == "0" && order.status != "2"
                         ? Column(
                             children: [
-                              _buildTrackingStep(
-                                  "Parcel Picked",
-                                  "Your order is picked",
-                                  Icons.local_shipping,
-                                  order.PIckup == "1"
-                                      ? Colors.green
-                                      : Colors.grey),
                               _buildTrackingStep(
                                   "In Progress",
                                   "Your order is in progress",

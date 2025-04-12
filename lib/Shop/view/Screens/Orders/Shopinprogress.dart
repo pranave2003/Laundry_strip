@@ -12,7 +12,7 @@ class Shopinprogresswrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => OrderBloc()
-        ..add(Fetchorders(searchQuery: null, status: "1", shopid: shopid)),
+        ..add(Fetchorders(searchQuery: null, status: "1", Deliverd:"0", shopid: shopid)),
       child: Shop_Inprogress(),
     );
   }
@@ -84,7 +84,7 @@ class _Shop_InprogressState extends State<Shop_Inprogress> {
                                   order.status == "0"
                                       ? " Pending"
                                       : order.status == "1"
-                                      ? "Confirm order"
+                                      ? "In Progress"
                                       : order.status == "2"
                                       ? "Cancelled Order"
                                       :order.PIckup == "0"
@@ -209,14 +209,15 @@ class _Shop_InprogressState extends State<Shop_Inprogress> {
                                 //         ))
                                 //   ],
                                 // ),
-                                Row(
+                                order.status == "0"
+                                ? Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     DropdownButton<String>(
                                       value: orderStatus,
                                       items: [
                                         "Working Progress",
-                                        "Delivered",
+
                                       ].map((String status) {
                                         return DropdownMenuItem(
                                           value: status,
@@ -237,8 +238,10 @@ class _Shop_InprogressState extends State<Shop_Inprogress> {
                                       },
                                     ),
                                   ],
-                                ),
-                                Row(
+                                )
+                        : SizedBox(),
+                                order.PIckup == "1"
+                               ? Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     TextButton(
@@ -255,11 +258,6 @@ class _Shop_InprogressState extends State<Shop_Inprogress> {
                                               ..add(Updateworkingprogress(
                                                   orderid: order.orderid,
                                                   Progress: "1"));
-                                          } else if (orderStatus == "Delivered") {
-                                            context.read<OrderBloc>()
-                                              ..add(DeliverdUpdate(
-                                                  orderid: order.orderid,
-                                                  Deliverd: "1"));
                                           }
                                         },
                                         child: Text(
@@ -269,7 +267,10 @@ class _Shop_InprogressState extends State<Shop_Inprogress> {
                                               fontWeight: FontWeight.bold),
                                         ))
                                   ],
-                                ),
+                                )
+                                :SizedBox(),
+
+
                                 Text("Customer Name: ${order.username}",
                                     style: TextStyle(fontSize: 14)),
                                 Text("Total Amount: \$${order.Totalcharge}",

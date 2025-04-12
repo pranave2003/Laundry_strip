@@ -215,47 +215,47 @@ class AllOrders extends StatelessWidget {
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold)),
                                 Divider(),
-                                order.PIckup == "0"
-                                    ? Row(
-                                        children: [
-                                          TextButton(
-                                            onPressed: () {
-                                              showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return AlertDialog(
-                                                    title: Text(
-                                                        "Confirm Cancellation"),
-                                                    content: Text(
-                                                        "Are you sure you want to cancel this order?"),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop(); // Close dialog
-                                                        },
-                                                        child: Text("No"),
-                                                      ),
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          // Perform order cancellation logic here
-                                                          Navigator.of(context)
-                                                              .pop(); // Close dialog
-                                                        },
-                                                        child:
-                                                            Text("Yes, Cancel"),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              );
-                                            },
-                                            child: Text("Order Cancel"),
-                                          )
-                                        ],
-                                      )
-                                    : SizedBox()
+                                // order.PIckup == "0"
+                                //     ? Row(
+                                //         children: [
+                                //           TextButton(
+                                //             onPressed: () {
+                                //               showDialog(
+                                //                 context: context,
+                                //                 builder:
+                                //                     (BuildContext context) {
+                                //                   return AlertDialog(
+                                //                     title: Text(
+                                //                         "Confirm Cancellation"),
+                                //                     content: Text(
+                                //                         "Are you sure you want to cancel this order?"),
+                                //                     actions: [
+                                //                       TextButton(
+                                //                         onPressed: () {
+                                //                           Navigator.of(context)
+                                //                               .pop(); // Close dialog
+                                //                         },
+                                //                         child: Text("No"),
+                                //                       ),
+                                //                       TextButton(
+                                //                         onPressed: () {
+                                //                           // Perform order cancellation logic here
+                                //                           Navigator.of(context)
+                                //                               .pop(); // Close dialog
+                                //                         },
+                                //                         child:
+                                //                             Text("Yes, Cancel"),
+                                //                       ),
+                                //                     ],
+                                //                   );
+                                //                 },
+                                //               );
+                                //             },
+                                //             child: Text("Order Cancel"),
+                                //           )
+                                //         ],
+                                //       )
+                                    //: SizedBox()
                               ],
                             ),
                           ),

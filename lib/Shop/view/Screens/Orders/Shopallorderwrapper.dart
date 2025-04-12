@@ -12,7 +12,7 @@ class Shopallorderwrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          OrderBloc()..add(Fetchorders(searchQuery: null, shopid: shopid)),
+          OrderBloc()..add(Fetchorders(searchQuery: null, shopid: shopid,status: "0")),
       child: Shop_Allorders(shop: shopid),
     );
   }
@@ -197,69 +197,74 @@ class _Shop_AllordersState extends State<Shop_Allorders> {
                           SizedBox(
                             height: 20,
                           ),
-                          order.status == "1" ?
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              DropdownButton<String>(
-                                value: orderStatus,
-                                items: [
-                                  "Working Progress",
-                                  "Delivered",
-                                ].map((String status) {
-                                  return DropdownMenuItem(
-                                    value: status,
-                                    child: Text(
-                                      status,
-                                      style: TextStyle(
-                                        fontWeight: status == "In Progress"
-                                            ? FontWeight.bold
-                                            : FontWeight.normal,
-                                      ),
+                          order.status == "1"
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    DropdownButton<String>(
+                                      value: orderStatus,
+                                      items: [
+                                        "Working Progress",
+                                        "Delivered",
+                                      ].map((String status) {
+                                        return DropdownMenuItem(
+                                          value: status,
+                                          child: Text(
+                                            status,
+                                            style: TextStyle(
+                                              fontWeight:
+                                                  status == "In Progress"
+                                                      ? FontWeight.bold
+                                                      : FontWeight.normal,
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newStatus) {
+                                        setState(() {
+                                          orderStatus = newStatus!;
+                                        });
+                                      },
                                     ),
-                                  );
-                                }).toList(),
-                                onChanged: (newStatus) {
-                                  setState(() {
-                                    orderStatus = newStatus!;
-                                  });
-                                },
-                              ),
-                            ],
-                          ):SizedBox(),
-                          order.status == "1" ?
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              TextButton(
-                                  onPressed: () {
-                                    // Navigator.push(context, MaterialPageRoute(
-                                    //   builder: (context) {
-                                    //     return OrderDetailsPage(
-                                    //       order: state.orders[index],
-                                    //     );
-                                    //   },
-                                    // ));
-                                    if (orderStatus == "Working Progress") {
-                                      context.read<OrderBloc>()
-                                        ..add(Updateworkingprogress(
-                                            orderid: order.orderid,
-                                            Progress: "1"));
-                                    } else if (orderStatus == "Delivered") {
-                                      context.read<OrderBloc>()
-                                        ..add(DeliverdUpdate(
-                                            orderid: order.orderid,
-                                            Deliverd: "1"));
-                                    }
-                                  },
-                                  child: Text(
-                                    "Update",
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold),
-                                  ))
-                            ],
-                          ) :SizedBox(),
+                                  ],
+                                )
+                              : SizedBox(),
+                          order.status == "1"
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    TextButton(
+                                        onPressed: () {
+                                          // Navigator.push(context, MaterialPageRoute(
+                                          //   builder: (context) {
+                                          //     return OrderDetailsPage(
+                                          //       order: state.orders[index],
+                                          //     );
+                                          //   },
+                                          // ));
+                                          if (orderStatus ==
+                                              "Working Progress") {
+                                            context.read<OrderBloc>()
+                                              ..add(Updateworkingprogress(
+                                                  orderid: order.orderid,
+                                                  Progress: "1"));
+                                          } else if (orderStatus ==
+                                              "Delivered") {
+                                            context.read<OrderBloc>()
+                                              ..add(DeliverdUpdate(
+                                                  orderid: order.orderid,
+                                                  Deliverd: "1"));
+                                          }
+                                        },
+                                        child: Text(
+                                          "Update",
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.bold),
+                                        ))
+                                  ],
+                                )
+                              : SizedBox(),
                           Text("Customer Name: ${order.username}",
                               style: TextStyle(fontSize: 14)),
                           Text("Total Amount: \$${order.Totalcharge}",

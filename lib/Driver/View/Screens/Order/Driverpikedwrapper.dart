@@ -32,7 +32,7 @@ class DriverPending extends StatelessWidget {
         if (state is orderRefresh) {
           context.read<OrderBloc>()
             ..add(Fetchorders(
-              Picked: "1",
+              Picked: "2",
               driverId: Driverid_blobal,
               searchQuery: null,
             ));
@@ -89,21 +89,52 @@ class DriverPending extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            // Container(
-                            //   padding: const EdgeInsets.symmetric(
-                            //       horizontal: 10, vertical: 4),
-                            //   decoration: BoxDecoration(
-                            //     borderRadius: BorderRadius.circular(8),
-                            //   ),
-                            //   child: Text(
-                            //       order.Delivered == "1"
-                            //           ? "Delivered"
-                            //           : "Progress",
-                            //       style: TextStyle(
-                            //           fontSize: 12,
-                            //           fontWeight: FontWeight.bold,
-                            //           color: Colors.green)),
-                            // ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                // order.status == "0"
+                                //     ? ""
+                                //     : order.status == "1"
+                                //     ? ""
+                                //     : order.status == "2"
+                                //     ? ""
+                                  order.PIckup == "0"
+                                      ? "Pick Up Waiting"
+                                      : order.PIckup == "1"
+                                      ? "Order Picked"
+                                      : order.workinprogress == "1"
+                                      ? "Pick Up Completed"
+                                      : order.workinprogress == "2"
+                                      ? "Pick Up Completed"
+                                      : order.Delivered == "1"
+                                      ? "Delivery Completed"
+                                      : "Completed",
+
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: order.status == "0"
+                                          ? Colors.grey
+                                          : order.status == "1"
+                                          ? Colors.blue
+                                          : order.status == "2"
+                                          ? Colors.red
+                                          : order.PIckup == "0"
+                                          ? Colors.orange
+                                          : order.PIckup == "1"
+                                          ? Colors.orange
+                                          : order.PIckup == "2"
+                                          ? Colors.blue.shade900
+                                          : order.workinprogress == "2"
+                                          ? Colors.blue.shade900
+                                          : order.Delivered == "1"
+                                          ? Colors.green
+                                          : Colors.grey)),
+                            ),
                           ],
                         ),
                         children: [

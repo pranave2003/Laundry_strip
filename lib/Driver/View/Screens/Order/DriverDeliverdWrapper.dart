@@ -14,7 +14,7 @@ class DriverDeliverdWrapper extends StatelessWidget {
     return BlocProvider(
       create: (context) => OrderBloc()
         ..add(Fetchorders(
-            driverId: Driverid_blobal, searchQuery: null, Picked: "1")),
+            driverId: Driverid_blobal, searchQuery: null, Deliverd: "1")),
       child: DriverInProgress(),
     );
   }
@@ -30,7 +30,7 @@ class DriverInProgress extends StatelessWidget {
         if (state is orderRefresh) {
           context.read<OrderBloc>()
             ..add(Fetchorders(
-                driverId: Driverid_blobal, searchQuery: null, Picked: '1'));
+                driverId: Driverid_blobal, searchQuery: null, Deliverd: '1'));
         }
         // TODO: implement listener
       },
@@ -63,6 +63,15 @@ class DriverInProgress extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Text("Name: ${order.username}",
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 4),
+                                  Text("Shop Name: ${order.shopname}",
+                                      style: const TextStyle(
+                                          fontSize: 12, color: Colors.black87)),
                                   Text("Service: ${order.orderid}",
                                       style: const TextStyle(
                                           fontSize: 12, color: Colors.grey)),
@@ -82,12 +91,45 @@ class DriverInProgress extends StatelessWidget {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: Text(
-                                  order.status == "0" ? "Pending" : "Progress",
+                              child:  Text(
+                                // order.status == "0"
+                                //     ? ""
+                                //     : order.status == "1"
+                                //     ? ""
+                                //     : order.status == "2"
+                                //     ? ""
+                                  order.PIckup == "0"
+                                      ? "Pick Up Waiting"
+                                      : order.PIckup == "1"
+                                      ? "Order Picked"
+                                      : order.workinprogress == "1"
+                                      ? "Pick Up Completed"
+                                      : order.workinprogress == "2"
+                                      ? "Pick Up Completed"
+                                      : order.Delivered == "1"
+                                      ? "Delivery Completed"
+                                      : "Completed",
+
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.amber)),
+                                      color: order.status == "0"
+                                          ? Colors.grey
+                                          : order.status == "1"
+                                          ? Colors.blue
+                                          : order.status == "2"
+                                          ? Colors.red
+                                          : order.PIckup == "0"
+                                          ? Colors.orange
+                                          : order.PIckup == "1"
+                                          ? Colors.orange
+                                          : order.PIckup == "2"
+                                          ? Colors.blue.shade900
+                                          : order.workinprogress == "2"
+                                          ? Colors.blue.shade900
+                                          : order.Delivered == "1"
+                                          ? Colors.green
+                                          : Colors.grey)),
                             ),
                           ],
                         ),

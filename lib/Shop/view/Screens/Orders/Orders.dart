@@ -50,7 +50,7 @@ class _OrdersState extends State<Orders> with SingleTickerProviderStateMixin {
                 unselectedLabelColor: Colors.black,
                 indicatorColor: Colors.blue,
                 tabs: const [
-                  Tab(text: "All"),
+                  Tab(text: "Pending"),
                   Tab(text: "In Progress"),
                   Tab(text: "Delivered"),
                   Tab(text: "Cancelled"),

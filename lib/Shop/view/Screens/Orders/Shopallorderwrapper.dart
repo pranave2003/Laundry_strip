@@ -11,8 +11,8 @@ class Shopallorderwrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          OrderBloc()..add(Fetchorders(searchQuery: null, shopid: shopid,status: "0")),
+      create: (context) => OrderBloc()
+        ..add(Fetchorders(searchQuery: null, shopid: shopid, status: "0")),
       child: Shop_Allorders(shop: shopid),
     );
   }
@@ -205,7 +205,7 @@ class _Shop_AllordersState extends State<Shop_Allorders> {
                                       value: orderStatus,
                                       items: [
                                         "Working Progress",
-                                        "Delivered",
+                                        "Work_completed",
                                       ].map((String status) {
                                         return DropdownMenuItem(
                                           value: status,
@@ -250,11 +250,12 @@ class _Shop_AllordersState extends State<Shop_Allorders> {
                                                   pickup: "1",
                                                   Progress: "1"));
                                           } else if (orderStatus ==
-                                              "Delivered") {
+                                              "Work_completed") {
                                             context.read<OrderBloc>()
-                                              ..add(DeliverdUpdate(
+                                              ..add(Updateworkingprogress(
                                                   orderid: order.orderid,
-                                                  Deliverd: "1"));
+                                                  pickup: "1",
+                                                  Progress: "2"));
                                           }
                                         },
                                         child: Text(

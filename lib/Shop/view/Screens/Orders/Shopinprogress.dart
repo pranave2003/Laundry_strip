@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Widget/constands/Loading.dart';
 import '../../../../../Controller/bloc/Orderbloc/order_bloc.dart';
 import 'Shopallorderwrapper.dart';
-import 'order_details.dart';
 
 class Shopinprogresswrapper extends StatelessWidget {
   const Shopinprogresswrapper(this.shopid, {super.key});
@@ -218,7 +217,7 @@ class _Shop_InprogressState extends State<Shop_Inprogress> {
                                 //         ))
                                 //   ],
                                 // ),
-                                order.status == "0"
+                                order.status == "1"
                                     ? Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
@@ -227,6 +226,7 @@ class _Shop_InprogressState extends State<Shop_Inprogress> {
                                             value: orderStatus,
                                             items: [
                                               "Working Progress",
+                                              "Working Completed"
                                             ].map((String status) {
                                               return DropdownMenuItem(
                                                 value: status,
@@ -250,20 +250,13 @@ class _Shop_InprogressState extends State<Shop_Inprogress> {
                                         ],
                                       )
                                     : SizedBox(),
-                                order.PIckup == "1"
+                                order.PIckup == "1" || order.PIckup == "2"
                                     ? Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
                                         children: [
                                           TextButton(
                                               onPressed: () {
-                                                // Navigator.push(context, MaterialPageRoute(
-                                                //   builder: (context) {
-                                                //     return OrderDetailsPage(
-                                                //       order: state.orders[index],
-                                                //     );
-                                                //   },
-                                                // ));
                                                 if (orderStatus ==
                                                     "Working Progress") {
                                                   context.read<OrderBloc>()
@@ -271,6 +264,14 @@ class _Shop_InprogressState extends State<Shop_Inprogress> {
                                                         pickup: "2",
                                                         orderid: order.orderid,
                                                         Progress: "1"));
+                                                }
+                                                if (orderStatus ==
+                                                    "Working Completed") {
+                                                  context.read<OrderBloc>()
+                                                    ..add(Updateworkingprogress(
+                                                        pickup: "2",
+                                                        orderid: order.orderid,
+                                                        Progress: "2"));
                                                 }
                                               },
                                               child: Text(

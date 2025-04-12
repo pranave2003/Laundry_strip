@@ -14,7 +14,7 @@ class RejectedDriverWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DriverblocBloc()..add(FetchDriver(searchQuery: null,status: "0")),
+      create: (context) => DriverblocBloc()..add(FetchDriver(searchQuery: null,status: "2")),
       child: RejectedDriverPage(),
     );
   }

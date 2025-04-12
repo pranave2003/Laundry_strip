@@ -41,6 +41,16 @@ class DriverProfilePageState extends State<DriverProfilePage> {
     );
   }
 
+  void _removeaccount(){
+    final authBloc = BlocProvider.of<DriverblocBloc>(context);
+    authBloc.add(BanDriver(ban: '1', driverId: ''));
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      "/login",
+          (route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -229,8 +239,10 @@ class DriverProfilePageState extends State<DriverProfilePage> {
                   icon: Icons.delete,
                   title: "Remove Account",
                   context: context,
+                  onTap:_removeaccount,
                   isDestructive: true,
                   showArrow: false,
+
                 ),
                 _buildProfileOption(
                   icon: Icons.logout,

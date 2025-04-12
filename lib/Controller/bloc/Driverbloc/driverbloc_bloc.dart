@@ -263,12 +263,10 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
         emit(DriverFailure(e.toString()));
       }
     });
-
+    User? user = _auth.currentUser;
     on<DriverSigOutEvent>(
       (event, emit) async {
         try {
-          User? user = _auth.currentUser;
-
           if (user != null) {
             // Get the Player ID from OneSignalService
 
@@ -316,19 +314,20 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
 //Ban Driver
     on<BanDriver>(
       (event, emit) async {
-        print("Banned");
         try {
           // Get the Player ID from OneSignalService
           print(event.driverId);
           // Update Firestore with the correct user ID and OneSignal ID
-          await FirebaseFirestore.instance
-              .collection("drivers")
-              .doc(event.driverId) // Use current user's UID
-              .update({"ban": event.ban}); // Update with OneSignal ID
+          if (user != null) {
+            await FirebaseFirestore.instance
+                .collection("drivers")
+                .doc(user.uid) // Use current user's UID
+                .update({"ban": event.ban}); // Update with OneSignal ID
 
-          // Sign out the user
-
-          emit(Refresh());
+            // Sign out the user
+            await _auth.signOut();
+            emit(Refresh());
+          }
         } catch (e) {
           emit(DriverFailure(e.toString()));
         }

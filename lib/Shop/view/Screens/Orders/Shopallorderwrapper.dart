@@ -107,36 +107,46 @@ class _Shop_AllordersState extends State<Shop_Allorders> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Text(
-                            order.Delivered == "1"
-                                ? "Delivered"
+                        child:  Text(
+                          order.Delivered == "1"
+                              ? "Delivery Completed"
+                              : order.workinprogress == "2"
+                              ? "Completed"
+                              : order.workinprogress == "1"
+                              ? "In Progress"
+                              : order.PIckup == "2"
+                              ? "In Progress"
+                              : order.PIckup == "1"
+                              ? "Order Picked"
+                              : order.PIckup == "0"
+                              ? "Waiting for Pick Up "
+                              : order.status == "2"
+                              ? "Cancelled Order"
+                              : order.status == "1"
+                              ? "Confirm Order"
+                              : "Pending",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: order.Delivered == "1"
+                                ? Colors.green
+                                : order.workinprogress == "2"
+                                ? Colors.blue.shade900
                                 : order.workinprogress == "1"
-                                    ? "In progress"
-                                    : order.PIckup == "1"
-                                        ? "Assign Driver"
-                                        : order.Rejected == "1"
-                                            ? "Rejected by shop"
-                                            : order.status == "2"
-                                                ? "Cancelled"
-                                                : order.status == "1"
-                                                    ? "Confirm order"
-                                                    : "Pending",
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: order.Delivered == "1"
-                                    ? Colors.green
-                                    : order.workinprogress == "1"
-                                        ? Colors.blue.shade900
-                                        : order.PIckup == "1"
-                                            ? Colors.orange
-                                            : order.Rejected == "1"
-                                                ? Colors.brown
-                                                : order.status == "2"
-                                                    ? Colors.red
-                                                    : order.status == "1"
-                                                        ? Colors.blue
-                                                        : Colors.grey)),
+                                ? Colors.blue.shade900
+                                : order.PIckup == "2"
+                                ? Colors.blue.shade900
+                                : order.PIckup == "1"
+                                ? Colors.orange
+                                : order.PIckup == "0"
+                                ? Colors.orange
+                                : order.status == "2"
+                                ? Colors.red
+                                : order.status == "1"
+                                ? Colors.blue
+                                : Colors.grey,
+                          ),
+                        )
                       ),
                     ],
                   ),

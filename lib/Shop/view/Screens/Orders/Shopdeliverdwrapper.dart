@@ -82,45 +82,46 @@ class Deliverdshop extends StatelessWidget {
                               //         fontSize: 12,
                               //         fontWeight: FontWeight.bold,
                               //         color: Colors.green)),
-                              child: Text(
-                                  order.status == "0"
-                                      ? " Pending"
-                                      : order.status == "1"
-                                      ? "Completed"
-                                      : order.status == "2"
-                                      ? "Cancelled Order"
-                                      :order.PIckup == "0"
-                                      ? "Waiting for Pick Up"
-                                      : order.PIckup == "1"
-                                      ? "Order Picked"
-                                      : order.workinprogress == "1"
-                                      ? "In  Progress"
+                                child:  Text(
+                                  order.Delivered == "1"
+                                      ? "Delivery Completed"
                                       : order.workinprogress == "2"
                                       ? "Completed"
-                                      : order.Delivered == "1"
-                                      ? "Delivery Completed"
-                                      : "Completed",
-
+                                      : order.workinprogress == "1"
+                                      ? "In Progress"
+                                      : order.PIckup == "2"
+                                      ? "In Progress"
+                                      : order.PIckup == "1"
+                                      ? "Order Picked"
+                                      : order.PIckup == "0"
+                                      ? "Waiting for Pick Up "
+                                      : order.status == "2"
+                                      ? "Cancelled Order"
+                                      : order.status == "1"
+                                      ? "Confirm Order"
+                                      : "Pending",
                                   style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: order.status == "0"
-                                          ? Colors.grey
-                                          : order.status == "1"
-                                          ? Colors.green
-                                          : order.status == "2"
-                                          ? Colors.red
-                                          : order.PIckup == "0"
-                                          ? Colors.orange
-                                          : order.PIckup == "1"
-                                          ? Colors.orange
-                                          : order.PIckup == "2"
-                                          ? Colors.blue.shade900
-                                          : order.workinprogress == "2"
-                                          ? Colors.blue.shade900
-                                          : order.Delivered == "1"
-                                          ? Colors.green
-                                          : Colors.grey)),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: order.Delivered == "1"
+                                        ? Colors.green
+                                        : order.workinprogress == "2"
+                                        ? Colors.blue.shade900
+                                        : order.workinprogress == "1"
+                                        ? Colors.blue.shade900
+                                        : order.PIckup == "2"
+                                        ? Colors.blue.shade900
+                                        : order.PIckup == "1"
+                                        ? Colors.orange
+                                        : order.PIckup == "0"
+                                        ? Colors.orange
+                                        : order.status == "2"
+                                        ? Colors.red
+                                        : order.status == "1"
+                                        ? Colors.blue
+                                        : Colors.grey,
+                                  ),
+                                )
                             ),
                           ],
                         ),

@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:laundry/Shop/view/Screens/Profile/shop_profile.dart';
 import 'dart:async';
 
+import '../../../../Controller/bloc/Driverbloc/Drivermodel/Drivermodel.dart';
 import '../../../../User/view/Screens/Home/notification_page.dart';
 import '../../../../Widget/constands/colors.dart';
 import '../Profile/driver_profile.dart';
@@ -14,7 +17,16 @@ class DriverHome extends StatefulWidget {
 }
 
 class _DriverHomeState extends State<DriverHome> {
-
+  Future<Driver?> fetchDriver() async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid != null) {
+      final snapshot = await FirebaseFirestore.instance.collection('drivers').doc(uid).get();
+      if (snapshot.exists) {
+        return Driver.fromMap(snapshot.data()!);
+      }
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,9 +94,43 @@ class _DriverHomeState extends State<DriverHome> {
 
               const SizedBox(height: 100),
               Center(
-                child: Image.asset(
-                  "assets/driverhome.png",
-                  height: 300,
+                child: Column(
+                  children: [
+                    Image.asset(
+                      "assets/driverhome.png",
+                      height: 300,
+                    ),
+                    const SizedBox(height: 80),
+                    FutureBuilder<Driver?>(
+                      future: fetchDriver(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
+                          return const Text(
+                            "Hello, Driver!",
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          );
+                        } else {
+                          final driver = snapshot.data!;
+                          return Column(
+                            children: [
+                              Text(
+                                "Hello, ${driver.name}",
+                                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 8),
+                              const Text(
+                                '"Delivering freshness, one load at a time!"',
+                                style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, color: Colors.grey),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                    ),
+                  ],
                 ),
               ),
             ],

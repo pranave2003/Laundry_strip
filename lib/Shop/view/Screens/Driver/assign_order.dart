@@ -48,29 +48,29 @@ class OrderAssignPage extends StatelessWidget {
                 const Text("All Orders",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 SizedBox(width: 260,),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const AssignFeesPage(),
-                      ),
-                    );
-                    // Add your Assign Fees logic here
-                    print("Assign Fees button tapped");
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: defaultColor,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  ),
-                  child: const Text(
-                    "Assign Fees",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                //ElevatedButton(
+                  //onPressed: () {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => const AssignFeesPage(),
+                    //   ),
+                    // );
+                    // // Add your Assign Fees logic here
+                    // print("Assign Fees button tapped");
+                 // },
+                  // style: ElevatedButton.styleFrom(
+                  //   backgroundColor: defaultColor,
+                  //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  // ),
+                  // child: const Text(
+                  //   "Assign Fees",
+                  //   style: TextStyle(
+                  //     color: Colors.white,
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
+               // ),
               ],
             ),
             const SizedBox(height: 10),
@@ -112,7 +112,7 @@ class OrderAssignPage extends StatelessWidget {
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold)),
                                     const SizedBox(height: 5),
-                                    Text("Phone No:  ${order.shopname}"),
+                                    Text("Shop Name:  ${order.shopname}"),
                                     Text("Order ID:  ${order.orderid}"),
                                     Text("Order Date:  ${order.Orderdate}"),
                                     const SizedBox(height: 5),

@@ -84,44 +84,35 @@ class _DriverAllOrdersState extends State<DriverAllOrders> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                        // order.status == "0"
-                                        //     ? ""
-                                        //     : order.status == "1"
-                                        //     ? ""
-                                        //     : order.status == "2"
-                                        //     ? ""
-                                            order.PIckup == "0"
-                                            ? "Pick Up Waiting"
-                                            : order.PIckup == "1"
-                                            ? "Order Picked"
-                                            : order.workinprogress == "1"
-                                            ? "Pick Up Completed"
+                                      order.Delivered == "1"
+                                          ? "Delivered"
+                                          : order.workinprogress == "2"
+                                          ? "Delivery Order"
+                                          : order.workinprogress == "1"
+                                          ? "Pick Up Completed"
+                                          : order.PIckup == "2"
+                                          ? "Pick Up Completed"
+                                          : order.PIckup == "1"
+                                          ? "Order Picked"
+                                          : order.PIckup == "0"
+                                          ? "Pick Up Waiting"
+                                          : "Pending",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: order.Delivered == "1"
+                                            ? Colors.green
                                             : order.workinprogress == "2"
-                                            ? "Pick Up Completed"
-                                            : order.Delivered == "1"
-                                            ? "Delivery Completed"
-                                            : "Completed",
-
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                            color: order.status == "0"
-                                                ? Colors.grey
-                                                : order.status == "1"
-                                                ? Colors.blue
-                                                : order.status == "2"
-                                                ? Colors.red
-                                                : order.PIckup == "0"
-                                                ? Colors.orange
-                                                : order.PIckup == "1"
-                                                ? Colors.orange
-                                                : order.PIckup == "2"
-                                                ? Colors.blue.shade900
-                                                : order.workinprogress == "2"
-                                                ? Colors.blue.shade900
-                                                : order.Delivered == "1"
-                                                ? Colors.green
-                                                : Colors.grey)),
+                                            ? Colors.blue.shade900
+                                            : order.workinprogress == "1"
+                                            ? Colors.blue.shade900
+                                            : order.PIckup == "1"
+                                            ? Colors.orange
+                                            : order.PIckup == "0"
+                                            ? Colors.orange
+                                            : Colors.grey,
+                                      ),
+                                    )
                                   ],
                                 ),
                                 Text("Name: ${order.username}",

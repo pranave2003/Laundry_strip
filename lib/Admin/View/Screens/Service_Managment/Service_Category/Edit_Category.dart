@@ -54,17 +54,29 @@ class _CategoryEditState extends State<CategoryEdit> {
     "assets/Dress/frock.png",
     "assets/Dress/wmgown.png",
     "assets/Dress/wmtshirt.png",
+    "assets/Dress/curtain.png",
+    "assets/Dress/carpet.png",
+    "assets/Household/yogamat.png",
   ];
 
   List<String> bagImages = [
-    "assets/Dress/carpet.png",
-    "assets/Dress/frock.png",
-    "assets/Dress/curtain.png",
+    "assets/Bag/laptopbag.png",
+    "assets/Bag/Schoolbag.png",
+    "assets/Bag/travelbag.png",
+    "assets/Bag/clgbag.png",
+    "assets/Bag/purse.png",
+    "assets/Bag/shoppingbag.png",
+    "assets/Bag/sling.png",
+    "assets/Bag/troley.png",
   ];
 
   List<String> shoeImages = [
     "assets/Dress/sneaker.jpg",
+    "assets/Shoes/flatheel.png",
+    "assets/Shoes/football_boot.png",
+    "assets/Shoes/rollerscater.png",
     "assets/Dress/sh.jpg",
+    "assets/Dress/pointed_heel.jpg",
     "assets/Dress/boot_heels.jpg",
   ];
 

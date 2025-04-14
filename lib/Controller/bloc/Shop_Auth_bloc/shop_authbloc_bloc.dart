@@ -70,8 +70,7 @@ class ShopAuthblocBloc extends Bloc<ShopAuthblocEvent, ShopAuthblocState> {
             "Laundry_Capacity": event.shop.LaundryCapacity,
             "Services": event.shop.selectServices,
             "imageUrl":
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4ZqivCNC7yvJqthqZOVvxSjDLyDxtai-cbQ&s",
-          });
+          "https://static.vecteezy.com/system/resources/previews/039/214/474/original/trendy-laundry-shop-vector.jpg"          });
           emit(ShopAuthenticated(user));
 
           print(user);

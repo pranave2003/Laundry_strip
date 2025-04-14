@@ -47,7 +47,7 @@ class Orderhistory extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
-            _buildDetailText("Rider ID", orderId),
+            _buildDetailText("Order ID", orderId),
             _buildDetailText("Total items", totalitems.toString()),
           ],
         ),

@@ -89,7 +89,7 @@ class _DriverAllOrdersState extends State<DriverAllOrders> {
                                           : order.workinprogress == "2"
                                           ? "Delivery Order"
                                           : order.workinprogress == "1"
-                                          ? "Pick Up Completed"
+                                          ? "Shop InProgress"
                                           : order.PIckup == "2"
                                           ? "Pick Up Completed"
                                           : order.PIckup == "1"

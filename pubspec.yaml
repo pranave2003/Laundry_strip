@@ -82,6 +82,9 @@ flutter:
     - assets/icon/
     - assets/navigation_icon/
     - assets/Dress/
+    - assets/Bag/
+    - assets/Household/
+    - assets/Shoes/
     - assets/shop_img/
     - assets/face_img/
     - assets/scanner/

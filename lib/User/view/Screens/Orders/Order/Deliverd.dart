@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Widget/constands/Loading.dart';
 
 import '../../../../../Controller/bloc/Orderbloc/order_bloc.dart';
+import '../Order_tracking.dart';
 
 class Deliverdwrrapper extends StatefulWidget {
   const Deliverdwrrapper({super.key});
@@ -186,6 +187,28 @@ class Deliverdorder extends StatelessWidget {
                           ),
                           SizedBox(
                             height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return OrderTracking(
+                                              order: state.orders[index],
+                                            );
+                                          },
+                                        ));
+                                  },
+                                  child: Text(
+                                    "Click to more details",
+                                    style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold),
+                                  ))
+                            ],
                           ),
                           Text("Customer Name: ${order.username}",
                               style: TextStyle(fontSize: 14)),

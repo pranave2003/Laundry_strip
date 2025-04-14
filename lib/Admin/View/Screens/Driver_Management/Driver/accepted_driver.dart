@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -129,7 +130,42 @@ class AcceptedDriverPage extends StatelessWidget {
       DataCell(Text(driver.name.toString())),
       DataCell(Text(driver.email.toString())),
       DataCell(Text(driver.phone.toString())),
-      DataCell(Text(driver.proof.toString())),
+      //DataCell(Text(driver.proof.toString())),
+    DataCell(Padding(
+    padding: const EdgeInsets.symmetric(vertical: 10.0),
+    child: Container(
+    height:80,
+    child: ClipRRect(
+    borderRadius: BorderRadius.circular(
+    5), // Rounded corners for image
+    child: CachedNetworkImage(
+    imageUrl: "https://static.vecteezy.com/system/resources/previews/016/141/788/original/driver-license-icon-in-comic-style-id-card-cartoon-illustration-on-white-isolated-background-identity-splash-effect-business-concept-vector.jpg",
+    width: 100, // Adjusted width
+    height: 50, // Adjusted height
+    fit: BoxFit.cover,
+    placeholder: (context, url) => Container(
+    width: 50,
+    height: 50,
+    color: Colors.grey[300], // Placeholder background
+    child: Center(
+    child: Loading_Widget(), // Loading indicator
+    ),
+    ),
+    errorWidget: (context, url, error) => Container(
+    width: 50,
+    height: 50,
+    color: Colors.grey[300], // Placeholder background
+    child: Icon(
+    Icons.image_not_supported,
+    size: 50,
+    color: Colors.grey[600],
+    ),
+    ),
+    ),
+    ),
+
+    ),
+    ),),
 
 
       DataCell(

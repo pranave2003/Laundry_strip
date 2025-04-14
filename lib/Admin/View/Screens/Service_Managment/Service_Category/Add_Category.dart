@@ -38,21 +38,36 @@ class _CategoryAddState extends State<CategoryAdd> {
     "assets/Dress/t-shirt.png",
     "assets/Dress/shirt.png",
     "assets/Dress/jacket.png",
+    "assets/Dress/mensuit.png",
     "assets/Dress/flared_frock.png",
     "assets/Dress/frock.png",
     "assets/Dress/wmgown.png",
     "assets/Dress/wmtshirt.png",
+    "assets/Dress/saree.png",
+    "assets/Dress/curtain.png",
+    "assets/Dress/carpet.png",
+    "assets/Dress/sofacover.png",
+    "assets/Household/yogamat.png",
   ];
 
   List<String> bagImages = [
-    "assets/Dress/carpet.png",
-    "assets/Dress/frock.png",
-    "assets/Dress/curtain.png",
+    "assets/Bag/laptopbag.png",
+    "assets/Bag/Schoolbag.png",
+    "assets/Bag/travelbag.png",
+    "assets/Bag/clgbag.png",
+    "assets/Bag/purse.png",
+    "assets/Bag/Schoolbag.png",
+    "assets/Bag/troley.png",
+
   ];
 
   List<String> shoeImages = [
     "assets/Dress/sneaker.jpg",
+    "assets/Shoes/flatheel.png",
+    "assets/Shoes/football_boot.png",
+    "assets/Shoes/rollerscater.png",
     "assets/Dress/sh.jpg",
+    "assets/Dress/pointed_heel.jpg",
     "assets/Dress/boot_heels.jpg",
   ];
 

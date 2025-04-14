@@ -15,7 +15,7 @@ class DriverPickedWrapper extends StatelessWidget {
         ..add(Fetchorders(
           driverId: Driverid_blobal,
           searchQuery: null,
-          Picked: '1'
+          Picked: '1',Deliverd: "0"
         )),
       child: DriverPending(),
     );

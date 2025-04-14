@@ -30,56 +30,56 @@ class ServiceCategory extends StatefulWidget {
 }
 
 class _ServiceCategoryState extends State<ServiceCategory> {
-  List<Service_category> category = [
-    Service_category(
-        Id: "",
-        Service: "Wash + Fold",
-        Category: "Men",
-        Product_Name: "Shirt",
-        Product_Image: 'assets/Dress/shirt.png'),
-    Service_category(
-        Id: "",
-        Service: "Wash + Fold",
-        Category: "Men",
-        Product_Name: "T-Shirt",
-        Product_Image: 'assets/Dress/t-shirt.png'),
-    Service_category(
-        Id: "",
-        Service: "Wash + Fold",
-        Category: "Men",
-        Product_Name: "Jacket",
-        Product_Image: 'assets/Dress/jacket.png'),
-    Service_category(
-        Id: "",
-        Service: "Wash + Fold",
-        Category: "Men",
-        Product_Name: "Shirt",
-        Product_Image: 'assets/Dress/shirt.png'),
-    Service_category(
-        Id: "",
-        Service: "Wash + Fold",
-        Category: "Men",
-        Product_Name: "Shirt",
-        Product_Image: 'assets/Dress/t-shirt.png'),
-    Service_category(
-        Id: "",
-        Service: "Wash + Fold",
-        Category: "Men",
-        Product_Name: "Shirt",
-        Product_Image: 'assets/Dress/shirt.png'),
-    Service_category(
-        Id: "",
-        Service: "Wash + Fold",
-        Category: "Men",
-        Product_Name: "Shirt",
-        Product_Image: 'assets/Dress/t-shirt.png'),
-    Service_category(
-        Id: "",
-        Service: "Wash + Fold",
-        Category: "Men",
-        Product_Name: "Shirt",
-        Product_Image: 'assets/Dress/jacket.png'),
-  ];
+  // List<Service_category> category = [
+  //   Service_category(
+  //       Id: "",
+  //       Service: "Wash + Fold",
+  //       Category: "Men",
+  //       Product_Name: "Shirt",
+  //       Product_Image: 'assets/Dress/shirt.png'),
+  //   Service_category(
+  //       Id: "",
+  //       Service: "Wash + Fold",
+  //       Category: "Men",
+  //       Product_Name: "T-Shirt",
+  //       Product_Image: 'assets/Dress/t-shirt.png'),
+  //   Service_category(
+  //       Id: "",
+  //       Service: "Wash + Fold",
+  //       Category: "Men",
+  //       Product_Name: "Jacket",
+  //       Product_Image: 'assets/Dress/jacket.png'),
+  //   Service_category(
+  //       Id: "",
+  //       Service: "Wash + Fold",
+  //       Category: "Men",
+  //       Product_Name: "Shirt",
+  //       Product_Image: 'assets/Dress/shirt.png'),
+  //   Service_category(
+  //       Id: "",
+  //       Service: "Wash + Fold",
+  //       Category: "Men",
+  //       Product_Name: "Shirt",
+  //       Product_Image: 'assets/Dress/t-shirt.png'),
+  //   Service_category(
+  //       Id: "",
+  //       Service: "Wash + Fold",
+  //       Category: "Men",
+  //       Product_Name: "Shirt",
+  //       Product_Image: 'assets/Dress/shirt.png'),
+  //   Service_category(
+  //       Id: "",
+  //       Service: "Wash + Fold",
+  //       Category: "Men",
+  //       Product_Name: "Shirt",
+  //       Product_Image: 'assets/Dress/t-shirt.png'),
+  //   Service_category(
+  //       Id: "",
+  //       Service: "Wash + Fold",
+  //       Category: "Men",
+  //       Product_Name: "Shirt",
+  //       Product_Image: 'assets/Dress/jacket.png'),
+  // ];
 
   @override
   Widget build(BuildContext context) {

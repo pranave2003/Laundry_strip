@@ -500,45 +500,53 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
   }
 
   Widget _buildAddedItemsSection() {
-    return ExpansionTile(
-      title: Text("Added Items", style: TextStyle(fontWeight: FontWeight.bold)),
-      initiallyExpanded: true, // This keeps the ExpansionTile open by default
-      children: selectedItems.map((item) {
-        return ListTile(
-          leading: Image.asset(item.product_image, width: 40, height: 40),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(item.product_name),
-              Text(item.Productprice),
-            ],
-          ),
-          trailing: IconButton(
-            icon: Icon(Icons.remove_circle_outline, color: Colors.red),
-            onPressed: () => updateSelectedItems(item, remove: true),
-          ),
-        );
-      }).toList(),
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+
+      child: ExpansionTile(
+        title: Text("Added Items", style: TextStyle(fontWeight: FontWeight.bold)),
+        initiallyExpanded: true, // This keeps the ExpansionTile open by default
+        children: selectedItems.map((item) {
+          return ListTile(
+            leading: Image.asset(item.product_image, width: 40, height: 40),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(item.product_name),
+                Text(item.Productprice),
+              ],
+            ),
+            trailing: IconButton(
+              icon: Icon(Icons.remove_circle_outline, color: Colors.red),
+              onPressed: () => updateSelectedItems(item, remove: true),
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 
   Widget _buildTotalCharges() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text("Total Charges",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
-            Text("₹${calculateTotalPrice().toStringAsFixed(2)}",
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            const Divider(height: 20, thickness: 1),
-          ],
-        ),
-      ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("Total Charges",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              Text("₹${calculateTotalPrice().toStringAsFixed(2)}",
+                  style:
+                      const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              const Divider(height: 20, thickness: 1),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

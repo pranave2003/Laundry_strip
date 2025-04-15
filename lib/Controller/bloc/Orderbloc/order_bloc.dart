@@ -202,7 +202,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             .collection("Orders")
             .doc(event.orderid)
             .update(
-          {"Deliverd": event.Deliverd, "PIckup": event.picked},
+          {"Delivered": event.Deliverd, "PIckup": event.picked},
         );
         emit(Scannersuccess());
       } catch (e) {

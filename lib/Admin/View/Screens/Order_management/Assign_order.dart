@@ -314,23 +314,23 @@ class _AssignOrderPageState extends State<AssignOrderPage> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CircleAvatar(
-                            backgroundColor: Color(0xffD9D9D9),
-                            child: IconButton(
-                                onPressed: () {}, icon: Icon(Icons.person)),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CircleAvatar(
-                            backgroundColor: Color(0xffD9D9D9),
-                            child: IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.notification_add)),
-                          ),
-                        )
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: CircleAvatar(
+                        //     backgroundColor: Color(0xffD9D9D9),
+                        //     child: IconButton(
+                        //         onPressed: () {}, icon: Icon(Icons.person)),
+                        //   ),
+                        // ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: CircleAvatar(
+                        //     backgroundColor: Color(0xffD9D9D9),
+                        //     child: IconButton(
+                        //         onPressed: () {},
+                        //         icon: Icon(Icons.notification_add)),
+                        //   ),
+                        // )
                       ],
                     ),
                   ],

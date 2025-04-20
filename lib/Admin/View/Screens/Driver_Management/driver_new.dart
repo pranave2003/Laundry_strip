@@ -59,21 +59,21 @@ class _DriverPageState extends State<DriverPage>
                     children: [
 
                       const SizedBox(width: 10),
-                      CircleAvatar(
-                        backgroundColor: Color(0xffD9D9D9),
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.person),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      CircleAvatar(
-                        backgroundColor: Color(0xffD9D9D9),
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.notifications),
-                        ),
-                      ),
+                      // CircleAvatar(
+                      //   backgroundColor: Color(0xffD9D9D9),
+                      //   child: IconButton(
+                      //     onPressed: () {},
+                      //     icon: Icon(Icons.person),
+                      //   ),
+                      // ),
+                      // const SizedBox(width: 10),
+                      // CircleAvatar(
+                      //   backgroundColor: Color(0xffD9D9D9),
+                      //   child: IconButton(
+                      //     onPressed: () {},
+                      //     icon: Icon(Icons.notifications),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ],

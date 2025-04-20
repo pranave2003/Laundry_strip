@@ -39,7 +39,7 @@ class _Shop_NavigationState extends State<Shop_Navigation> {
     ShopHome(),
     LaundryView(),
     Orders(),
-    ScanQr(), // Change this to OrdersPage
+    //ScanQr(), // Change this to OrdersPage
     Assignorderwrapper(),
   ];
 
@@ -73,9 +73,9 @@ class _Shop_NavigationState extends State<Shop_Navigation> {
           BottomNavigationBarItem(
               icon: Image.asset("assets/navigation_icon/shop_order.png"),
               label: "Orders"),
-          BottomNavigationBarItem(
-              icon: Image.asset("assets/navigation_icon/shop_qr.png"),
-              label: "QR Scan"),
+          // BottomNavigationBarItem(
+          //     icon: Image.asset("assets/navigation_icon/shop_qr.png"),
+          //     label: "QR Scan"),
           BottomNavigationBarItem(
               icon: Image.asset("assets/navigation_icon/shop_delivery.png"),
               label: "Delivery"),

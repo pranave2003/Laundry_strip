@@ -1,0 +1,2 @@
+C:/Users/hp/StudioProjects/laundry/android/app/.cxx/Debug/174h1u6z/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/hp/StudioProjects/laundry/android/app/.cxx/Debug/174h1u6z/x86_64/CMakeFiles/rebuild_cache.dir

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Widget/constands/Loading.dart';
 
 import '../../../../../Controller/bloc/Orderbloc/order_bloc.dart';
+import '../../Feedback/FeedbackScreen.dart';
 import '../Order_tracking.dart';
 
 class Deliverdwrrapper extends StatefulWidget {
@@ -146,7 +147,7 @@ class Deliverdorder extends StatelessWidget {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Image.network(item.productimage,
+                                    Image.asset(item.productimage,
                                         width: 50,
                                         height: 50,
                                         fit: BoxFit.cover),
@@ -224,6 +225,33 @@ class Deliverdorder extends StatelessWidget {
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.bold)),
                           Divider(),
+                          Row(mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              ElevatedButton.icon(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => FeedbackScreen(
+                                        orderid: order.orderid,
+                                        userName: order.username,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                icon: Icon(Icons.feedback),
+                                label: Text("Give Feedback"),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blue.shade700,
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
                         ],
                       ),
                     ),

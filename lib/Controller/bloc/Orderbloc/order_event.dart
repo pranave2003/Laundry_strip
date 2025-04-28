@@ -90,3 +90,21 @@ class FetchOrderDetailsById extends OrderEvent {
   final String? orderid;
   FetchOrderDetailsById({required this.orderid});
 }
+
+
+class UserSendreviewandratingevent extends OrderEvent {
+  final String? orderid;
+  final String? Review;
+  final String? Ratingstatus;
+  UserSendreviewandratingevent(
+      {required this.orderid,
+        this.Review,
+        this.Ratingstatus,});
+}
+
+// Event for fetching feedback
+class FetchUserFeedbackEvent extends OrderEvent {
+  final String orderid;
+  FetchUserFeedbackEvent(this.orderid);
+}
+

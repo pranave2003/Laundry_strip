@@ -86,7 +86,7 @@ class _RegisterPageState extends State<RegisterPage> {
         if (state is Authenticated) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushNamedAndRemoveUntil(
-                context, '/home', (route) => false);
+                context, '/login', (route) => false);
           });
         }
         if (state is AuthenticatedError) {

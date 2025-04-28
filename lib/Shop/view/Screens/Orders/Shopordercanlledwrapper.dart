@@ -135,7 +135,7 @@ class Ordercancelled_wrapper extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Image.network(item.productimage,
+                                          Image.asset(item.productimage,
                                               width: 50,
                                               height: 50,
                                               fit: BoxFit.cover),

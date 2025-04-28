@@ -87,8 +87,8 @@ class AllOrders extends StatelessWidget {
                                                   ? "Order Picked"
                                                   : order.PIckup == "2"
                                                       ? "pickup handover"
-                                                      : order.PIckup == "0"
-                                                          ? "Pick Up on the Way"
+                                                      // : order.PIckup == "0"
+                                                      //     ? "Pick Up on the Way"
                                                           : order.status == "2"
                                                               ? "Cancelled Order"
                                                               : order.status ==
@@ -139,7 +139,7 @@ class AllOrders extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Image.network(item.productimage,
+                                          Image.asset(item.productimage,
                                               width: 50,
                                               height: 50,
                                               fit: BoxFit.cover),

@@ -52,3 +52,36 @@ final class Ordererror extends OrderState {
   final String error;
   Ordererror({required this.error});
 }
+//UserSendreviewandratingSuccess_State//
+
+final class UserSendreviewandratingSuccess extends OrderState {}
+
+final class UserSendreviewandratingfailerror extends OrderState {
+  final String error;
+
+  UserSendreviewandratingfailerror(this.error);
+}
+final class UserSendreviewandratingloading extends OrderState {}
+
+final class UserSendreviewandratingRefresh extends OrderState {}
+
+// States for fetching feedback
+// States for fetching feedback
+class UserFeedbackLoading extends OrderState {}
+
+class UserFeedbackLoaded extends OrderState {
+  final String review;
+  final String rating;
+
+  UserFeedbackLoaded({required this.review, required this.rating});
+}
+
+class UserFeedbackError extends OrderState {
+  final String error;
+  UserFeedbackError(this.error);
+}
+
+class FeedbackLoaded extends OrderState {
+  final List<OrderModel> orders;
+  FeedbackLoaded(this.orders);
+}

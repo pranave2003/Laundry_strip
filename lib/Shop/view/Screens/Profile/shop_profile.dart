@@ -8,6 +8,7 @@ import 'package:laundry/Widget/constands/Loading.dart';
 import '../../../../Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
 import 'ContactUs.dart';
 import 'Edit_Shop_Profile.dart';
+import 'ViewFeedback.dart';
 
 class Profilewrapper extends StatefulWidget {
   const Profilewrapper({super.key});
@@ -223,6 +224,13 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                   title: "Contact Us",
                   context: context,
                   page: ContactUs(),
+                ),
+                _buildProfileOption(
+                  icon: Icons.rate_review,
+                  title: "Feedback",
+                  context: context,
+                  page: ViewFeedbackPage(orderid: "76auMQYOUVtg9vBE4QfA"
+                    ),
                 ),
                 _buildProfileOption(
                   icon: Icons.rule,

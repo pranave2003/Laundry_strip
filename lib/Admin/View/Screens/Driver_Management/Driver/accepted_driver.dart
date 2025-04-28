@@ -138,30 +138,30 @@ class AcceptedDriverPage extends StatelessWidget {
     child: ClipRRect(
     borderRadius: BorderRadius.circular(
     5), // Rounded corners for image
-    child: CachedNetworkImage(
-    imageUrl: "https://static.vecteezy.com/system/resources/previews/016/141/788/original/driver-license-icon-in-comic-style-id-card-cartoon-illustration-on-white-isolated-background-identity-splash-effect-business-concept-vector.jpg",
-    width: 100, // Adjusted width
-    height: 50, // Adjusted height
-    fit: BoxFit.cover,
-    placeholder: (context, url) => Container(
-    width: 50,
-    height: 50,
-    color: Colors.grey[300], // Placeholder background
-    child: Center(
-    child: Loading_Widget(), // Loading indicator
-    ),
-    ),
-    errorWidget: (context, url, error) => Container(
-    width: 50,
-    height: 50,
-    color: Colors.grey[300], // Placeholder background
-    child: Icon(
-    Icons.image_not_supported,
-    size: 50,
-    color: Colors.grey[600],
-    ),
-    ),
-    ),
+      child: CachedNetworkImage(
+        imageUrl: driver.proof.toString(),
+        width: 100, // Adjusted width
+        height: 50, // Adjusted height
+        fit: BoxFit.cover,
+        placeholder: (context, url) => Container(
+          width: 50,
+          height: 50,
+          color: Colors.grey[300], // Placeholder background
+          child: Center(
+            child: Loading_Widget(), // Loading indicator
+          ),
+        ),
+        errorWidget: (context, url, error) => Container(
+          width: 50,
+          height: 50,
+          color: Colors.grey[300], // Placeholder background
+          child: Icon(
+            Icons.image_not_supported,
+            size: 50,
+            color: Colors.grey[600],
+          ),
+        ),
+      ),
     ),
 
     ),

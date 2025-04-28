@@ -118,8 +118,8 @@ class _Shop_AllordersState extends State<Shop_Allorders> {
                               ? "In Progress"
                               : order.PIckup == "1"
                               ? "Order Picked"
-                              : order.PIckup == "0"
-                              ? "Waiting for Pick Up "
+                              // : order.PIckup == "0"
+                              // ? "Waiting for Pick Up "
                               : order.status == "2"
                               ? "Cancelled Order"
                               : order.status == "1"
@@ -165,7 +165,7 @@ class _Shop_AllordersState extends State<Shop_Allorders> {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Image.network(item.productimage,
+                                    Image.asset(item.productimage,
                                         width: 50,
                                         height: 50,
                                         fit: BoxFit.cover),

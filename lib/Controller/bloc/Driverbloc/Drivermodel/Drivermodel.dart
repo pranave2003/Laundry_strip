@@ -5,8 +5,8 @@ class Driver {
   final String email;
   String? password;
   String? ban;
-  final String image;
-  final String proof;
+  late final String image;
+  late final String proof;
   final  available;
   final timestamp;
 

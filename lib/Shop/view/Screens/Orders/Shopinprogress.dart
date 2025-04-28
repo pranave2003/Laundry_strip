@@ -139,7 +139,7 @@ class _Shop_InprogressState extends State<Shop_Inprogress> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Image.network(item.productimage,
+                                          Image.asset(item.productimage,
                                               width: 50,
                                               height: 50,
                                               fit: BoxFit.cover),

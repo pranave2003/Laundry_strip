@@ -141,7 +141,7 @@ class AvailableDrivers extends StatelessWidget {
                                                     color:
                                                         driver.available == "1"
                                                             ? Colors.green
-                                                            : Colors.red,
+                                                            : Colors.green,
                                                     size: 12,
                                                   ),
                                                   const SizedBox(width: 4),
@@ -167,7 +167,7 @@ class AvailableDrivers extends StatelessWidget {
                                                               ..add(Assigndriver(
                                                                   orderid:
                                                                       orderid,
-                                                                  PIckup: "1",
+                                                                  PIckup: "0",
                                                                   driverid: driver
                                                                       .driverId,
                                                                   drivername:

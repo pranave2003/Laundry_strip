@@ -39,7 +39,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           "PIckup": "0",
           "Rejectreason": "",
           "Rejected": "0",
-          "workinprogress": "0"
+          "workinprogress": "0",
+          "Review": event.order.Review,
+          "Ratingstatus": event.order.Ratingstatus,
         });
 
         emit(orderSuccess());
@@ -204,10 +206,113 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             .update(
           {"Delivered": event.Deliverd, "PIckup": event.picked},
         );
+
         emit(Scannersuccess());
       } catch (e) {
         emit(Deliverderror(error: e.toString()));
       }
     });
+    // on<UserSendreviewandratingevent>((event, emit) async {
+    //   emit(UserSendreviewandratingloading());
+    //   try {
+    //     // Simulate or call your actual API/repository function
+    //     await Future.delayed(Duration(seconds: 1)); // simulate delay
+    //     // Replace with your logic like: await orderRepo.sendReview(event)
+    //
+    //     emit(UserSendreviewandratingSuccess());
+    //   } catch (e) {
+    //     emit(UserSendreviewandratingfailerror(e.toString()));
+    //   }
+    // });
+
+    on<UserSendreviewandratingevent>((event, emit) async {
+      emit(UserSendreviewandratingloading());
+
+      try {
+        if (event.orderid == null ||
+            event.Review == null ||
+            event.Ratingstatus == null) {
+          emit(UserSendreviewandratingfailerror('Missing fields'));
+          return;
+        }
+
+        await FirebaseFirestore.instance
+            .collection(
+                'Orders') // <- Make sure you save under the correct collection
+            .doc(event.orderid) // <- Save inside a document for that order
+            .update(
+          {
+            'orderid': event.orderid,
+            'Review': event.Review,
+            'Ratingstatus': event.Ratingstatus,
+            //'timestamp': FieldValue.serverTimestamp(),
+          },
+        ); // Merge if order already exists
+
+        emit(UserSendreviewandratingSuccess());
+      } catch (e) {
+        emit(UserSendreviewandratingfailerror(e.toString()));
+      }
+    });
+
+
+    on<FetchUserFeedbackEvent>((event, emit) async {
+      emit(UserFeedbackLoading());
+      try {
+        final feedbackData = await _fetchFeedback(event.orderid); // Fetch feedback data
+
+        if (feedbackData == null) {
+          emit(UserFeedbackError('No feedback found for this order.'));
+        } else {
+          // Check if feedback fields exist before using them
+          final rating = feedbackData['Ratingstatus'] ?? '';
+          final review = feedbackData['Review'] ?? '';
+
+          if (rating.isEmpty && review.isEmpty) {
+            emit(UserFeedbackError('No review or rating available.'));
+          } else {
+            emit(UserFeedbackLoaded(
+              rating: rating,
+              review: review,
+            ));
+          }
+        }
+      } catch (e) {
+        // Catch any exception during the fetch process
+        emit(UserFeedbackError('Error fetching feedback: ${e.toString()}'));
+      }
+    });
+
+    // on<FetchUserFeedbackEvent>((event, emit) async {
+    //   emit(UserFeedbackLoading());
+    //   try {
+    //     final feedbackData =
+    //         await _fetchFeedback(event.orderid); // ✅ Now will work fine
+    //
+    //     if (feedbackData == null) {
+    //       emit(UserFeedbackError('No feedback found'));
+    //     } else {
+    //       emit(UserFeedbackLoaded(
+    //         rating: feedbackData['Ratingstatus'] ?? '',
+    //         review: feedbackData['Review'] ?? '',
+    //       ));
+    //     }
+    //   } catch (e) {
+    //     emit(UserFeedbackError(e.toString()));
+    //   }
+    // });
+
+  }
+
+  // ✅ Move _fetchFeedback outside constructor but inside class
+  Future<Map<String, dynamic>?> _fetchFeedback(String orderId) async {
+    final doc = await FirebaseFirestore.instance
+        .collection('Orders')
+        .doc(orderId)
+        .get();
+    if (doc.exists) {
+      return doc.data();
+    }
+    return null;
   }
 }

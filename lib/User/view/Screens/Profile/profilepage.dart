@@ -10,6 +10,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'AboutUs.dart';
 import 'ContactUs.dart';
 import 'Edit_profile.dart';
+import 'EnquiryPage.dart';
 import 'PrivacyPolicy.dart';
 import 'TermsPage.dart';
 
@@ -205,9 +206,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       _buildProfileOption(
                         icon: Icons.chat_bubble_outline_rounded,
-                        title: "Chat With Us",
+                        title: "Enquiry",
                         context: context,
-                        page: const ChatPage(),
+                        page:  EnquiryPage(),
                       ),
                       _buildProfileOption(
                         icon: Icons.rule,

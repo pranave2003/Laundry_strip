@@ -21,6 +21,9 @@ class OrderModel {
   final dynamic Rejectreason;
   final dynamic workinprogress;
   final dynamic Rejected;
+  final dynamic Review;
+  final dynamic Ratingstatus;
+
 
   OrderModel({
     required this.orderid,
@@ -45,6 +48,8 @@ class OrderModel {
     this.workinprogress,
     this.Rejectreason,
     this.Rejected,
+    this.Review,
+    this.Ratingstatus,
   });
 
   factory OrderModel.fromMap(Map<String, dynamic> json) {
@@ -74,7 +79,10 @@ class OrderModel {
         PIckup: json['PIckup'] ?? "",
         Rejectreason: json['Rejectreason'] ?? "",
         Rejected: json['Rejected'] ?? "",
-        workinprogress: json['workinprogress'] ?? "");
+        workinprogress: json['workinprogress'] ?? "",
+        Review: json['Review'] ?? "",
+      Ratingstatus: json['Ratingstatus'] ?? "",
+    );
   }
 }
 

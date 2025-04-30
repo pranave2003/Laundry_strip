@@ -27,6 +27,86 @@ class _DriverHomeState extends State<DriverHome> {
     }
     return null;
   }
+  bool isAvailable = true;
+  void _showStatusDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        bool tempStatus = isAvailable; // Temporary status inside popup
+        return AlertDialog(
+          title: const Text("Change Status"),
+          content: StatefulBuilder(
+            builder: (context, setState) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(tempStatus ? "Available" : "Unavailable",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: tempStatus ? Colors.green : Colors.red,
+                      )),
+                  Switch(
+                    value: tempStatus,
+                    activeColor: Colors.green,
+                    inactiveThumbColor: Colors.red,
+                    onChanged: (value) {
+                      setState(() {
+                        tempStatus = value;
+                      });
+                    },
+                  ),
+                ],
+              );
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close dialog
+              },
+              child: const Text("Cancel"),
+            ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     setState(() {
+            //       isAvailable = tempStatus;
+            //     });
+            //     Navigator.pop(context);
+            //
+            //     // Close dialog
+            //     // Here, you can also fire a BLoC event to update status in backend
+            //   },
+            //   child: const Text("Save"),
+            // ),
+            ElevatedButton(
+              onPressed: () async {
+                setState(() {
+                  isAvailable = tempStatus;
+                });
+                Navigator.pop(context); // Close dialog
+
+                print(isAvailable);
+                await FirebaseFirestore.instance
+                    .collection('drivers')
+                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                    .update({
+                  'Availablestatus': isAvailable ? "1" : "0",
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: defaultColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              ),
+              child: const Text("Save", style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,20 +193,75 @@ class _DriverHomeState extends State<DriverHome> {
                           );
                         } else {
                           final driver = snapshot.data!;
+                          // return Column(
+                          //   children: [
+                          //     Text(
+                          //       "Hello, ${driver.name}",
+                          //       style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          //     ),
+                          //     const SizedBox(height: 8),
+                          //     const Text(
+                          //       '"Delivering freshness, one load at a time!"',
+                          //       style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, color: Colors.grey),
+                          //       textAlign: TextAlign.center,
+                          //     ),
+                          //
+                          //   ],
+                          // );
                           return Column(
                             children: [
                               Text(
                                 "Hello, ${driver.name}",
-                                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(height: 8),
                               const Text(
                                 '"Delivering freshness, one load at a time!"',
-                                style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, color: Colors.grey),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.grey,
+                                ),
                                 textAlign: TextAlign.center,
                               ),
+                              const SizedBox(height: 80),
+
+                              // Stylish Elevated Button
+                              //  ElevatedButton(
+                              //   onPressed: _showStatusDialog,
+                              //   style: ElevatedButton.styleFrom(
+                              //     backgroundColor: isAvailable ? Colors.green : Colors.red,
+                              //     minimumSize: const Size(200, 50),
+                              //   ),
+                              //   child: Text(
+                              //     isAvailable ? "Available" : "Unavailable",
+                              //     style: const TextStyle(color: Colors.white, fontSize: 18),
+                              //   ),
+                              // ),
+                              ElevatedButton.icon(
+                                onPressed: _showStatusDialog,
+                                icon: Icon(
+                                  isAvailable ? Icons.check_circle : Icons.cancel,
+                                  color: Colors.white,
+                                ),
+                                label: Text(
+                                  isAvailable ? "Available" : "Unavailable",
+                                  style: const TextStyle(color: Colors.white, fontSize: 18),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: isAvailable ? Colors.green : Colors.red,
+                                  minimumSize: const Size(260, 50),
+                                  elevation: 4,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                                ),
+                              ),
+
                             ],
                           );
+
                         }
                       },
                     ),

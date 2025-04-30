@@ -163,7 +163,7 @@ class _EditDriver_ProfilePageState extends State<EditDriver_ProfilePage> {
                             name: drivernameController.text,
                             phone: phoneController.text,
                             image: image ?? "",
-                            email: '', proof: '',
+                            email: '', proof: '',aadhar: ''
                           );
 
                           context.read<DriverblocBloc>().add(EditDriverProfile(driver: driver));

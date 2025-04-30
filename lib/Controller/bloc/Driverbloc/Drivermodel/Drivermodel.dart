@@ -9,6 +9,8 @@ class Driver {
   late final String proof;
   final  available;
   final timestamp;
+  final aadhar;
+  final Availablestatus;
 
 
   Driver({
@@ -22,6 +24,8 @@ class Driver {
     this.ban,
     required this.image,
     required this.proof,
+    required this.aadhar,
+     this.Availablestatus,
 
   });
 
@@ -34,6 +38,8 @@ class Driver {
       ban: data['ban'],
       proof: data['proof'],
       image: data['imageUrl'],
+      aadhar: data['aadhar'],
+      Availablestatus: data['Availablestatus'],
     );
   }
 }

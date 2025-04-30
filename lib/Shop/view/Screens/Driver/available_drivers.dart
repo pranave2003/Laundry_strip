@@ -89,7 +89,7 @@ class AvailableDrivers extends StatelessWidget {
                             final driver = state.Drivers[index];
 
                             return state.Drivers.isEmpty
-                                ? Center(child: Text("Nodata"))
+                                ? Center(child: Text("No data"))
                                 : Card(
                                     margin: const EdgeInsets.symmetric(
                                         vertical: 8, horizontal: 4),
@@ -115,6 +115,8 @@ class AvailableDrivers extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
+
+
                                                 Text(driver.name,
                                                     style: TextStyle(
                                                         fontWeight:

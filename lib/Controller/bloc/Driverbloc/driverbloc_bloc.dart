@@ -57,8 +57,10 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
               "timestamp": DateTime.now(),
               "ban": "0",
               "status": "0",
+              "Availablestatus": "0",
               "phone": event.driver.phone,
               "proof": event.driver.proof,
+              "aadhar": event.driver.aadhar,
               "imageUrl":
                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4ZqivCNC7yvJqthqZOVvxSjDLyDxtai-cbQ&s",
             });
@@ -330,6 +332,23 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
       },
     );
 
+    // toggle button
+    on<Driveravailabletoggleevent>(
+          (event, emit) async {
+        try {
+          emit(DriverLoading());
+          print(event.id);
+          await FirebaseFirestore.instance
+              .collection("drivers")
+              .doc(event?.id)
+              .update({"Availablestatus": event.Availablestatus});
+          emit(Refresh());
+        } catch (e) {
+          print(e);
+        }
+      },
+    );
+
     // old commented
 
     on<AddDriverEvent>(_onAddDriver);
@@ -399,6 +418,7 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
           phone: doc['phone'],
           name: doc['name'],
           image: doc['image'] ?? "",
+          aadhar: doc['aadhar'] ?? "",
           timestamp: doc["timestamp"] ?? "",
         );
       }).toList();

@@ -256,32 +256,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     });
 
 
-    on<FetchUserFeedbackEvent>((event, emit) async {
-      emit(UserFeedbackLoading());
-      try {
-        final feedbackData = await _fetchFeedback(event.orderid); // Fetch feedback data
 
-        if (feedbackData == null) {
-          emit(UserFeedbackError('No feedback found for this order.'));
-        } else {
-          // Check if feedback fields exist before using them
-          final rating = feedbackData['Ratingstatus'] ?? '';
-          final review = feedbackData['Review'] ?? '';
-
-          if (rating.isEmpty && review.isEmpty) {
-            emit(UserFeedbackError('No review or rating available.'));
-          } else {
-            emit(UserFeedbackLoaded(
-              rating: rating,
-              review: review,
-            ));
-          }
-        }
-      } catch (e) {
-        // Catch any exception during the fetch process
-        emit(UserFeedbackError('Error fetching feedback: ${e.toString()}'));
-      }
-    });
 
     // on<FetchUserFeedbackEvent>((event, emit) async {
     //   emit(UserFeedbackLoading());
@@ -304,15 +279,15 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
   }
 
-  // ✅ Move _fetchFeedback outside constructor but inside class
-  Future<Map<String, dynamic>?> _fetchFeedback(String orderId) async {
-    final doc = await FirebaseFirestore.instance
-        .collection('Orders')
-        .doc(orderId)
-        .get();
-    if (doc.exists) {
-      return doc.data();
-    }
-    return null;
-  }
+  // // ✅ Move _fetchFeedback outside constructor but inside class
+  // Future<Map<String, dynamic>?> _fetchFeedback(String orderId) async {
+  //   final doc = await FirebaseFirestore.instance
+  //       .collection('Orders')
+  //       .doc(orderId)
+  //       .get();
+  //   if (doc.exists) {
+  //     return doc.data();
+  //   }
+  //   return null;
+  // }
 }

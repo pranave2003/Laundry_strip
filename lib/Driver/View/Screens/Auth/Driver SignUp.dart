@@ -1,7 +1,5 @@
 //driver signup
 
-
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,6 +40,7 @@ class _DriverSignupPageState extends State<DriverSignupPage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _aadharController = TextEditingController();
 
   bool isChecked = false;
   File? _profileImage;
@@ -79,7 +78,7 @@ class _DriverSignupPageState extends State<DriverSignupPage> {
         driverId: const Uuid().v4(), // Unique ID
         image: _profileImage!.path,
         proof: _licenseProof!.path,
-
+        aadhar: _aadharController.text,
         timestamp: DateTime.now().toIso8601String(),
       );
 
@@ -173,7 +172,17 @@ class _DriverSignupPageState extends State<DriverSignupPage> {
                         : null,
                   ),
                   const SizedBox(height: 15),
-
+                  CustomTextForm(
+                    prefixIcon: const Icon(Icons.verified_user_outlined),
+                    hintText: "Aadhar Number",
+                    controller: _aadharController,
+                    validator: (value) => value == null || value.trim().isEmpty
+                        ? "Aadhar number is required"
+                        : !RegExp(r'^[0-9]{12}$').hasMatch(value)
+                        ? "Enter a valid 12-digit Aadhar number"
+                        : null,
+                  ),
+                  const SizedBox(height: 15),
                   // Upload Profile Image
                   GestureDetector(
                     onTap: () => _pickImage(true),

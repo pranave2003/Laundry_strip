@@ -229,7 +229,7 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                   icon: Icons.rate_review,
                   title: "Feedback",
                   context: context,
-                  page: ViewFeedbackPage(orderid: "76auMQYOUVtg9vBE4QfA"
+                  page: ViewFeedbackPageWrapper(
                     ),
                 ),
                 _buildProfileOption(

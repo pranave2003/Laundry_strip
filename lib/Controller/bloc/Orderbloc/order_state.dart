@@ -69,17 +69,7 @@ final class UserSendreviewandratingRefresh extends OrderState {}
 // States for fetching feedback
 class UserFeedbackLoading extends OrderState {}
 
-class UserFeedbackLoaded extends OrderState {
-  final String review;
-  final String rating;
 
-  UserFeedbackLoaded({required this.review, required this.rating});
-}
-
-class UserFeedbackError extends OrderState {
-  final String error;
-  UserFeedbackError(this.error);
-}
 
 class FeedbackLoaded extends OrderState {
   final List<OrderModel> orders;

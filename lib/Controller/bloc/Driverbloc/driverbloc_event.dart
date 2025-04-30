@@ -75,3 +75,14 @@ class BanDriver extends DriverblocEvent {
   final String? driverId;
   BanDriver({required this.ban, required this.driverId});
 }
+
+//toggle
+class Driveravailabletoggleevent extends DriverblocEvent{
+  final String? id;
+  final String? Availablestatus;
+  Driveravailabletoggleevent(
+      {required this.id, required this.Availablestatus});
+
+}
+class DriverAuthLoadingEvent extends DriverblocEvent {}
+

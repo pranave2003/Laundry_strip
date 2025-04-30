@@ -18,6 +18,9 @@ class Fetchorders extends OrderEvent {
   final String? userid;
   final String? driverId;
   final String? Picked;
+  final String? Review;
+  final String? RatingStatus;
+
 
   Fetchorders({
     required this.searchQuery,
@@ -29,6 +32,8 @@ class Fetchorders extends OrderEvent {
     this.Deliverd,
     this.Picked,
     this.driverId,
+    this.Review,
+    this.RatingStatus,
   });
 }
 
@@ -102,9 +107,4 @@ class UserSendreviewandratingevent extends OrderEvent {
         this.Ratingstatus,});
 }
 
-// Event for fetching feedback
-class FetchUserFeedbackEvent extends OrderEvent {
-  final String orderid;
-  FetchUserFeedbackEvent(this.orderid);
-}
 

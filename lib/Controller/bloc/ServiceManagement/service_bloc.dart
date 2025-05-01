@@ -258,11 +258,16 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
           "service": event.category.service,
           "category": event.category.category,
         });
-        emit(RefreshCategory());
+        emit(CategorySuccess());
       } catch (e) {
         emit(Categoryfailerror(e.toString()));
       }
-    });
+    //   emit(CategorySuccess());
+    // } catch (e) {
+    //   emit(Categoryfailerror(e.toString().split("]").last));
+    //   print("Authenticated Error : ${e.toString().split(']').last}");
+    // }
+     });
 
     on<EditMaterial>((event, emit) async {
       emit(Loading());

@@ -75,14 +75,14 @@ class AcceptedDriverPage extends StatelessWidget {
               ),
             );
           }
-          return _buildDataTable(state);
+          return _buildDataTable(context,state);
         }
         return SizedBox();
       },
     );
   }
 
-  Widget _buildDataTable(Driverloaded state) {
+  Widget _buildDataTable(BuildContext context,Driverloaded state) {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: SingleChildScrollView(
@@ -97,7 +97,7 @@ class AcceptedDriverPage extends StatelessWidget {
           columns: _buildColumns(),
           rows: state.Drivers.asMap()
               .entries
-              .map((entry) => _buildRow(entry.key + 1, entry.value))
+              .map((entry) => _buildRow(context,entry.key + 1, entry.value))
               .toList(),
         ),
       ),
@@ -112,9 +112,14 @@ class AcceptedDriverPage extends StatelessWidget {
           label: Text('Driver Name',
               style: TextStyle(fontWeight: FontWeight.bold))),
       DataColumn(
+          label: Text('Image',
+              style: TextStyle(fontWeight: FontWeight.bold))),
+      DataColumn(
           label: Text('Email', style: TextStyle(fontWeight: FontWeight.bold))),
       DataColumn(
           label: Text('Phone', style: TextStyle(fontWeight: FontWeight.bold))),
+      DataColumn(
+          label: Text('Aadhar Number', style: TextStyle(fontWeight: FontWeight.bold))),
       DataColumn(
           label: Text('Proof',
               style: TextStyle(fontWeight: FontWeight.bold))),
@@ -124,48 +129,89 @@ class AcceptedDriverPage extends StatelessWidget {
     ];
   }
 
-  DataRow _buildRow(int index, driver) {
+  DataRow _buildRow(BuildContext context,int index, driver) {
     return DataRow(cells: [
-      DataCell(Text(index.toString())), // ✅ Fixed index number (S/no)
+      DataCell(Text(index.toString())), // Fixed index number (S/no)
       DataCell(Text(driver.name.toString())),
+      DataCell(Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        child: Container(
+          height: 80,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(
+                5), // Rounded corners for image
+            child: CachedNetworkImage(
+              imageUrl: driver.image.toString(),
+              width: 100, // Adjusted width
+              height: 50, // Adjusted height
+              fit: BoxFit.cover,
+              placeholder: (context, url) => Container(
+                width: 50,
+                height: 50,
+                color: Colors.grey[300], // Placeholder background
+                child: Center(
+                  child: Loading_Widget(), // Loading indicator
+                ),
+              ),
+              errorWidget: (context, url, error) => Container(
+                width: 50,
+                height: 50,
+                color: Colors.grey[300], // Placeholder background
+                child: Icon(
+                  Icons.image_not_supported,
+                  size: 50,
+                  color: Colors.grey[600],
+                ),
+              ),
+            ),
+          ),
+        ),
+      )),
       DataCell(Text(driver.email.toString())),
       DataCell(Text(driver.phone.toString())),
-      //DataCell(Text(driver.proof.toString())),
-    DataCell(Padding(
-    padding: const EdgeInsets.symmetric(vertical: 10.0),
-    child: Container(
-    height:80,
-    child: ClipRRect(
-    borderRadius: BorderRadius.circular(
-    5), // Rounded corners for image
-      child: CachedNetworkImage(
-        imageUrl: driver.proof.toString(),
-        width: 100, // Adjusted width
-        height: 50, // Adjusted height
-        fit: BoxFit.cover,
-        placeholder: (context, url) => Container(
-          width: 50,
-          height: 50,
-          color: Colors.grey[300], // Placeholder background
-          child: Center(
-            child: Loading_Widget(), // Loading indicator
-          ),
-        ),
-        errorWidget: (context, url, error) => Container(
-          width: 50,
-          height: 50,
-          color: Colors.grey[300], // Placeholder background
-          child: Icon(
-            Icons.image_not_supported,
-            size: 50,
-            color: Colors.grey[600],
-          ),
-        ),
-      ),
-    ),
+      DataCell(Text(driver.aadhar.toString())),
 
-    ),
-    ),),
+      //DataCell(Text(driver.proof.toString())),
+      DataCell(Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        child: GestureDetector(
+          onTap: () {
+            // Show the alert dialog with the proof image
+            _showProofDialog(context, driver.proof.toString());
+          },
+          child: Container(
+            height: 80,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(
+                  5), // Rounded corners for image
+              child: CachedNetworkImage(
+                imageUrl: driver.proof.toString(),
+                width: 100, // Adjusted width
+                height: 50, // Adjusted height
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Container(
+                  width: 50,
+                  height: 50,
+                  color: Colors.grey[300], // Placeholder background
+                  child: Center(
+                    child: Loading_Widget(), // Loading indicator
+                  ),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  width: 50,
+                  height: 50,
+                  color: Colors.grey[300], // Placeholder background
+                  child: Icon(
+                    Icons.image_not_supported,
+                    size: 50,
+                    color: Colors.grey[600],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      )),
 
 
       DataCell(
@@ -178,4 +224,39 @@ class AcceptedDriverPage extends StatelessWidget {
       ),
     ]);
   }
+  void _showProofDialog(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('View Proof Image'),
+          content: Container(
+            width: 600, // Adjust the width
+            height: 600, // Adjust the height
+            child: CachedNetworkImage(
+              imageUrl: imageUrl,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => Center(child: Loading_Widget()),
+              errorWidget: (context, url, error) => Center(
+                child: Icon(
+                  Icons.image_not_supported,
+                  size: 60,
+                  color: Colors.grey[600],
+                ),
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }

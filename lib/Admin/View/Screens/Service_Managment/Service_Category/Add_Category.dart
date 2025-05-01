@@ -46,7 +46,6 @@ class _CategoryAddState extends State<CategoryAdd> {
     "assets/Dress/saree.png",
     "assets/Dress/curtain.png",
     "assets/Dress/carpet.png",
-    "assets/Dress/sofacover.png",
     "assets/Household/yogamat.png",
   ];
 

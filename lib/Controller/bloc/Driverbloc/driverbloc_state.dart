@@ -17,6 +17,7 @@ class DriverAuthenticated extends DriverblocState {
 }
 
 class DriverUnAuthenticated extends DriverblocState {}
+class Registerdone extends DriverblocState {}
 
 class DriverAuthenticatedError extends DriverblocState {
   final String message;

@@ -311,46 +311,81 @@ class _ServiceCategoryState extends State<ServiceCategory> {
                                             context: context,
                                             builder: (context) {
                                               return StatefulBuilder(
-                                                  builder: (context, setState) {
-                                                AlertDialog(
-                                                  backgroundColor: Colors.white,
-                                                  //title: Text("Edit Service"),
-                                                  content: SizedBox(
-                                                    width: 730,
-                                                    height: 600,
-                                                    // Adjust size as needed
-                                                    child: CategoryEdit(
-                                                        catogoryid: category
-                                                            .category_id,
-                                                        Productname: category
-                                                            .product_name,
-                                                        service:
-                                                            category.service,
-                                                        category:
-                                                            category.category,
-                                                        productimage: category
-                                                            .product_image), // Embedding ServiceEdit Widget
-                                                  ),
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop(); // Close dialog
-                                                      },
-                                                      child: Text("Cancel"),
+                                                builder: (context, setState) {
+                                                  return AlertDialog( // ✅ Make sure you return the AlertDialog
+                                                    backgroundColor: Colors.white,
+                                                    content: SizedBox(
+                                                      width: 730,
+                                                      height: 600,
+                                                      child: CategoryEdit(
+                                                        catogoryid: category.category_id,
+                                                        Productname: category.product_name,
+                                                        service: category.service,
+                                                        category: category.category,
+                                                        productimage: category.product_image,
+                                                      ),
                                                     ),
-                                                  ],
-                                                );
-                                                return SizedBox();
-                                              });
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context).pop(); // Close dialog
+                                                        },
+                                                        child: Text("Cancel"),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
                                             },
-                                          ).then(
-                                            (value) {
-                                              context.read<ServiceBloc>().add(
-                                                  FetchCategory(
-                                                      searchQuery: null));
-                                            },
-                                          );
+                                          ).then((value) {
+                                            context.read<ServiceBloc>().add(FetchCategory(searchQuery: null));
+                                          });
+
+                                          // showDialog(
+                                          //   context: context,
+                                          //   builder: (context) {
+                                          //     return StatefulBuilder(
+                                          //         builder: (context, setState) {
+                                          //       AlertDialog(
+                                          //         backgroundColor: Colors.white,
+                                          //         //title: Text("Edit Service"),
+                                          //         content: SizedBox(
+                                          //           width: 730,
+                                          //           height: 600,
+                                          //           // Adjust size as needed
+                                          //           child: CategoryEdit(
+                                          //               catogoryid: category
+                                          //                   .category_id,
+                                          //               Productname: category
+                                          //                   .product_name,
+                                          //               service:
+                                          //                   category.service,
+                                          //               category:
+                                          //                   category.category,
+                                          //               productimage: category
+                                          //                   .product_image), // Embedding ServiceEdit Widget
+                                          //         ),
+                                          //         actions: [
+                                          //           TextButton(
+                                          //             onPressed: () {
+                                          //               Navigator.of(context)
+                                          //                   .pop(); // Close dialog
+                                          //             },
+                                          //             child: Text("Cancel"),
+                                          //           ),
+                                          //         ],
+                                          //       );
+                                          //       return SizedBox();
+                                          //     });
+                                          //   },
+                                          // ).then(
+                                          //   (value) {
+                                          //     context.read<ServiceBloc>().add(
+                                          //         FetchCategory(
+                                          //             searchQuery: null));
+                                          //   },
+                                          // );
+
                                         },
                                         icon: Icon(
                                           Icons.edit,

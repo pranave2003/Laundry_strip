@@ -50,10 +50,12 @@ class _CategoryEditState extends State<CategoryEdit> {
     "assets/Dress/t-shirt.png",
     "assets/Dress/shirt.png",
     "assets/Dress/jacket.png",
+    "assets/Dress/mensuit.png",
     "assets/Dress/flared_frock.png",
     "assets/Dress/frock.png",
     "assets/Dress/wmgown.png",
     "assets/Dress/wmtshirt.png",
+    "assets/Dress/saree.png",
     "assets/Dress/curtain.png",
     "assets/Dress/carpet.png",
     "assets/Household/yogamat.png",
@@ -65,8 +67,7 @@ class _CategoryEditState extends State<CategoryEdit> {
     "assets/Bag/travelbag.png",
     "assets/Bag/clgbag.png",
     "assets/Bag/purse.png",
-    "assets/Bag/shoppingbag.png",
-    "assets/Bag/sling.png",
+    "assets/Bag/Schoolbag.png",
     "assets/Bag/troley.png",
   ];
 

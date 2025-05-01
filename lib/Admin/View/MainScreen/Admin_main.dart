@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:laundry/Admin/View/Screens/Auth/Admin_login.dart';
 
 import 'package:laundry/Admin/View/Screens/User_Management/All_Users.dart';
 import 'package:laundry/Controller/bloc/ServiceManagement/service_bloc.dart';
@@ -90,8 +92,19 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: AdminPage()),
-    );
+          //home: Admin_LoginPage()),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return AdminPage();
+          } else {
+            return Admin_LoginPage();
+          }
+        },
+      ),
+    ),);
+
   }
 }
 

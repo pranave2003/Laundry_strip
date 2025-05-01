@@ -53,7 +53,7 @@ class OrderTracking extends StatelessWidget {
             const SizedBox(height: 12),
 
             // Display ordered item
-            _buildOrderItem(order.shopname, "₹ 200.00"), // Example price
+            _buildOrderItem(order.shopname,order.Totalcharge), // Example price
 
             const Divider(),
 

@@ -6,6 +6,7 @@ class CustomTextForm extends StatelessWidget {
   final String hintText;
   final TextEditingController? controller;
   final bool isObscure;
+  final bool readOnly;
   final String? Function(String?)? validator;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
@@ -16,6 +17,7 @@ class CustomTextForm extends StatelessWidget {
     required this.hintText,
     this.controller,
     this.isObscure = false,
+    this.readOnly = false,
     this.validator,
     this.prefixIcon,
     this.suffixIcon,

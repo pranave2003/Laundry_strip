@@ -50,7 +50,10 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
           final user = usercredential.user;
 
           if (user != null) {
-            FirebaseFirestore.instance.collection("drivers").doc(user.uid).set({
+            await FirebaseFirestore.instance
+                .collection("drivers")
+                .doc(user.uid)
+                .set({
               "driverId": user.uid,
               "email": user.email,
               "name": event.driver.name,
@@ -61,10 +64,14 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
               "phone": event.driver.phone,
               "proof": event.driver.proof,
               "aadhar": event.driver.aadhar,
-              "imageUrl":
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4ZqivCNC7yvJqthqZOVvxSjDLyDxtai-cbQ&s",
+              "imageUrl": event.driver.image,
+              //"imageUrl":
+              //  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4ZqivCNC7yvJqthqZOVvxSjDLyDxtai-cbQ&s",
             });
-            emit(DriverAuthenticated(user));
+            await _auth.signOut();
+            emit(DriverUnAuthenticated());
+            emit(Registerdone());
+
 
             print(user);
           } else {
@@ -100,6 +107,8 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
 
               // Check if the 'Ban' field is 1
               if (userData['ban'] == "0") {
+                // Update OneSignal ID
+
                 if (userData['status'] == "1") {
                   emit(DriverAuthenticated(user));
                   print("Auth successfully");
@@ -334,7 +343,7 @@ class DriverblocBloc extends Bloc<DriverblocEvent, DriverblocState> {
 
     // toggle button
     on<Driveravailabletoggleevent>(
-          (event, emit) async {
+      (event, emit) async {
         try {
           emit(DriverLoading());
           print(event.id);

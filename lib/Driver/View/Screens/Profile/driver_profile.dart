@@ -198,15 +198,15 @@ class DriverProfilePageState extends State<DriverProfilePage> {
               return SizedBox();
             },
           ),
-          Row(
-            children: [
-              TextButton(
-                  onPressed: () {
-                    context.read<DriverblocBloc>().add(PickUploadImageEvent());
-                  },
-                  child: Text("Edit Profile")),
-            ],
-          ),
+          // Row(
+          //   children: [
+          //     TextButton(
+          //         onPressed: () {
+          //           context.read<DriverblocBloc>().add(PickUploadImageEvent());
+          //         },
+          //         child: Text("Edit Profile")),
+          //   ],
+          // ),
           // Profile Options List
           Expanded(
             child: ListView(

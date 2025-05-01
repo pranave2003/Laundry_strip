@@ -25,7 +25,8 @@ class NewDriverPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
         actions: [
           Container(
             height: 40,
@@ -35,7 +36,7 @@ class NewDriverPage extends StatelessWidget {
               onChanged: (value) {
                 context
                     .read<DriverblocBloc>()
-                    .add(FetchDriver(searchQuery: value,status: "0")); // P
+                    .add(FetchDriver(searchQuery: value, status: "0")); // P
               },
               decoration: InputDecoration(
                 filled: true,
@@ -97,20 +98,16 @@ class NewDriverPage extends StatelessWidget {
                   var driver = state.Drivers[index]; // Fetch shop details once
 
                   return DataRow(cells: [
-                    DataCell(Text((index + 1).toString())), // Serial Number
-                    DataCell(Text(driver.name.toString())),
-                    DataCell(Text(driver.email.toString())),
-                    DataCell(Text(driver.phone.toString())),
-                   // DataCell(Text(driver.proof.toString())),
+                    DataCell(Text((index + 1).toString())),
                     DataCell(Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10.0),
                       child: Container(
-                        height:80,
+                        height: 80,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(
                               5), // Rounded corners for image
                           child: CachedNetworkImage(
-                            imageUrl: driver.proof.toString(),
+                            imageUrl: driver.image.toString(),
                             width: 100, // Adjusted width
                             height: 50, // Adjusted height
                             fit: BoxFit.cover,
@@ -134,11 +131,52 @@ class NewDriverPage extends StatelessWidget {
                             ),
                           ),
                         ),
-
                       ),
-                    ),
-                    ),
-
+                    )),
+                    DataCell(Text(driver.name.toString())),
+                    DataCell(Text(driver.email.toString())),
+                    DataCell(Text(driver.phone.toString())),
+                    DataCell(Text(driver.aadhar.toString())),
+                    DataCell(Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          // Show the alert dialog with the proof image
+                          _showProofDialog(context, driver.proof.toString());
+                        },
+                        child: Container(
+                          height: 80,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                5), // Rounded corners for image
+                            child: CachedNetworkImage(
+                              imageUrl: driver.proof.toString(),
+                              width: 100, // Adjusted width
+                              height: 50, // Adjusted height
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => Container(
+                                width: 50,
+                                height: 50,
+                                color: Colors.grey[300], // Placeholder background
+                                child: Center(
+                                  child: Loading_Widget(), // Loading indicator
+                                ),
+                              ),
+                              errorWidget: (context, url, error) => Container(
+                                width: 50,
+                                height: 50,
+                                color: Colors.grey[300], // Placeholder background
+                                child: Icon(
+                                  Icons.image_not_supported,
+                                  size: 50,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )),
                     DataCell(
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -189,19 +227,60 @@ class NewDriverPage extends StatelessWidget {
       DataColumn(
           label: Text('S/no', style: TextStyle(fontWeight: FontWeight.bold))),
       DataColumn(
+          label: Text('Image',
+              style: TextStyle(fontWeight: FontWeight.bold))),
+      DataColumn(
           label: Text('Driver Name',
               style: TextStyle(fontWeight: FontWeight.bold))),
-
       DataColumn(
           label: Text('Email', style: TextStyle(fontWeight: FontWeight.bold))),
       DataColumn(
           label: Text('Phone', style: TextStyle(fontWeight: FontWeight.bold))),
-
+      DataColumn(
+          label: Text('Aadhar Number',
+              style: TextStyle(fontWeight: FontWeight.bold))),
       DataColumn(
           label: Text('Proof',
               style: TextStyle(fontWeight: FontWeight.bold))),
       DataColumn(
           label: Text('Action', style: TextStyle(fontWeight: FontWeight.bold))),
     ];
+  }
+
+  void _showProofDialog(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('View Proof Image'),
+          content: Container(
+            width: 600, // Adjust the width
+            height: 900, // Adjust the height
+            child: InteractiveViewer(
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
+                fit: BoxFit.contain,
+                placeholder: (context, url) => Center(child: Loading_Widget()),
+                errorWidget: (context, url, error) => Center(
+                  child: Icon(
+                    Icons.image_not_supported,
+                    size: 60,
+                    color: Colors.grey[600],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

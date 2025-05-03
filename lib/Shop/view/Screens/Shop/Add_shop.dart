@@ -75,7 +75,7 @@ class _Shop_AddState extends State<Shop_Add> {
                         borderRadius: BorderRadius.circular(
                             12), // Rounded corners for image
                         child: CachedNetworkImage(
-                          imageUrl:shop.ShopImage.toString(),
+                          imageUrl: shop.ShopImage.toString(),
                           width: 460, // Adjusted width
                           height: 180, // Adjusted height
                           fit: BoxFit.cover,
@@ -91,8 +91,7 @@ class _Shop_AddState extends State<Shop_Add> {
                             return Container(
                               width: 130,
                               height: 100,
-                              color: Colors
-                                  .grey[300], // Placeholder background
+                              color: Colors.grey[300], // Placeholder background
                               child: Icon(
                                 Icons.image_not_supported,
                                 size: 50,
@@ -106,7 +105,8 @@ class _Shop_AddState extends State<Shop_Add> {
                       Text('${shop.shop_name ?? ''}',
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
-                      Text("Laundry Capacity: ${shop.LaundryCapacity ?? ''} Kg"),
+                      Text(
+                          "Laundry Capacity: ${shop.LaundryCapacity ?? ''} Kg"),
                       Text("Owner: ${shop.owner_name ?? ''}"),
                       Text(
                           "Address: ${shop.District ?? ''}, ${shop.city ?? ''}, ${shop.post ?? ''}"),

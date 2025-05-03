@@ -10,6 +10,7 @@ import 'package:laundry/Controller/bloc/ServiceManagement/service_bloc.dart';
 import '../../../Controller/bloc/Authbloc/auth_bloc.dart';
 import '../../../Controller/bloc/Driverbloc/driverbloc_bloc.dart';
 import '../../../Controller/bloc/Driverbloc/driverbloc_event.dart';
+import '../../../Controller/bloc/Notification/admin_notification_bloc.dart';
 import '../../../Controller/bloc/Orderbloc/order_bloc.dart';
 import '../../../Controller/bloc/ServiceManagement/Shopadddproduct/addproduct_bloc.dart';
 import '../../../Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
@@ -18,6 +19,7 @@ import '../../../firebase_options.dart';
 import '../Screens/Dashboard/DasgboardMain.dart';
 import '../Screens/Driver_Management/All_driver.dart';
 import '../Screens/Driver_Management/driver_new.dart';
+import '../Screens/Notification/Admin_Sendnotification.dart';
 import '../Screens/Order_management/All_orders.dart';
 import '../Screens/Order_management/Assign_order.dart';
 import '../Screens/Revenue/Reports.dart';
@@ -64,47 +66,47 @@ class MyApp extends StatelessWidget {
         //BlocProvider<ServiceBloc>(create: (context) => ServiceBloc()),
         BlocProvider<ServiceBloc>(
           create: (context) =>
-          ServiceBloc()..add(FetchMaterial(searchQuery: null)),
+              ServiceBloc()..add(FetchMaterial(searchQuery: null)),
         ),
         BlocProvider<ServiceBloc>(
           create: (context) =>
-          ServiceBloc()..add(FetchInstruction(searchQuery: null)),
+              ServiceBloc()..add(FetchInstruction(searchQuery: null)),
         ),
         BlocProvider<ServiceBloc>(
           create: (context) =>
-          ServiceBloc()..add(FetchCategory(searchQuery: null)),
+              ServiceBloc()..add(FetchCategory(searchQuery: null)),
         ),
         BlocProvider<OrderBloc>(
-          create: (context) =>
-          OrderBloc()..add(Fetchorders(searchQuery: null)),
+          create: (context) => OrderBloc()..add(Fetchorders(searchQuery: null)),
         ),
         BlocProvider<AddproductBloc>(
           create: (context) {
             return AddproductBloc()..add(FetchProduct(searchQuery: null));
           },
         ),
-
+        BlocProvider<AdminNotificationBloc>(
+            create: (context) => AdminNotificationBloc())
       ],
       child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-          ),
-          //home: Admin_LoginPage()),
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return AdminPage();
-          } else {
-            return Admin_LoginPage();
-          }
-        },
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        //home: Admin_LoginPage()),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return AdminPage();
+            } else {
+              return Admin_LoginPage();
+            }
+          },
+        ),
       ),
-    ),);
-
+    );
   }
 }
 
@@ -138,7 +140,6 @@ class _AdminPageState extends State<AdminPage> {
         children: [
           // Left side: Management options
           Container(
-
             width: 300,
             padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
@@ -193,32 +194,31 @@ class _AdminPageState extends State<AdminPage> {
                     icon: Icons.dashboard),
                 // /////////////////////////
 
-
                 _buildMainExpansionTile(
-                  title: 'Service Management',
-                  icon: Icons.local_laundry_service_outlined,
-                  children: [
+                    title: 'Service Management',
+                    icon: Icons.local_laundry_service_outlined,
+                    children: [
                       // SubListTile(
                       //   'View Services',
                       //   const ServiceType(),
                       // ),
-                    //]
-                    //),
-                   // _buildESubxpansion(title: " Service Category", children: [
+                      //]
+                      //),
+                      // _buildESubxpansion(title: " Service Category", children: [
                       SubListTile(
                         'View Category',
                         const ServiceCategoryWrapper(),
                       ),
 
-                    //_buildESubxpansion(title: "Material Types", children: [
-                    //   SubListTile(
-                    //     'Material Type',
-                    //     const MaterialWrapper(),
-                    //   ),
-                    //   SubListTile(
-                    //  'Instruction Type',
-                    //   const InstructionWrapper(),
-                    //   ),
+                      //_buildESubxpansion(title: "Material Types", children: [
+                      //   SubListTile(
+                      //     'Material Type',
+                      //     const MaterialWrapper(),
+                      //   ),
+                      //   SubListTile(
+                      //  'Instruction Type',
+                      //   const InstructionWrapper(),
+                      //   ),
                       // _buildSubListTile(
                       //   'Shoes Material',
                       //   const ShoeMaterial(),
@@ -311,6 +311,8 @@ class _AdminPageState extends State<AdminPage> {
                     ),
                   ],
                 ),
+                _buildMainListTile('Notification', Admin_SendNotification(),
+                    icon: Icons.send),
                 _buildMainExpansionTile(
                   title: 'Reports',
                   icon: Icons.stacked_bar_chart,

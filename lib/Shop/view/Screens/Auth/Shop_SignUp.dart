@@ -11,7 +11,6 @@ import '../Profile/shopTerms.dart';
 
 class Shopsignupwrapper extends StatelessWidget {
   const Shopsignupwrapper({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

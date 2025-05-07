@@ -6,16 +6,19 @@ class Addproductmodel {
   final product_image;
   final shopid;
   final Productprice;
+  final Meterialtype;
+  final Instruction;
 
-  Addproductmodel({
-    this.productid,
-    this.service,
-    this.category,
-    this.product_name,
-    this.product_image,
-    this.shopid,
-    this.Productprice,
-  });
+  Addproductmodel(
+      {this.productid,
+      this.service,
+      this.category,
+      this.product_name,
+      this.product_image,
+      this.shopid,
+      this.Productprice,
+      this.Meterialtype,
+      this.Instruction});
 
   factory Addproductmodel.fromMap(Map<String, dynamic> data) {
     return Addproductmodel(

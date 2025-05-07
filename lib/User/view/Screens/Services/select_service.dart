@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:laundry/Controller/bloc/Shop_Auth_bloc/Shopmodel/Shopmodel.dart';
-import 'package:laundry/User/view/Screens/Services/service.dart';
 import '../../../../Controller/bloc/ServiceManagement/Dropdownbloc/dropdownbloc_bloc.dart';
 import '../../../../Controller/bloc/ServiceManagement/Shopadddproduct/Addproductmodel/Addproductmodel.dart';
 import '../../../../Controller/bloc/ServiceManagement/Shopadddproduct/addproduct_bloc.dart';
@@ -23,10 +22,10 @@ class _SelectServiceState extends State<SelectService> {
   String? selectedService;
   String? selectedCategory;
   Set<Addproductmodel> selectedItems = {};
-  String? selectedFabricType;
-  String? selectedInstruction;
+  String? selectedFabricType = "Cotton";
+  String? selectedInstruction = "Hand Wash";
 
-  void updateSelectedItems(Addproductmodel item, {bool remove = false}) {
+  void updateSelectedItems(item, {bool remove = false}) {
     setState(() {
       if (remove) {
         selectedItems.remove(item);
@@ -219,8 +218,342 @@ class _SelectServiceState extends State<SelectService> {
                                             icon: Icon(Icons.add_circle_outline,
                                                 color: Colors.green),
                                             onPressed: () {
-                                              updateSelectedItems(
-                                                  state.product[index]);
+                                              String? tempFabricType =
+                                                  selectedFabricType;
+                                              String? tempInstruction =
+                                                  selectedInstruction;
+
+                                              showDialog(
+                                                context: context,
+                                                builder: (
+                                                  context,
+                                                ) {
+                                                  return StatefulBuilder(
+                                                    builder: (context,
+                                                        setDialogeState) {
+                                                      return AlertDialog(
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        titlePadding:
+                                                            EdgeInsets.zero,
+                                                        contentPadding:
+                                                            EdgeInsets.zero,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                        ),
+                                                        title: Container(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  10),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .only(
+                                                              topLeft: Radius
+                                                                  .circular(10),
+                                                              topRight: Radius
+                                                                  .circular(10),
+                                                            ),
+                                                          ),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Text(
+                                                                "Add item",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        18,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                              IconButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        context),
+                                                                icon: Icon(
+                                                                    Icons
+                                                                        .close_sharp,
+                                                                    color: Colors
+                                                                        .red),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        content: Container(
+                                                          height: 400,
+                                                          width:
+                                                              double.infinity,
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  10),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15),
+                                                          ),
+                                                          child: Column(
+                                                            children: [
+                                                              Row(
+                                                                children: [
+                                                                  Text(
+                                                                      "Material Type",
+                                                                      style: TextStyle(
+                                                                          fontWeight:
+                                                                              FontWeight.bold)),
+                                                                ],
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        8.0),
+                                                                child:
+                                                                    Container(
+                                                                  padding: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              10),
+                                                                  margin: EdgeInsets
+                                                                      .only(
+                                                                          top:
+                                                                              5),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    border: Border.all(
+                                                                        color: Colors
+                                                                            .grey),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10),
+                                                                  ),
+                                                                  child:
+                                                                      DropdownButton<
+                                                                          String>(
+                                                                    isExpanded:
+                                                                        true,
+                                                                    underline:
+                                                                        SizedBox(),
+                                                                    hint: Text(
+                                                                        "Select Material"),
+                                                                    value:
+                                                                        selectedFabricType,
+                                                                    onChanged:
+                                                                        (value) {
+                                                                      setDialogeState(
+                                                                          () {
+                                                                        tempFabricType =
+                                                                            value;
+                                                                        selectedFabricType =
+                                                                            tempFabricType;
+                                                                      });
+                                                                    },
+                                                                    items: [
+                                                                      "Cotton",
+                                                                      "Silk",
+                                                                      "Wool"
+                                                                    ].map((String
+                                                                        item) {
+                                                                      return DropdownMenuItem<
+                                                                          String>(
+                                                                        value:
+                                                                            item,
+                                                                        child: Text(
+                                                                            item),
+                                                                      );
+                                                                    }).toList(),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                  height: 10),
+                                                              Row(
+                                                                children: [
+                                                                  Text(
+                                                                      "Special Instructions",
+                                                                      style: TextStyle(
+                                                                          fontWeight:
+                                                                              FontWeight.bold)),
+                                                                ],
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        8.0),
+                                                                child:
+                                                                    Container(
+                                                                  padding: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              10),
+                                                                  margin: EdgeInsets
+                                                                      .only(
+                                                                          top:
+                                                                              5),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    border: Border.all(
+                                                                        color: Colors
+                                                                            .grey),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10),
+                                                                  ),
+                                                                  child:
+                                                                      DropdownButton<
+                                                                          String>(
+                                                                    isExpanded:
+                                                                        true,
+                                                                    underline:
+                                                                        SizedBox(),
+                                                                    hint: Text(
+                                                                        "Select Instructions"),
+                                                                    value:
+                                                                        selectedInstruction,
+                                                                    onChanged:
+                                                                        (value) {
+                                                                      setDialogeState(
+                                                                          () {
+                                                                        tempInstruction =
+                                                                            value;
+
+                                                                        selectedInstruction =
+                                                                            tempInstruction;
+                                                                      });
+                                                                    },
+                                                                    items: [
+                                                                      "Hand Wash",
+                                                                      "Low Heat Dry",
+                                                                      "Use Mild Detergent"
+                                                                    ].map((String
+                                                                        item) {
+                                                                      return DropdownMenuItem<
+                                                                          String>(
+                                                                        value:
+                                                                            item,
+                                                                        child: Text(
+                                                                            item),
+                                                                      );
+                                                                    }).toList(),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        actions: [
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              ElevatedButton(
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .blue,
+                                                                  shape:
+                                                                      RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(5),
+                                                                  ),
+                                                                ),
+                                                                onPressed: () {
+                                                                  setState(() {
+                                                                    selectedFabricType =
+                                                                        tempFabricType;
+                                                                    selectedInstruction =
+                                                                        tempInstruction;
+                                                                  });
+
+                                                                  final my_product = Addproductmodel(
+                                                                      service: state
+                                                                          .product[
+                                                                              index]
+                                                                          .service,
+                                                                      category: state
+                                                                          .product[
+                                                                              index]
+                                                                          .category,
+                                                                      Instruction:
+                                                                          selectedInstruction ??
+                                                                              "Its Null",
+                                                                      Meterialtype:
+                                                                          selectedFabricType ??
+                                                                              "Its Null",
+                                                                      product_image: state
+                                                                          .product[
+                                                                              index]
+                                                                          .product_image,
+                                                                      product_name: state
+                                                                          .product[
+                                                                              index]
+                                                                          .product_name,
+                                                                      productid: state
+                                                                          .product[
+                                                                              index]
+                                                                          .productid,
+                                                                      Productprice: state
+                                                                          .product[
+                                                                              index]
+                                                                          .Productprice,
+                                                                      shopid: state
+                                                                          .product[
+                                                                              index]
+                                                                          .shopid);
+
+                                                                  updateSelectedItems(
+                                                                      my_product);
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                },
+                                                                child: Padding(
+                                                                  padding: EdgeInsets.symmetric(
+                                                                      vertical:
+                                                                          10,
+                                                                      horizontal:
+                                                                          40),
+                                                                  child: Text(
+                                                                      "Add item",
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Colors.white)),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                  width: 10),
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        context),
+                                                                child: Text(
+                                                                    "Cancel",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .red)),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                              );
                                             },
                                           ),
                                         );
@@ -246,173 +579,39 @@ class _SelectServiceState extends State<SelectService> {
           padding: const EdgeInsets.all(8.0),
           child: MaterialButton(
             onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return StatefulBuilder(
-                    builder: (context, setState) {
-                      return AlertDialog(
-                        backgroundColor: Colors.white,
-                        titlePadding: EdgeInsets.zero,
-                        contentPadding: EdgeInsets.zero,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        title: Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              topRight: Radius.circular(10),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Add item",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              IconButton(
-                                onPressed: () => Navigator.pop(context),
-                                icon:
-                                    Icon(Icons.close_sharp, color: Colors.red),
-                              ),
-                            ],
-                          ),
-                        ),
-                        content: Container(
-                          height: 400,
-                          width: double.infinity,
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Text("Material Type",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
-                                  margin: EdgeInsets.only(top: 5),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: DropdownButton<String>(
-                                    isExpanded: true,
-                                    underline: SizedBox(),
-                                    hint: Text("Select Material"),
-                                    value: selectedFabricType,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedFabricType = value;
-                                      });
-                                    },
-                                    items: ["Cotton", "Silk", "Wool"]
-                                        .map((String item) {
-                                      return DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Text(item),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  Text("Special Instructions",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
-                                  margin: EdgeInsets.only(top: 5),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: DropdownButton<String>(
-                                    isExpanded: true,
-                                    underline: SizedBox(),
-                                    hint: Text("Select Instructions"),
-                                    value: selectedInstruction,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedInstruction = value;
-                                      });
-                                    },
-                                    items: [
-                                      "None",
-                                      "Hand Wash",
-                                      "Low Heat Dry",
-                                      "Use Mild Detergent"
-                                    ].map((String item) {
-                                      return DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Text(item),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        actions: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 40),
-                                  child: Text("Add item",
-                                      style: TextStyle(color: Colors.white)),
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text("Cancel",
-                                    style: TextStyle(color: Colors.red)),
-                              ),
-                            ],
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-              );
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) {
-                  return PickupDelivery(widget.shop, selectedItems);
-                },
-              ));
+              if (selectedItems.length >= 5) {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return PickupDelivery(widget.shop, selectedItems);
+                  },
+                ));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      "Minimum 5 items required",
+                      style: TextStyle(
+                        color: Colors.white, // Text color
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    backgroundColor: Colors.red, // Background color
+                    behavior: SnackBarBehavior.floating,
+                    duration: Duration(seconds: 3),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    margin: EdgeInsets.all(
+                        16), // Adds some space around the snackbar
+                  ),
+                );
+              }
+
+              // Navigator.push(context, MaterialPageRoute(
+              //   builder: (context) {
+              //     return PickupDelivery(widget.shop, selectedItems);
+              //   },
+              // ));
             },
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -434,30 +633,79 @@ class _SelectServiceState extends State<SelectService> {
     );
   }
 
+  // Widget _buildAddedItemsSection() {
+  //   return ExpansionTile(
+  //     title: Text("Added Items", style: TextStyle(fontWeight: FontWeight.bold)),
+  //     initiallyExpanded: true, // This keeps the ExpansionTile open by default
+  //     children: selectedItems.map((item) {
+  //       return ListTile(
+  //         leading: Image.asset(item.product_image, width: 40, height: 40),
+  //         title: Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             Text(item.product_name),
+  //             Text(item.Productprice),
+  //             Text(
+  //               item.category,
+  //               style: TextStyle(color: Colors.grey, fontSize: 10),
+  //             ),
+  //             Text(
+  //               item.Instruction,
+  //               style: TextStyle(color: Colors.grey, fontSize: 10),
+  //             ),
+  //             Text(
+  //               item.Meterialtype,
+  //               style: TextStyle(color: Colors.grey, fontSize: 10),
+  //             ),
+  //           ],
+  //         ),
+  //         trailing: IconButton(
+  //           icon: Icon(Icons.remove_circle_outline, color: Colors.red),
+  //           onPressed: () => updateSelectedItems(item, remove: true),
+  //         ),
+  //       );
+  //     }).toList(),
+  //   );
+  // }
+
   Widget _buildAddedItemsSection() {
-    return ExpansionTile(
-      title: Text("Added Items", style: TextStyle(fontWeight: FontWeight.bold)),
-      initiallyExpanded: true, // This keeps the ExpansionTile open by default
-      children: selectedItems.map((item) {
-        return ListTile(
-          leading: Image.asset(item.product_image, width: 40, height: 40),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(item.product_name),
-              Text(item.Productprice),
-              Text(
-                item.category,
-                style: TextStyle(color: Colors.grey, fontSize: 10),
+    return SizedBox(
+      height: 300, // Set a fixed height for the scrollable area
+      child: SingleChildScrollView(
+        child: ExpansionTile(
+          title: Text("Added Items",
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          initiallyExpanded: true,
+          children: selectedItems.map((item) {
+            return ListTile(
+              leading: Image.asset(item.product_image, width: 40, height: 40),
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(item.product_name),
+                  Text(item.Productprice),
+                  Text(
+                    item.category,
+                    style: TextStyle(color: Colors.grey, fontSize: 10),
+                  ),
+                  Text(
+                    item.Instruction,
+                    style: TextStyle(color: Colors.grey, fontSize: 10),
+                  ),
+                  Text(
+                    item.Meterialtype,
+                    style: TextStyle(color: Colors.grey, fontSize: 10),
+                  ),
+                ],
               ),
-            ],
-          ),
-          trailing: IconButton(
-            icon: Icon(Icons.remove_circle_outline, color: Colors.red),
-            onPressed: () => updateSelectedItems(item, remove: true),
-          ),
-        );
-      }).toList(),
+              trailing: IconButton(
+                icon: Icon(Icons.remove_circle_outline, color: Colors.red),
+                onPressed: () => updateSelectedItems(item, remove: true),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
     );
   }
 }

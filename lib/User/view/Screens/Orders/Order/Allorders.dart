@@ -89,12 +89,11 @@ class AllOrders extends StatelessWidget {
                                                       ? "pickup handover"
                                                       // : order.PIckup == "0"
                                                       //     ? "Pick Up on the Way"
-                                                          : order.status == "2"
-                                                              ? "Cancelled Order"
-                                                              : order.status ==
-                                                                      "1"
-                                                                  ? "Confirm Order"
-                                                                  : "Pending",
+                                                      : order.status == "2"
+                                                          ? "Cancelled Order"
+                                                          : order.status == "1"
+                                                              ? "Confirm Order"
+                                                              : "Pending",
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,

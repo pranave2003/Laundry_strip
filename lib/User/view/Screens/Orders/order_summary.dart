@@ -248,6 +248,7 @@ import '../../../../Controller/bloc/Orderbloc/order_bloc.dart';
 import '../../../../Controller/bloc/ServiceManagement/Shopadddproduct/Addproductmodel/Addproductmodel.dart';
 import '../../../../Controller/bloc/Shop_Auth_bloc/Shopmodel/Shopmodel.dart';
 import '../../../../Widget/constands/Loading.dart';
+import '../Bottom_navigation/btm_navigation.dart';
 
 class OrderSummaryPage extends StatefulWidget {
   const OrderSummaryPage(this.selectedItems,
@@ -319,8 +320,8 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
             service: item.service,
             shopid: item.shopid,
             catogoty: item.category,
-            instruction: "",
-            meterialtype: "");
+            instruction: item.Instruction,
+            meterialtype: item.Meterialtype);
       }).toList(),
       Totalcharge: calculateTotalPrice().toString(),
       status: '1',
@@ -388,19 +389,41 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
           padding: const EdgeInsets.all(8.0),
           child: SizedBox(
             width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () => placeOrder(context),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-              ),
-              child: const Text("Place Order",
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold)),
+            child: BlocConsumer<OrderBloc, OrderState>(
+              listener: (context, state) {
+                if (state is orderSuccess) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Order placed successfully! 🎉'),
+                      backgroundColor: Colors.green,
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                  Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (context) {
+                      return BottomNavWrapper();
+                    },
+                  ));
+                }
+              },
+              builder: (context, state) {
+                return ElevatedButton(
+                  onPressed: () => placeOrder(context),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                  child: state is orderverLoading
+                      ? Loading_Widget()
+                      : Text("Place Order",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)),
+                );
+              },
             ),
           )),
     );
@@ -500,28 +523,32 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
   }
 
   Widget _buildAddedItemsSection() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-
-      child: ExpansionTile(
-        title: Text("Added Items", style: TextStyle(fontWeight: FontWeight.bold)),
-        initiallyExpanded: true, // This keeps the ExpansionTile open by default
-        children: selectedItems.map((item) {
-          return ListTile(
-            leading: Image.asset(item.product_image, width: 40, height: 40),
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(item.product_name),
-                Text(item.Productprice),
-              ],
-            ),
-            trailing: IconButton(
-              icon: Icon(Icons.remove_circle_outline, color: Colors.red),
-              onPressed: () => updateSelectedItems(item, remove: true),
-            ),
-          );
-        }).toList(),
+    return SizedBox(
+      height: 300,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: ExpansionTile(
+          title: Text("Added Items",
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          initiallyExpanded:
+              true, // This keeps the ExpansionTile open by default
+          children: selectedItems.map((item) {
+            return ListTile(
+              leading: Image.asset(item.product_image, width: 40, height: 40),
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(item.product_name),
+                  Text(item.Productprice),
+                ],
+              ),
+              trailing: IconButton(
+                icon: Icon(Icons.remove_circle_outline, color: Colors.red),
+                onPressed: () => updateSelectedItems(item, remove: true),
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
@@ -529,7 +556,6 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
   Widget _buildTotalCharges() {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
-
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -540,8 +566,8 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
               Text("₹${calculateTotalPrice().toStringAsFixed(2)}",
-                  style:
-                      const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold)),
               const Divider(height: 20, thickness: 1),
             ],
           ),

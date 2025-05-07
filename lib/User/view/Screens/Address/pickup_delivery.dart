@@ -84,9 +84,8 @@ class _PickupDeliveryState extends State<PickupDelivery> {
             selectedTimeSlot: _selectedTimeSlot,
             Userid: userid,
             username: username,
-          address:address
 
-        ),
+            address: address),
       ),
     );
   }

@@ -24,7 +24,6 @@ class OrderModel {
   final dynamic Review;
   final dynamic Ratingstatus;
 
-
   OrderModel({
     required this.orderid,
     required this.shopid,
@@ -54,33 +53,32 @@ class OrderModel {
 
   factory OrderModel.fromMap(Map<String, dynamic> json) {
     return OrderModel(
-        orderid: json['orderId'] ?? '',
-        userid: json['userId'] ?? '',
-        username: json['username'] ?? '',
-        items: (json['items'] as List<dynamic>?)
-                ?.map(
-                    (item) => OrderItem.fromJson(item as Map<String, dynamic>))
-                .toList() ??
-            [],
-        Totalcharge: json['totalAmount'] ?? '',
-        status: json['status'] ?? '',
-        Orderdate: json['orderDate'] ?? '',
-        shopid: json['shopid'] ?? '',
-        shopname: json['shopname'] ?? '',
-        pickupdate: json["pickupdate"] ?? '',
-        pickupTime: json["pickupTime"] ?? '',
-        DeliveryTime: json["DeliveryTime"] ?? '',
-        Deliverydate: json["Deliverydate"] ?? '',
-        deliveryaddress: json['deliveryaddress'] ?? "",
-        Delivered: json['Delivered'] ?? "",
-        Driverid: json['Driverid'] ?? "",
-        Drivername: json['Drivername'] ?? "",
-        Drivernumber: json['Drivernumber'] ?? "",
-        PIckup: json['PIckup'] ?? "",
-        Rejectreason: json['Rejectreason'] ?? "",
-        Rejected: json['Rejected'] ?? "",
-        workinprogress: json['workinprogress'] ?? "",
-        Review: json['Review'] ?? "",
+      orderid: json['orderId'] ?? '',
+      userid: json['userId'] ?? '',
+      username: json['username'] ?? '',
+      items: (json['items'] as List<dynamic>?)
+              ?.map((item) => OrderItem.fromJson(item as Map<String, dynamic>))
+              .toList() ??
+          [],
+      Totalcharge: json['totalAmount'] ?? '',
+      status: json['status'] ?? '',
+      Orderdate: json['orderDate'] ?? '',
+      shopid: json['shopid'] ?? '',
+      shopname: json['shopname'] ?? '',
+      pickupdate: json["pickupdate"] ?? '',
+      pickupTime: json["pickupTime"] ?? '',
+      DeliveryTime: json["DeliveryTime"] ?? '',
+      Deliverydate: json["Deliverydate"] ?? '',
+      deliveryaddress: json['deliveryaddress'] ?? "",
+      Delivered: json['Delivered'] ?? "",
+      Driverid: json['Driverid'] ?? "",
+      Drivername: json['Drivername'] ?? "",
+      Drivernumber: json['Drivernumber'] ?? "",
+      PIckup: json['PIckup'] ?? "",
+      Rejectreason: json['Rejectreason'] ?? "",
+      Rejected: json['Rejected'] ?? "",
+      workinprogress: json['workinprogress'] ?? "",
+      Review: json['Review'] ?? "",
       Ratingstatus: json['Ratingstatus'] ?? "",
     );
   }

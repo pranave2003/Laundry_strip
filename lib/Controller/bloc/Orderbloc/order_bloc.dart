@@ -255,9 +255,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       }
     });
 
-
-
-
     // on<FetchUserFeedbackEvent>((event, emit) async {
     //   emit(UserFeedbackLoading());
     //   try {
@@ -276,7 +273,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     //     emit(UserFeedbackError(e.toString()));
     //   }
     // });
-
   }
 
   // // ✅ Move _fetchFeedback outside constructor but inside class

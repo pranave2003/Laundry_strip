@@ -247,8 +247,12 @@ import '../../../../Controller/bloc/Orderbloc/OrderModel/Order_Model.dart';
 import '../../../../Controller/bloc/Orderbloc/order_bloc.dart';
 import '../../../../Controller/bloc/ServiceManagement/Shopadddproduct/Addproductmodel/Addproductmodel.dart';
 import '../../../../Controller/bloc/Shop_Auth_bloc/Shopmodel/Shopmodel.dart';
+import '../../../../Controller/bloc/Strip/BlocLayer/payment_bloc.dart';
+import '../../../../Controller/bloc/Strip/BlocLayer/payment_event.dart';
+import '../../../../Controller/bloc/Strip/BlocLayer/payment_state.dart';
 import '../../../../Widget/constands/Loading.dart';
 import '../Bottom_navigation/btm_navigation.dart';
+import 'Order/DonePayment.dart';
 
 class OrderSummaryPage extends StatefulWidget {
   const OrderSummaryPage(this.selectedItems,
@@ -381,7 +385,6 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
             _buildAddedItemsSection(),
             const Divider(height: 20, thickness: 1),
             _buildTotalCharges(),
-            const SizedBox(height: 80),
           ],
         ),
       ),
@@ -389,8 +392,19 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
           padding: const EdgeInsets.all(8.0),
           child: SizedBox(
             width: double.infinity,
-            child: BlocConsumer<OrderBloc, OrderState>(
-              listener: (context, state) {
+            child: BlocConsumer<PaymentBloc, PaymentState>(
+              listener: (context, state) async {
+                if (state is PaymentSuccess) {
+                  placeOrder(context);
+                  await Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => Donepayment()),
+                  );
+                } else if (state is PaymentFailed) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(state.error)));
+                }
                 if (state is orderSuccess) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -399,23 +413,26 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
                       duration: Duration(seconds: 2),
                     ),
                   );
-                  Navigator.pushReplacement(context, MaterialPageRoute(
-                    builder: (context) {
-                      return BottomNavWrapper();
-                    },
-                  ));
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => Donepayment()),
+                  );
                 }
               },
               builder: (context, state) {
                 return ElevatedButton(
-                  onPressed: () => placeOrder(context),
+                  onPressed: () {
+                    context.read<PaymentBloc>().add(
+                          MakePaymentEvent(amount: "5000", currency: "USD"),
+                        );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                   ),
-                  child: state is orderverLoading
+                  child: state is PaymentProcessing
                       ? Loading_Widget()
                       : Text("Place Order",
                           style: TextStyle(

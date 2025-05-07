@@ -1,25 +1,63 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:laundry/Controller/bloc/Shop_Auth_bloc/shop_authbloc_bloc.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import '../../../Controller/bloc/Authbloc/auth_bloc.dart';
 import '../../../Controller/bloc/Orderbloc/order_bloc.dart';
 import '../../../Controller/bloc/ServiceManagement/Dropdownbloc/dropdownbloc_bloc.dart';
 import '../../../Controller/bloc/ServiceManagement/Shopadddproduct/addproduct_bloc.dart';
+import '../../../Controller/bloc/Strip/BlocLayer/payment_bloc.dart';
 import '../../../Service/Notification_onesignal/onesignal_service.dart';
+import '../../../Service/Strip/keys.dart';
+import '../../../Service/Strip/payment_repository.dart';
 import '../../../firebase_options.dart';
 import 'Bottom_navigation/btm_navigation.dart';
 import 'auth/Spashview.dart';
 import 'auth/user_login.dart';
 
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   Stripe.publishableKey = Publishablekey;
+//   await Stripe.instance.applySettings();
+//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+//   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+//   OneSignal.initialize("31027e59-8ba5-4e43-b06f-96ecdaac4e90");
+//   OneSignal.Notifications.requestPermission(true);
+//   await initOneSignal();
+//   runApp(MyApp());
+// }
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
-  OneSignal.initialize("31027e59-8ba5-4e43-b06f-96ecdaac4e90");
-  OneSignal.Notifications.requestPermission(true);
-  await initOneSignal();
+
+  // Initialize Firebase
+  try {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+  } catch (e) {
+    print("Firebase Initialization Error: $e");
+  }
+
+  // Initialize Stripe
+  try {
+    Stripe.publishableKey = Publishablekey;
+    await Stripe.instance.applySettings();
+  } catch (e) {
+    print("//////////////////////////////  Stripe Initialization Error: $e");
+  }
+
+  // Initialize OneSignal
+  try {
+    OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+    OneSignal.initialize("31027e59-8ba5-4e43-b06f-96ecdaac4e90");
+    OneSignal.Notifications.requestPermission(true);
+    await initOneSignal();
+  } catch (e) {
+    print("OneSignal Initialization Error: $e");
+  }
+
   runApp(MyApp());
 }
 
@@ -43,6 +81,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (context) =>
+              PaymentBloc(paymentRepository: PaymentRepository()),
+        ),
         BlocProvider<AuthBloc>(
             create: (context) => AuthBloc()
               ..add(
@@ -58,6 +100,10 @@ class MyApp extends StatelessWidget {
               DropdownblocBloc()..add(Fetchcatogorybydropdown()),
         ),
         BlocProvider<AddproductBloc>(create: (context) => AddproductBloc()),
+        BlocProvider(
+          create: (context) =>
+              PaymentBloc(paymentRepository: PaymentRepository()),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
